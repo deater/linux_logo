@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 2.09 - Creates a Nifty Logo With some System Info - 1 September 1998
+LINUX LOGO 2.10 -Creates a Nifty Logo With some System Info- 11 September 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -29,7 +29,7 @@ LINUX LOGO 2.09 - Creates a Nifty Logo With some System Info - 1 September 1998
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "2.09"
+#define VERSION "2.10"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"

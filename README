@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 2.09 -- Shows a Logo With some System Info - 1 September 1998
+   LINUX_LOGO 2.10 -- Shows a Logo With some System Info - 11 September 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (Intel, m68k, Alpha, Sparc) and some non-Linux OS's
@@ -137,10 +137,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-2.09.tar.gz
+        tar -xzvf linux_logo-2.10.tar.gz
 	
     enter the directory
-        cd linux_logo-2.09
+        cd linux_logo-2.10
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -335,7 +335,7 @@ WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.glue.umd.edu/~weave/vmwprod/
   http://www.vince.weaver.org/vmwprod/
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.09.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.10.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 

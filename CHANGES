@@ -248,5 +248,12 @@
   Anyway he sent in some patches, including a man page and some ppc
   fixes, so I merged them in as well.
   
+5 September 1998
++ Fixed it so the -f and -g options work together [thanks to Gabriel Grundin 
+  <gabbe@linux.nu> for this one.
++ Kernel 2.1.120 messed up /proc/cpuinfo once again.  Work-around added.
+  Thanks to adam@cc934578-a.ewndsr1.nj.home.com for the help.
   
-
+11 September 1998
++ After numerous reports of linux_logo being broken for > 2.1.120 I 
+  released 2.10
