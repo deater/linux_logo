@@ -37,7 +37,7 @@ void get_hw_info(struct hw_info_type *hw_info,
 
 {
    FILE *fff;
-   int cpus=0;
+   int cpus=1;
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
@@ -52,21 +52,23 @@ void get_hw_info(struct hw_info_type *hw_info,
 
     clear_hw_pointers(hw_info);
    
-   if ((fff=fopen(logo_info->cpuinfo_file,"r") )!=NULL) {
-           while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
-	 if (cpus==0) {
-	    if ( !(strcmp(temp_string2,"model")) ) {
-		 fscanf(fff,"%s",(char *)&temp_string);
-		 read_string_from_disk(fff,(char *)&model);
-	         sscanf(model,"%s",(char *)&temp_string);
-	    }
-	    if ( !(strcmp(temp_string2,"cycle")) ) {
-	       fscanf(fff,"%s%s%s%f",(char *)&temp_string,(char *)&temp_string,
-		      (char *)&temp_string,&megahertz);
-	    }
-	 }
-	 if ( !(my_string_comp(temp_string2,"bogomips")) ) {
-	    cpus++;
+    if ((fff=fopen(logo_info->cpuinfo_file,"r") )!=NULL) {
+       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
+	 
+	  if ( !(strcmp(temp_string2,"model")) ) {
+	     fscanf(fff,"%s",(char *)&temp_string);
+	     read_string_from_disk(fff,(char *)&model);
+	     sscanf(model,"%s",(char *)&temp_string);
+	  }
+	  if ( !(strcmp(temp_string2,"cycle")) ) {
+	     fscanf(fff,"%s%s%s%f",(char *)&temp_string,(char *)&temp_string,
+		    (char *)&temp_string,&megahertz);
+	  }
+          if ( !(strcmp(temp_string2,"CPUs")) ) {
+	     fscanf(fff,"%s%i",(char *)&temp_string,&cpus);
+	  }
+	  
+ 	  if ( !(my_string_comp(temp_string2,"bogomips")) ) {
 	    fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
 	    total_bogo+=bogomips;			       
 	 }

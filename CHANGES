@@ -405,8 +405,44 @@
 + Added -d option in case you want to disable linux_logo from "fixing up"
   the output.  IE, you really want it to say AMD K6(tm) w Multimedia Extensions
   or whatever your /proc/cpuinfo really says.  It also skips the Megahertz
-  fudging.  (Original idea from an e-mail exchange with Ben Esacove
-  <ben@socrates.cs.swt.edu>)
+  fudging.  (Original idea from an e-mail exchange with Mengmeng Zhang
+  <mengmeng@cs.utexas.edu>)
 + Ahhhhh it's late.  I have tested as much as I can, and think I have 3.01
   ready to go out the door.  Hopefully I don't have a common error, as 
   usually happens.  Off to announce at freshmeat tomorrow.
+
+23 June 1999
++ Made some minor touch-ups, and released version 3.01
+
+8 July 1999
++ Oops.  Left out which file to fix to get Redhat printing stuff.  It is
+  /etc/rc.d/rc.local.  Thanks to James Punteney <jamesp@mmgco.com>
+  for finding this.
+
+31 August 1999
++ The 3.x series has been a nice one, with few problems.  Recently a few
+  problems have cropped up, and since this is the last day before
+  classes begin, I figured I should work on them.
++ Also, thanks to the "Linux Mandrake" distribution.  They have linux_logo
+  installed by default... and apparently debian does too.
++ Fixed a bug with reporting K6-3's on 2.0.x kernels.  Thanks to
+  Steve Kostecke <steve@kostecke.net>.
++ Fixed a bug while desplaying K5 info.  Thanks to sbstone@ntcnet.com
++ Added support for SMP alpha ev6.  Thanks goes to 
+  testdrive.compaq.com
++ There's grumbling on linux-kernel about "cleaning up cpuinfo namespace"
+  in 2.3.x kernels.  Won't that be fun.
+  
+1 October 1999
++ Ugh!!! This semester at school has been a lot of work.  I got side-tracked
+  and didn't release linux_logo-3.02 yet.. I'll do that now. 
++ I released a patch to clean up /proc/cpuinfo in the linux kernel.. it met
+  much hatred and flamage ;)  so I guess it won't be in the kernel.  Also,
+  Linus ignored the e-mail.
++ Linux_logo was mentioned in passing in Linux Journal... and in a flame on
+  linux-kernel... so I must be doing something right ;)
++ Verified it worked on glibc-2.1.2  [Long story.. but in getting
+  Iris Performer for Linux to work I ended up updating my slackware box
+  with many new libraries]
++ I am sure once I release this on freshmeat my mailbox will fill with more
+  bugs, so stay tuned....

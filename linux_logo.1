@@ -1,8 +1,12 @@
-.TH LINUX_LOGO 1 "26 March 1999" "Debian" "Debian GNU/Linux Manual"
+'\" t
+.\" ** The above line should force tbl to be a preprocessor **
+.\" Man page for linux_logo
+.\"
+.TH LINUX_LOGO 1 "19 June 1999" "Debian" "Debian GNU/Linux Manual"
 .SH NAME
 linux_logo \- Color ANSI penguin logo w/ system information.
 .SH SYNOPSIS
-.BR "linux_logo " [ "-h" " | " "-v" " ] [" "-a" " ] [ " "-b" " | " "-c" "] [" "-d" " ] [" "-f" "] [" "-g" " | " "-l" "] [" "-n" "] [" "-p" "] [" "-s" "] [" "-u" "] [" "-x" "] [" "-y" "] [" "-kX" "] [" "-o Num" "] [" "-rX" "] [" "-t string" "] [" "-w Num" "]"
+.BR "linux_logo " [ "-h" " | " "-v" " ] [" "-a" " ] [ " "-b" " | " "-c" "] [" "-f" "] [" "-g" " | " "-l" "] [" "-n" "] [" "-p" "] [" "-s" "] [" "-u" "] [" "-x" "] [" "-y" "] [" "-kX" "] [" "-o Num" "] [" "-rX" "] [" "-t string" "] [" "-w Num" "]"
 .SH "DESCRIPTION"
 .B linux_logo
 .SM
@@ -24,9 +28,6 @@ Display the banner-style logo.
 .TP
 .B \-classic -c
 Display the original penguin logo.
-.TP
-.B \-d
-Disable "prettying" of output.
 .TP
 .B \-f
 Force the screen clear before drawing the logo.
@@ -71,33 +72,149 @@ Replace the '#' character, in banner mode, with X.
 Set the screen width to Num [ default is 80 ].
 .TP
 .B \-F String
-Use "String" to Format the output of the system information.
-See the README file for more details.
+Use "String" to format the output of the system information.
+See the
+.B "PROCESSOR INFORMATION"
+section below for more details.
 
-Quick Reference
-____________________________________
-  ##     #
-  #B     Bogomips                       
-  #C     Compiled Date                
-  #E     User Text [given with the -t]       
-  #H     Hostname                          
-  #L     Load average                       
-  #M     Megahertz [where supported]        
-  #N     Number of CPU's                     
-  #O     Operating System Name               
-  #R     Ram [in Megabytes]                 
-  #S     Plural                            
-  #T     Type of CPU                         
-  #U     Uptime                              
-  #V     Version of OS                     
-  #X     CPU Vendor                          
-  \\n     carriage return
+.\" Here is how we do a table...
+.TS
+tab (@);
+l l.
+Special@Stands For
+_
+##@#
+#B@Bogomips                       
+#C@Compiled Date                
+#E@User Text [given with the -t]       
+#H@Hostname                          
+#L@Load average                       
+#M@Megahertz [where supported]        
+#N@Number of CPU's                     
+#O@Operating System Name               
+#R@Ram [in Megabytes]                 
+#S@Plural                            
+#T@Type of CPU                         
+#U@Uptime                              
+#V@Version of OS                     
+#X@CPU Vendor                          
+\\\\n@carriage return
+.TE
+
+.SH PROCESSOR INFORMATION
+.SS CPUINFO
+The cpuinfo supplied in
+.I /proc/cpuinfo
+is not always usable by
+.BR linux_logo.
+In the relevant
+.I sysinfo_x.c
+file there is a place to add custom output formatting to "beautify" the
+cpuinfo. For instance "K6 (166 - 266)" is parsed to "K6". Formats have
+been added for the K6 and certain Cyrix microprocessors.
+.PP
+If the cpuinfo for your microprocessor generates ugly output, send the
+output from your
+.I /proc/cpuinfo
+and a sample of how it should look to the author.
+.PP
+Unfortunately the 2.0.x kernels don't know about newer chips.
+So to get
+.B linux_logo
+to recognize your Pentium II and newer chips you
+must find some piece of information in 
+.I /proc/cpuinfo
+that distinguishes them from a pentium pro, or upgrade to a 2.2.x or
+2.3.x kernal.
+.SS FORMAT
+The format string special sequences start with # (use ## to print
+#). All other characters, except for \\n,  are printed as is.
+
+.TS
+tab (@);
+l l l.
+Seq@Description@Output
+_
+##@@#
+#B@Bogomips@374.37
+#C@Compiled Date@#47 Fri Jan 8 10:37:09 EST 1999
+#E@User Text@My Favorite Linux Distribution
+@Displayed with -t@
+#H@Hostname@deranged
+#L@Load average@Load average 0.04, 0.01, 0.01
+#M@Megahertz@188Mhz
+@where supported@
+#N@Number of CPU's@Two
+#O@OS Name@Linux
+#R@Ram@64M
+@in Megabytes@
+#S@Plural@s
+#T@Type of CPU@K6
+#U@Uptime@Uptime 10 hours 59 minutes
+#V@Version of OS@2.2.0-pre5
+#X@CPU Vendor@AMD 
+\\\\n@carriage return@
+.TE
+.PP
+Notes:
+.IP \(bu 4
+The letter after the # must be capitalized.
+.IP \(bu 4
+Options not available are silently ignored.
+.IP \(bu 4
+Megahertz only available on some platforms and newer kernels.
+.IP \(bu 4
+See
+.I
+defaults.h
+on how to have #N report in non-english numbers.
+.IP \(bu 4
+Plural [#S] gives nothing if there is 1 cpu, gives 's' otherwise.
+.IP \(bu 4
+Megahertz [#M] and Type of CPU [#T] return a trailing space.  This
+makes the output consistent across all chips.
+.IP \(bu 4
+The "-y" and "-u" [display uptime and load average] command line
+options don't affect the output if a custom format is used.
+.PP
+The default banner format is:
+.PP
+"#O Version #V, Compiled #C\\n \\
+.br
+#N #M#X#T Processor#S, #R RAM, #B Bogomips Total\\n \\
+.br
+#H\\n"
+.PP
+The default banner format displays the following on the author's computer:
+.TS
+center;
+c.
+Linux Version 2.2.0-pre5, Compiled #47 Fri Jan 8 10:37:09 EST 1999
+One 188MHz AMD K6 Processor, 64M RAM, 374.37 Bogomips Total
+deranged
+.TE
+Another example would be:
+.PP
+linux_logo -F "Redhat Linux 5.2\\nKernel Version #V\\n#U\\n#L\\n"
+.PP
+which would display:
+.TS
+center;
+c.
+Redhat Linux 5.2
+Kernel Version 2.2.0-pre5
+Uptime 11 hours 4 minutes
+Load average 0.00, 0.00, 0.00
+.TE
+
 .SH DEBIAN
 The Debian pre-packaged version of
 .B linux_logo
-is compiled with the 'Classic' logo as the default logo. And the 'Classic' logo has been modified to display 'Debian' instead of 'Linux'.
+includes the Debian logo in addition to the 'Classic' and 'Banner'
+logos. The Debian logo is the default logo unless one of the other
+logos is specified on the command line.
 .PP
-The Debian linuxlogo package includes a utility,
+The package includes a utility,
 .BR linuxlogoconfig (8)
 for selecting if the linuxlogo is displayed at boot time or at the login prompt.
 .SH "SEE ALSO"

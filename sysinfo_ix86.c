@@ -101,7 +101,7 @@ void get_hw_info(struct hw_info_type *hw_info,
 	       
 	       /* Fix Ugly Look Proc info with custom */
 	         
-	            /* Crazy K6 Stuff */
+	            /* Crazy AMD Stuff */
 	         if (strstr(temp_string2,"K6")!=NULL) {
 		    sprintf(model,"%s","K6");	       
 	         
@@ -114,6 +114,10 @@ void get_hw_info(struct hw_info_type *hw_info,
 		    if (strstr(temp_string2,"3D+")!=NULL) {
 		       sprintf(model,"%s","K6-3");
 		    }
+		 }
+	       
+	         if (strstr(temp_string2,"K5")!=NULL) {
+		    sprintf(model,"%s","K5");
 		 }
 		    
 	       	    /* Crazy Cyrix Stuff */
@@ -169,7 +173,9 @@ ender:
                   /* If it breaks K6-3D, someone with one send me a        *\
 	          \*    /proc/cpuinfo                                      */
 		  if (model[0]=='6') sprintf(model,"%s","K6");
+		  if (model[0]=='9') sprintf(model,"%s","K6-III");
 	       }
+	       
 	       if ( !(strcmp(temp_string,"GenuineIntel"))) {
 	          sprintf(vendor,"%s","Intel ");
 		  /* Report Pentium MMX's right on Intel? */

@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-     LINUX_LOGO 3.01 -- Shows a Logo With some System Info - 23 June 1999
+     LINUX_LOGO 3.02 -- Shows a Logo With some System Info - 1 September 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (most architectures) and some non-Linux OS's
@@ -48,17 +48,28 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
       and the penguin appears at all the login prompts, even remote ones.
         
     FOR REDHAT: Here is how to do the above with a Redhat distribution.
-         [thanks to Esperandi and others]
-
-         Edit "/etc/rc.d/rc.local" and towards the bottom after the line 
-
-	     echo "" > /etc/issue
-
-         Insert this line:
-             /usr/local/bin/linux_logo > /etc/issue
-
-         and then change the echo line after it to:
-             echo "" >> /etc/issue
+                [these were tested for Redhat 6.0]
+		
+	 In the file /etc/rc.d/rc.local Look for the lines saying 
+	 
+    # This will overwrite /etc/issue at every boot.  So, make any changes you
+    # want to make to /etc/issue here or you will lose them when you reboot.
+    
+         towards the middle of the file.  Comment out [by putting a # at the
+	     start of each line] the following 6 lines, up to, but not
+	     including,  the line that says 'fi'.
+	 
+	 Before the 'fi' put in the following lines:
+	 
+             if [ -f /usr/local/bin/linux_logo ]; then
+                echo "" > /etc/issue
+                /usr/local/bin/linux_logo -t "$R" >> /etc/issue
+	        /usr/local/bin/linux_logo -a -t "$R" > /etc/issue.net
+	        echo >> /etc/issue
+	     fi
+	
+	This will give you a color linux_logo at the consoles, and an 
+	    ascii linux_logo when telnetting in.
 	    
     FOR DEBIAN: 
         [thanks to <rlovison@simons-rock.edu> ]
