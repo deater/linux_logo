@@ -119,6 +119,10 @@ void get_hw_info(struct hw_info_type *hw_info,
 	         if (strstr(temp_string2,"K5")!=NULL) {
 		    sprintf(model,"%s","K5");
 		 }
+	       
+	         if (strstr(temp_string2,"K7")!=NULL) {
+		    sprintf(model,"%s","Athalon");
+		 }
 		    
 	       	    /* Crazy Cyrix Stuff */
 	         if ( !(strncmp(temp_string,"6x86L",5)))

@@ -446,3 +446,20 @@
   with many new libraries]
 + I am sure once I release this on freshmeat my mailbox will fill with more
   bugs, so stay tuned....
+
+7 January 2000
++ Well, finally have some time for linux_logo again.  The semester of school
+  was crazy, but after finals and a trip to Mont Tremblant, Canada, things
+  have calmed down a bit.
++ Fix things for Athalon support.  Nope, I don't have one yet [I wish].
+  Thanks to Dieter Nützel <dieter.nuetzel@myokay.net>
++ Look at merging some of the debian stuff.
++ It's good to know that linux_logo is Y2K compliant, even if the .lsm
+  file format doesn't seem to be.
++ Added a named-pipe example to ./contrib/scripts from Jörg Ziefle 
+
+10 January 2000
++ Made two new directories, "classic_logos" and "banner_logos" and put all of
+  the various contributed logos into them.  This should make it a bit easier
+  for peole to browse and pick which ones they want compiled in.
++ Upload and release

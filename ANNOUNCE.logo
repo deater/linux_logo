@@ -1,14 +1,17 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.02 -- Shows a Logo With some System Info - 1 October 1999
+   LINUX_LOGO 3.03 -- Shows a Logo With some System Info - 6 January 2000
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
    SUPPORTS Linux (intel, m68k, Alpha, Sparc, MIPS) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 3.02 of my linux_logo package.  
+I have released version 3.03 of my linux_logo package.  
 
 A sample ascii output of the new banner mode is attached to the end.  The
 banner looks much, much cooler in color ;)
+
+NEW IN VERSION 3.03
+  -- Fix K7 support
 
 NEW IN VERSION 3.02
   -- Fixed a K5 bug

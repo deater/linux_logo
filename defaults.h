@@ -100,29 +100,14 @@ char ordinal[11][10]={"Aucun","Un","Deux","Trois","Quatre","Cinq","Six",
 \* files included have a similar [almost identical] setup to the standard */
 /* Linux logo files.                                                      */
 
+/* This file contains the classic logo */
+#include "./classic_logos/penguin.h"
+
 /* This file contains the ascii version of the classic logo */
-#include "ascii_penguin.h"
+#include "./classic_logos/ascii_penguin.h"
 
 /* This file contains the ascii version of the banner logo */
-#include "ascii_banner.h"
+#include "./banner_logos/ascii_banner.h"
 
 /* This file contains the regular version of the banner logo */
-#include "banner.h"
-
-/* This is a bit messy.. it tries to auto-figure out what version     *\
-\* of the classic logo to load.  There is the linux one, the AIX one, */
-/* And the default non-linux one.                                     */
-#ifdef IRIX_ANSI     /* It's easy to create a custom Ansi */
-#include "irix.h"    /* Just make it with an ansi-making tool (i.e. TheDraw) */
-
-#elif LINUX_ANSI     /* it MUST be 16 lines long.  Any width.  */
-#include "penguin.h" /* The first 6 lines can be longer */
-
-#elif AIX
-#include "aix.h"
-
-#elif CUSTOM_ANSI    /* The rest of the lines should be padded to the same */
-#include "custom.h"  /* Length so the output is lined up*/
-#else                /* Just stick quotation marks around the ansi (as in */
-#include "non-linux.h" /*    the included .h files) and it should work */
-#endif
+#include "./banner_logos/banner.h"

@@ -1,0 +1,77 @@
+Date: Tue, 7 Dec 1999 06:10:51 +0100 (CET)
+From: "[ISO-8859-1] Jörg Ziefle" <joerg.ziefle@studbox.uni-stuttgart.de>
+To: weave@eng.umd.edu
+Subject: linux_logo solution: using FIFOs instead of cron
+
+    [ The following text is in the "ISO-8859-1" character set. ]
+    [ Your display is set for the "US-ASCII" character set.  ]
+    [ Some characters may be displayed incorrectly. ]
+
+Hi Vince,
+
+your linux_logo is nice, but the system configuration is improvable:
+
+**********************************************************************
+Why not use FIFOs for the issue files instead of using cron for having
+up-to-date greeting files?
+**********************************************************************
+
+Here's my solution (with a bit of Perl, you can do it also in C(++), if
+you like):
+
+* The logo "daemon":
+---------------BEGIN
+#!/usr/bin/perl
+
+chdir; # go home
+$FIFO = $ARGV[0];
+$PROGRAM = $ARGV[1];
+$ENV{PATH} .= ":/etc"; # could be made generalized
+
+while (1) {
+  unless (-p $FIFO) {
+    unlink $FIFO;
+    system('mknod', $FIFO, 'p') && die "can't mknod $FIFO: $!";
+  }
+
+  # next line blocks until there's a reader
+  open (FIFO, "> $FIFO") || die "can't write $FIFO: $!";
+  print FIFO `$PROGRAM`;
+  close FIFO;
+  sleep 2;    # to avoid dup signals
+}
+---------------END
+
+* My /sbin/init.d/boot.local (SuSE System) includes the following lines:
+
+/home/joerg/bin/logo /etc/issue /home/joerg/bin/issue &
+/home/joerg/bin/logo /etc/issue.net /home/joerg/bin/issue.net &
+
+* And finally, the "shell scripts" /home/joerg/bin/issue:
+
+/usr/local/bin/linux_logo -F "Welcome to #H!\n#O Version #V, Compiled
+#C\n#N #M#X#T Processor#S, #R RAM, #B Bogomips Total\n#L\n#U\n"
+
+and /home/joerg/bin/issue.net:
+
+
+/usr/local/bin/linux_logo -F "Welcome to #H!\n#O Version #V, Compiled
+#C\n#N #M#X#T Processor#S, #R RAM, #B Bogomips Total\n#L\n#U\n"
+
+(You have to fix the word wrap made by the MUA.)
+
+All files have to be set executable.
+This way, I get an up-to-date issue file every time I log in and can
+easily add things to be shown (e.g. a fortune or a random tip).
+
+The drawback of this is, if the logo daemon dies, nobody can't log
+in any more, so you should perhaps write a small script that checks every
+5 minutes or so the existence of the logo daemon and starts it if
+necessary.
+
+I hope this could help and I am excited to hear from you about this
+solution.
+
+Regards,
+
+Jörg

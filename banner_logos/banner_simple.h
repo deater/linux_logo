@@ -1,6 +1,4 @@
-     /* A wonderful looking Banner Logo, sent to me by  *\
-     \*       Albert Lai <aylai@unixg.ubc.ca>           */
-     /*           Used with permission                  */
+/* by Alasdair Muckart <silver@cube.b.org.nz> */
 const char banner[][400]={
 "[0;1;37;40m                                                                 [0;1;30;40m#####[1;37m         [1;37;40m",
 "[0;1;37;40m                                                                [0;1;30;40m#######[1;37m        [1;37;40m",

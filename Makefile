@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 3.02  -- by Vince Weaver          #
+#  Makefile for Linux Logo 3.03  -- by Vince Weaver          #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -38,7 +38,7 @@ linux_logo:	linux_logo.o sysinfo.o bogomips.o
 	$(CC) $(C_OPTS) -o linux_logo linux_logo.o bogomips.o sysinfo.o $(L_OPTS)
 	@strip linux_logo
 
-linux_logo.o:	linux_logo.c ascii_penguin.h defaults.h
+linux_logo.o:	linux_logo.c defaults.h
 	@echo Compiling for $(PLATFORM)
 	@echo Edit the Makefile to change Platform
 	@echo Edit defaults.h to change Default Values
