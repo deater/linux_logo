@@ -68,6 +68,13 @@
 
 11 FEBRUARY 1998
 + Added "plain ascii" penguin and -a option to display it.
+  [thanks to <nelson@media.mit.edu>] for getting me started on this one.
 + Fixed URL in the -h option
 + Make appropriate updates
 + Added OpenLinux instructions to Readme [thanks to <heaney@zombie.ncsc.mil>]
++ Released 1.05
+
+12 FEBRUARY 1998
++ Found bug in 1.05 [% signs not work well in /etc/issue.net  ... they are
+  escaped... ugh] so released 1.06
+  
