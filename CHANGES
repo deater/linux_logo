@@ -631,3 +631,7 @@
 11 February 2002
 + Cleaning up the documentation.  After 2 years 4.0 will finally be ready.
   Shooting for a 13 February special "birthday" release.
+
+14 February 2002
++ Release quick 4.01 version to fix machines with more than 2 GB of RAM
+  on intel (although, still anything more than 4GB will need special code).

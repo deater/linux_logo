@@ -8,7 +8,7 @@
 #Your compiler.  If gcc doesn't work, try CC
 CC = gcc
 
-LIBSYSINFO = libsysinfo-0.0.4
+LIBSYSINFO = libsysinfo-0.0.5
 
 #For Linux Systems
 PLATFORM = 'Linux'

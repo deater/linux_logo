@@ -52,3 +52,8 @@
 + Ran my "test_proc compliance tests" and did some minor fixups
   in the alpha, sparc, and ix86 "via" department.
 + Added pretty printing for m68k
+
+14 February 2002
++ Fix so RAM over 2GB doesn't go negative.
+  Thanks to Andreas S. Krebs <andreas.krebs@sap.com> for helping debug this.
+  

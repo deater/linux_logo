@@ -50,7 +50,7 @@ char *get_host_name(char hostname[65],char domain[65]) {
     /* Contributed by Sitsofe Wheeler <sits@sucs.swan.ac.uk> */
 long int get_mem_size_iomem(void) {
     
-    long int mem_size=-1;
+    unsigned long int mem_size=0;
     char *pos;
     char temp_string[BUFSIZ];
     FILE *info;
@@ -65,19 +65,24 @@ long int get_mem_size_iomem(void) {
 	     /* Extract the upper memory position */
 	     pos = strchr(temp_string, '-');
 	     if (pos) {
-		mem_size=strtol(pos+1, NULL, 16);
+		mem_size=strtoul(pos+1, NULL, 16);
 	     }
 	  }
        }
        fclose(info);
     }
        
-    if (mem_size > -1) {
+    if (mem_size > 0) {
        /* Up the size by 1 because the value we got was counting from 0 and
 	* convert the value from bytes to Megabytes */
        mem_size = ++mem_size / (1024*1024);
+       if (mem_size==0) {
+	  /* we overflowed over 4gb */
+	  mem_size=4096;
+       }
+       return mem_size;
     }
-    return mem_size;    
+    else return -1;
 }
 
 

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.0 - Creates Nifty Logo With System Info - 13 February 2002
+  LINUX LOGO 4.01 - Creates Nifty Logo With System Info - 13 February 2002
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -21,7 +21,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.0"
+#define VERSION "4.01"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -417,7 +417,7 @@ int print_sysinfo(int line, char *string,
 	             else string_ptr+=vmw_strcat(string,_(PROCESSOR_SINGULAR));
 	             break;
 	   case 'R': if (get_mem_size()>1000) {
-	                sprintf(temp_string,"%.2gG",
+	                sprintf(temp_string,"%.2gGB",
 				((float)get_mem_size())/1024.0);
 	             } else sprintf(temp_string,"%ldM",get_mem_size());
 	             string_ptr+=vmw_strcat(string,temp_string); 
