@@ -1,18 +1,18 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# linuxlogo fr.po.
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# Sébastien Oustric <sebastien.oustric@laposte.net>, 2001.
 #
-#, fuzzy
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: linuxlogo 3.9b4\n"
 "POT-Creation-Date: 2001-03-16 15:12-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2001-10-25 21:18+0200\n"
+"Last-Translator: Sébastien Oustric <sebastien.oustric@laposte.net>\n"
+"Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: ../linux_logo.c:34
 msgid "Zero"
@@ -35,8 +35,8 @@ msgid "Four"
 msgstr "Quatre"
 
 #: ../linux_logo.c:35
-msgid "Cinq"
-msgstr "Fuenf"
+msgid "Five"
+msgstr "Cinq"
 
 #: ../linux_logo.c:35
 msgid "Six"
@@ -66,7 +66,9 @@ msgid ""
 "#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
 "#H\n"
 msgstr ""
-
+"#O Version #V, Compilé #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
 
 #: ../defaults.h:8
 msgid ""
@@ -76,13 +78,20 @@ msgid ""
 "#B Bogomips Total\n"
 "#H\n"
 msgstr ""
+"#O Version #V\n"
+"Compilé #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
 
 #: ../defaults.h:9
 msgid ""
 "Processor"
 msgstr ""
+"Processeur"
 
 #: ../defaults.h:10
 msgid ""
 "Processors"
 msgstr ""
+"Processeurs"

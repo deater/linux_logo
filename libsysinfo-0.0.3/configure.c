@@ -24,6 +24,8 @@ int linux_detect_arch(void) {
     return ARCH_ARM;
 #elif defined(i386)
     return ARCH_IX86;
+#elif defined(__ia64__)
+    return ARCH_IA64;
 #else
     return ARCH_UNKNOWN;
 #endif 

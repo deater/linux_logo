@@ -160,6 +160,9 @@ int get_cpu_info(cpu_info_t *cpu_info) {
     if (!strncmp(vendor_string,"CyrixInstead",12)) {
        strncpy(cpu_info->chip_vendor,"Cyrix",6);
 
+       if ( strstr(model_string,"MediaGX")!=NULL) 
+	  strncpy(cpu_info->chip_type,"MediaGX",8);
+    	      
        if ( !(strncmp(model_string,"6x86L",5)))
 	  strncpy(cpu_info->chip_type,"6x86",5);
        if ( !(strncmp(model_string,"6x86M",5)))

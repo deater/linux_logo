@@ -12,9 +12,12 @@ float fix_megahertz(int factor,float megahertz) {
    if (temp_mod<=2) {
       new_megahertz=(float) (temp_div*factor);
    }
-   if (temp_mod>=(factor-2)) {
+   else if (temp_mod>=(factor-2)) {
       new_megahertz=(float) (temp_div+1)*factor;
    }
+   
+   else new_megahertz=temp_MHz;
+   
    return new_megahertz;
 }
    

@@ -1,13 +1,18 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.9b4 -- Shows a Logo With some System Info - 7 June 2001
+   LINUX_LOGO 3.9b5 -- Shows a Logo With some System Info - 28 October 2001
      by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
    SUPPORTS Linux (all but s390, SH, cris) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 3.9b4 of my linux_logo package.  
+I have released version 3.9b5 of my linux_logo package.  
 
 A sample ascii output is attached to the end.  
+
+NEW IN VERSION 3.9b5
+  -- new config file system
+  -- lots of bug fixes
+  -- ia64 support
 
 NEW IN VERSION 3.9b4
   -- Minor bugfixes

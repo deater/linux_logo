@@ -1,5 +1,4 @@
-- i18n support?  I am going to see how much bigger/complicated this
-  makes the code.
+- make own version of getopt
 
 - configure scripts?  I tried this, but it just bloated the sourcecode
     just to detect gcc/cc and architecture stuff.  For now I think the

@@ -596,4 +596,25 @@
   that will give either a singular or plural form of the word "Processor"
 + Released 3.9b4
   
-  
+16 October 2001
++ Fix GHz printing for fast chips
++ Add support for ~/.linux_logo and /etc/linux_logo.conf files.
+  I did this by a brutal hack of getopt().  See the README for info
++ Released 3.9b5.  Was going to release 4.0, but the getopt hack
+  seems a bit too chancy
+
+22 October 2001
++ Try to free() the stuff I malloc().  I have been lazy because
+  typically linux_logo doesn't stay resident so it doesn't make
+  much difference.
++ Some sysinfo fixups.  See the changelog in ./libsysinfo
+
+25 October 2001
++ New fr.po translation from sebastien.oustric <sebastien.oustric@laposte.net>
++ This release is taking a bit longer to get out than I thought.
+
+28 October 2001
++ MUST...RELEASE...BEFORE...CIVIII...COMES...OUT
++ Add "-i" option to ignore the new config files
++ Fixed some cases where an invalid file name would cause segfault
++ Update documentation

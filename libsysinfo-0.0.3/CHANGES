@@ -18,3 +18,13 @@
 7 June 2001
 + Change to makefile so it doesn't depend on symlinks.  But instead
   it depends on "uname" existing.
+
+22 October 2001
++ Fix "arch.h" so things actually work for non-ix86 architectures.
+  Thanks to Ken Moffat <ken@kenmoffat.uklinux.net>
++ Add support for ia64 architecture thanks to Ludo
+  <lfrancois@mandrakesoft.com>
+
+28 October 2001
++ Fix Cyrix Geode bug
++ Fix obscure megahertz reporting bug

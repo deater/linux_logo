@@ -1,6 +1,6 @@
 INSTALL= /usr/bin/install -c
 INSTALL_CMD= ${INSTALL} -m 644
-INSTALLDIR=/usr/share/locale
+INSTALLDIR=/usr/lib/locale
 PACKAGE = linux_logo
 
 CATALOGS = de.mo es.mo fr.mo nl.mo it.mo

@@ -6,14 +6,16 @@
 #define ARCH_SPARC   5
 #define ARCH_ARM     6
 #define ARCH_IX86    7
+#define ARCH_IA64    8
 
 char *arch_names[]={
     "Unknown",
-    "MIPS",
-    "PPC",
+    "mips",
+    "ppc",
     "m68k",
-    "Alpha",
+    "alpha",
     "sparc",
     "arm",
-    "ix86"
+    "ix86",
+    "ia64"
 };

@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 3.9b4 -- Shows a Logo With some System Info - 7 June 2001
+    LINUX_LOGO 3.9b5 -- Shows a Logo With some System Info - 28 October 2001
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
@@ -23,7 +23,28 @@ HISTORY:
    world sent in their patches.  The newer versions are primarily minor
    cosmetic fixes.  But I get a lot of positive feedback from this tiny
    little program I created one summer day........
-   
+
+-----------------------------------------------------------------------
+CONFIG FILES
+-----------------------------------------------------------------------
+
+  As of 3.9b5 linux_logo now reads ~/.linux_logo [that is, the
+     hidden file .linux_logo in your home directory] and
+     /etc/linux_logo.conf before parsing the command line options.
+     
+  The format of the config files is a bit of a "hack".  Basically,
+  just stick in the files the command line options you want to run.
+  
+  Thus if you put in ~/.linux_logo
+  
+-a -c -F "Linux Logo on a #M Mhz Machine"
+
+  Then when you run "linux_logo" it will automatically show an ASCII classic
+  logo with the formatting command applied.
+  
+  This is a bit ugly, but is was simpler and [at the time] seemed more elegant
+  than writing a separate dot file parser....
+ 
 ----------------------------------------------------------------------->
 POTENTIAL USES FOR linux_logo
 ----------------------------------------------------------------------->
@@ -36,10 +57,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-3.9b4.tar.gz
+        tar -xzvf linux_logo-3.9b5.tar.gz
 	
     enter the directory
-        cd linux_logo-3.9b4
+        cd linux_logo-3.9b5
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -93,7 +114,7 @@ COMMAND LINE OPTIONS
 --------------------------------------------------------------------------->
 
 Usage:   linux_logo [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]
-                    [-h] [-l] [-n] [-o num] [-p] [-s] [-t str] [-u] [-v]
+                    [-h] [-i] [-l] [-n] [-o num] [-p] [-s] [-t str] [-u] [-v]
                     [-w Num] [-x] [-y] [-F format] [-L num | list | random_xx]
          [-a]     -- Display an ascii-only Logo
          [-b]     -- Display a Banner Logo!
@@ -105,6 +126,7 @@ Usage:   linux_logo [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]
          [-F format] Format output.  See README.
       B  [-g]     -- give system info only
          [-h]     -- this help screen
+	 [-i]     -- ignore the ~/.linux_logo and /etc/linux_logo.conf files
       B  [-l]     -- display logo only
       C  [-o Num] -- offset output Num spaces to the right
          [-p]     -- preserve cursor location
@@ -164,6 +186,10 @@ More detailed explanations:
 
 [-h]     : This simply displays the help screen, which is much less verbose
            than this write-up.
+
+[-i]     : linux_logo will look in ~/.linux_logo and /etc/linux_logo.conf
+           for information on how to run linux_logo.  If the -i option
+	   is passed, linux_logo will ignore those files
 
 [-kX]    : This option has been removed from linux_logo 3.9 and above.
            If you want to create a logo that looks different than the
@@ -329,7 +355,7 @@ CREATING/USING CUSTOM LOGOS
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.deater.net/weave/vmwprod/linux_logo
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b4.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/
   
 Check out other programs by me at http://www.deater.net/weave/vmwprod
 

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 3.9b4 - Creates Nifty Logo With System Info - 7 June 2001
+  LINUX LOGO 3.9b5 - Creates Nifty Logo With System Info - 28 October 2001
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -21,7 +21,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "3.9b4"
+#define VERSION "3.9b5"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -36,6 +36,14 @@
 #undef _(string)
 #define _(string) string
 #endif
+
+
+#define SAVE_GETOPT  {old_optind=optind; old_opterr=opterr; old_optopt=optopt;}
+#define RESET_GETOPT {optind=old_optind; opterr=old_opterr; optopt=old_optopt;}
+
+#define FILE_OPTIONS_PASS          0
+#define COMMAND_OPTIONS_PASS       1
+#define WANT_DEFAULT_OPTIONS_PASS  2
 
 char *ordinal(int value) {
    static char text[20];
@@ -77,6 +85,10 @@ struct logo_info *load_logo_from_disk(char *filename) {
    new_logo=calloc(1,sizeof(struct logo_info));
    
    fff=fopen(filename,"r");
+   if (fff==NULL) {
+      printf("Error loading logo: %s\n",filename);
+      return NULL;
+   }
    
    new_logo->logo=NULL;
    new_logo->ascii_logo=NULL;
@@ -133,6 +145,24 @@ struct logo_info *load_logo_from_disk(char *filename) {
    return new_logo;   
 }
 
+void free_logos() {
+    struct logo_info *logo;
+    struct logo_info *prev_logo;
+   
+    logo=logo_info_head;
+   
+    while(logo!=NULL) {
+       if (logo->description) free(logo->description);
+       if (logo->logo) free(logo->logo);
+       if (logo->ascii_logo) free(logo->ascii_logo);
+       prev_logo=logo;
+       logo=logo->next_logo;
+       free(prev_logo);
+    }
+    logo_info_head=NULL;
+    logo_info_tail=NULL;
+}
+
 
 void setup_logos() {
  
@@ -165,7 +195,7 @@ void setup_info(struct linux_logo_info_type *settings) {
     settings->display_sysinfo_only=0;
     settings->display_usertext=0;
     settings->custom_format=0;
-    settings->user_text = NULL; /* Change this and display_usertext to *\
+    settings->user_text = NULL;  /* Change this and display_usertext to *\
                                  \*        have a default message       */
     settings->format=NULL;
 }
@@ -274,9 +304,9 @@ void help_message(char *binname, char full)
     printf("      http://www.deater.net/weave/vmwprod/linux_logo\n");
     printf("      http://metalab.unc.edu/pub/Linux/logos/penguins\n\n");
     if (!full) exit(0);
-    printf("Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] "
+    printf("Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] "
 	   "[-g]\n"
-	   "                    [-h] [-l] [-n] [-o num] [-p] [-s] [-t str] "
+	   "                    [-h] [-i] [-l] [-n] [-o num] [-p] [-s] [-t str] "
 	   "[-u] [-v]\n"
            "                    [-w Num] [-x] [-y] [-F format] "
 	   "[-L num | list | random_xy]\n",binname);
@@ -291,6 +321,7 @@ void help_message(char *binname, char full)
     printf("         [-F format] Format output.  See README.\n");
     printf("      B  [-g]     -- give system info only\n");
     printf("         [-h]     -- this help screen\n");   
+    printf("         [-i]     -- ignore ~/.linux_logo and /etc/linux_logo.conf\n");
     printf("      B  [-l]     -- display logo only\n");
     printf("      C  [-o Num] -- offset output Num spaces to the right\n");
     printf("         [-p]     -- preserve cursor location\n");
@@ -304,7 +335,6 @@ void help_message(char *binname, char full)
     printf("         [-L ...] -- multiple Logo options.  See README\n\n");
     printf(" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux"
 	   "\n\n");
-    exit(0); 
 }
 
     /* The nifty customizable sysinfo parser */
@@ -361,10 +391,10 @@ int print_sysinfo(int line, char *string,
 	             break;
 	   case 'M': if (cpu_info.megahertz>0.0) {
 	                if (cpu_info.megahertz>999.0) {
-			   sprintf(temp_string,"%.2fGHz",cpu_info.megahertz/1000.0);
+			   sprintf(temp_string,"%.3gGHz",cpu_info.megahertz/1000.0);
 	                }
 	                else {
-			    sprintf(temp_string,"%.0fMHz",cpu_info.megahertz);
+			    sprintf(temp_string,"%gMHz",cpu_info.megahertz);
 			}
 	                string_ptr+=vmw_strcat(string,temp_string); 
 	             }
@@ -557,94 +587,255 @@ int main(int argc,char **argv)
     struct linux_logo_info_type settings;
     struct logo_info *temp_logo,*custom_logo=NULL;
     struct timeval time_time;
-
+    FILE *config_file;
+    char *fake_data;
+    char **fake_argv=NULL;
+    int file_size=0,ch=0,in_quote=0,fake_data_offset=0,fake_argc=0,counter=0; 
+    int oldch=0,arguments_pass=0,read_from_file=0;
+    int *custom_argc=NULL;
+    char **custom_argv=NULL;
+    int ignore_config_file=0;
+    int old_optind,old_opterr,old_optopt,string_size;
+    char *tempst;
+   
        /* i18n */
-    bindtextdomain("linux_logo", "/usr/share/locale");
+    bindtextdomain("linux_logo", "/usr/lib/locale");
     textdomain("linux_logo");
    
        /* Set some defaults */
     setup_info(&settings); 
     
-       /* Parse command line arguments */
-    while ((c = getopt (argc, argv,"D:F:L:"
-			           "a::b::c::de:fghlno:pst:uvw:y"))!=-1)
-       switch (c) {
-	  case 'a': settings.plain_ascii=1; break;
-	  case 'b': settings.banner_mode=1; break;
-	  case 'c': settings.banner_mode=0; break;
-	  case 'd': settings.pretty_output=0; 
-	            set_pretty_printing(0);
-	            break; 
-	  case 'D': custom_logo=load_logo_from_disk(optarg);
-	            break;
-	  case 'e': set_cpuinfo_file(optarg); break;
-	  case 'f': settings.wipe_screen=1; break;
-	  case 'F': 
-	            settings.custom_format=1;
-	            settings.format=strdup(optarg);
-	              /* Decode the \n's.  Why do I have to do this? */
-	            i=0; x=0;
-	            while(i<strlen(settings.format)) {
-		      if (settings.format[i]=='\\') {  
-			 switch(settings.format[i+1]) {
-			  case 'n': temp_string[x]='\n'; i++; break;
-			  default: temp_string[x]='\\'; i++; break; 
-			 }
-		      }
-		      else temp_string[x]=settings.format[i];
-		      i++; x++;
-		    }
-	            sprintf(settings.format,"%s",temp_string);
-	            break;
-	  case 'g': settings.display_sysinfo_only=1; break;
-	  case 'h': help_message(argv[0], 1);
-	  case 'l': settings.display_logo_only=1; break;
-	  case 'L': 
-	            logo_num=strtol(optarg,&endptr,10);
-	            if ( endptr == optarg ) {
-		       temp_st=strdup(optarg);
-		       if (!strncmp(temp_st,"list",4)) {
-			  do_listing=1;
-		       }
-		       else 
-		       if (!strncmp(temp_st,"random",6)) {
-			  random_logo=1;
-			  random_type=temp_st[7];
-			  random_type2=temp_st[8];
-		       }
-		       else {
-			  printf("\nUnknown -L directive!\n\n");
-			  return 4;
-		       }
-		    }
-	            else { /* It's a number */
-		       logo_override=1;
-		    }
-	            break;
-	  case 'n': settings.no_periods=1; break;
-	  case 'o': 
-	            settings.offset=strtol(optarg,&endptr,10);
-	            if ( endptr == optarg ) help_message(argv[0], 1);
-	            break;
-	  case 'p': settings.preserve_xy=1; break;
-	  case 's': settings.skip_bogomips=1; break;
-	  case 't': 
-	            settings.display_usertext=1;
-	            settings.user_text=strdup(optarg);
-	            break;
-	  case 'u': settings.show_uptime=1; break;
-	  case 'v': help_message(argv[0], 0);
-	  case 'w':
-	            settings.width=strtol(optarg,&endptr,10);
-	            if ( endptr == optarg ) help_message(argv[0], 1);
-	            break;
-	  case 'y': settings.show_load=1; break;
-	  case '?': help_message(argv[0], 1);
+       /* ****************************************************** */
+       /* Look for ~/.linux_logo or /etc/linux_logo config files */
+       /* ****************************************************** */
+   
+       /* Check for the files */
+   
+       /* look for ~/.linux_logo */
+    string_size=strlen(getenv("HOME"));
+    tempst=calloc(strlen("/.linux_logo")+string_size,sizeof(char));
+    strncpy(tempst,getenv("HOME"),string_size);
+    strncat(tempst,"/.linux_logo",strlen("/.linux_logo"));
+    config_file=fopen(tempst,"r");
+    free(tempst);  /* free the calloc's! */
+
+       /* if no ~/.linux_logo, check for /etc/linux_logo.conf */
+    if (config_file==NULL) {
+       config_file=fopen("/etc/linux_logo.conf","r");
+    }
+   
+       /* If no config files, just make do with command-line arguments */
+    if (config_file==NULL) {
+       read_from_file=0;
+    } 
+    else {
+          /* Create "fake" argc and argv */
+       read_from_file=1;   
+          /* calculate size */
+       while( (ch=fgetc(config_file))!=EOF) {
+          if (ch=='\n') break;
+          file_size++;
+       }
+          /* create room for the fake command-line */
+       fake_data=calloc(file_size+12,sizeof(char));
+          /* stick "linux_logo" as argv[0] */
+       strncpy(fake_data,"linux_logo ",11);
+       fake_data_offset=11;
+          /* actually read the fake command-line in */
+       rewind(config_file);
+
+       ch=' ';
+   
+       for(i=0;i<file_size;i++) {
+          oldch=ch;
+          ch=fgetc(config_file);
+
+             /* if after a space, and not in a quote, begin a new token */
+          if ((oldch==' ') && (!in_quote) && (ch!=' ')) {
+	     if (fake_data_offset>0) fake_data[fake_data_offset]='\0';
+	     fake_data_offset++;
+	     fake_argc++;
+          }
+          
+             /* The shell strips quotes and excess whitespace */
+             /* thought for now we just strip spaces outside of quotations */
+          if ((ch!='\"') && ((ch!=' ') || ((ch==' ') && (in_quote)))) {
+             fake_data[fake_data_offset]=ch;
+             fake_data_offset++;
+          }
+   
+             /* start/end a quotation */
+          if (ch=='\"') in_quote= !in_quote;
        }
    
-       /* If unkown arguments, print the help */
-    if ( argv[optind] != NULL ) help_message(argv[0], 1);
-
+       fclose(config_file);
+   
+       fake_argc+=1; /*  plus the last one */
+   
+          /* Allocate room for the fake argv[] list of pointers */
+          /* +1 cause NULL at the end */
+       fake_argv=calloc(fake_argc+1,sizeof(char *));
+   
+       fake_argv[0]=fake_data;
+       counter=1;
+          /* Actually find the tokens based on the NULLs put before */
+       for(i=0;i<fake_data_offset;i++) {
+          if (fake_data[i]=='\0') {
+	     if (counter<fake_argc) {
+	        fake_argv[counter]=fake_data+i+1;
+	     }
+	     counter++;
+          }
+       }
+    }
+   
+       /* Hack! Hack! Hack!  Oh, why do I abuse getopt() so */
+    SAVE_GETOPT;
+   
+    while (arguments_pass<3) {
+          /* Pass 0 read from file, if there */
+       if (arguments_pass==0) {
+	  if (!read_from_file) {
+	     arguments_pass++;
+	  }
+	  else {
+             custom_argc=&fake_argc;
+             custom_argv=fake_argv;
+	  }
+       }
+          /* Pass 1 is command-line and overrides file */
+       if (arguments_pass==1) {
+             /* reset getopt()  *HACK HACK HACK* */
+	  RESET_GETOPT;
+	  custom_argc=&argc;
+	  custom_argv=argv;
+	  optarg=NULL;
+       }
+          /* -i passed, so reset everything and just go through command */
+          /* line again */
+       if (arguments_pass==2) {
+	  setup_info(&settings);
+	  custom_logo=NULL;
+	  RESET_GETOPT;
+	  custom_argc=&argc;
+	  custom_argv=argv;
+	  optarg=NULL;
+       }
+       
+             /*******************************************************/
+             /* Parse options (from file or command line arguments) */
+             /*******************************************************/
+       
+       while ((c = getopt (*custom_argc, custom_argv,"D:F:L:"
+			           "a::b::c::de:fghilno:pst:uvw:y"))!=-1) {
+          switch (c) {
+	     case 'a': settings.plain_ascii=1; break;
+	     case 'b': settings.banner_mode=1; break;
+	     case 'c': settings.banner_mode=0; break;
+	     case 'd': settings.pretty_output=0; 
+	               set_pretty_printing(0);
+	               break; 
+	     case 'D': custom_logo=load_logo_from_disk(optarg);
+	               break;
+	     case 'e': set_cpuinfo_file(optarg); break;
+	     case 'f': settings.wipe_screen=1; break;
+	     case 'F': string_size=strlen(optarg);
+	               if (string_size==0) break;
+	     
+	               settings.custom_format=1;
+	               if (settings.format) free(settings.format);
+	            
+	               settings.format=calloc(string_size,sizeof(char));
+	               strncpy(settings.format,optarg,string_size);
+	              	  
+	               /* Decode the \n's. */
+	               /* Should I decode other \ codes? */
+	               /* also, \ codes are always smaller, hence why */
+	               /* we can overwrite our own buffer */
+	     
+	               i=0; x=0;
+	               while(i<strlen(settings.format)) {
+		          if (settings.format[i]=='\\') {  
+			     switch(settings.format[i+1]) {
+			        case 'n': settings.format[x]='\n'; i++; break;
+			        default:  settings.format[x]='\\'; break; 
+			     }
+		          }
+		          else settings.format[x]=settings.format[i];
+		          i++; x++;
+		       }
+	               settings.format[x]='\0';
+	               break;
+	     case 'g': settings.display_sysinfo_only=1; break;
+	     case 'h': help_message(argv[0], 1); 
+	               exit(0);
+	               break;
+	     case 'i': ignore_config_file=1; 
+	               break;
+	     case 'l': settings.display_logo_only=1; break;
+	     case 'L': 
+	               logo_num=strtol(optarg,&endptr,10);
+	               if ( endptr == optarg ) {
+		          temp_st=strdup(optarg);
+		          if (!strncmp(temp_st,"list",4)) {
+			     do_listing=1;
+		          }
+		          else 
+		          if (!strncmp(temp_st,"random",6)) {
+			     random_logo=1;
+			     random_type=temp_st[7];
+			     random_type2=temp_st[8];
+		          }
+		          else {
+			     printf("\nUnknown -L directive!\n\n");
+			     return 4;
+		          }
+		       }
+	               else { /* It's a number */
+		          logo_override=1;
+		       }
+	               break;
+	     case 'n': settings.no_periods=1; break;
+	     case 'o': 
+	               settings.offset=strtol(optarg,&endptr,10);
+	               if ( endptr == optarg ) help_message(argv[0], 1);
+	               break;
+	     case 'p': settings.preserve_xy=1; break;
+	     case 's': settings.skip_bogomips=1; break;
+	     case 't': 
+	               settings.display_usertext=1;
+	               settings.user_text=strdup(optarg);
+	               break;
+	     case 'u': settings.show_uptime=1; break;
+	     case 'v': help_message(argv[0], 0);
+	               exit(0);
+	               break;
+	     case 'w':
+	               settings.width=strtol(optarg,&endptr,10);
+	               if ( endptr == optarg ) help_message(argv[0], 1);
+	               break;
+	     case 'y': settings.show_load=1; break;
+	     case '?': printf("Try \"%s -h\" to show help\n\n",argv[0]);
+	               exit(0); 
+	               break;
+          }
+       }
+   
+          /* If unkown arguments, print the help */
+       if ( custom_argv[optind] != NULL ) {
+          printf("Unkown option %i: \"%s\"\n",optind,custom_argv[optind]);
+	  exit(1);
+	  
+       }
+       arguments_pass++;   
+       if ((!ignore_config_file) && (arguments_pass==2)) arguments_pass++;
+    }
+    
+       /*******************************************************/
+       /* DONE WITH ALL THE STUPID OPTION PARSING             */
+       /* now actually do things                              */
+       /*******************************************************/
+       
     setup_logos(&settings);
    
     if (do_listing) {
