@@ -14,40 +14,40 @@
 
 int external_bogomips(char *bogomips_total);
 
-void get_os_info(char *os_name, char *os_version, char *os_revision,
-		 char *host_name, char *uptime,char *load_avg)
+void get_os_info(struct os_info_type *os_info)
 {  
    struct utsname buf;
-   uname( &buf);
-
-   strcpy(os_name,buf.sysname);
-   strcpy(os_version,buf.release);   
-   strcpy(os_revision,buf.version);
-   strcpy(host_name,buf.nodename);
    
-   strcpy(uptime,utmp_get_uptime(uptime));
-   strcpy(load_avg,get_loadavg_noproc(load_avg));
- 
- }
+   clear_os_pointers(os_info);
+   
+   uname( &buf);
+   
+   os_info->os_name=strdup(buf.sysname);
+   os_info->os_version=strdup(buf.release);
+   os_info->os_revision=strdup(buf.version);
+   os_info->host_name=strdup(buf.nodename);
+   os_info->uptime=strdup(utmp_get_uptime());
+   os_info->load_average=strdup(get_loadavg_noproc());
+}
     
-
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
-		       char *cpuinfo_file)
+void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
+		                        char *cpuinfo_file)
 {
    char bogomips_total[BUFSIZ]="???";
+   char bogo_total[BUFSIZ];
    
-/* Print CPU Type and BogoMips -- Handles SMP Correctly now            *\  
-\* To debug other architectures, create copies of the  proc files and  */ 
-/*   fopen() them.                                                    */
+         if (!skip_bogomips)
+              if ( (external_bogomips( (char *)&bogomips_total))==-1 )
+                sprintf(bogo_total," ");
+            else sprintf(bogo_total,"%s Bogomips Total",bogomips_total);
+         else sprintf(bogo_total," ");
    
-      sprintf(cpuinfo,"Unknown CPU");	    
-
+         hw_info->bogo_total=strdup(bogo_total);
    
-      if (!skip_bogomips)
-         if ( (external_bogomips( (char *)&bogomips_total))==-1 )
-         sprintf(bogo_total," ");
-         else sprintf(bogo_total,"%s Bogomips Total",bogomips_total);
-      else sprintf(bogo_total," ");
-	 
+   
+   clear_hw_pointers(hw_info);
+   
+   hw_info->cpu_type=strdup("Unkown Architecture");
+   
 }
       

@@ -1,8 +1,9 @@
 /* sysinfo_common.h                                               *\
 \* Just trying to cut back on overly-repeated code.  --vmw        */
 
+#include "getsysinfo.h"
 
-/* The following utility functions stolen from my game SEABATTLE */
+/* The following utility functions taken from my game SEABATTLE */
 
 int my_string_comp(const char *cs, const char *ct)
 {                           /* partly borrowed /usr/src/linux/lib/string.c */
@@ -31,7 +32,7 @@ char *read_string_from_disk(FILE *fff,char *string)
      return string;
 }
 
-char *linux_get_proc_uptime (char *string) 
+char *linux_get_proc_uptime () 
 {            /* This code modeled on the linux sh-utils 1.16 uptime.c code */
     FILE *fff;
     float uptime_seconds;
@@ -56,14 +57,13 @@ char *linux_get_proc_uptime (char *string)
 		  up_days,(up_days==1 ? "day":"days"),
 		  up_hrs,(up_hrs==1 ? "hour":"hours"),
 		  up_mins,(up_mins==1 ? "minute":"minutes"));
-       strcpy(string,temp_string);
-       return string;
+       return strdup(temp_string);
     }
     return NULL;
 }
 
     /* Code contributed by Anders Rundegren <anders@rundegren.com> */
-char *linux_get_proc_loadavg(char *string)
+char *linux_get_proc_loadavg()
 {
     FILE *fff;
     float load_1;
@@ -78,27 +78,44 @@ char *linux_get_proc_loadavg(char *string)
 	
        sprintf(temp_string,"Load average %4.2f, %4.2f, %4.2f",
 	       load_1,load_5,load_15);
-       strcpy(string,temp_string);
-       return string;
+       return strdup(temp_string);
     }
     return NULL;
 }
    
-char *get_loadavg_noproc(char *string) 
+char *get_loadavg_noproc() 
 {
     /* Unfortunately it seems getting the load-average is platform *\
     \* dependant.                                                  */
-    strncpy(string,"\0",1);
-    return string;  
+    return NULL;
 }
 
-char *utmp_get_uptime(char *string) 
+char *utmp_get_uptime() 
 {
     /* To implement uptime on architechtures w/o a /proc/uptime one *\
     \* has to scan the /var/utmp file.  Very annoying thing to do   */
     /* Check out the linux sh-utils uptime.c for a reference.       *\
     \* Currently not implemented here.                              */
-    strncpy(string,"\0",1);
-    return string;
+    return NULL;
    
+}
+
+void clear_os_pointers(struct os_info_type *os_info) 
+{
+    os_info->os_name=NULL;
+    os_info->os_version=NULL;
+    os_info->os_revision=NULL;
+    os_info->host_name=NULL;
+    os_info->uptime=NULL;
+    os_info->load_average=NULL; 
+}
+
+void clear_hw_pointers(struct hw_info_type *hw_info)
+{
+    hw_info->num_cpus=0;
+    hw_info->bogo_total=NULL;
+    hw_info->megahertz=NULL;
+    hw_info->cpu_vendor=NULL;
+    hw_info->cpu_type=NULL;
+    hw_info->mem_size=NULL;
 }

@@ -1,3 +1,10 @@
+Most Needed:
+  + autoconfigure sctipts?  I can't find good documentation for this
+  + Update the man page?  I am not sure the easiest way to do that.
+
+----------------------------------------------------------------------
+Other things
+
 Fix so doesn't quietly ignore un-supported options.
 
 Things possibly to do:  

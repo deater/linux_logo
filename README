@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 2.12 -- Shows a Logo With some System Info - 30 October 1998
+   LINUX_LOGO 3.00 -- Shows a Logo With some System Info - 9 January 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (Intel, m68k, Alpha, Sparc) and some non-Linux OS's
@@ -28,6 +28,9 @@ HISTORY:
 ----------------------------------------------------------------------->
 POTENTIAL USES FOR linux_logo
 ----------------------------------------------------------------------->
+
+Note: also see the file "USAGE.FAQ" for some commonly asked questions
+      on how to use linux_logo.
 
 * BOOT UP PENGUIN: just stick "/usr/local/bin/linux_logo" in an rc file.
      [/etc/rc.d/rc.M is a good place if you are running Slackware.  Place
@@ -137,10 +140,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-2.12.tar.gz
+        tar -xzvf linux_logo-3.00.tar.gz
 	
     enter the directory
-        cd linux_logo-2.12
+        cd linux_logo-3.00
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -157,12 +160,14 @@ POTENTIAL USES FOR linux_logo
 --------------------------------------------------------------------------->
 USAGE
 --------------------------------------------------------------------------->
-Usage:   ./linux_logo [-a] [-b] [-c] [-f] [-g] [-h] [-kX] [-l] [-n] [-o Num] 
-                      [-p] [-rX] [-s] [-u] [-v] [-w Num] [-x] [-y]
+
+Usage:   linux_logo [-a] [-b] [-c] [-e file] [-f] [-g] [-h] [-kX] [-l] [-n]
+                    [-o num] [-p] [-rX] [-s] [-t str] [-u] [-v] [-w Num]
+                    [-x] [-y] [-F format]
          [-a]     -- Display logo as ascii only monochrome
-	 [-b]     -- New default Banner Logo!
-         [-c]     -- The Old [original] linux_logo look
-	 [-e file]-- specify alternate cpuinfo file [for debugging]
+         [-b]     -- New default Banner Logo!
+         [-c]     -- The Old [classic] linux_logo look
+         [-e file]-- Use "file" instead of /proc/cpuinfo [for debugging
          [-f]     -- force the screen clear before drawing
       B  [-g]     -- give system info only
          [-h]     -- this help screen
@@ -173,13 +178,17 @@ Usage:   ./linux_logo [-a] [-b] [-c] [-f] [-g] [-h] [-kX] [-l] [-n] [-o Num]
          [-p]     -- preserve cursor location
       B  [-rX]    -- X is a character to replace '#' with in banner mode
          [-s]     -- skip Bogomips [speeds up on non-Linux platforms]
-	 [-t str] -- display user-supplied string
+         [-t str] -- display user-supplied string
       *  [-u]     -- show uptime
          [-v]     -- version information
          [-w Num] -- set width of screen to Num [default 80]
       B  [-x]     -- narrow logo [useful if issue displays wrong]
       *  [-y]     -- show load average
-	    
+         [-F format] Format output.  See README.
+
+ B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux
+
+
 More detailed explanations:
 
 [-a]     : This option makes linux_logo output no fancy colors.  This is
@@ -263,6 +272,10 @@ More detailed explanations:
 [-y]     : Display the load average.  [Yes I have just about run out of
            letters to use as command line options ;)]
 
+[-F format]: Use this to super-customize the output of the cpuinfo.  You 
+           pass a string, for example "#V\n#U\n#L\n".  See the section
+	   below entitled "THE NEAT NEW FORMAT COMMAND" for further info.
+
 --------------------------------------------------------------------------->
 NEAT THINGS YOU CAN DO
 --------------------------------------------------------------------------->
@@ -292,7 +305,7 @@ Changing the output character of the banner
      comment it out [or delete it] and add instead
      
      /usr/local/bin/linux_logo -f -t "Red Hat Linux $R" > /etc/issue
-     
+
 --------------------------------------------------------------------------->
 TROUBLESHOOTING
 --------------------------------------------------------------------------->
@@ -322,6 +335,9 @@ CUSTOMIZING "TWEAKING" THE SYSTEM INFO OUTPUT
      To customize some options of linux_logo, try editing the defaults
          in the "defaults.h" file.
 	 
+     For ultimate customization, see the section below on the "Format"
+         option.
+	 
      The cpuinfo supplied in /proc/cpuinfo is not always the most 
          desirable text to be displayed as the cpuinfo.  In the relevant
 	 sysinfo_x.c file there is a place where I add custom outputs to
@@ -336,9 +352,71 @@ CUSTOMIZING "TWEAKING" THE SYSTEM INFO OUTPUT
      Unfortunately the 2.0.x kernels don't know about newer chips.  So to get
         linux_logo to recognize your Pentium II and newer chips, unless you
 	can find some sort of distinguishing feature that distinguishes them
-	in /proc/cpuinfo from a pentium pro, my only suggestion is to wait
-	for Linux 2.2.x [or run a 2.1.x development kernel].
+	in /proc/cpuinfo from a pentium pro, my only suggestion is to run
+	Linux 2.2.x [or soon, a 2.3.x kernel].
 	
+------------------------------------------------------------------------>
+THE NEAT NEW FORMAT COMMAND
+------------------------------------------------------------------------>
+These are instructions on how to use the new Format command in Linux Logo 3.0
+
+The command line argument is -F.  
+
+Special sequences start with "#" use "##" to make the "#" sign.  All other
+characters [except "\n", the carriage return] are printed as is.
+
+Special      Stands For                          Example
+________________________________________________________________
+  #B     Bogomips                            "374.37"
+  #C     Compiled Date                       "#47 Fri Jan 8 10:37:09 EST 1999"
+  #E     User Text [given with the -t]       "Given with -t option"
+  #H     Hostname                            "deranged"
+  #L     Load average                        "Load average 0.04, 0.01, 0.01"
+  #M     Megahertz [where supported]         "188Mhz "
+  #N     Number of CPU's                     "Two"
+  #O     Operating System Name               "Linux"
+  #R     Ram [in Megabytes]                  "64M"
+  #S     Plural                              "s"
+  #T     Type of CPU                         "K6"
+  #U     Uptime                              "Uptime 10 hours 59 minutes"
+  #V     Version of OS                       "2.2.0-pre5"
+  #X     CPU Vendor                          "AMD "
+  \n     carriage return
+
+
+Notes:
+  + The letter after the # must be capitalized.
+  + Options not available are silently ignored.
+  + Megahertz only available on some platforms and newer kernels.
+  + See "defaults.h" on how to have #N report in non-english numbers.
+  + Plural [#S] gives nothing if there is 1 cpu, gives 's' otherwise.
+  + Megahertz [#M] and Type of CPU [#T] return a trailing space.  This makes
+    the output consistent across all chips.
+  + The "-y" and "-u" [display uptime and load average] command line options
+    don't affect the output if a custom format is used.
+      
+      
+For example the default banner format is
+"#O Version #V, Compiled #C\n#N #M#X#T Processor#S, #R RAM, #B Bogomips Total\n#H\n"
+
+which on my computer gives an output of:
+       
+      Linux Version 2.2.0-pre5, Compiled #47 Fri Jan 8 10:37:09 EST 1999
+         One 188MHz AMD K6 Processor, 64M RAM, 374.37 Bogomips Total
+		                    deranged
+					
+Another example would be
+  linux_logo -F "Redhat Linux 5.2\nKernel Version #V\n#U\n#L\n"
+
+which would give
+                                Redhat Linux 5.2
+			    Kernel Version 2.2.0-pre5
+                            Uptime 11 hours 4 minutes
+                          Load average 0.00, 0.00, 0.00
+			
+As you can see, the possibilities are endless.
+
+
 ------------------------------------------------------------------------>
 TOOLS TO CREATE OTHER LOGOS
 ------------------------------------------------------------------------>
@@ -354,7 +432,7 @@ WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.glue.umd.edu/~weave/vmwprod/
   http://www.vince.weaver.org/vmwprod/
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.12.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.00.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 

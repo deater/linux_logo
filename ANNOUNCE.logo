@@ -1,15 +1,21 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 2.12 -- Shows a Logo With some System Info - 30 October 1998
+   LINUX_LOGO 3.00 -- Shows a Logo With some System Info - 9 January 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
      SUPPORTS Linux (intel, m68k, Alpha, Sparc) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 2.13 of my linux_logo package.  
+I have released version 3.00 of my linux_logo package.  
 
 A sample ascii output of the new banner mode is attached to the end.  The
 banner looks much, much cooler in color ;)
 
+NEW IN VERSION 3.00
+  -- Major overhaul allowing new '-F' command line option.  Makes the 
+     system info output TOTALLY CUSTOMIZABLE.  Also reduces code size a bit.
+  -- Some bug fixes and tweaks.
+  -- Works with linux kernel 2.2.x
+  
 NEW IN VERSION 2.12
   -- Bug Fixes, including audit of all non-intel architectures
   -- New '-x' [narrower banner] and '-y' [load average] options
@@ -22,14 +28,6 @@ NEW IN VERSION 2.07
   -- New "logo-only" or "system-info only" switches
   -- Able to change default settings via DEFINEs at compile time.
   -- Better support for Alpha and Sparc CPUs
-
-NEW IN VERSION 2.00:
-  -- Better support for AMD and Cyrix processors
-  -- Works on 2.x.x kernels, tested on 2.1.x series up to 2.1.101
-  -- New Banner mode default, can get older mode with "-classic" option
-  -- Tested under glibc2
-  -- newer options to tweak the output, including a screen-width parameter
-  -- Partially completed AIX port
 
 DESCRIPTION
   -- linux_logo outputs a color ansi version of a penguin, accompanied by
@@ -55,24 +53,25 @@ WHERE TO GET LINUX_LOGO:
 -------------------------------------------------------------------------
   http://www.glue.umd.edu/~weave/vmwprod/
   http://www.vince.weaver.org/vmwprod/
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.12.tar.gz
+  http://metalab.unc.edu/pub/Linux/logos/penguin/linux_logo-3.00.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
 -------
-                                                                 #####        
-        							#######       
-                   @                                            ##O#O##       
-  ######          @@#                                           #VVVVV#       
-    ##             #                                          ##  VVV  ##     
-    ##         @@@   ### ####   ###    ###  ##### ######     #          ##    
-    ##        @  @#   ###    ##  ##     ##    ###  ##       #            ##   
-    ##       @   @#   ##     ##  ##     ##      ###         #            ###  
-    ##          @@#   ##     ##  ##     ##      ###        QQ#           ##Q  
-    ##       # @@#    ##     ##  ##     ##     ## ##     QQQQQQ#       #QQQQQQ
-    ##      ## @@# #  ##     ##  ###   ###    ##   ##    QQQQQQQ#     #QQQQQQQ
-  ############  ###  ####   ####   #### ### ##### ######   QQQQQ#######QQQQQ  
+                                                                 #####         
+                                                                #######        
+                   @                                            ##O#O##        
+  ######          @@#                                           #VVVVV#        
+    ##             #                                          ##  VVV  ##      
+    ##         @@@   ### ####   ###    ###  ##### ######     #          ##     
+    ##        @  @#   ###    ##  ##     ##    ###  ##       #            ##    
+    ##       @   @#   ##     ##  ##     ##      ###         #            ###   
+    ##          @@#   ##     ##  ##     ##      ###        QQ#           ##Q   
+    ##       # @@#    ##     ##  ##     ##     ## ##     QQQQQQ#       #QQQQQQ 
+    ##      ## @@# #  ##     ##  ###   ###    ##   ##    QQQQQQQ#     #QQQQQQQ 
+  ############  ###  ####   ####   #### ### ##### ######   QQQQQ#######QQQQQ   
 
-      Linux Version 2.1.108, Compiled #51 SMP Thu Jul 2 12:45:49 EDT 1998
-       One Intel Pentium Pro Processor, 128M RAM, 199.07 Bogomips Total
-	                             orws5
+       Linux Version 2.2.0-pre5, Compiled #47 Fri Jan 8 10:37:09 EST 1999
+          One 188MHz AMD K6 Processor, 64M RAM, 374.37 Bogomips Total
+                                    deranged
+

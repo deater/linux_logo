@@ -15,26 +15,24 @@
 
 int external_bogomips(char *bogomips_total);
 
-void get_os_info(char *os_name, char *os_version, char *os_revision,
-		 char *host_name, char *uptime,char *load_avg)
+void get_os_info(struct os_info_type *os_info)
 {  
    struct utsname buf;
+   
+   clear_os_pointers(os_info);
+  
    uname( &buf);
 
-   strcpy(os_name,buf.sysname);
-   strcpy(os_version,buf.release);   
-   strcpy(os_revision,buf.version);
-   strcpy(os_revision,"Compiled ");
-   strcat(os_revision,buf.version);
-   strcpy(host_name,buf.nodename);
-
-   strcpy(uptime,linux_get_proc_uptime(uptime));
-   strcpy(load_avg,get_loadavg_noproc(load_avg));
+   os_info->os_name=strdup(buf.sysname);
+   os_info->os_version=strdup(buf.release);
+   os_info->os_revision=strdup(buf.version);
+   os_info->host_name=strdup(buf.nodename);
+   os_info->uptime=strdup(linux_get_proc_uptime());
+   os_info->load_average=strdup(linux_get_proc_loadavg());
  }
     
-
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
-		       char *cpuinfo_file)
+void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
+		                        char *cpuinfo_file)
 {
    FILE *fff;
    int cpus=0,model_seen=0;
@@ -43,11 +41,14 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
    float bogomips=0.0;
    char temp_string2[BUFSIZ],model[BUFSIZ]="Unknown";
    char chip[BUFSIZ]="Unknown";
-   char model2[BUFSIZ]="Unknown",clock[BUFSIZ]="Unknown";
+   char model2[BUFSIZ]="Unknown",megahertz[BUFSIZ]=" ";
+   char temp_string[BUFSIZ];
    
 /* Print CPU Type and BogoMips -- Handles SMP Correctly now            *\  
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
+   
+   clear_hw_pointers(hw_info);
    
    if (!strncmp(cpuinfo_file,"/proc/cpuinfo",20)) {
       strcpy("/proc/hardware",cpuinfo_file);
@@ -65,7 +66,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
 		 fscanf(fff,"%s",(char *)&chip);
 	    }
 			if ( !(strcmp(temp_string2,"Clocking:")) ) {
-			fscanf(fff,"%s",(char *)&clock);
+			fscanf(fff,"%s",(char *)&megahertz);
 		}
 	 }
 	 if ( !(my_string_comp(temp_string2,"BogoMips:")) ) {
@@ -73,18 +74,37 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
 	 }
       }
    }
-
-   stat("/proc/kcore",&buff);
-   mem=buff.st_size;
-   mem/=1024; mem/=1024;
+/*
       if (model_seen)     
          sprintf(cpuinfo,"%s @ %s %s %s %ldM RAM",chip,clock,
 		 model,model2,(long int)mem);
       else
          sprintf(cpuinfo,"One %s %s, %ldM RAM",clock,chip,(long int)mem);
       sprintf(bogo_total,"%.2f Bogomips",bogomips);      
-    
-      /* End Linux */
- 	 
+  */ 
+      stat("/proc/kcore",&buff);
+      mem=buff.st_size;
+      mem/=1024; mem/=1024;
+      sprintf(temp_string,"%ldM",(long int)mem);
+      hw_info->mem_size=strdup(temp_string);
+   
+      /* Things are a bit confused.  I've lost the atari m68k */
+      /* /proc/hardware file most of this was written from... */
+   
+      sprintf(temp_string,"%.2f",bogomips);
+      hw_info->bogo_total=strdup(temp_string);
+   
+      if (model_seen) {
+         hw_info->cpu_vendor=strdup(model);
+         hw_info->cpu_type=strdup(chip);
+         /* model2???*/
+      }
+      else hw_info->cpu_type=strdup(chip);
+   
+      hw_info->num_cpus=1;
+   
+	 sprintf(temp_string,"%s ",megahertz);
+	 hw_info->megahertz=strdup(temp_string);
+      
 }
       

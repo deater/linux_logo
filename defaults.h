@@ -1,6 +1,12 @@
 /* This is the defaults.h file that can be used to change the default *\
 \* Behavior of the linux_logo program.                                */
 
+
+/* This is the default format of the output file.  See the README for more *\
+\* information on how to configure this option.                            */
+#define DEFAULT_BANNER_FORMAT "#O Version #V, Compiled #C\n#N #M#X#T Processor#S, #R RAM, #B Bogomips Total\n#H\n"
+#define DEFAULT_CLASSIC_FORMAT "#O Version #V\nCompiled #C\n#N #M#X#T Processor#S, #R RAM\n#B Bogomips Total\n#H\n"
+
 /* This option picks the default mode of the linux_logo program.            *\
 \* If a 1 is picked, banner mode will be the default mode.                  */
 /* If a 0 is picked, classic mode (which some people prefer)will be default.*\
@@ -54,6 +60,22 @@
 \* -rX and -kX command line options.                                       */
 #define DEFAULT_SYMBOL '#'
 #define DEFAULT_SYMBOL_BGND '#'
+
+/* Here you can change the default language with which to say how many   *\
+\* Processors you have.  I have invcluded the only two languages I know  */
+
+#define ENGLISH 0
+#define DEUTSCH 1
+
+#define LANGUAGE ENGLISH
+
+#if LANGUAGE==ENGLISH
+char ordinal[11][10]={"Zero","One","Two","Three","Four","Five","Six",
+	                                 "Seven","Eight","Nine","Many"};
+#elif LANGUAGE=DEUTSCH
+char ordinal[11][10]={"Null","Ein","Zwei","Drei","Vier","Fuenf","Sechs",
+                                          "Sieben","Acht","Neun","Viele"};
+#endif
 
 /* --------------------Logo File Defaults-----------------------------------*/
 

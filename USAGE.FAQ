@@ -32,3 +32,16 @@ Q.  How can I make linux_logo run every 15 minutes or so, that way I can
     file is a bit beyond the scope of this document; please see the
     manpage for details.
     
+    
+Q.  Can I have linux_logo stay on top of the screen while things scroll
+    in a window beneath it?
+    
+A.  Bill Anderson <bill@tb.dynip.com> did some research and came up with this: 
+    
+    I did sucessfully use:
+       clear; /bin/echo -e '\033[018;25r' ; linux_logo
+
+    to put the linux logo and info on the top 18 lines (fewer if you don't
+    care about the system info) of the screen and let the rest scroll...
+       /bin/echo -e '\033[0;0r' 
+    will turn it off again...

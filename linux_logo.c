@@ -1,6 +1,6 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 2.12 -Creates a Nifty Logo With some System Info- 30 October 1998
-     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
+LINUX LOGO 3.0b1 -Creates a Nifty Logo With some System Info- 9 January 1999
+    by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
   Just stick this file in the rc files somewhere.
@@ -11,14 +11,9 @@ LINUX LOGO 2.12 -Creates a Nifty Logo With some System Info- 30 October 1998
      ppm2ansi by Carsten Haitzler -- http://www.cse.unsw.edu.au/~s2154962/
      and was hand edited using THEDRAW under dosemu 0.66.7
 
- Thanks to: Ornulf Staff -- help on SMP and -o option
-            Filip M Gieszczykiewicz -- idea for -n option
-            Christian Marillat -- Atari m68k 
-            Nicolai Langfeldt -- help on SMP
-            Adam Spiers -- some ANSI help
-            Adam Lackorzynski -- improved '-o' handling, and modular
-                                 help screen.
-            Thomas Grewe -- AIX port
+ Thanks to many, many people who sent patches in.  See the Changes file for
+     a list of all those who helped out.
+ 
 -------------------------------------------------------------------------*/
 
 #include <stdio.h>
@@ -29,7 +24,7 @@ LINUX LOGO 2.12 -Creates a Nifty Logo With some System Info- 30 October 1998
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "2.12"
+#define VERSION "3.0b1"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"
@@ -40,6 +35,9 @@ LINUX LOGO 2.12 -Creates a Nifty Logo With some System Info- 30 October 1998
 /* Some global variables.  Possibly bad in practice, but it saves a lot *\
 \* of paramater passing, which has caused bugs to develop before        */
 /* To change these defaults, edit the 'defaults.h' file                 */ 
+
+struct os_info_type os_info;
+struct hw_info_type hw_info;
 
 int  width=DEFAULT_WIDTH,                  /* Defaults to 80   */
      no_periods=DEFAULT_NO_PERIODS,        /* Defaults to None */ 
@@ -54,12 +52,15 @@ int  width=DEFAULT_WIDTH,                  /* Defaults to 80   */
      narrow_logo=DEFAULT_NARROW_LOGO,      /* Defaults to No   */
      display_logo_only=0,
      display_sysinfo_only=0,
-     display_usertext=0;
+     display_usertext=0,
+     custom_format=0;
 char symbol=DEFAULT_SYMBOL,                /* Defaults to '#'  */
      symbol_bgnd=DEFAULT_SYMBOL_BGND;      /* Defaults to '#'  */
 char *user_text = NULL; /* Change this and display_usertext to *\
                          \*        have a default message       */
 char *cpuinfo_file=NULL;
+char *format;
+
 
 void do_spacing(int spaces)
 {
@@ -138,15 +139,16 @@ void help_message(char *binname, char full)
     printf(" -- by Vince Weaver (weave@eng.umd.edu)\n");
     printf("   Newest Versions at:\n");
     printf("      http://www.glue.umd.edu/~weave/vmwprod\n");
-    printf("      http://sunsite.unc.edu/pub/Linux/logos/penguins\n\n");
+    printf("      http://metalab.unc.edu/pub/Linux/logos/penguins\n\n");
     if (!full) exit(0);
-    printf("Usage:   %s [-a] [-b] [-c] [-f] [-g] [-h] [-kX] "
-	   "[-n] [-o Num]\n"
-	   "                    [-p] [-rX] [-s] [-u] [-v] [-w Num]\n",
-	   binname);
+    printf("Usage:   %s [-a] [-b] [-c] [-e file] [-f] [-g] [-h] [-kX] "
+	   "[-l] [-n]\n"
+	   "                    [-o num] [-p] [-rX] [-s] [-t str] [-u] [-v] "
+	   "[-w Num]\n"
+           "                    [-x] [-y] [-F format]\n",binname);
     printf("         [-a]     -- Display logo as ascii only monochrome\n");
     printf("         [-b]     -- New default Banner Logo!\n");
-    printf("         [-c]     -- The Old [original] linux_logo look\n");
+    printf("         [-c]     -- The Old [classic] linux_logo look\n");
     printf("         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for "
 	   "debugging\n");
     printf("         [-f]     -- force the screen clear before drawing\n");
@@ -169,77 +171,110 @@ void help_message(char *binname, char full)
     printf("         [-w Num] -- set width of screen to Num [default 80]\n");
     printf("      B  [-x]     -- narrow logo [useful if issue displays wrong]"
 	   "\n");
-    printf("      *  [-y]     -- show load average\n\n");
+    printf("      *  [-y]     -- show load average\n");
+    printf("         [-F format] Format output.  See README.\n\n");
     printf(" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux"
 	   "\n\n");
     exit(0); 
 }
 
+int my_strcat(char *dest,char *src) {
+   
+    if (src!=NULL) {
+       strcat(dest,src);
+       return strlen(src);
+    }
+    else return 0;
+}
+
+int print_sysinfo(int line, char *string) {
+    int x=0,y=0,len;
+    int string_ptr;
+   
+    len=strlen(format);
+   
+    string_ptr=0;
+    string[string_ptr]='\000';
+
+    while (y<line) {
+        if (format[x]=='\n') y++;
+        x++;
+        if (x>len) return 1;
+    }
+    
+    while (format[x]!='\n') {
+       if (format[x]!='#') {
+	  string[string_ptr]=format[x];
+	  string_ptr++;
+       }
+       else {
+	  string[string_ptr]='\000';
+	  x++;
+	  if (x>len) break;	  
+	  switch(format[x]) {
+	   case '#': string_ptr+=my_strcat(string,"#"); break;
+	   case 'B': string_ptr+=my_strcat(string,hw_info.bogo_total); break;
+	   case 'C': string_ptr+=my_strcat(string,os_info.os_revision); break;
+	   case 'E': string_ptr+=my_strcat(string,user_text); break;
+	   case 'H': string_ptr+=my_strcat(string,os_info.host_name); break;
+	   case 'L': string_ptr+=my_strcat(string,os_info.load_average); break;
+	   case 'M': string_ptr+=my_strcat(string,hw_info.megahertz); break;
+	   case 'N': string_ptr+=my_strcat(string,ordinal[hw_info.num_cpus]); 
+	             break;
+	   case 'O': string_ptr+=my_strcat(string,os_info.os_name); break;
+	   case 'R': string_ptr+=my_strcat(string,hw_info.mem_size); break;
+	   case 'S': if (hw_info.num_cpus!=1) 
+	                string_ptr+=my_strcat(string,"s"); break;
+	   case 'T': string_ptr+=my_strcat(string,hw_info.cpu_type); break; 
+	   case 'U': string_ptr+=my_strcat(string,os_info.uptime); break;
+	   case 'V': string_ptr+=my_strcat(string,os_info.os_version); break;
+	   case 'X': string_ptr+=my_strcat(string,hw_info.cpu_vendor); break;
+	   default: printf("\nInvalid format '#%c'\n",format[x]);
+	  }
+       }
+       x++;
+       if (x>len) break;
+    }
+    string[string_ptr]='\000';
+    return 0;
+}
+
+
 void draw_classic_logo(char **logo)
 {
-    char os_name[BUFSIZ],host_name[BUFSIZ],os_version[BUFSIZ],
-         os_revision[BUFSIZ],cpu_info[BUFSIZ],
-         bogo_total[BUFSIZ],uptime[BUFSIZ],load_avg[BUFSIZ];
-    int i,num_info=0;
+    char temp_string[BUFSIZ];
+    int i;
 
-    char info_lines[8][BUFSIZ]={"\000","\000","\000","\000",
-                                "\000","\000","\000","\000"}; 
-                                /* yes ugly.  should malloc it */
-                                /* But I am lazy right now ;)  */
+    get_os_info(&os_info);
+    get_hw_info(&hw_info,skip_bogomips,cpuinfo_file);
     
-    if (display_usertext) {
-       sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",user_text);
-    }
-   
-       /* Get some OS info using some external functions in getsysinfo.c */
-    get_os_info( (char *)&os_name,(char *)&os_version,
-		 (char *)&os_revision,(char *)&host_name,
-		 (char *)&uptime,(char *)&load_avg);
-    sprintf(info_lines[num_info++],"^[[1;37;40m%s Version %s^[[0m\n",
-	    os_name,os_version);
-    sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",os_revision);
- 
-       /* Get some hardware info using getsysinfo.c */
-    get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips,
-		      cpuinfo_file);
-    sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",cpu_info);
-    sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",bogo_total);
-     
-    if (show_uptime) 
-       sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",uptime);
-    
-    if (show_load)
-       sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",load_avg);
-	        
-    sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",host_name);
- 
        /* OK we've got the info ready, let's print it all */
     if (wipe_screen) clear_screen();
     for(i=0;i<7;i++) {
        ansi_print(logo[i],no_periods,offset,0,0); 
        printf("\n"); 
     }
-    for(i=7;i<15;i++) {
+    
+    for(i=7;i<16;i++) {
        ansi_print(logo[i],no_periods,offset,0,0);
        do_spacing(2);
-       if (info_lines[i-7][0]!='\000') ansi_print(info_lines[i-7],0,0,0,0);
+       if (print_sysinfo(i-7,temp_string)!=1) {
+	  ansi_print("^[[1;37;40m",0,0,0,0);
+	  ansi_print(temp_string,0,0,0,0);
+	  ansi_print("^[[0m\n",0,0,0,0);
+       }
        else printf("\n");
-    }
-	    
-    for(i=15;i<16;i++) {
-       ansi_print(logo[i],no_periods,offset,0,0); 
-       printf("\n"); 
     }
   
     ansi_print("^[[0m^[[255D\n",no_periods,0,0,0);
     if (preserve_xy) ansi_print("^[8",no_periods,0,0,0);
 }
 
+
+
 void draw_banner_logo()
 {
-    char os_name[BUFSIZ],host_name[BUFSIZ],os_version[BUFSIZ],
-         os_revision[BUFSIZ],cpu_info[BUFSIZ],temp_string[BUFSIZ],
-         bogo_total[BUFSIZ],uptime[BUFSIZ],load_avg[BUFSIZ];
+    char temp_string[BUFSIZ];
     int i;
       
     if (width<80) width=80;
@@ -256,84 +291,101 @@ void draw_banner_logo()
     }
    
     if (!display_logo_only) {
-      
-       if (display_usertext) 
-	  center_and_print(user_text,strlen(user_text),width);
-
-          /* Get some OS info using some external functions in getsysinfo.c */
-       get_os_info((char *)&os_name,(char *)&os_version,
-   		   (char *)&os_revision,(char *)&host_name,
-                   (char *)&uptime,(char *)&load_avg);
-
-       sprintf(temp_string,"%s Version %s, %s",os_name,os_version,os_revision);
-       center_and_print(temp_string,strlen(temp_string),width);
-
-          /* Get some hardware info using getsysinfo.c */
-       get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips,
-			 cpuinfo_file);
-
-       sprintf(temp_string,"%s, %s",cpu_info,bogo_total);
-       center_and_print(temp_string,strlen(temp_string),width);
+       get_os_info(&os_info);
+       get_hw_info(&hw_info,skip_bogomips,cpuinfo_file);
        
-          /* Print Uptime */
-       if (show_uptime) 
-	  center_and_print(uptime,strlen(uptime),width);
-	  
-          /* Print Load Average */
-       if (show_load) 
-	  center_and_print(load_avg,strlen(load_avg),width);
-       
-          /* Print Host Name */
-       center_and_print(host_name,strlen(host_name),width);
-       
+       i=0;
+       while (print_sysinfo(i,temp_string)!=1) {
+	  center_and_print(temp_string,strlen(temp_string),width);
+	  i++;
+       }
     }
-    ansi_print("^[[0m^[[255D\n",no_periods,0,0,0);
+    ansi_print("^[[0m^[[255D",no_periods,0,0,0);
 }
-
 
 
 int main(int argc,char **argv)
 {
     char *endptr;
-    int c;
-   
+    int c,i,x;
+    char temp_string[BUFSIZ];
+      
     cpuinfo_file=strdup("/proc/cpuinfo");
    
-    while ((c = getopt (argc, argv,"A::B::C::E:FGHK:LNO:PR:ST:UVW:XY"
+    while ((c = getopt (argc, argv,"F:"
 			           "a::b::c::e:fghk:lno:pr:st:uvw:xy"))!=-1)
        switch (c) {
-	  case 'a': case 'A': plain_ascii=1; break;
-	  case 'b': case 'B': banner_mode=1; break;
-	  case 'c': case 'C': banner_mode=0; break;
-	  case 'e': case 'E': cpuinfo_file=strdup(optarg); break;
-	  case 'f': case 'F': wipe_screen=1; break;
-	  case 'g': case 'G': display_sysinfo_only=1; break;
-	  case 'h': case 'H': help_message(argv[0], 1);
-	  case 'k': case 'K': symbol_bgnd=optarg[0]; break;
-	  case 'l': case 'L': display_logo_only=1; break;
-	  case 'n': case 'N': no_periods=1; break;
-	  case 'o': case 'O':
+	  case 'a': plain_ascii=1; break;
+	  case 'b': banner_mode=1; break;
+	  case 'c': banner_mode=0; break;
+	  case 'e': cpuinfo_file=strdup(optarg); break;
+	  case 'f': wipe_screen=1; break;
+	  case 'F': 
+	            custom_format=1;
+	            format=strdup(optarg);
+	              /* Decode the \n's.  Why do I have to do this? */
+	            i=0; x=0;
+	            while(i<strlen(format)) {
+		      if (format[i]=='\\') {  
+			 switch(format[i+1]) {
+			  case 'n': temp_string[x]='\n'; i++; break;
+			  default: temp_string[x]='\\'; i++; break; 
+			 }
+		      }
+		      else temp_string[x]=format[i];
+		      i++; x++;
+		    }
+	            sprintf(format,"%s",temp_string);
+	            break;
+	  case 'g': display_sysinfo_only=1; break;
+	  case 'h': help_message(argv[0], 1);
+	  case 'k': symbol_bgnd=optarg[0]; break;
+	  case 'l': display_logo_only=1; break;
+	  case 'n': no_periods=1; break;
+	  case 'o': 
 	            offset=strtol(optarg,&endptr,10);
 	            if ( endptr == optarg ) help_message(argv[0], 1);
 	            break;
-	  case 'p': case 'P': preserve_xy=1; break;
-	  case 'r': case 'R': symbol=optarg[0]; break;
-	  case 's': case 'S': skip_bogomips=1; break;
-	  case 't': case 'T':
+	  case 'p': preserve_xy=1; break;
+	  case 'r': symbol=optarg[0]; break;
+	  case 's': skip_bogomips=1; break;
+	  case 't': 
 	            display_usertext=1;
 	            user_text=strdup(optarg);
 	            break;
-	  case 'u': case 'U': show_uptime=1; break;
-	  case 'v': case 'V': help_message(argv[0], 0);
-	  case 'w': case 'W':
+	  case 'u': show_uptime=1; break;
+	  case 'v': help_message(argv[0], 0);
+	  case 'w':
 	            width=strtol(optarg,&endptr,10);
 	            if ( endptr == optarg ) help_message(argv[0], 1);
 	            break;
-	  case 'x': case 'X': narrow_logo=1; break;
-	  case 'y': case 'Y': show_load=1; break;
+	  case 'x': narrow_logo=1; break;
+	  case 'y': show_load=1; break;
 	  case '?': help_message(argv[0], 1);
        }
     if ( argv[optind] != NULL ) help_message(argv[0], 1);
+
+    if (!custom_format) {
+       if (banner_mode) format=strdup(DEFAULT_BANNER_FORMAT);
+       else format=strdup(DEFAULT_CLASSIC_FORMAT);
+    
+          /* Maybe not the best way to do this, but I wanted it to *\
+          \* be backwards comaptible with old linux_logos          */
+       if (display_usertext) {
+          sprintf(temp_string,"#E\n%s",format);
+          format=strdup(temp_string);
+       }
+       if (show_load) {
+	  format[strlen(format)-3]='\000';
+	  sprintf(temp_string,"%s#L\n#H\n",format);
+	  format=strdup(temp_string);
+       }
+       if (show_uptime) {
+	  format[strlen(format)-3]='\000';
+	  sprintf(temp_string,"%s#U\n#H\n",format);
+	  format=strdup(temp_string);
+       }
+    }
    
        /* Start Printing the Design */
     if (preserve_xy) ansi_print("^[7",no_periods,0,0,0);

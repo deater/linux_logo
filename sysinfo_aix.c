@@ -14,47 +14,41 @@
 
 int external_bogomips(char *bogomips_total);
 
-void get_os_info(char *os_name,char *os_version,
-		 char *os_revision,char *host_name,
-		 char *uptime,char *load_avg)
+void get_os_info(struct os_info_type *os_info)
 {  
    struct utsname buf;
+   
+   clear_os_pointers(os_info);
+   
    uname( &buf);
 
-   strcpy(os_name,buf.sysname);
-   strcpy(os_version,buf.version);   /* switched around, JSt */
-   strcpy(os_revision,"Revision ");
-   strcat(os_revision,buf.release);
-   strcpy(host_name,buf.nodename);
-   
-   strcpy(uptime,utmp_get_uptime(uptime)); /* uptime not implemented yet */
-   strcpy(load_avg,get_loadavg_noproc(load_avg));
-   
-  /* printf("machine: %s\n",buf.machine);
-   printf("domain:  %s\n",buf.domainname);*/
+    os_info->os_name=strdup(buf.sysname);
+    os_info->os_version=strdup(buf.version);  /* switched around, JSt */
+    /*os_info->os_revision=strdup(buf.version);*/
+    os_info->host_name=strdup(buf.nodename);
+    os_info->uptime=strdup(utmp_get_uptime());/* Neither of below implemented*/
+    os_info->load_average=strdup(get_loadavg_noproc());
  }
     
+void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
+		                        char *cpuinfo_file)
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
-		       char *cpuinfo_file)
 {
    FILE *fff;
    int cpus=0;
-   struct stat buff;
    long long int mem;
-   float bogomips=0.0;
-   char temp_string2[BUFSIZ],model[BUFSIZ]="Unknown";
-   char vendor[BUFSIZ]="Unknown",chip[BUFSIZ]="Unknown";
-   char temp_string[BUFSIZ],bogomips_total[BUFSIZ];
-   float total_bogo=0.0;
-   /*Anyone have more than 9 cpu's yet?*/	
-	char ordinal[10][10]={"Zero","One","Two","Three","Four","Five","Six",
-	                      "Seven","Eight","Nine"};
-   
+   char temp_string2[BUFSIZ];
+   char chip[BUFSIZ]="Unknown";
+   char temp_string[BUFSIZ],bogomips_total[BUFSIZ]="???";
+   char bogo_total[BUFSIZ];
+   float megahertz=0.0;
+      
 /* Print CPU Type and BogoMips -- Handles SMP Correctly now            *\  
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
 
+    clear_hw_pointers(hw_info);
+   
        /*      sprintf(cpuinfo,"Unknown CPU");*/
     if ((fff=popen("lsattr -El proc0","r") )!=NULL) {
        while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
@@ -82,14 +76,28 @@ type  POWER2 Processor type  False
 	     fscanf(fff,"%ld",&mem);
 	  }
     pclose(fff);
-
-    sprintf(cpuinfo,"%s %s Processor%s %ldM RAM",ordinal[cpus],chip,(cpus>1)?"s,":",",mem/1024);
   	    
       if (!skip_bogomips)
          if ( (external_bogomips( (char *)&bogomips_total))==-1 )
          sprintf(bogo_total," ");
          else sprintf(bogo_total,"%s Bogomips Total",bogomips_total);
       else sprintf(bogo_total," ");
-	 
+
+/* Added for 3.0 best I could.. have no AIX box to test on --vmw */   
+      sprintf(temp_string,"%ldM",(long int)mem/1024);
+      hw_info->mem_size=strdup(temp_string);
+   
+      hw_info->bogo_total=strdup(bogo_total);
+      
+      hw_info->num_cpus=cpus;
+   
+      if (megahertz>1) {
+	       sprintf(temp_string,"%.0fMHz ",megahertz);
+	       hw_info->megahertz=strdup(temp_string);
+      }
+   
+      hw_info->cpu_type=strdup(chip);
+   
+   
 }
       

@@ -317,4 +317,26 @@
 + Pending re-write of entire sub-system, to break compatibilty?
   Linux_logo 3.0?
   
-  
+9 January 1999
++ Ugly snowy and icy weather has trapped me at home, giving me time for the
+  re-write.
++ Rewrote much of linux_logo to use a new "Format" engine.  The old behavior
+  is now a compatibility layer over the new code.
++ See the README on how to use the new -F option.
++ It's a big enough change to move the major number to 3.0.
++ Tested all the intel cpuinfo's I have.  Now to see what I can do about
+  the other architectures.
++ Overhauled the documentation.
++ To paraphrase Alan Cox and TMBG:
+  o/~ metalab.unc.edu was sunsite.unc.edu, 
+      now it's metalab.unc.edu not sunsite.unc.edu
+      So if you had a file at sunsite.unc.edu
+      It'll be waiting at metalab o/~
++ Pressing Projects: add gnu-configure scripts and update the man page.
+  Unfortunately I am unsure how to go about either of those.
++ Added a PowerPC SMP patch from Ryan Nielsen <ran@krazynet.com>
+
+10 January 1999
++ Tried to fix things up for a beta release to freshmeat tomorrow
++ Went through bringing up all non-intel targets to code.
++ Added Megahertz printing for Alpha chips

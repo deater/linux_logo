@@ -14,25 +14,24 @@
 
 int external_bogomips(char *bogomips_total);
 
-void get_os_info(char *os_name,char *os_version,char *os_revision,
-		 char *host_name,char *uptime,char *load_avg)
+void get_os_info(struct os_info_type *os_info)
 {  
    struct utsname buf;
+
+   clear_os_pointers(os_info);
+   
    uname( &buf);
 
-   strcpy(os_name,buf.sysname);
-   strcpy(os_version,buf.release);   
-   strcpy(os_revision,buf.version);
-   strcpy(os_revision,"Compiled ");
-   strcat(os_revision,buf.version);
-   strcpy(host_name,buf.nodename);
-   
-   strcpy(uptime,linux_get_proc_uptime(uptime));
-   strcpy(load_avg,linux_get_proc_loadavg(load_avg));
+   os_info->os_name=strdup(buf.sysname);
+   os_info->os_version=strdup(buf.release);
+   os_info->os_revision=strdup(buf.version);
+   os_info->host_name=strdup(buf.nodename);
+   os_info->uptime=strdup(linux_get_proc_uptime());
+   os_info->load_average=strdup(linux_get_proc_loadavg());
  }
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 		       char *cpuinfo_file)
 {
    FILE *fff;
@@ -45,13 +44,12 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
    char temp_string[BUFSIZ],bogomips_total[BUFSIZ]="???";
    float total_bogo=0.0;
    float megahertz=0.0;
-   /*Anyone have more than 9 cpu's yet?*/	
-	char ordinal[10][10]={"Zero","One","Two","Three","Four","Five","Six",
-	                      "Seven","Eight","Nine"};
-   
+      
 /* Print CPU Type and BogoMips -- Handles SMP Correctly now            *\  
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
+
+   clear_hw_pointers(hw_info);
    
    if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
@@ -118,7 +116,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
 		     sprintf(model,"%s","Pentium");
 		  }
 		  /* This Attempted to report Pentium II's correctly on 2.0.x*\
-                  \* but didn't work.  Come on, Linux, release 2.2 ;)       */
+                  \* but didn't work.  Come on, Linus, release 2.2 ;)       */
 		  
 		  if ( !strcmp(chip,"686") ) {
 		     if (model[0]=='3') sprintf(model,"%s","Pentium II");
@@ -133,10 +131,10 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
                   \* Is fully user customizable and it can masquerade */
 		  /* As any chip type.  However this should catch the *\
                   \* default type.                                    */
-		  sprintf(vendor,"%s","Centaur");  
+		  sprintf(vendor,"%s","Centaur ");  
 	       }
 	       if ( !(strcmp(temp_string,"TransmetaNow"))) {
-		  sprintf(vendor,"%s","Transmeta");  
+		  sprintf(vendor,"%s","Transmeta ");  
 		  /* Hehe this is a joke.  No I have no clue what *\
                   \* Transmeta does.  ;)                          */
 	       }
@@ -153,17 +151,26 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
       }
    }
 
+   
    stat("/proc/kcore",&buff);
    mem=buff.st_size;
    mem/=1024; mem/=1024;
-      if (megahertz<1) 	    
-         sprintf(cpuinfo,"%s %s%s Processor%s %ldM RAM",ordinal[cpus],vendor,
-	         model,(cpus>1)?"s,":",",(long int)mem);
-      else
-        sprintf(cpuinfo,"%s %.0fMHz %s%s Processor%s %ldM RAM",ordinal[cpus],
-		megahertz,vendor,model,(cpus>1)?"s,":",",(long int)mem);
+   sprintf(temp_string,"%ldM",(long int)mem);
+   hw_info->mem_size=strdup(temp_string);
    
-      sprintf(bogo_total,"%.2f Bogomips Total",total_bogo);      
-
+   sprintf(temp_string,"%.2f",total_bogo);
+   hw_info->bogo_total=strdup(temp_string);
+   
+   hw_info->cpu_vendor=strdup(vendor);
+   
+   hw_info->num_cpus=cpus;
+   
+   if (megahertz>1) {
+      sprintf(temp_string,"%.0fMHz ",megahertz);
+      hw_info->megahertz=strdup(temp_string);
+   }
+   
+   hw_info->cpu_type=strdup(model);
+   
 }
       
