@@ -134,8 +134,10 @@ int get_cpu_info(cpu_info_t *cpu_info) {
           /* Specialty Athlons */
           /* Should we support MP too?  */
           /* Should we decode the Speed ratings too (ie, 1600+) */
-       if (!strncmp(model_string,"AMD Athlon(tm) XP",17)) { 
-	  strncpy(cpu_info->chip_type,"Athlon XP",10);
+       if (!strncmp(model_string,"AMD Athlon",10)) {
+	  if (strstr(model_string,"XP")!=NULL) {
+	     strncpy(cpu_info->chip_type,"Athlon XP",10);
+	  }
        }
 
           /* Durons */
@@ -177,7 +179,10 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 
        if ( strstr(model_string,"MediaGX")!=NULL) 
 	  strncpy(cpu_info->chip_type,"MediaGX",8);
-    	      
+
+       if ( strstr(model_string,"Geode")!=NULL)
+	  strncpy(cpu_info->chip_type,"Geode",6);
+       
        if ( !(strncmp(model_string,"6x86L",5)))
 	  strncpy(cpu_info->chip_type,"6x86",5);
        if ( !(strncmp(model_string,"6x86M",5)))
@@ -218,6 +223,12 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 	  strncpy(cpu_info->chip_type,"Pentium 4",10);
        }
        
+       if (!(strncmp(model_string,"Intel(R) Xeon(TM) CPU",21))) {
+	  strncpy(cpu_info->chip_type,"Pentium 4 Xeon",16);
+       }
+       
+	    
+       
           /* Should we handle all the various Celeron */
           /* types separately??                       */
        if (strstr(model_string,"Celeron")!=NULL) {
@@ -248,6 +259,7 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        /* ********************************** */
     if ( !(strncmp(vendor_string,"Geode by NSC",12))) {
        strncpy(cpu_info->chip_vendor,"NSC",4);
+       strncpy(cpu_info->chip_type,"Geode",6);
     }
    
        /* ************* */

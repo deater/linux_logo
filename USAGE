@@ -4,7 +4,8 @@ Usage tricks:
       A1 ). Having the tty printed when used at login.
       A2 ). Having an ascii logo for network login.
       A3 ). Creating a "penguin port" on your computer.
-   
+      A4 ). Confusing script-kidies
+
    Distribution Specific
       B1 ). Slackware 
       B2 ). OpenLinux
@@ -68,6 +69,28 @@ A3) You can create a "Pengun Port"
 	 Locally "telnet localhost penguin" will do it.  From other machines
 	 you will need the port number ("telnet localhost 54321").. it is easy
 	 to customize.. just pick a port number and away you go!
+
+
+#################################################################
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A4) Confusing script kidies!
+
+    Many distributions turn off linux_logo if you pick "most secure" at
+    installation time.  This is because letting others know your processor,
+    memory type, and kernel version can make it easier for you to be attacked
+    by outsiders.
+    
+    Instead of disabling linux_logo, why not use it as a weapon to cofuse
+    those who might attack you?  For example with
+    
+       linux_logo -F "Linux Version 2.7.105, Compiled ##45 Tue Feb 13 13:40:15 \
+       EST 2001\nTwelve 10Ghz Heuristic ALgorithmic Model 9000 Processors\n \
+       14TB Holographic Memory, 426789.4 BogoMips Total\nhal.uss.discovery"
+ 
+    in your bootup scripts, the attackers may think they have logged into the
+    killer machine from Clark's "2001" series of novels!  Watch the hilarity
+    that ensues as they try to find a proper exploit!
 
 
 #################################################################

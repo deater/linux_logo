@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.02 - Creates Nifty Logo With System Info - 13 March 2002
+  LINUX LOGO 4.03 - Creates Nifty Logo With System Info - 15 July 2002
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -22,7 +22,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.02"
+#define VERSION "4.03"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -196,6 +196,7 @@ void setup_info(struct linux_logo_info_type *settings) {
     settings->display_sysinfo_only=0;
     settings->display_usertext=0;
     settings->custom_format=0;
+    settings->center_sysinfo=1;
     settings->user_text = NULL;  /* Change this and display_usertext to *\
                                  \*        have a default message       */
     settings->format=NULL;
@@ -257,8 +258,11 @@ void center_and_print(char *string,int size,int width,
 {
    int i;
 
-   i=((width-size)/2);
-   shift_right(i,settings->plain_ascii);
+   if (settings->center_sysinfo) {
+      i=((width-size)/2);
+      shift_right(i,settings->plain_ascii);
+   }
+   
       /* Why was I setting the colors here? */
    if (!settings->plain_ascii) ansi_print("^[[1;37;40m");
    printf("%s",string);
@@ -307,7 +311,7 @@ void help_message(char *binname, char full)
     if (!full) exit(0);
     printf("Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] "
 	   "[-g]\n"
-	   "                    [-h] [-i] [-l] [-n] [-o num] [-p] [-s] [-t str] "
+	   "                    [-h] [-i] [-k] [-l] [-n] [-o num] [-p] [-s] [-t str] "
 	   "[-u] [-v]\n"
            "                    [-w Num] [-x] [-y] [-F format] "
 	   "[-L num | list | random_xy]\n",binname);
@@ -323,6 +327,7 @@ void help_message(char *binname, char full)
     printf("      B  [-g]     -- give system info only\n");
     printf("         [-h]     -- this help screen\n");   
     printf("         [-i]     -- ignore ~/.linux_logo and /etc/linux_logo.conf\n");
+    printf("         [-k]     -- keep sysinfo flushed-left (non-centered)\n");
     printf("      B  [-l]     -- display logo only\n");
     printf("      C  [-o Num] -- offset output Num spaces to the right\n");
     printf("         [-p]     -- preserve cursor location\n");
@@ -395,7 +400,7 @@ int print_sysinfo(int line, char *string,
 			   sprintf(temp_string,"%.3gGHz",cpu_info.megahertz/1000.0);
 	                }
 	                else {
-			    sprintf(temp_string,"%gMHz",cpu_info.megahertz);
+			    sprintf(temp_string,"%.3gMHz",cpu_info.megahertz);
 			}
 	                string_ptr+=vmw_strcat(string,temp_string); 
 	             }
@@ -732,7 +737,7 @@ int main(int argc,char **argv)
              /*******************************************************/
        
        while ((c = getopt (*custom_argc, custom_argv,"D:F:L:"
-			           "a::b::c::de:fghilno:pst:uvw:y"))!=-1) {
+			           "a::b::c::de:fghiklno:pst:uvw:y"))!=-1) {
           switch (c) {
 	     case 'a': settings.plain_ascii=1; break;
 	     case 'b': settings.banner_mode=1; break;
@@ -776,6 +781,8 @@ int main(int argc,char **argv)
 	               exit(0);
 	               break;
 	     case 'i': ignore_config_file=1; 
+	               break;
+	     case 'k': settings.center_sysinfo=0;
 	               break;
 	     case 'l': settings.display_logo_only=1; break;
 	     case 'L': 
@@ -851,8 +858,8 @@ int main(int argc,char **argv)
        i=1;
        while (temp_logo!=NULL) {
 	   printf("\t%d",i);
-	   if (temp_logo->sysinfo_position) printf("\tClassic");
-	   else printf("\tBanner");
+	   if (temp_logo->sysinfo_position) printf("\tBanner");
+	   else printf("\tClassic");
 	   if (temp_logo->ascii_logo!=NULL) printf("\tYes");
 	   else printf("\tNo");
 	   printf("\t%s\n",temp_logo->description);

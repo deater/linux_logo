@@ -645,3 +645,11 @@
   Maybe now RMS will run linux_logo ;)
 + New version of the "ll" assembly-language linux_logo included  
   
+11 July 2002
++ linux_logo is 5 years old!!!
+
+14 July 2002
++ Updated the documentation a bit
++ Fix that "-L list" was reporting classic/banner backwards!
+  Thanks to Steve Kostecke <steve@debian.org>
++ Added "-k" option that disables centering of system info

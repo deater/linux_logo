@@ -28,10 +28,25 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 	     strncpy(vendor_string,parse_line(temp_string),256);
 	     clip_lf(vendor_string,255);
 	  }	  
-	  if ( !(strncmp(temp_string,"Hardware",8))) {
+	  if ( !(strncmp(temp_string,"Processor",9))) {
 	     strncpy(model_string,parse_line(temp_string),256);
 	     clip_lf(model_string,255);
 	  }
+	  
+	     /* Huge big ugly hack */
+	  if (strstr(model_string,"sa1100")!=NULL) {
+	     strncpy(model_string,"StrongARM 1100",16);
+	  }
+	  if (strstr(model_string,"1110")!=NULL) {
+	     strncpy(model_string,"StrongARM 1110",15);
+	  }
+	  if (strstr(model_string,"StrongARM-110")!=NULL) {
+	     strncpy(model_string,"StrongARM 110",14);
+	  }
+	  if (strstr(model_string,"710")!=NULL) {
+	     strncpy(model_string,"710",4);
+	  }
+	  
 	  
 	     /* Ugh why must people play with capitalization */
 	  if ( !(strncmp(temp_string,"bogomips",8)) ||
@@ -73,7 +88,7 @@ int get_hardware(char hardware_string[65]) {
        
        while ( (fgets(temp_string,255,fff)!=NULL) ) {
 	  	  
-	  if (!(strncmp(temp_string,"Processor",9))) {
+	  if (!(strncmp(temp_string,"Hardware",8))) {
              strncpy(hardware_string,parse_line(temp_string),64);
 	  }
 
@@ -81,66 +96,6 @@ int get_hardware(char hardware_string[65]) {
     }
     return 1;
 }
-
-#if 0
-   
-    if ((fff=fopen(logo_info->cpuinfo_file,"r") )!=NULL) {
-       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
-	 
-	  if ( !(strcmp(temp_string2,"Processor")) ) {
-	     fscanf(fff,"%s",(char *)&temp_string);
-	     read_string_from_disk(fff,(char *)&vendor);
-	     
-	        /* Huge big ugly hack */
-	     if (strstr(vendor,"sa1100")!=NULL) {
-		model=strdup("sa1100");
-	     }
-	     if (strstr(vendor,"710")!=NULL) {
-		model=strdup("ARM 710");
-	     }
-	     sscanf(vendor,"%s",(char *)&vendor);
-	     strcat(vendor," ");
-	  }
-	  
- 	  if ( !(my_string_comp(temp_string2,"BogoMIPS")) ) {
-	    fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
-	    total_bogo+=bogomips;			       
-	  }
-	  if ( !(my_string_comp(temp_string2,"BogoMips")) ) {
-	    fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
-	    total_bogo+=bogomips;			       
-	  }
-	  
-	 
-      }
-   }
-
-      stat("/proc/kcore",&buff);
-      mem=buff.st_size;
-      mem/=1024; mem/=1024;
-      sprintf(temp_string,"%ldM",(long int)mem);
-      hw_info->mem_size=strdup(temp_string);
-   
-      sprintf(temp_string,"%.2f",total_bogo);
-      hw_info->bogo_total=strdup(temp_string);
-      
-      hw_info->num_cpus=cpus;
-     
-      hw_info->cpu_vendor=strdup(vendor);
-
-      if (megahertz>1) {
-	 sprintf(temp_string,"%.0fMHz ",(megahertz/1000000));
-	 hw_info->megahertz=strdup(temp_string);
-      }
-   
-     printf("%s\n",model); fflush(stdout);
-   
-     if (model==NULL)
-        hw_info->cpu_type=strdup("Unknown");
-     else 
-        hw_info->cpu_type=strdup(model);
-#endif  
- 
 
     /* Some architectures might have better ways of detecting RAM size */
 long int get_arch_specific_mem_size(void) {

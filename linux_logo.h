@@ -15,6 +15,7 @@ struct linux_logo_info_type {
        int display_usertext;
        int custom_format;
        int pretty_output;
+       int center_sysinfo;
        char *user_text;
        char *format;
 };

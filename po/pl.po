@@ -61,11 +61,11 @@ msgid "Many"
 msgstr "Wiele"
 
 #: ../linux_logo.c:416
-msgid "Processor"
-msgid_plural "Processors"
-msgstr[0] "procesor"
-msgstr[1] "procesory"
-msgstr[2] "procesorów"
+#msgid "Processor"
+#msgid_plural "Processors"
+#msgstr[0] "procesor"
+#msgstr[1] "procesory"
+#msgstr[2] "procesorów"
 
 #. This is the default format of the output file.  See the README for more *\
 #. \* information on how to configure this option.
@@ -93,5 +93,5 @@ msgstr ""
 "³±cznie #B bogomips\n"
 "#H\n"
 
-#~ msgid "Processors"
-#~ msgstr "Procesory"
+msgid "Processors"
+msgstr "Procesory"

@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 4.02 -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.03 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -8,7 +8,7 @@
 #Your compiler.  If gcc doesn't work, try CC
 CC = gcc
 
-LIBSYSINFO = libsysinfo-0.0.5
+LIBSYSINFO = libsysinfo-0.0.6
 
 #For Linux Systems
 PLATFORM = 'Linux'

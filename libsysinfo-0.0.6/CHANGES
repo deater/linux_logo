@@ -60,3 +60,10 @@
 10 March 2002
 + Reverted sparc PROM code because it doesn't seem to work.
 + Added support for Pentium 4 processors
+
+13 March 2002
++ Fix Athlon XP's without a space in them
+
+14 July 2002
++ Run through new batch of cpuinfo files, fixing anything needing fixed.
++ Added cris, s390, sh3, and vax Linux architectures

@@ -40,8 +40,8 @@ int	get_cpu_info(cpu_info_t *cpu_info)
 	      ** note for later check the model line
 	      ** now this line is useless
 	      */
-	      if (!(strncmp(temp_string, "model", strlen("model"))))
-		strncpy(model_string, parse_line(temp_string), 255);
+	      if (!(strncmp(temp_string, "model", strlen("model")))) 
+		 strncpy(model_string, parse_line(temp_string), 255);	       
 	      if (!(strncmp(temp_string, "revision", strlen("revision"))))
 		rev_int = atoi(parse_line(temp_string));
 	      if (!(strncmp(temp_string, "cpu MHz", 6)))

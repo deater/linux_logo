@@ -14,9 +14,10 @@ Usage Issues
 
  Q4. How can I have linux_logo update my /etc/issue file every X minutes?
  Q5. How can I have my boot messages scroll w/o moving linux_logo?
+ Q6. How can I keep the system info from being centered?
 
 Other
- Q6. Did you invent the Linux "Tux" logo?
+ Q7. Did you invent the Linux "Tux" logo?
 
 -------------------------------------------------------------------------
 
@@ -87,9 +88,20 @@ A5. Bill Anderson <bill@tb.dynip.com> did some research and came up with this:
     will turn it off again...
 
 
-Q6. Did you invent the Linux "Tux" logo?
+Q6. How can I keep the system info from being centered?
 
-A6. No.  Sometimes there seems to be some confusion about this.  I am only
+A6. Starting with version 4.03 you can just use the "-k" command line option.
+
+    On old versions you can use sed to do this.  (This only works with the
+    -a ascii output option because otherwise centering is done with ANSI
+    escape sequences).
+    
+        linux_logo -a -g | sed 's/^  *//'
+
+
+Q7. Did you invent the Linux "Tux" logo?
+
+A7. No.  Sometimes there seems to be some confusion about this.  I am only
     responsible for the program "linux_logo."
     
     Tux the Linux penguin was invented by Larry Ewing.  See his page here
