@@ -39,8 +39,8 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
-   char temp_string2[255],model[15];
-   char temp_string[255],bogomips_total[30];
+   char temp_string2[BUFSIZ],model[BUFSIZ]="Unknown";
+   char temp_string[BUFSIZ],bogomips_total[BUFSIZ];
    float total_bogo=0.0;
    /*Anyone have more than 9 cpu's yet?*/	
 	char ordinal[10][10]={"Zero","One","Two","Three","Four","Five","Six",

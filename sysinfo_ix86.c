@@ -1,10 +1,7 @@
-/* getsysinfo.c                                                   *\
+/* sysinfo_ix86.c                                                 *\
 \* I was trying to make this easier to add other platforms/       */
 /* architectures.  Feel free to add yours, and send me the patch. *\
 \*----------------------------------------------------------------*/
-/* Initial gernic Linux and Irix -- Vince Weaver                  *\
-\* Added Linux mc6800 support    -- Christian Marillat            */
-/* Added Cyrix 6x86 support"     -- Adam J. Thornton              */
 
 #include <stdio.h>
 #include <ctype.h>
@@ -45,8 +42,9 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
-   char temp_string2[BUFSIZ],model[BUFSIZ],vendor[BUFSIZ],chip[BUFSIZ];
-   char temp_string[BUFSIZ],bogomips_total[BUFSIZ];
+   char temp_string2[BUFSIZ],model[BUFSIZ]="Unknown";
+   char vendor[BUFSIZ]="Unknown",chip[BUFSIZ]="Unknown";
+   char temp_string[BUFSIZ],bogomips_total[BUFSIZ]="???";
    float total_bogo=0.0;
    /*Anyone have more than 9 cpu's yet?*/	
 	char ordinal[10][10]={"Zero","One","Two","Three","Four","Five","Six",
@@ -76,6 +74,8 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	         	         
 	         if ( !(strcmp(temp_string,"K6")))
 		    sprintf(model,"%s","K6");	       
+	         if ( !(strcmp(temp_string,"AMD-K6tm")))
+		    sprintf(model,"%s","K6");
 	       	 if ( !(strncmp(temp_string,"6x86L",5)))
 		    sprintf(model,"%s","6x86");
 	         if ( !(strncmp(temp_string,"K5",2)))
@@ -105,6 +105,13 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 		  if ( !strcmp(chip,"586") ) {
 		     sprintf(model,"%s","Pentium");
 		  }
+		  /* This Attempted to report Pentium II's correctly on 2.0.x*\
+                  \* but didn't work.  Come on, Linux, release 2.2 ;)       */
+		  
+		  if ( !strcmp(chip,"686") ) {
+		     if (model[0]=='3') sprintf(model,"%s","Pentium II");
+		  }
+		  
 	       }
 	       if ( !(strcmp(temp_string,"CyrixInstead"))) {
 	          sprintf(vendor,"%s","Cyrix ");            

@@ -195,3 +195,38 @@
 14 July 1998
 + Got everything ready for the 2.07 release.  Trying not to forget anything
   [I always do anyway].
+
+29 July 1998
++ Finally got around to uploading the newest version to sunsite and reporting
+  it at freshmeat. 
++ Had forgotten to take the "cpuinfo" test file out.  UGH.
++ Added a fix for PentiumII's on linux 2.0.x [with cpuinfo sent by
+  <xanni@xanadu.net>.  I wish I had access to more machines to test this on;
+  fixing one always risks breaking another.  If only I kept all those
+  /proc/cpuinfo's people sent me and had an automated parser... much more
+  trouble than it'd be worth.  Oh well.
+  
+31 July 1998
++ Added preliminary PowerPC support thanks to a /proc/cpuinfo sent in by
+  Beecher Greenman <rbg6038@ritvax.isc.rit.edu>
++ Fixed a centering bug in banner mode that had been bothering me for a while.
+  A "+4" should have been a "+2"
++ Re-changed that to "+3", after much trial and error, deciding it was the 
+  value that made odd-sized strings come out the best in banner mode.
++ Went through sysinfo_*.c, updating the files, making sure they used BUFSIZ
+  and making sure uninitialized strings won't give garbage on the wrong
+  architecture.
+
+13 August 1998
++ Don't really have time to work on linux_logo, but since everone keeps
+  sending me e-mail about it, why not ;)
++ Fixed K6 printing on 2.0.36p5 [Ugh, why are they always changing this].
+  Actually it was reported this kernel causes 'linux_logo -a' to print blank
+  spaces for ever.  This is because one of the sysinfo lines was >80, so the
+  centering code ended up doing a loop to a negative number [that wrapped to
+  2^31], causing lots of bad effects.  Thanks to Nate Godin <nate@WPI.EDU> 
+  for the report.
++ Added information to the README for adding linux_logo to SUSE linux systems.
+  Thanks to Rodolfo Pilas <rodolfo@linux.org.uy>.
+  
+  

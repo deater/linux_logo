@@ -1,10 +1,8 @@
-/* getsysinfo.c                                                   *\
+/* sysinfo_m68k.c                                                 *\
 \* I was trying to make this easier to add other platforms/       */
 /* architectures.  Feel free to add yours, and send me the patch. *\
 \*----------------------------------------------------------------*/
-/* Initial gernic Linux and Irix -- Vince Weaver                  *\
-\* Added Linux mc6800 support    -- Christian Marillat            */
-/* Added Cyrix 6x86 support"     -- Adam J. Thornton              */
+/* Added Linux mc6800 support    -- Christian Marillat            */
 
 #include <stdio.h>
 #include <ctype.h>
@@ -41,8 +39,9 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
-   char temp_string2[40],model[15],vendor[30],chip[20];
-   char model2[15],clock[30];
+   char temp_string2[BUFSIZ],model[BUFSIZ]="Unknown";
+   char chip[BUFSIZ]="Unknown";
+   char model2[BUFSIZ]="Unknown",clock[BUFSIZ]="Unknown";
    
 /* Print CPU Type and BogoMips -- Handles SMP Correctly now            *\  
 \* To debug other architectures, create copies of the  proc files and  */ 

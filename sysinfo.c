@@ -8,7 +8,9 @@
 #if defined(linux)
 #define MREE 1
 
-#if defined(m68000)
+#if defined(__PPC__)
+#include "sysinfo_ppc.c"
+#elif defined(m68000)
 #include "sysinfo_m68k.c"
 #elif  defined(__alpha__)
 #include "sysinfo_alpha.c"

@@ -1,10 +1,7 @@
-/* getsysinfo.c                                                   *\
+/* getsysinfo_aix.c                                               *\
 \* I was trying to make this easier to add other platforms/       */
 /* architectures.  Feel free to add yours, and send me the patch. *\
 \*----------------------------------------------------------------*/
-/* Initial gernic Linux and Irix -- Vince Weaver                  *\
-\* Added Linux mc6800 support    -- Christian Marillat            */
-/* Added Cyrix 6x86 support"     -- Adam J. Thornton              */
 
 #include <stdio.h>
 #include <ctype.h>
@@ -43,8 +40,9 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
-   char temp_string2[40],model[15],vendor[30],chip[20];
-   char temp_string[80],bogomips_total[30];
+   char temp_string2[BUFSIZ],model[BUFSIZ]="Unknown";
+   char vendor[BUFSIZ]="Unknown",chip[BUFSIZ]="Unknown";
+   char temp_string[BUFSIZ],bogomips_total[BUFSIZ];
    float total_bogo=0.0;
    /*Anyone have more than 9 cpu's yet?*/	
 	char ordinal[10][10]={"Zero","One","Two","Three","Four","Five","Six",

@@ -36,7 +36,7 @@ POTENTIAL USES FOR linux_logo
 * MOTD/LOGIN: You can have the penguin appear at the login prompt.
   
     FOR SLACKWARE/OPENLINUX
-        Add the following lines to /etc/rc.d/rc.S [in slackware] 
+        Add the following lines to /etc/rc.d/rc.M [in slackware] 
         or to /etc/rc.d/rc.local [OpenLinux]
 	
        /usr/local/bin/linux_logo > /etc/issue
@@ -95,7 +95,17 @@ POTENTIAL USES FOR linux_logo
 			     
      and as long as EDITMOTD is set to yes at the beginning of the file, it
      should work.
-	 
+     
+    FOR SUSE:
+      [thanks to Rodolfo Pilas <rodolfo@linux.org.uy>]
+      
+      Edit /sbin/init.d/boot.local file and add the
+      following lines before "exit 0" line:
+      
+          /usr/local/bin/linux_logo > /etc/issue
+	  /usr/local/bin/linux_logo > /etc/issue.net
+	      
+      
 * NETWORK LOGIN:
         Note: for platforms that do not have color ansi telnet connections
 	you might want to use the new "linux_logo -a" option.  This gives

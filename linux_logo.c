@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
- LINUX LOGO 2.07 - Creates a Nifty Logo With some System Info - 14 July 1998
+ LINUX LOGO 2.08 - Creates a Nifty Logo With some System Info - 31 July 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -28,7 +28,7 @@
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "2.07"
+#define VERSION "2.08"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"
@@ -58,7 +58,7 @@ void do_spacing(int spaces)
 {
     int i;
    
-    if (spaces>0) {
+    if ((spaces>0)&&(spaces<1000000)) { /* A hack.  Ever >1M wide displays?*/  
        if (plain_ascii) for(i=0;i<spaces;i++) putchar(' ');
        else printf("%c[%iC",ESCAPE,spaces);
     }
@@ -250,7 +250,7 @@ void draw_banner_logo()
           /* Get some hardware info using getsysinfo.c */
        get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips);
       
-       i=((width-(strlen(cpu_info)+4+strlen(bogo_total)))/2);
+       i=( (width- (strlen(cpu_info)+3+strlen(bogo_total)) ) /2);
        do_spacing(i);
        sprintf(temp_string,"^[[1;37;40m%s, %s^[[0m\n",
  	       cpu_info,bogo_total);
