@@ -8,20 +8,22 @@
 #Your compiler.  If gcc doesn't work, try CC
 CC = gcc
 
+OS = $(shell uname)
+
 C_FLAGS = -O2 -Wall -I.. -I.
 
-all:	configure ./os/Makefile.inc libsysinfo.a
+all:	configure ./$(OS)/Makefile.inc libsysinfo.a
 
 clean:
 	rm -f *.o *~
 	rm -f libsysinfo.a libsysinfo.so config.h
-	rm -f ./os/Makefile.inc configure
-	cd os && make clean
+	rm -f ./$(OS)/Makefile.inc configure
+	cd $(OS) && make clean
 	cd all && make clean
 
 install:	
 
-./os/Makefile.inc:	configure
+./$(OS)/Makefile.inc:	configure
 	./configure
 
 configure:	configure.o
@@ -32,8 +34,8 @@ configure.o:	configure.c
 
 libsysinfo.a:	configure
 	cd all && make
-	cd os && make
-	ar crus libsysinfo.a ./os/*.o ./all/*.o
+	cd $(OS) && make
+	ar crus libsysinfo.a ./$(OS)/*.o ./all/*.o
 
 shared:	libsysinfo.a
-	ld -shared -o libsysinfo.so ./os/*.o ./all/*.o
+	ld -shared -o libsysinfo.so ./$(OS)/*.o ./all/*.o

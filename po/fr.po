@@ -63,7 +63,7 @@ msgstr "Plusieurs"
 #: ../defaults.h:7
 msgid ""
 "#O Version #V, Compiled #C\n"
-"#N #M #X #T Processor#S, #R RAM, #B Bogomips Total\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
 "#H\n"
 msgstr ""
 
@@ -72,8 +72,17 @@ msgstr ""
 msgid ""
 "#O Version #V\n"
 "Compiled #C\n"
-"#N #M #X #T Processor#S, #R RAM\n"
+"#N #M #X #T #P, #R RAM\n"
 "#B Bogomips Total\n"
 "#H\n"
 msgstr ""
 
+#: ../defaults.h:9
+msgid ""
+"Processor"
+msgstr ""
+
+#: ../defaults.h:10
+msgid ""
+"Processors"
+msgstr ""

@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 3.9b3  -- by Vince Weaver         #
+#  Makefile for Linux Logo 3.9b4  -- by Vince Weaver         #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -8,10 +8,12 @@
 #Your compiler.  If gcc doesn't work, try CC
 CC = gcc
 
+LIBSYSINFO = libsysinfo-0.0.3
+
 #For Linux Systems
 PLATFORM = 'Linux'
-C_OPTS = -O2 -Wall -I./libsysinfo
-L_OPTS = -L./libsysinfo
+C_OPTS = -O2 -Wall -I./$(LIBSYSINFO)
+L_OPTS = -L./$(LIBSYSINFO)
 
 
 #For All Other Unixes
@@ -34,35 +36,35 @@ PROGNAME = linux_logo
 #
 
 all:	parse_logos linux_logo
-	cd po && make
+	cd po && $(MAKE)
 
 logos-all:
 	find ./logos -type f > logo_config
-	make all
+	$(MAKE) all
 
 logos-default:
 	echo "./logos/banner.logo" > logo_config
 	echo "./logos/classic.logo" >> logo_config
-	make all
+	$(MAKE) all
 
 clean:
 	rm -f *.o
 	rm -f linux_logo linux_logo-dyn parse_logos
 	rm -f *~
-	cd libsysinfo && make clean
-	cd po && make clean
+	cd $(LIBSYSINFO) && $(MAKE) clean
+	cd po && $(MAKE) clean
 
 	
-linux_logo:	linux_logo.o vmw_string.o ./libsysinfo/libsysinfo.a
-	$(CC) $(C_OPTS) -o linux_logo linux_logo.o vmw_string.o ./libsysinfo/libsysinfo.a $(L_OPTS)
+linux_logo:	linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a
+	$(CC) $(C_OPTS) -o linux_logo linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a $(L_OPTS)
 	@strip linux_logo
 
-linux_logo_shared:	linux_logo.o vmw_string.o ./libsysinfo/libsysinfo.a
-	$(CC) $(C_OPTS) -o linux_logo-dyn linux_logo.o vmw_string.o -L./libsysinfo -lsysinfo
+linux_logo_shared:	linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a
+	$(CC) $(C_OPTS) -o linux_logo-dyn linux_logo.o vmw_string.o -L./$(LIBSYSINFO) -lsysinfo
 	@strip linux_logo-dyn
 
-./libsysinfo/libsysinfo.a:
-	cd libsysinfo && make
+./$(LIBSYSINFO)/libsysinfo.a:
+	cd libsysinfo && $(MAKE)
 
 vmw_string.o:	vmw_string.c
 	$(CC) $(C_OPTS) -c vmw_string.c
@@ -85,7 +87,7 @@ linux_logo.o:	linux_logo.c defaults.h load_logos.h
 install:	linux_logo
 	/usr/bin/install -s -m 755 $(PROGNAME) $(INSTALL_BINPATH)
 	/usr/bin/install -m 644 $(PROGNAME).1.gz $(INSTALL_MANPATH)/man1
-	cd po && make install
+	cd po && $(MAKE) install
 
 install-doc:
 	/usr/bin/install -d -m 755 $(INSTALL_DOCPATH)/$(PROGNAME)

@@ -10,3 +10,11 @@
 + You can do a "make shared" to get a .so linux shared library.
   It works, but I am sure it's not as robust as a shared lib
   should be.
+
+30 April 2001
++ Fix from Matt <madmatt@bits.bris.ac.uk> so that linux-sparc cpuinfo
+  will be compiled properly.
+
+7 June 2001
++ Change to makefile so it doesn't depend on symlinks.  But instead
+  it depends on "uname" existing.

@@ -575,3 +575,25 @@
 + Thanks to Martin Bayer <mbayer@zedat.fu-berlin.de> for the following
   changes:  new "make install", compressed man-page.
 + Split off a "USAGE" file to make the README a bit less cluttered.
+
+24 April 2001
++ Finally got around to releasing 3.9b3 on freshmeat.  600 downloads
+
+30 April 2001
++ Touch up the redhat and debian banner logos, from
+  Phillip Jackson <pjacklsu@bellsouth.net>
++ Still amazed no i18n fixes have been sent in yet.  
+
+7 June 2001
++ Had many requests for a classic logo w/o periods.  Thanks to
+  Marc D. Williams <marcdw@charter.net> for sending me one.  It's
+  included with the logos now.  See the FAQ for how to include it.
++ Updated Spanish .po file from Javier Fernández-Sanguino Peña
+  <jfs@computer.org>  
++ Steve Kostecke <steve@debian.org> fixed up the makefiles and fixed
+  a i18n compilation problem.
++ To further the cause of i18n I addad a "#P" option for custom logos
+  that will give either a singular or plural form of the word "Processor"
++ Released 3.9b4
+  
+  

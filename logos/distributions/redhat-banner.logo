@@ -4,7 +4,7 @@
   
 SYSINFO_POSITION bottom
   
-DESCRIPTION_STRING The Default Banner Logos
+DESCRIPTION_STRING RedHat Banner (white)
 
 BEGIN_LOGO
 [?7h[255D[0;1;47m###############################################[30m##[37m##############################[40m

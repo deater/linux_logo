@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 3.9b3 - Creates Nifty Logo With System Info - 16 April 2001
+  LINUX LOGO 3.9b4 - Creates Nifty Logo With System Info - 7 June 2001
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -21,7 +21,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "3.9b3"
+#define VERSION "3.9b4"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -382,6 +382,10 @@ int print_sysinfo(int line, char *string,
 	             else string_ptr+=vmw_strcat(string,ordinal(10));
 	             break;
 	   case 'O': string_ptr+=vmw_strcat(string,os_info.os_name); break;
+	   case 'P': if (cpu_info.num_cpus!=1) 
+	                string_ptr+=vmw_strcat(string,_(PROCESSOR_PLURAL));
+	             else string_ptr+=vmw_strcat(string,_(PROCESSOR_SINGULAR));
+	             break;
 	   case 'R': sprintf(temp_string,"%ldM",get_mem_size());
 	             string_ptr+=vmw_strcat(string,temp_string); 
                      break;

@@ -6,13 +6,17 @@ Sysinfo Problems
  Q1. The sysinfo is garbled, what should I do?
  Q2. Linux_Logo reports 1 Meg of RAM too little.  Why?
 
+Logo Issues
+ Q3. I don't like the periods in the classic logo. 
+     (or) What happened to the old "-n" option
+
 Usage Issues
 
- Q3. How can I have linux_logo update my /etc/issue file every X minutes?
- Q4. How can I have my boot messages scroll w/o moving linux_logo?
+ Q4. How can I have linux_logo update my /etc/issue file every X minutes?
+ Q5. How can I have my boot messages scroll w/o moving linux_logo?
 
 Other
- Q5. Did you invent the Linux "Tux" logo?
+ Q6. Did you invent the Linux "Tux" logo?
 
 -------------------------------------------------------------------------
 
@@ -38,11 +42,27 @@ A2. If you have ACPI power management enabled, it uses some of your RAM.
 
 
 
-Q3. How can I make linux_logo run every 15 minutes or so, that way I can
+ Q3. I don't like the periods in the classic logo.
+      (or) What happened to the old "-n" option
+      
+ A3. I was going to add back code that would take care of this.  But
+     I am trying to avoid special-case code like this.  I spent most of
+     the 3.9 development series getting rid of such hacks.
+     
+     So the solution is simply to edit the "logo_config" file and change
+     the line that says
+           ./logos/classic.logo
+     to say instead
+           ./logos/classic-no_periods.logo
+     and recompile.
+
+
+
+Q4. How can I make linux_logo run every 15 minutes or so, that way I can
     use the uptime option and impress my windows-using friends with my
     incredible uptime?
     
-A3. This is a common question.  The best thing to do is use cron. 
+A4. This is a common question.  The best thing to do is use cron. 
     [See "man crontab"].  Setting up cron can be a bit tricky, but
     a line such as
     
@@ -53,10 +73,10 @@ A3. This is a common question.  The best thing to do is use cron.
     manpage for details.
     
     
-Q4. Can I have linux_logo stay on top of the screen while things scroll
+Q5. Can I have linux_logo stay on top of the screen while things scroll
     in a window beneath it?
     
-A4. Bill Anderson <bill@tb.dynip.com> did some research and came up with this: 
+A5. Bill Anderson <bill@tb.dynip.com> did some research and came up with this: 
     
     I did sucessfully use:
        clear; /bin/echo -e '\033[018;25r' ; linux_logo
@@ -67,9 +87,9 @@ A4. Bill Anderson <bill@tb.dynip.com> did some research and came up with this:
     will turn it off again...
 
 
-Q5. Did you invent the Linux "Tux" logo?
+Q6. Did you invent the Linux "Tux" logo?
 
-A5. No.  Sometimes there seems to be some confusion about this.  I am only
+A6. No.  Sometimes there seems to be some confusion about this.  I am only
     responsible for the program "linux_logo."
     
     Tux the Linux penguin was invented by Larry Ewing.  See his page here

@@ -13,7 +13,7 @@ char *arch_names[]={
     "PPC",
     "m68k",
     "Alpha",
-    "SPARC",
+    "sparc",
     "arm",
     "ix86"
 };

@@ -4,7 +4,7 @@
   
 SYSINFO_POSITION bottom
   
-DESCRIPTION_STRING The Default Banner Logos
+DESCRIPTION_STRING Debian Banner (white)
 
 BEGIN_LOGO
 [?7h[255D[0;1;47m#########[0;31;47m###[1;37m###########################################[31m#[37m#######################[40m

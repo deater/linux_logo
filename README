@@ -1,12 +1,12 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 3.9b3 -- Shows a Logo With some System Info - 16 April 2001
+    LINUX_LOGO 3.9b4 -- Shows a Logo With some System Info - 7 June 2001
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
 HISTORY: 
   
-   Back in the summer of '97 there was a recurring topic on the linux-kernel
+   Back in the summer of 1997 there was a recurring topic on the linux-kernel
    list about having a "boot-up" penguin in the kernel.  There were many 
    arguments back and forth, but eventually the primary consensus was that
    this would be better done in user-space.  [though with the advent
@@ -36,10 +36,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-3.9b3.tar.gz
+        tar -xzvf linux_logo-3.9b4.tar.gz
 	
     enter the directory
-        cd linux_logo-3.9b3
+        cd linux_logo-3.9b4
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -276,6 +276,7 @@ ________________________________________________________________
   #M     Megahertz [where supported]         "188Mhz "
   #N     Number of CPU's                     "Two"
   #O     Operating System Name               "Linux"
+  #P     Singular or Plural of "Processor"   "Processor"
   #R     Ram [in Megabytes]                  "64M"
   #S     Plural                              "s"
   #T     Type of CPU                         "K6"
@@ -291,12 +292,14 @@ Notes:
   + Megahertz only available on some platforms and newer kernels.
   + See "defaults.h" on how to have #N report in non-english numbers.
   + Plural [#S] gives nothing if there is 1 cpu, gives 's' otherwise.
+  + Processor [#P] gives "Processor" [or i18n equiv] when 1 cpu,
+    "Processors" if more than 1.
   + The "-y" and "-u" [display uptime and load average] command line options
     don't affect the output if a custom format is used.
       
       
 For example the default banner format is
-"#O Version #V, Compiled #C\n#N #M#X#T Processor#S, #R RAM, #B Bogomips Total\n#H\n"
+"#O Version #V, Compiled #C\n#N #M#X#T #P, #R RAM, #B Bogomips Total\n#H\n"
 
 which on my computer gives an output of:
        
@@ -326,7 +329,7 @@ CREATING/USING CUSTOM LOGOS
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.deater.net/weave/vmwprod/linux_logo
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b3.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b4.tar.gz
   
 Check out other programs by me at http://www.deater.net/weave/vmwprod
 
@@ -337,7 +340,6 @@ THANKS
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
    Without you linux_logo wouldn't work on so many machines.
    
-   Also many Thanks to Marie Prosser.
    
 -----------------
 Vince
