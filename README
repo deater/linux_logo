@@ -1,0 +1,39 @@
+/*------------------------------------------------------------------------*\
+ LINUX LOGO 0.1 -- Creates a Nifty Logo With some System Info - 9 July 1997
+     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
+
+There is always controvery on the linux-kernel mailing list about an x86 
+penguin logo on bootup.  I always thought this would be neat too, and set
+out to program one, but I lack the skills to integrate something like that
+into the kernel.
+
+I did however manage to make this program that puts a crude ANSI picture of
+a penguin on the screen, as well as show some main system info.
+
+USES:
+  BOOT UP PENGUIN: just stick "/usr/local/bin/linux_logo" in an rc file.
+     [/etc/rc.d/rc.M is a good place if you are running Slackware.  Place
+      it right above where sendmail is run because that creates a pause.]
+  
+  MOTD: You could even have people get this at the login prompt.  This
+        would take some configuring of /etc/rc.d/rc.S but it is possible.
+      
+  FUN:  It is just cool to run it now and then.
+  
+  
+USAGE:
+  The file is ANSI escape sequences, so it should work OK with most terminals.
+ 
+BUGS:   
+  Not tested with non-x86 systems.
+  Not SMP concious.  It would be nice to show multiple CPU info, but I don't
+                     have a SMP box to work with.
+   
+ The image was created using the logo.xpm from the Linux distribution,
+     ppm2ansi by Carsten Haitzler -- http://www.cse.unsw.edu.au/~s2154962/
+     and was hand edited using THEDRAW under dosemu 0.66.7
+ 
+WHERE TO GET LINUX_LOGO:
+  http://www.glue.umd.edu/~weave/vmwprod
+  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-0.1.tar.gz -- at first
+  http://sunsite.unc.edu/pub/Linux/logos/linux_logo-0.1.tar.gz -- eventually?

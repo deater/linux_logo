@@ -1,0 +1,16 @@
+Begin3
+Title: linux_logo
+Version: 0.1        
+Entered-date: 10JUL97   
+Description: An ANSI Color Penguin Logo that can be run at bootup.
+             Also shows some system info and can be used multiple ways.
+Keywords: logo penguin boot system info       
+Author: weave@eng.umd.edu (Vince Weaver)
+Maintained-by: weave@eng.umd.edu (Vince Weaver)
+Primary-site: sunsite.unc.edu /pub/Linux/logos
+              3kB linux_logo-0.1.tar.gz
+Alternate-site: http://www.glue.umd.edu/~weave/vmwprod
+Original-site:  
+Platforms: ix86 Linux.  SMP and other platforms should work, but untested.
+Copying-policy: GPL
+End
