@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------*\
-     LINUX_LOGO 3.9b1 -- Shows a Logo With some System Info - 6 August 2000
-     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
-     SUPPORTS Linux (most architectures) and some non-Linux OS's
+    LINUX_LOGO 3.9b2 -- Shows a Logo With some System Info - 5 March 2001
+    by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
+    SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
 HISTORY: 
@@ -144,10 +144,10 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-3.9b1.tar.gz
+        tar -xzvf linux_logo-3.9b2.tar.gz
 	
     enter the directory
-        cd linux_logo-3.9b1
+        cd linux_logo-3.9b2
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -414,8 +414,6 @@ Notes:
   + Megahertz only available on some platforms and newer kernels.
   + See "defaults.h" on how to have #N report in non-english numbers.
   + Plural [#S] gives nothing if there is 1 cpu, gives 's' otherwise.
-  + Megahertz [#M] and Type of CPU [#T] return a trailing space.  This makes
-    the output consistent across all chips.
   + The "-y" and "-u" [display uptime and load average] command line options
     don't affect the output if a custom format is used.
       
@@ -450,11 +448,10 @@ CREATING/USING CUSTOM LOGOS
 ------------------------------------------------------------------------->
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
-  http://www.glue.umd.edu/~weave/vmwprod/linux_logo
-  http://www.vince.weaver.org/vmwprod/linux_logo
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b1.tar.gz
+  http://www.deater.net/weave/vmwprod/linux_logo
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b2.tar.gz
   
-Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
+Check out other programs by me at http://www.deater.net/weave/vmwprod
 
 -------------------------------------------------------------------------->
 THANKS
@@ -467,5 +464,5 @@ THANKS
    
 -----------------
 Vince
-weave@eng.umd.edu
+vince@deater.net
 

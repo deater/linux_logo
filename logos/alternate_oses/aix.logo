@@ -1,6 +1,7 @@
 # AIX logo
 # by Thomas Grewe
-  
+# Ascii logo by Javier Fernandez-Sanguino Peña <jfs@computer.org>  
+
 SYSINFO_POSITION right
   
 DESCRIPTION_STRING AIX Logo
@@ -23,3 +24,22 @@ BEGIN_LOGO
 [40m                         [40m
 [40m                         [40m
 END_LOGO
+
+BEGIN_ASCII_LOGO
+                             AAAA  IIIIII XX  XX
+                            AA  AA   II    XXXX
+   ()  ()  ()  ()  ()  ()   AAAAAA   II     XX
+                            AA  AA   II    XXXX
+   ()  ()  ()  ()  ()  ()   AA  AA IIIIII XX  XX
+                          
+   ()  ()  ()  ()  ()  () 
+                          
+   ()  ()  ()  ()  ()  () 
+                          
+   ()  ()  ()  ()  ()  () 
+                          
+   ()  ()  ()  ()  ()  () 
+                          
+                          
+                          
+END_ASCII_LOGO

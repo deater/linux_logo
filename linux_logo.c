@@ -1,11 +1,11 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 3.9b1 -Creates a Nifty Logo With some System Info- 6 August 2000
+  LINUX LOGO 3.9b2 - Creates Nifty Logo With System Info - 4 March 2001
  
-    by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
+    by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
   A program to display text/ansi logos with system information.
 
-  Thanks to many, many people who sent patches in.  See the Changes file for
+  Thanks to many, many people who sent patches in.  See the CHANGES file for
      a list of all those who helped out.
  
 \*-------------------------------------------------------------------------*/
@@ -19,9 +19,10 @@
 #include <sys/time.h>
 
 #define ESCAPE '\033'
-#define VERSION "3.9b1"
+#define VERSION "3.9b2"
 
-#include "getsysinfo.h"
+#include "sysinfo.h"
+#include "linux_logo.h"
 #include "logo_types.h"
 #include "vmw_string.h"
 
@@ -31,8 +32,6 @@
 /* Some global variables.  Possibly bad in practice, but it saves a lot *\
 \* of paramater passing, which has caused bugs to develop before.       */
 
-struct os_info_type os_info;
-struct hw_info_type hw_info;
 struct logo_info    *logo_info_head = NULL;
 struct logo_info    *logo_info_tail = NULL;
 
@@ -132,7 +131,7 @@ void setup_info(struct linux_logo_info_type *settings) {
     settings->show_load=DEFAULT_SHOW_LOAD;          /* Defaults to No   */
     settings->narrow_logo=DEFAULT_NARROW_LOGO;      /* Defaults to No   */
     settings->pretty_output=DEFAULT_PRETTY_OUTPUT;  /* Defaults to Yes  */
-     
+    set_pretty_printing(DEFAULT_PRETTY_OUTPUT);     
     settings->display_logo_only=0;
     settings->display_sysinfo_only=0;
     settings->display_usertext=0;
@@ -141,7 +140,6 @@ void setup_info(struct linux_logo_info_type *settings) {
     settings->symbol_bgnd=DEFAULT_SYMBOL_BGND;      /* Defaults to '#'  */
     settings->user_text = NULL; /* Change this and display_usertext to *\
                                  \*        have a default message       */
-    settings->cpuinfo_file=NULL;
     settings->format=NULL;
 }
 
@@ -216,13 +214,37 @@ void clear_screen(struct linux_logo_info_type *settings)
    if (!settings->plain_ascii) ansi_print("^[[2J^[[0;0H\n");  
 }
 
+    /* Change uptime seconds into time string */
+char *uptime_string(int seconds) {
+   
+    int up_days,up_hrs,up_mins;
+    char temp_string[BUFSIZ];
+       
+    up_days=seconds/86400;
+    up_hrs=(seconds-(up_days*86400))/3600;
+    up_mins=(seconds-(up_days*86400)-(up_hrs*3600))/60;
+  
+    if (up_days<=0) 
+       sprintf(temp_string,"Uptime %d %s %d %s",
+	       up_hrs,(up_hrs==1 ? "hour":"hours"),
+	       up_mins,(up_mins==1 ? "minute":"minutes"));
+    else 
+       sprintf(temp_string,"Uptime %d %s %d %s %d %s",
+	       up_days,(up_days==1 ? "day":"days"),
+	       up_hrs,(up_hrs==1 ? "hour":"hours"),
+	       up_mins,(up_mins==1 ? "minute":"minutes"));
+    return strdup(temp_string);
+}
+
     /* Prints the help */
 void help_message(char *binname, char full)
 {
-    printf("\nLinux Logo Version %s",VERSION);
-    printf(" -- by Vince Weaver (weave@eng.umd.edu)\n");
+    char temp_version[256];
+    printf("\nLinux Logo Version %s using libsysinfo %s\n",VERSION,
+	   get_sysinfo_version(temp_version));
+    printf("\tby Vince Weaver <vince@deater.net>\n");
     printf("   Newest Versions at:\n");
-    printf("      http://www.glue.umd.edu/~weave/vmwprod/linux_logo\n");
+    printf("      http://www.deater.net/weave/vmwprod/linux_logo\n");
     printf("      http://metalab.unc.edu/pub/Linux/logos/penguins\n\n");
     if (!full) exit(0);
     printf("Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] "
@@ -261,10 +283,24 @@ void help_message(char *binname, char full)
     /* The nifty customizable sysinfo parser */
 int print_sysinfo(int line, char *string,
 		  struct linux_logo_info_type *settings) {
+   
+    static os_info_t os_info;
+    static cpu_info_t cpu_info;
+   
+    static int sysinfo_already_run=0; 
+   
     int x=0,y=0,len;
     int string_ptr;
-    char temp_st[5];  /* If you have more than 99,999 cpus, you have other problems */
+    char temp_string[255],hostname[65],domain[65];
+    float load_1,load_5,load_15;
    
+       /* We only need to fetch the system info once */
+    if (!sysinfo_already_run) {
+       get_os_info(&os_info);
+       get_cpu_info(&cpu_info);
+       sysinfo_already_run=1;
+    }
+       
     len=strlen(settings->format);
    
     string_ptr=0;
@@ -287,28 +323,54 @@ int print_sysinfo(int line, char *string,
 	  if (x>len) break;	  
 	  switch(settings->format[x]) {
 	   case '#': string_ptr+=vmw_strcat(string,"#"); break;
-	   case 'B': string_ptr+=vmw_strcat(string,hw_info.bogo_total); break;
+	   case 'B': sprintf(temp_string,"%.2f",cpu_info.bogomips);
+	             string_ptr+=vmw_strcat(string,temp_string); break;
 	   case 'C': string_ptr+=vmw_strcat(string,os_info.os_revision); break;
 	   case 'E': string_ptr+=vmw_strcat(string,settings->user_text); break;
-	   case 'H': string_ptr+=vmw_strcat(string,os_info.host_name); break;
-	   case 'L': string_ptr+=vmw_strcat(string,os_info.load_average); break;
-	   case 'M': string_ptr+=vmw_strcat(string,hw_info.megahertz); break;
-	   case 'N': if (hw_info.num_cpus<=9) 
-	                string_ptr+=vmw_strcat(string,ordinal[hw_info.num_cpus]); 
-	             else if (hw_info.num_cpus<=99999) {
-			sprintf(temp_st,"%d",hw_info.num_cpus);
-			string_ptr+=vmw_strcat(string,temp_st);
+	   case 'H': string_ptr+=vmw_strcat(string,get_host_name(hostname,domain)); break;
+	   case 'L': get_load_average(&load_1,&load_5,&load_15);
+	             sprintf(temp_string,"Load Average %.2f, %.2f, %.2f",load_1,load_5,load_15);
+	             string_ptr+=vmw_strcat(string,temp_string); 
+	             break;
+	   case 'M': if (cpu_info.megahertz>0.0) {
+	                if (cpu_info.megahertz>999.0) {
+			   sprintf(temp_string,"%.0fGHz",cpu_info.megahertz/1000.0);
+	                }
+	                else {
+			    sprintf(temp_string,"%.0fMHz",cpu_info.megahertz);
+			}
+	                string_ptr+=vmw_strcat(string,temp_string); 
+	             }
+	             else {
+			/* No megahertz.  Back up the pointer.  This is a hack */
+			if (string_ptr>0) string_ptr--;
+		     }
+	             break;
+	   case 'N': if (cpu_info.num_cpus<=9) 
+	                string_ptr+=vmw_strcat(string,ordinal[cpu_info.num_cpus]); 
+	             else if (cpu_info.num_cpus<=99999) {
+			sprintf(temp_string,"%d",cpu_info.num_cpus);
+			string_ptr+=vmw_strcat(string,temp_string);
 		     }
 	             else string_ptr+=vmw_strcat(string,ordinal[10]);
 	             break;
 	   case 'O': string_ptr+=vmw_strcat(string,os_info.os_name); break;
-	   case 'R': string_ptr+=vmw_strcat(string,hw_info.mem_size); break;
-	   case 'S': if (hw_info.num_cpus!=1) 
+	   case 'R': sprintf(temp_string,"%ldM",get_mem_size());
+	             string_ptr+=vmw_strcat(string,temp_string); 
+                     break;
+	   case 'S': if (cpu_info.num_cpus!=1) 
 	                string_ptr+=vmw_strcat(string,"s"); break;
-	   case 'T': string_ptr+=vmw_strcat(string,hw_info.cpu_type); break; 
-	   case 'U': string_ptr+=vmw_strcat(string,os_info.uptime); break;
+	   case 'T': string_ptr+=vmw_strcat(string,cpu_info.chip_type); break; 
+	   case 'U': string_ptr+=vmw_strcat(string,uptime_string(get_uptime())); 
+	             break;
 	   case 'V': string_ptr+=vmw_strcat(string,os_info.os_version); break;
-	   case 'X': string_ptr+=vmw_strcat(string,hw_info.cpu_vendor); break;
+	   case 'X': if (!strncmp(cpu_info.chip_vendor,"Unknown",7)) { 
+	                if (string_ptr>0) string_ptr--;
+	             }
+	             else {
+	                string_ptr+=vmw_strcat(string,cpu_info.chip_vendor); 
+		     }
+		     break;
 	   default: printf("\nInvalid format '#%c'\n",settings->format[x]);
 	  }
        }
@@ -378,12 +440,6 @@ void draw_logo(struct logo_info *logo_override,
 
     if (settings->wipe_screen) clear_screen(settings);
   
-       /* Get the sysinfo if we're going to need it */
-    if (!settings->display_logo_only) {
-       get_os_info(&os_info);
-       get_hw_info(&hw_info,settings);
-    }
-   
        /* Select the proper logo */
     if (settings->plain_ascii) {
        ysize=our_logo_info->ascii_ysize;
@@ -473,7 +529,6 @@ int main(int argc,char **argv)
    
        /* Set some defaults */
     setup_info(&settings); 
-    settings.cpuinfo_file=strdup("/proc/cpuinfo");
     
        /* Parse command line arguments */
     while ((c = getopt (argc, argv,"D:F:L:"
@@ -482,10 +537,12 @@ int main(int argc,char **argv)
 	  case 'a': settings.plain_ascii=1; break;
 	  case 'b': settings.banner_mode=1; break;
 	  case 'c': settings.banner_mode=0; break;
-	  case 'd': settings.pretty_output=0; break; 
+	  case 'd': settings.pretty_output=0; 
+	            set_pretty_printing(0);
+	            break; 
 	  case 'D': custom_logo=load_logo_from_disk(optarg);
 	            break;
-	  case 'e': settings.cpuinfo_file=strdup(optarg); break;
+	  case 'e': set_cpuinfo_file(optarg); break;
 	  case 'f': settings.wipe_screen=1; break;
 	  case 'F': 
 	            settings.custom_format=1;

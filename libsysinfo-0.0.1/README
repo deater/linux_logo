@@ -1,0 +1,120 @@
+libsysinfo -- by Vince Weaver <vince@deater.net>
+
+HISTORY:
+	This library started off as simply the sysinfo detection part
+	of the linux_logo program.
+	
+	Gradually linux_logo was split more and more between the logo
+	part and the sysinfo part.  The connection ended up being
+	so small that I ended up splitting them for a cleaner interface.
+	
+	I am debating whether I should release this as a package on its
+	own, to be used by other programs.
+
+Theory of Operation:
+   See the respective operating system directories for how the info is
+   gathered.
+   
+   The "all" directory holds the common routines used by all os's.
+   
+   The "configure" file is a c-program used to determine OS/arch.  It
+   is a hack.
+
+INTERFACE:
+   Include the "sysinfo.h" file to get the proper defines.
+   Link against libsysinfo
+
+   [---]
+
+   char *get_sysinfo_version(char *version);
+   
+        Returns a string with version info, such as "2.3.4".  This is 
+	used so programs that use libsysinfo can display what version
+	they are linked against.
+	
+   [---]
+   
+   int get_numeric_sysinfo_version(void);
+
+        Returns a numeric version info, like 2003004 or some such.  
+	Useful so you can use a simple "if get_numeric_version() > OUR_VERSION"
+	type construct to see if a new enough libsysinfo is installed.
+
+   [---]
+
+   int get_os_info(os_info_t *os_info);
+
+   typedef struct {
+      char os_name[33]; 
+      char os_version[33]; 
+      char os_revision[65];
+   } os_info_t;
+
+       get_os_info() returns the above struct.  On unix-like operating
+       systems the uname() function fills in most of this info.
+       
+   [---]
+   
+   char *get_host_name(char hostname[65],char domain[65]);
+
+       Returns the hostname and filles in the domain name.  Domain name is not
+       always guaranteed to return a proper value.
+
+   [---]
+
+   int get_uptime(void);
+
+      Returns the number of seconds the machine has been turned on.
+
+   [---]
+   
+   void get_load_average(float *load_1,float *load_5,float *load_15);
+
+      Fills in values for the 1, 5, and 15 minute load averages.
+
+   [---]
+   
+   int get_cpu_info(cpu_info_t *cpu_info);
+
+   typedef struct {
+      int num_cpus;
+      float megahertz;
+      float bogomips;
+      char chip_vendor[33];
+      char chip_type[64];
+   } cpu_info_t;
+
+     get_cpu_info() returns info on the cpus installed.
+     On Linux /proc/cpuinfo is querried to obtain this information.
+     Some "pretty-printing" is done to clean up the results a bit.
+     
+   [---]
+    
+   int get_hardware_info(char hardware_string[65]);
+  
+      Fills in a string with extraneous hardware info. 
+      This might be the machine type, or some other string.
+      On Linux this is also obtained from /proc/cpuinfo.
+      It is empty on the ix86 architecture.
+
+
+   [---]
+   
+   long int get_mem_size(void);
+
+      Returns memory size in bytes.  This will overflow on systems
+      with >2GB of memory currently.
+      
+   [---]   
+
+   int set_cpuinfo_file(char *filename);
+   
+      This is used to set the file used instead of /proc/cpuinfo.
+      I use this during debugging to point to non-native cpuinfo files.
+   
+   [---]
+   
+   void set_pretty_printing(int value);
+
+      Set whether to do pretty-printing or not.  Currently disables
+      some, but not all, pretty-printing.

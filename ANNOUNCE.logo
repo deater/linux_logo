@@ -1,14 +1,18 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.9b1 -- Shows a Logo With some System Info - 6 August 2000
-     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
+   LINUX_LOGO 3.9b2 -- Shows a Logo With some System Info - 5 March 2001
+     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
-   SUPPORTS Linux (all but s390, SH, ia64) and some non-Linux OS's
+   SUPPORTS Linux (all but s390, SH, cris) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 3.9b1 of my linux_logo package.  
+I have released version 3.9b2 of my linux_logo package.  
 
-A sample ascii output of the new banner mode is attached to the end.  The
-banner looks much, much cooler in color ;)
+A sample ascii output of the new banner mode is attached to the end.  
+
+NEW IN VERSION 3.9b2
+  -- Complete overhaul of sysinfo code
+  -- Finally fix AMD Duron support
+  -- optional assembly-language version
 
 NEW IN VERSION 3.9b1
   -- Re-wrote logo_generation code
@@ -40,11 +44,10 @@ USES [instructions included]
 -------------------------------------------------------------------------
 WHERE TO GET LINUX_LOGO:
 -------------------------------------------------------------------------
-  http://www.glue.umd.edu/~weave/vmwprod/linux_logo
-  http://www.vince.weaver.org/vmwprod/linux_logo
-  http://metalab.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b1.tar.gz
+  http://www.deater.net/weave/vmwprod/linux_logo
+  http://metalab.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b2.tar.gz
   
-Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
+Check out other programs by me at http://www.deater.net/weave/vmwprod
 
 -------
                                                                  #####         

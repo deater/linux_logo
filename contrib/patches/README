@@ -1,0 +1,7 @@
+These are some patches I've been sent that are under consideration,
+and included here to avoid duplication of work.
+
+
+i18n:	I am considering this.  Is it worth the extra overhead?
+        I do know there are many, many non-AmericanEnglish 
+	users of linux-logo.

@@ -513,3 +513,47 @@
   crusoe and improved Athlon support.
 + Re-write most of the documentation
 + Release 3.9b1 to Freshmeat hopefully.
+
+11 February 2001
++ Started the big sysinfo-rewrite I have been meaning to work on.
++ Worked out the libsysinfo interface.  Should I spin it off as a separate
+  project?
++ Final Fantasy 8 intervened
+
+13 February 2001
++ Gave up on the idea of a special birthday release
+
+19 February 2001
++ Started messing with some self-generating Makefiles
++ Got sysinfo_ix86 sort of auto-detecting and working
+
+20 February 2001
++ Fix all occurances of e-mail and web-page to my hopefully permanent
+  "vince@deater.net" address.
+
+23 February 2001
++ Wrote "ll" linux_logo in assembly language.  Added in the ll_asm
+  directory.
+
+24 February 2001
++ Finished x86 support to work on my machine
+
+3 March 2001
++ Finished x86 support to work on all cpuinfo's in my collection
++ Changed so reports GHz if over 1000Mhz.
++ Finished updating Alpha.
++ Finished updating ARM.
++ Finished updating m68k
++ Finished updating mips
+
+4 March 2001
++ Finished updating PPC
++ Finished updating Sparc
++ Started a libsysinfo specific CHANGES and README file
++ Merged in some ascii logos and readme updates from 
+  Javier Fernandez-Sanguino Peña <jfs@computer.org>
++ Looked into merging in i18n patch.  Sill a bit wary of it.
+
+5 March 2001
++ Release 3.9b2 to servers.  Hoepfully can realease 4.0
+  after a normal bugfixing period.

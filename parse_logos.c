@@ -6,8 +6,6 @@
 #include <string.h>
 #include <sys/utsname.h>
 
-
-#include "getsysinfo.h"
 #include "logo_types.h"
 #include "vmw_string.h"
 

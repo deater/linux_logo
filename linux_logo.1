@@ -2,7 +2,7 @@
 .\" ** The above line should force tbl to be a preprocessor **
 .\" Man page for linux_logo
 .\"
-.TH LINUX_LOGO 1 "19 June 1999" "Debian" "Debian GNU/Linux Manual"
+.TH LINUX_LOGO 1 "5 March 2001" "Debian" "Debian GNU/Linux Manual"
 .SH NAME
 linux_logo \- Color ANSI penguin logo w/ system information.
 .SH SYNOPSIS
@@ -29,8 +29,20 @@ Display the banner-style logo.
 .B \-classic -c
 Display the original penguin logo.
 .TP
+.B \-d
+Disable "prettying" of output
+.TP
+.B \-D filename
+Use logo from "filename"
+.TP
+.B \-e filename
+Use cpuinfo from "filename" for debugging purposes
+.TP
 .B \-f
 Force the screen clear before drawing the logo.
+.TP
+.B \-F STRING
+Use custom output STRING for sysinfo.  See below for more info.
 .TP
 .B \-g
 Display only the system infomation.
@@ -38,8 +50,14 @@ Display only the system infomation.
 .B \-l
 Display only the logo.
 .TP
-.B \-n
-Do not display the 'Classic' logo background periods.
+.B \-L ...
+Custom logo options.  See README
+.TP
+.B \-o Num
+Shift output Num spaces to the right
+.TP
+.B \-p
+Preserve cursor location
 .TP
 .B \-s
 Skip the BogoMips test [ speeds up display on non-Linux platforms ].
@@ -50,56 +68,11 @@ Display an arbitrary string
 .B \-u
 Display the system uptime.
 .TP
-.B \-x
-Display Narrow Logo.
+.B \-w val
+Set screen width to val
 .TP
 .B \-y
 Display the load average.
-.TP
-.B \-kX
-Replace the background character with X.
-.TP
-.B \-o Num
-Offset the output by Num spaces to the right.
-.TP
-.B \-p
-Preserve the cursor location.
-.TP
-.B \-rX
-Replace the '#' character, in banner mode, with X.
-.TP
-.B \-w Num
-Set the screen width to Num [ default is 80 ].
-.TP
-.B \-F String
-Use "String" to format the output of the system information.
-See the
-.B "PROCESSOR INFORMATION"
-section below for more details.
-
-.\" Here is how we do a table...
-.TS
-tab (@);
-l l.
-Special@Stands For
-_
-##@#
-#B@Bogomips                       
-#C@Compiled Date                
-#E@User Text [given with the -t]       
-#H@Hostname                          
-#L@Load average                       
-#M@Megahertz [where supported]        
-#N@Number of CPU's                     
-#O@Operating System Name               
-#R@Ram [in Megabytes]                 
-#S@Plural                            
-#T@Type of CPU                         
-#U@Uptime                              
-#V@Version of OS                     
-#X@CPU Vendor                          
-\\\\n@carriage return
-.TE
 
 .SH PROCESSOR INFORMATION
 .SS CPUINFO
@@ -171,9 +144,6 @@ on how to have #N report in non-english numbers.
 .IP \(bu 4
 Plural [#S] gives nothing if there is 1 cpu, gives 's' otherwise.
 .IP \(bu 4
-Megahertz [#M] and Type of CPU [#T] return a trailing space.  This
-makes the output consistent across all chips.
-.IP \(bu 4
 The "-y" and "-u" [display uptime and load average] command line
 options don't affect the output if a custom format is used.
 .PP
@@ -218,11 +188,11 @@ The package includes a utility,
 .BR linuxlogoconfig (8)
 for selecting if the linuxlogo is displayed at boot time or at the login prompt.
 .SH "SEE ALSO"
-.IR /usr/doc/linux_logo ", http://www.glue.umd.edu/~weave"
+.IR /usr/doc/linux_logo ", http://www.deater.net/weave"
 .SH AUTHOR
 .TP
 Vince Weaver
-<weave@eng.umd.edu>.
+<vince@deater.net>.
 .PP
 This manual page was written by Steve Kostecke <steve@debian.org>,
 for the Debian GNU/Linux system.

@@ -1,10 +1,6 @@
 KNOWN "FEATURES"
 
-% character won't work in ascii art if catting to /etc/issue.net
-
-no plain ascii art for non-linux platforms.
 
 centering of system info below the banner isn't exactly quite center
 
-uptime option doesn't work for architectures without /proc/uptime.
-   This is possible to add by scanning the utmp file.
+Lots more to find and iron-out before 4.0

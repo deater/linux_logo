@@ -6,39 +6,39 @@ DESCRIPTION_STRING Debian Swirl Logos
 
 BEGIN_LOGO
 [0m[37m[40m                               [0;37;40m
-[0;1;31;40m           [41m.........[40m             [0;37;40m[1;47mDDDD[3CEEEEEE[1CBBBB[3CIIIIII[2CAAAA[3CNN[3CNN[40m
-[0;1;31;40m        [41m...............[40m          [0;37;40m[1;47mDD[1CDD[2CEE[5CBB[1CBB[4CII[3CAA[2CAA[2CNNN[2CNN[40m
-[0;1;31;40m      [41m.....[40m          [41m....[40m        [0;37;40m[1;47mDD[2CDD[1CEEEEE[2CBBBBB[4CII[3CAAAAAA[2CNNNN[1CNN[40m
-[0;1;31;40m     [41m.....[40m    [41m.....[40m    [41m....[40m      [0;37;40m[1;47mDD[1CDD[2CEE[5CBB[2CBB[3CII[3CAA[2CAA[2CNN[1CNNNN[40m
-[0;1;31;40m   [41m.....[40m    [41m.........[40m   [41m....[40m     [0;37;40m[1;47mDDDD[3CEEEEEE[1CBBBBB[2CIIIIII[1CAA[2CAA[2CNN[3CNN[40m
-[0;1;31;40m  [41m.....[40m    [41m....[40m   [41m....[40m  [41m....[40m   [0;37;40m
-[0;1;31;40m [41m.....[40m    [41m....[40m     [41m...[40m  [41m....[40m   [0;37;40m
-[0;1;31;40m [41m.....[40m     [41m....[40m  [41m...[40m   [41m....[40m    [0;37;40m
-[0;1;31;40m  [41m.....[40m     [41m....[40m      [41m....[40m     [0;37;40m
-[0;1;31;40m   [41m.....[40m     [41m....[40m  [41m.....[40m       [0;37;40m
-[0;1;31;40m    [41m.....[40m      [41m.......[40m         [0;37;40m
-[0;1;31;40m     [41m.....[40m                     [0;37;40m
-[0;1;31;40m      [41m.....[40m                    [0;37;40m
-[0;1;31;40m        [41m.....[40m                  [0;37;40m
-[0;1;31;40m          [41m......[40m               [0;37;40m
-[0;1;31;40m             [41m.......[40m           [0;37;40m
+[0;1;31;40m         [31m_sudZUZ#Z#XZo=_[40m         [0;37;40m[1;47mDDDD[3CEEEEEE[1CBBBB[3CIIIIII[2CAAAA[3CNN[3CNN[40m
+[0;1;31;40m      [31m_jmZZ2!!~---~!!X##wa[40m       [0;37;40m[1;47mDD[1CDD[2CEE[5CBB[1CBB[4CII[3CAA[2CAA[2CNNN[2CNN[40m
+[0;1;31;40m   [31m.<wdP~~[40m            [31m-!YZL,[40m     [0;37;40m[1;47mDD[2CDD[1CEEEEE[2CBBBBB[4CII[3CAAAAAA[2CNNNN[1CNN[40m
+[0;1;31;40m  [31m.mX2'[40m       [31m_%aaa__[40m     [31mXZ[.[40m   [0;37;40m[1;47mDD[1CDD[2CEE[5CBB[2CBB[3CII[3CAA[2CAA[2CNN[1CNNNN[40m
+[0;1;31;40m  [31moZ[[40m      [31m_jdXY!~?S#wa[40m   [31m]Xb;[40m   [0;37;40m[1;47mDDDD[3CEEEEEE[1CBBBBB[2CIIIIII[1CAA[2CAA[2CNN[3CNN[40m
+[0;1;31;40m [31m_#e'[40m     [31m.]X2([40m     [31m~Xw|[40m  [31m)XXc[40m [0;37;40m
+[0;1;31;40m[31m.2Z`[40m      [31m]X[.[40m       [31mxY|[40m  [31m]oZ([40m [0;37;40m
+[0;1;31;40m[31m.2#;[40m      [31m)3k;[40m     [31m_s!~[40m   [31mjXf`[40m [0;37;40m
+[0;1;31;40m [31m1Z>[40m      [31m-]Xb/[40m    [31m~[40m    [31m__#2([40m  [0;37;40m
+[0;1;31;40m [31m-Zo;[40m       [31m+!4ZwaaaauZZXY'[40m    [0;37;40m
+[0;1;31;40m  [31m*#[,[40m        [31m~-?!!!!!!-~[40m      [0;37;40m
+[0;1;31;40m   [31mXUb;.[40m                       [0;37;40m
+[0;1;31;40m    [31m)YXL,,[40m                     [0;37;40m
+[0;1;31;40m      [31m+3#bc,[40m                   [0;37;40m
+[0;1;31;40m        [31m-)SSL,,[40m                [0;37;40m
+[0;1;31;40m           [31m~~~~~[40m               [0;37;40m
 END_LOGO
 
 BEGIN_ASCII_LOGO
-           .........             DDDD   EEEEEE BBBB   IIIIII  AAAA   NN   NN
-        ...............          DD DD  EE     BB BB    II   AA  AA  NNN  NN
-      .....          ....        DD  DD EEEEE  BBBBB    II   AAAAAA  NNNN NN
-     .....    .....    ....      DD  DD EE     BB  BB   II   AA  AA  NN NNNN
-   .....    .........   ....     DDDD   EEEEEE BBBBB  IIIIII AA  AA  NN   NN
-  .....    ....   ....  ....   
- .....    ....     ...  ....   
- .....     ....  ...   ....    
-  .....     ....      ....     
-   .....     ....  .....       
-    .....      .......         
-     .....                     
-      .....                    
-        .....                  
-          ......               
-             .......           
+         _sudZUZ#Z#XZo=_         DDDD   EEEEEE BBBB   IIIIII  AAAA   NN   NN
+      _jmZZ2!!~---~!!X##wa       DD DD  EE     BB BB    II   AA  AA  NNN  NN
+   .<wdP~~            -!YZL,     DD  DD EEEEE  BBBBB    II   AAAAAA  NNNN NN
+  .mX2'       _%aaa__     XZ[.   DD  DD EE     BB  BB   II   AA  AA  NN NNNN
+  oZ[      _jdXY!~?S#wa   ]Xb;   DDDD   EEEEEE BBBBB  IIIIII AA  AA  NN   NN
+ _#e'     .]X2(     ~Xw|  )XXc 
+..2Z`      ]X[.       xY|  ]oZ( 
+..2#;      )3k;     _s!~   jXf` 
+ 1Z>      -]Xb/    ~    __#2(  
+ -Zo;       +!4ZwaaaauZZXY'    
+  *#[,        ~-?!!!!!!-~      
+   XUb;.                       
+    )YXL,,                     
+      +3#bc,                   
+        -)SSL,,                
+           ~~~~~               
 END_ASCII_LOGO

@@ -4,8 +4,8 @@
 
 /* This is the default format of the output file.  See the README for more *\
 \* information on how to configure this option.                            */
-#define DEFAULT_BANNER_FORMAT "#O Version #V, Compiled #C\n#N #M#X#T Processor#S, #R RAM, #B Bogomips Total\n#H\n"
-#define DEFAULT_CLASSIC_FORMAT "#O Version #V\nCompiled #C\n#N #M#X#T Processor#S, #R RAM\n#B Bogomips Total\n#H\n"
+#define DEFAULT_BANNER_FORMAT "#O Version #V, Compiled #C\n#N #M #X #T Processor#S, #R RAM, #B Bogomips Total\n#H\n"
+#define DEFAULT_CLASSIC_FORMAT "#O Version #V\nCompiled #C\n#N #M #X #T Processor#S, #R RAM\n#B Bogomips Total\n#H\n"
 
 /* This option picks the default mode of the linux_logo program.            *\
 \* If a 1 is picked, banner mode will be the default mode.                  */
@@ -74,7 +74,8 @@
 #define DEUTSCH 1
 #define NEDERLANDS 2
 #define ITALIANO 3
-#define FRENCH 4
+#define FRENCH   4
+#define SPANISH  5
 #define LANGUAGE ENGLISH
 
 #if LANGUAGE==ENGLISH
@@ -92,8 +93,11 @@ char ordinal[11][10]={"Zero","Uno","Due","Tre","Quattro","Cinque","Sei",
 #elif LANGUAGE==FRENCH
 char ordinal[11][10]={"Aucun","Un","Deux","Trois","Quatre","Cinq","Six",
                                           "Sept","Huit","Neuf","Plusieurs" };
+#elif LANGUAGE==SPANISH                                                         
+char ordinal[11][10]={"Cero","Un","Dos","Tres","Cuatro","Cinco","Seis",         
+                                               "Siete","Ocho","Nueve","Muchos" 
+};   
 #endif
-
 /* --------------------Logo File Defaults-----------------------------------*/
 
 /* You can replace the names of the files pointed to here as long as the  *\

@@ -1,0 +1,22 @@
+struct linux_logo_info_type {
+       int width;
+       int no_periods;
+       int preserve_xy;
+       int skip_bogomips;
+       int offset;
+       int plain_ascii;
+       int banner_mode;
+       int wipe_screen;
+       int show_uptime;
+       int show_load;
+       int narrow_logo;
+       int display_logo_only;
+       int display_sysinfo_only;
+       int display_usertext;
+       int custom_format;
+       int pretty_output;
+       char symbol;
+       char symbol_bgnd;
+       char *user_text;
+       char *format;
+};

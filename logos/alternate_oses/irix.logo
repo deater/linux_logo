@@ -1,6 +1,7 @@
 # Irix Logo
 # Drawn, rather poorly, by Vince Weaver
-  
+# Ascii by Javier Fernandez-Sanguino Peña <jfs@computer.org>  
+
 SYSINFO_POSITION right
   
 DESCRIPTION_STRING Irix Logo
@@ -24,3 +25,23 @@ BEGIN_LOGO
 [6COO[0mNN  NN[1;30mO      
 
 END_LOGO
+
+BEGIN_ASCII_LOGO
+        >>>> OOO        IIIIII IIIIII IIIIII II  II
+      >>>>>N NOOOO        II   II  II   II    IIII
+    OOO>> NN NN OOOO      II   IIIIII   II     II
+     OOOO NN NN  NNN      II   II II    II    IIII
+       OOONN NNNNN      IIIIII II  II IIIIII II  II
+  OOOO  OOON NNN   NNN
+  NNOOO >>OONN >> NNNN
+  NN  OOOO    NNNNN NN
+  NN>>>OOOO>>>NN >> NN
+  NN>>  >NN> NN>> >>NN
+  NN  >>>NN  NN >>  NN
+     >>> NN  NN  >>   
+    OOO  NN  NN   OOO 
+     OOO NN  NN OOO   
+      OOONN  NNOOO    
+       OONN  NNO      
+ 
+END_ASCII_LOGO

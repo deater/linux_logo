@@ -111,12 +111,22 @@ Creating custom logo files:
 	  
     + Be sure to remember to end your directives, and not to nest logo
       directives.  I have not tested the parser to see how robust it is.
-	  
+ 
+    + Be sure to have both a LOGO and a ASCII_LOGO in the logo file 
+      if not, parse_logo will not be able to add them (core dump :(
+      You might use the script in contrib/script/logo2ascii in order to
+      conver them.
+
  References:
  ----------       
           A good ansi editor [under development] from Adam Lackorzynski
 	       can be obtained at http://www.inf.tu-dresden.de/~al10/aae/
 	   
 	  For DOS/Windows I reccommend TheDraw ansi editor.
-	  
-	  Search for "Ansi Editor" on freshmeat.net for more.
+ 
+ 	  Some tools to convert from graphic formats to ascii art can be found
+ 	  in the netpbm toolkit at
+           ftp://wuarchive.wustl.edu/graphics/graphics/packages/NetPBM/ 
+           (useful to change your cool logo from gif/jpeg to ascii)
+  	  
+  	  Search for "Ansi Editor" on freshmeat.net for more.

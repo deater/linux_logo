@@ -1,0 +1,970 @@
+diff -Nur linux_logo-3.9b1/Makefile linux_logo-3.9b1-i18n/Makefile
+--- linux_logo-3.9b1/Makefile	Sun Aug  6 19:47:22 2000
++++ linux_logo-3.9b1-i18n/Makefile	Mon Oct 23 20:24:31 2000
+@@ -17,18 +17,24 @@
+ #C_OPTS = -O2 
+ 
+ all:	parse_logos linux_logo
++	(cd po && make)
+ 
+ clean:
+ 	rm -f *.o
+ 	rm -f linux_logo parse_logos
+ 	rm *~
++	(cd po && make clean)
+ 
+ install:	linux_logo
+ 	cp linux_logo /usr/local/bin
++	(cd po && make install)
+ 	
+ linux_logo:	linux_logo.o sysinfo.o bogomips.o vmw_string.o
+ 	$(CC) $(C_OPTS) -o linux_logo linux_logo.o bogomips.o sysinfo.o vmw_string.o $(L_OPTS)
+ 	@strip linux_logo
++
++debug:	linux_logo.o sysinfo.o bogomips.o vmw_string.o
++	$(CC) $(C_OPTS) -ggdb -o linux_logo linux_logo.o bogomips.o sysinfo.o vmw_string.o $(L_OPTS)
+ 
+ vmw_string.o:	vmw_string.c
+ 	$(CC) $(C_OPTS) -c vmw_string.c
+diff -Nur linux_logo-3.9b1/contrib/scripts/login_script linux_logo-3.9b1-i18n/contrib/scripts/login_script
+--- linux_logo-3.9b1/contrib/scripts/login_script	Sat Dec  5 16:34:16 1998
++++ linux_logo-3.9b1-i18n/contrib/scripts/login_script	Mon Oct 23 20:24:20 2000
+@@ -8,7 +8,7 @@
+ 
+ R=$(cat /etc/redhat-release)
+ 
+-#eval resize# if [ $LINES >= 40 ]; then
++#eval resize# if [ $LINES >= 40 ]; then
+ 
+ #$HOME/bin/linux_logo -ascii -y -u
+ 
+diff -Nur linux_logo-3.9b1/defaults.h linux_logo-3.9b1-i18n/defaults.h
+--- linux_logo-3.9b1/defaults.h	Sun Jul 30 01:06:44 2000
++++ linux_logo-3.9b1-i18n/defaults.h	Mon Oct 23 20:24:31 2000
+
++/* This is the default format of the output file.  See the README for more *\
++\* information on how to configure this option.                            */
++
++/* intl adapt ( 2 linux_logo.c ) 
++ define DEFAULT_BANNER_FORMAT 
++ define DEFAULT_CLASSIC_FORMAT 
++*/
+
+
++/* Here you can change the default language with which to say how many   *\
++\* Processors you have.  I have invcluded the only two languages I know  */
++
++char ordinal[11][10]={S_("Zero"),S_("One"),S_("Two"),S_("Three"),S_("Four"),S_("Five"),S_("Six"),
++	                                 S_("Seven"),S_("Eight"),S_("Nine"),S_("Many")};
++
++/* --------------------Logo File Defaults-----------------------------------*/
+
+diff -Nur linux_logo-3.9b1/i18n.h linux_logo-3.9b1-i18n/i18n.h
+--- linux_logo-3.9b1/i18n.h	Wed Dec 31 21:00:00 1969
++++ linux_logo-3.9b1-i18n/i18n.h	Mon Oct 23 20:24:31 2000
+@@ -0,0 +1,23 @@
++// This program is free software; you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation; either version 2 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program; if not, write to the Free Software
++// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++//
++// Tech Informática LTDA <http://www.techlinux.com.br>
++// Carlos Eduardo Gorges <carlos@techlinux.com.br>
++
++/* default header (libintl.h) */
++
++#undef __OPTIMIZE__
++#include <libintl.h>
++#define _(String) gettext((String))
++#define S_(String) (String)
+
+diff -Nur linux_logo-3.9b1/linux_logo.c linux_logo-3.9b1-i18n/linux_logo.c
+--- linux_logo-3.9b1/linux_logo.c	Sun Aug  6 18:45:11 2000
++++ linux_logo-3.9b1-i18n/linux_logo.c	Mon Oct 23 20:24:31 2000
+
++void help_message(char *binname, char full)
++{
++    printf(_("\nLinux Logo Version %s"),VERSION);
++    printf(_(" -- by Vince Weaver (weave@eng.umd.edu)\n"));
++    printf(_("i18n by Carlos Eduardo Gorges <carlos@techlinux.com.br>\n"));
++    printf(_("   Newest Versions at:\n"));
++    printf("      http://www.glue.umd.edu/~weave/vmwprod/linux_logo\n");
++    printf("      http://metalab.unc.edu/pub/Linux/logos/penguins\n\n");
++    printf(_("   Newest i18n Versions at:\n")); 
++    printf("      ftp://ftp.techlinux.com.br/pub/devel/linux_logo-i18n/\n\n");
++    if (!full) exit(0);
++    printf(_("Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] "
++	   "[-g]\n"
++	   "                    [-h] [-l] [-n] [-o num] [-p] [-s] [-t str] "
++	   "[-u] [-v]\n"
++           "                    [-w Num] [-x] [-y] [-F format] "
++	   "[-L num | list | random_xy]\n"),binname);
++    printf(_("         [-a]     -- Display an ascii-only Logo\n"));
++    printf(_("         [-b]     -- Display a Banner Logo!\n"));
++    printf(_("         [-c]     -- Display a \"Classic\" type logo\n"));
++    printf(_("         [-d]     -- disable \"prettying\" of output\n"));
++    printf(_("         [-D file]-- use custom logo from \"file\"\n")); 
++    printf(_("         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for "
++	   "debugging\n"));
++    printf(_("         [-f]     -- force the screen clear before drawing\n"));
++    printf(_("         [-F format] Format output.  See README.\n"));
++    printf(_("      B  [-g]     -- give system info only\n"));
++    printf(_("         [-h]     -- this help screen\n"));
++    printf(_("      B  [-l]     -- display logo only\n"));
++    printf(_("      C  [-o Num] -- offset output Num spaces to the right\n"));
++    printf(_("         [-p]     -- preserve cursor location\n"));
++    printf(_("         [-s]     -- skip Bogomips [speeds up on non-Linux "
++           "platforms]\n"));
++    printf(_("         [-t str] -- display user-supplied string\n"));
++    printf(_("      *  [-u]     -- show uptime\n"));
++    printf(_("         [-v]     -- version information\n"));
++    printf(_("         [-w Num] -- set width of screen to Num [default 80]\n"));
++    printf(_("      *  [-y]     -- show load average\n"));
++    printf(_("         [-L ...] -- multiple Logo options.  See README\n\n"));
++    printf(_(" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux"
++	   "\n\n"));
++    exit(0); 
++}
+
+
+
++int print_sysinfo(int line, char *string,
++		  struct linux_logo_info_type *settings) {
++    int x=0,y=0,len;
++    int string_ptr;
++    char temp_st[5];  /* If you have more than 99,999 cpus, you have other problems */
++   
++    len=strlen(settings->format);
++   
++    string_ptr=0;
++    string[string_ptr]='\000';
++
++    while (y<line) {
++        if (settings->format[x]=='\n') y++;
++        x++;
++        if (x>len) return 1;
++    }
++    
++    while (settings->format[x]!='\n') {
++       if (settings->format[x]!='#') {
++	  string[string_ptr]=settings->format[x];
++	  string_ptr++;
++       }
++       else {
++	  string[string_ptr]='\000';
++	  x++;
++	  if (x>len) break;	  
++	  switch(settings->format[x]) {
++	   case '#': string_ptr+=vmw_strcat(string,"#"); break;
++	   case 'B': string_ptr+=vmw_strcat(string,hw_info.bogo_total); break;
++	   case 'C': string_ptr+=vmw_strcat(string,os_info.os_revision); break;
++	   case 'E': string_ptr+=vmw_strcat(string,settings->user_text); break;
++	   case 'H': string_ptr+=vmw_strcat(string,os_info.host_name); break;
++	   case 'L': string_ptr+=vmw_strcat(string,os_info.load_average); break;
++	   case 'M': string_ptr+=vmw_strcat(string,hw_info.megahertz); break;
++	   case 'N': if (hw_info.num_cpus<=9) 
++	                string_ptr+=vmw_strcat(string,_(ordinal[hw_info.num_cpus])); 
++	             else if (hw_info.num_cpus<=99999) {
++			sprintf(temp_st,"%d",hw_info.num_cpus);
++			string_ptr+=vmw_strcat(string,temp_st);
++		     }
++	             else string_ptr+=vmw_strcat(string,_(ordinal[10]));
++	             break;
++	   case 'O': string_ptr+=vmw_strcat(string,os_info.os_name); break;
++	   case 'R': string_ptr+=vmw_strcat(string,hw_info.mem_size); break;
++	   case 'S': if (hw_info.num_cpus!=1) 
++	                string_ptr+=vmw_strcat(string,_("s")); break;
++	   case 'T': string_ptr+=vmw_strcat(string,hw_info.cpu_type); break; 
++	   case 'U': string_ptr+=vmw_strcat(string,os_info.uptime); break;
++	   case 'V': string_ptr+=vmw_strcat(string,os_info.os_version); break;
++	   case 'X': string_ptr+=vmw_strcat(string,hw_info.cpu_vendor); break;
++	   default: printf(_("\nInvalid format '#%c'\n"),settings->format[x]);
++	  }
++       }
++       x++;
++       if (x>len) break;
++    }
++   
++    string[string_ptr]='\000';
++    return 0;
++}
+
+
++    if (logo_info_head==NULL) {    
++       printf(_("\n\nNo logos available!!\n"));
++       return;
++    }
+
+
+
++	     printf(_("\nAppropriate logo not found!\n\n"));
+
++	  printf(_("\nSpecified logo has no ascii version!\n\n"));
+
++	  printf(_("\nSpecified logo has no non-ascii version!\n\n"));
+
++	     printf(_("\nError! Classic logos must be at least 7 lines long!\n"));
+
+
+main()
+
++    	/* i18n */
++    bindtextdomain("linux_logo", "/usr/share/locale");
++    textdomain("linux_logo");
+
+
++			  printf(_("\nUnknown -L directive!\n\n"));
+
+
++    if (do_listing) {
++       printf(_("\nAvailable Built-in Logos:\n"));
++       printf(_("\tNum\tType\tAscii\tDescription\n"));
+
++       printf(_("\nDo \"linux_logo -L num\" where num is from "
++	      "above to get the appropriate logo.\n"));
++       printf(_("Remember to also use -a to get ascii version.\n\n"));
+
++	  printf(_("\nSorry, can't generate random logo of that type.\n\n"));
+
++	      printf(_("\nError!  Logo %d is invalid!  \"linux_logo -L list\""
++		     " lists valid logo numbers.\n\n"),logo_num);
+
+
++		_("#O Version #V, Compiled #C\n#N #M #X#T Processor#S, #R RAM, #B Bogomips Total\n#H\n")
++		);
++	        settings.format=DEFAULT_BANNER_FORMAT;
++	} else {
++		sprintf(DEFAULT_CLASSIC_FORMAT,"%s",
++		_("#O Version #V, Compiled #C\n#N #M #X#T Processor#S, #R RAM, #B Bogomips Total\n#H\n")
++		);
++		settings.format=DEFAULT_CLASSIC_FORMAT;
+
+diff -Nur linux_logo-3.9b1/parse_logos.c linux_logo-3.9b1-i18n/parse_logos.c
+--- linux_logo-3.9b1/parse_logos.c	Wed Aug  2 00:58:43 2000
++++ linux_logo-3.9b1-i18n/parse_logos.c	Mon Oct 23 20:24:31 2000
+@@ -10,6 +10,7 @@
+ #include "getsysinfo.h"
+ #include "logo_types.h"
+ #include "vmw_string.h"
++#include "i18n.h"
+ 
+ 
+ struct logo_info *load_logo_from_disk(char *filename) {
+@@ -25,7 +26,7 @@
+    fff=fopen(filename,"r");
+    
+    if (fff==NULL) {
+-      printf("\nError!  File %s doesn't exist!\n\n",filename);
++      printf(_("\nError!  File %s doesn't exist!\n\n"),filename);
+       return NULL;
+    }
+    
+@@ -132,16 +133,16 @@
+     fff=fopen("logo_config","r");
+     ggg=fopen("load_logos.h","w");
+ 
+-    printf("\nParsing logos from file \"logo_config\"...\n"); 
++    printf(_("\nParsing logos from file \"logo_config\"...\n")); 
+    
+     if (ggg==NULL) {
+-       printf("\nError!  Cannot create load_logos.h!!!!\n\n");
++       printf(_("\nError!  Cannot create load_logos.h!!!!\n\n"));
+        return 3;
+     }
+    
+     if (fff==NULL) {
+-       printf("\nWarning!  No logo_config file exists!  No Logos will "
+-	      "be compiled in!\n\n");
++       printf(_("\nWarning!  No logo_config file exists!  No Logos will "
++	      "be compiled in!\n\n"));
+        fprintf(ggg,"/* No logos configured */\n");
+        fclose(ggg);
+        return 4;
+diff -Nur linux_logo-3.9b1/po/Makefile linux_logo-3.9b1-i18n/po/Makefile
+--- linux_logo-3.9b1/po/Makefile	Wed Dec 31 21:00:00 1969
++++ linux_logo-3.9b1-i18n/po/Makefile	Mon Oct 23 20:24:31 2000
+@@ -0,0 +1,31 @@
++INSTALL= /usr/bin/install -c
++INSTALL_CMD= ${INSTALL} -m 644
++INSTALLDIR=/usr/share/locale
++PACKAGE = linux_logo
++
++CATALOGS = pt_BR.mo
++
++POTFILES= ../*.c ../*.h
++
++all: $(PACKAGE).pot $(CATALOGS)
++
++$(PACKAGE).pot: $(POTFILES)
++	xgettext --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES)
++	if cmp -s $(PACKAGE).po $(PACKAGE).pot; then \
++	    rm -f $(PACKAGE).po; \
++	else \
++	    mv $(PACKAGE).po $(PACKAGE).pot; \
++	fi
++
++clean:
++	rm -f *mo $(PACKAGE).pot
++
++install: $(CATALOGS)
++	for n in $(CATALOGS); do \
++	    l=`basename $$n .mo`; \
++	    $(INSTALL) -m 755 -d $(INSTALLDIR)/$$l; \
++	    $(INSTALL) -m 755 -d $(INSTALLDIR)/$$l/LC_MESSAGES; \
++	    $(INSTALL) -m 644 $$n $(INSTALLDIR)/$$l/LC_MESSAGES/$(PACKAGE).mo; \
++	done
++%.mo: %.po
++	msgfmt -o $@ $<
+diff -Nur linux_logo-3.9b1/po/linux_logo.pot linux_logo-3.9b1-i18n/po/linux_logo.pot
+--- linux_logo-3.9b1/po/linux_logo.pot	Wed Dec 31 21:00:00 1969
++++ linux_logo-3.9b1-i18n/po/linux_logo.pot	Mon Oct 23 20:24:31 2000
+@@ -0,0 +1,315 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR Free Software Foundation, Inc.
++# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
++#
++#, fuzzy
++msgid ""
++msgstr ""
++"Project-Id-Version: PACKAGE VERSION\n"
++"POT-Creation-Date: 2000-10-23 20:01-0200\n"
++"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
++"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
++"Language-Team: LANGUAGE <LL@li.org>\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=CHARSET\n"
++"Content-Transfer-Encoding: ENCODING\n"
++
++#: ../linux_logo.c:222
++#, c-format
++msgid ""
++"\n"
++"Linux Logo Version %s"
++msgstr ""
++
++#: ../linux_logo.c:223
++msgid " -- by Vince Weaver (weave@eng.umd.edu)\n"
++msgstr ""
++
++#: ../linux_logo.c:224
++msgid "i18n by Carlos Eduardo Gorges <carlos@techlinux.com.br>\n"
++msgstr ""
++
++#: ../linux_logo.c:225
++msgid "   Newest Versions at:\n"
++msgstr ""
++
++#: ../linux_logo.c:228
++msgid "   Newest i18n Versions at:\n"
++msgstr ""
++
++#: ../linux_logo.c:231
++#, c-format
++msgid ""
++"Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]\n"
++"                    [-h] [-l] [-n] [-o num] [-p] [-s] [-t str] [-u] [-v]\n"
++"                    [-w Num] [-x] [-y] [-F format] [-L num | list | "
++"random_xy]\n"
++msgstr ""
++
++#: ../linux_logo.c:237
++msgid "         [-a]     -- Display an ascii-only Logo\n"
++msgstr ""
++
++#: ../linux_logo.c:238
++msgid "         [-b]     -- Display a Banner Logo!\n"
++msgstr ""
++
++#: ../linux_logo.c:239
++msgid "         [-c]     -- Display a \"Classic\" type logo\n"
++msgstr ""
++
++#: ../linux_logo.c:240
++msgid "         [-d]     -- disable \"prettying\" of output\n"
++msgstr ""
++
++#: ../linux_logo.c:241
++msgid "         [-D file]-- use custom logo from \"file\"\n"
++msgstr ""
++
++#: ../linux_logo.c:242
++msgid ""
++"         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for debugging\n"
++msgstr ""
++
++#: ../linux_logo.c:244
++msgid "         [-f]     -- force the screen clear before drawing\n"
++msgstr ""
++
++#: ../linux_logo.c:245
++msgid "         [-F format] Format output.  See README.\n"
++msgstr ""
++
++#: ../linux_logo.c:246
++msgid "      B  [-g]     -- give system info only\n"
++msgstr ""
++
++#: ../linux_logo.c:247
++msgid "         [-h]     -- this help screen\n"
++msgstr ""
++
++#: ../linux_logo.c:248
++msgid "      B  [-l]     -- display logo only\n"
++msgstr ""
++
++#: ../linux_logo.c:249
++msgid "      C  [-o Num] -- offset output Num spaces to the right\n"
++msgstr ""
++
++#: ../linux_logo.c:250
++msgid "         [-p]     -- preserve cursor location\n"
++msgstr ""
++
++#: ../linux_logo.c:251
++msgid "         [-s]     -- skip Bogomips [speeds up on non-Linux platforms]\n"
++msgstr ""
++
++#: ../linux_logo.c:253
++msgid "         [-t str] -- display user-supplied string\n"
++msgstr ""
++
++#: ../linux_logo.c:254
++msgid "      *  [-u]     -- show uptime\n"
++msgstr ""
++
++#: ../linux_logo.c:255
++msgid "         [-v]     -- version information\n"
++msgstr ""
++
++#: ../linux_logo.c:256
++msgid "         [-w Num] -- set width of screen to Num [default 80]\n"
++msgstr ""
++
++#: ../linux_logo.c:257
++msgid "      *  [-y]     -- show load average\n"
++msgstr ""
++
++#: ../linux_logo.c:258
++msgid ""
++"         [-L ...] -- multiple Logo options.  See README\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:259
++msgid ""
++" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:310
++msgid "s"
++msgstr ""
++
++#: ../linux_logo.c:315
++#, c-format
++msgid ""
++"\n"
++"Invalid format '#%c'\n"
++msgstr ""
++
++#: ../linux_logo.c:336
++msgid ""
++"\n"
++"\n"
++"No logos available!!\n"
++msgstr ""
++
++#: ../linux_logo.c:349
++msgid ""
++"\n"
++"Appropriate logo not found!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:394
++msgid ""
++"\n"
++"Specified logo has no ascii version!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:402
++msgid ""
++"\n"
++"Specified logo has no non-ascii version!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:423
++msgid ""
++"\n"
++"Error! Classic logos must be at least 7 lines long!\n"
++msgstr ""
++
++#: ../linux_logo.c:532
++msgid ""
++"\n"
++"Unknown -L directive!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:567
++msgid ""
++"\n"
++"Available Built-in Logos:\n"
++msgstr ""
++
++#: ../linux_logo.c:568
++msgid "\tNum\tType\tAscii\tDescription\n"
++msgstr ""
++
++#: ../linux_logo.c:575
++msgid "\tBanner"
++msgstr ""
++
++#: ../linux_logo.c:577
++msgid "\tNo"
++msgstr ""
++
++#: ../linux_logo.c:582
++msgid ""
++"\n"
++"Do \"linux_logo -L num\" where num is from above to get the appropriate "
++"logo.\n"
++msgstr ""
++
++#: ../linux_logo.c:584
++msgid ""
++"Remember to also use -a to get ascii version.\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:638
++msgid ""
++"\n"
++"Sorry, can't generate random logo of that type.\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:648
++#, c-format
++msgid ""
++"\n"
++"Error!  Logo %d is invalid!  \"linux_logo -L list\" lists valid logo "
++"numbers.\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:668 ../linux_logo.c:673
++msgid ""
++"#O Version #V, Compiled #C\n"
++"#N #M #X#T Processor#S, #R RAM, #B Bogomips Total\n"
++"#H\n"
++msgstr ""
++
++#: ../parse_logos.c:29
++#, c-format
++msgid ""
++"\n"
++"Error!  File %s doesn't exist!\n"
++"\n"
++msgstr ""
++
++#: ../parse_logos.c:136
++msgid ""
++"\n"
++"Parsing logos from file \"logo_config\"...\n"
++msgstr ""
++
++#: ../parse_logos.c:139
++msgid ""
++"\n"
++"Error!  Cannot create load_logos.h!!!!\n"
++"\n"
++msgstr ""
++
++#: ../parse_logos.c:144
++msgid ""
++"\n"
++"Warning!  No logo_config file exists!  No Logos will be compiled in!\n"
++"\n"
++msgstr ""
++
++#. Here you can change the default language with which to say how many   *\* Processors you have.  I have invcluded the only two languages I know
++#: ../defaults.h:79
++msgid "Zero"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "One"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Two"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Three"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Four"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Five"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Six"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Seven"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Eight"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Nine"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Many"
++msgstr ""
+diff -Nur linux_logo-3.9b1/po/pt_BR.po linux_logo-3.9b1-i18n/po/pt_BR.po
+--- linux_logo-3.9b1/po/pt_BR.po	Wed Dec 31 21:00:00 1969
++++ linux_logo-3.9b1-i18n/po/pt_BR.po	Mon Oct 23 20:24:31 2000
+@@ -0,0 +1,321 @@
++# Brazilian Portuguese messages for linux_logo
++# Copyright (C) 2000 Free Software Foundation, Inc.
++# Carlos Eduardo Gorges <carlos@techlinux.com.br>, 2000.
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: linux_logo\n"
++"POT-Creation-Date: 2000-10-23 18:58-0200\n"
++"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
++"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
++"Language-Team: Brazilian Portuguese <LL@li.org>\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=ISO-8895-1\n"
++"Content-Transfer-Encoding: 8-bit\n"
++
++#: ../linux_logo.c:222
++msgid ""
++"\n"
++"Linux Logo Version %s"
++msgstr ""
++"\n"
++"Linux Logo Versão %s"
++
++#: ../linux_logo.c:223
++msgid " -- by Vince Weaver (weave@eng.umd.edu)\n"
++msgstr " -- por Vince Weaver (weave@eng.umd.edu)\n"
++
++#: ../linux_logo.c:224
++msgid "i18n by Carlos Eduardo Gorges <carlos@techlinux.com.br>\n"
++msgstr "i18n por Carlos Eduardo Gorges <carlos@techlinux.com.br>\n"
++
++#: ../linux_logo.c:225
++msgid "   Newest Versions at:\n"
++msgstr "   Novas versões em:\n"
++
++#: ../linux_logo.c:228
++msgid "   Newest i18n Versions at:\n"
++msgstr "   Novas versões i18n em:\n"
++
++#: ../linux_logo.c:229
++msgid ""
++"Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]\n"
++"                    [-h] [-l] [-n] [-o num] [-p] [-s] [-t str] [-u] [-v]\n"
++"                    [-w Num] [-x] [-y] [-F format] [-L num | list | "
++"random_xy]\n"
++msgstr ""
++"Uso:	  %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]\n"
++"                    [-h] [-l] [-n] [-o num] [-p] [-s] [-t str] [-u] [-v]\n"
++"                    [-w Num] [-x] [-y] [-F formato] [-L num | lista | "
++"random_xy]\n"
++
++#: ../linux_logo.c:235
++msgid "         [-a]     -- Display an ascii-only Logo\n"
++msgstr "         [-a]     -- Mostra logo somente em ascii\n"
++
++#: ../linux_logo.c:236
++msgid "         [-b]     -- Display a Banner Logo!\n"
++msgstr "         [-b]     -- Mostra logo em banner\n"
++
++#: ../linux_logo.c:237
++msgid "         [-c]     -- Display a \"Classic\" type logo\n"
++msgstr "         [-c]     -- Mostra o logo \"Classico\"\n"
++
++#: ../linux_logo.c:238
++msgid "         [-d]     -- disable \"prettying\" of output\n"
++msgstr ""
++
++#: ../linux_logo.c:239
++msgid "         [-D file]-- use custom logo from \"file\"\n"
++msgstr ""
++
++#: ../linux_logo.c:240
++msgid ""
++"         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for debugging\n"
++msgstr ""
++
++#: ../linux_logo.c:242
++msgid "         [-f]     -- force the screen clear before drawing\n"
++msgstr ""
++
++#: ../linux_logo.c:243
++msgid "         [-F format] Format output.  See README.\n"
++msgstr ""
++
++#: ../linux_logo.c:244
++msgid "      B  [-g]     -- give system info only\n"
++msgstr "      B  [-g]     -- somente informações do sistema\n"
++
++#: ../linux_logo.c:245
++msgid "         [-h]     -- this help screen\n"
++msgstr "         [-h]     -- esta tela de ajuda\n"
++
++#: ../linux_logo.c:246
++msgid "      B  [-l]     -- display logo only\n"
++msgstr "      B  [-l]     -- Mostra somente o logo\n"
++
++#: ../linux_logo.c:247
++msgid "      C  [-o Num] -- offset output Num spaces to the right\n"
++msgstr ""
++
++#: ../linux_logo.c:248
++msgid "         [-p]     -- preserve cursor location\n"
++msgstr "         [-p]     -- mantém a localização do cursor\n"
++
++#: ../linux_logo.c:249
++msgid "         [-s]     -- skip Bogomips [speeds up on non-Linux platforms]\n"
++msgstr "         [-s]     -- pular detecção de Bogomips\n"
++
++#: ../linux_logo.c:251
++msgid "         [-t str] -- display user-supplied string\n"
++msgstr ""
++
++#: ../linux_logo.c:252
++msgid "      *  [-u]     -- show uptime\n"
++msgstr ""
++
++#: ../linux_logo.c:253
++msgid "         [-v]     -- version information\n"
++msgstr ""
++
++#: ../linux_logo.c:254
++msgid "         [-w Num] -- set width of screen to Num [default 80]\n"
++msgstr ""
++
++#: ../linux_logo.c:255
++msgid "      *  [-y]     -- show load average\n"
++msgstr ""
++
++#: ../linux_logo.c:256
++msgid ""
++"         [-L ...] -- multiple Logo options.  See README\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:257
++msgid ""
++" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:308
++msgid "s"
++msgstr "es"
++
++#: ../linux_logo.c:313
++#, c-format
++msgid ""
++"\n"
++"Invalid format '#%c'\n"
++msgstr ""
++
++#: ../linux_logo.c:334
++msgid ""
++"\n"
++"\n"
++"No logos available!!\n"
++msgstr ""
++
++#: ../linux_logo.c:347
++msgid ""
++"\n"
++"Appropriate logo not found!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:392
++msgid ""
++"\n"
++"Specified logo has no ascii version!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:400
++msgid ""
++"\n"
++"Specified logo has no non-ascii version!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:421
++msgid ""
++"\n"
++"Error! Classic logos must be at least 7 lines long!\n"
++msgstr ""
++
++#: ../linux_logo.c:530
++msgid ""
++"\n"
++"Unknown -L directive!\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:565
++msgid ""
++"\n"
++"Available Built-in Logos:\n"
++msgstr ""
++
++#: ../linux_logo.c:566
++msgid "\tNum\tType\tAscii\tDescription\n"
++msgstr ""
++
++#: ../linux_logo.c:573
++msgid "\tBanner"
++msgstr ""
++
++#: ../linux_logo.c:575
++msgid "\tNo"
++msgstr ""
++
++#: ../linux_logo.c:580
++msgid ""
++"\n"
++"Do \"linux_logo -L num\" where num is from above to get the appropriate "
++"logo.\n"
++msgstr ""
++
++#: ../linux_logo.c:582
++msgid ""
++"Remember to also use -a to get ascii version.\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:636
++msgid ""
++"\n"
++"Sorry, can't generate random logo of that type.\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:646
++#, c-format
++msgid ""
++"\n"
++"Error!  Logo %d is invalid!  \"linux_logo -L list\" lists valid logo "
++"numbers.\n"
++"\n"
++msgstr ""
++
++#: ../linux_logo.c:666 ../linux_logo.c:671
++msgid ""
++"#O Version #V, Compiled #C\n"
++"#N #M #X#T Processor#S, #R RAM, #B Bogomips Total\n"
++"#H\n"
++msgstr ""
++"#O Versão #V, Compilado #C\n"
++"#N Procesador#S #M #X#T, #R RAM, #B Bogomips\n"
++"#H\n"
++
++#: ../parse_logos.c:29
++#, c-format
++msgid ""
++"\n"
++"Error!  File %s doesn't exist!\n"
++"\n"
++msgstr ""
++
++#: ../parse_logos.c:136
++msgid ""
++"\n"
++"Parsing logos from file \"logo_config\"...\n"
++msgstr ""
++
++#: ../parse_logos.c:139
++msgid ""
++"\n"
++"Error!  Cannot create load_logos.h!!!!\n"
++"\n"
++msgstr ""
++
++#: ../parse_logos.c:144
++msgid ""
++"\n"
++"Warning!  No logo_config file exists!  No Logos will be compiled in!\n"
++"\n"
++msgstr ""
++
++#. Here you can change the default language with which to say how many   *\* Processors you have.  I have invcluded the only two languages I know
++#: ../defaults.h:79
++msgid "Zero"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "One"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Two"
++msgstr "Dois"
++
++#: ../defaults.h:79
++msgid "Three"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Four"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Five"
++msgstr ""
++
++#: ../defaults.h:79
++msgid "Six"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Seven"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Eight"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Nine"
++msgstr ""
++
++#: ../defaults.h:80
++msgid "Many"
++msgstr ""

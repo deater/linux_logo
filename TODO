@@ -3,16 +3,11 @@
     just to detect gcc/cc and architecture stuff.  For now I think the
     makefiles are working ok.
   
-- Have a "model" option, so that on non-intel architectures it defaults
-    to something like
-       "Amiga 3000 with one 49.7Mhz 68040 Processor" instead of
-       "One 49.7Mhz Amiga 68040 Processor"
-    Same problem on MIPS
-
-- possibly create a "libcpuinfo" to handle the above?
-
-- re-write the parse code to be more /proc/cpuinfo fault tolerant...
-
+- Have architecture-specific default sysinfo output?
+  That way archs like m68k that have extra info [like Amiga, Atari, Mac]
+  can display this w/o adding hacks to make it look proper on archs
+  w/o such info [ix86]
+  
 - fix the Banner/Classic mode options to not be specific to one or the other.
 
 - Support for utmp uptime support

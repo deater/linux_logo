@@ -1,0 +1,43 @@
+yes, I am insane
+
+
+Tired of waiting many miliseconds for linux_logo to run?
+Tired of wasting 35k of disk space?
+Upset that to run linux_logo you need huge GLIBC?
+
+Well your worries are over!
+
+With "ll"  [even the name was shortened to save space!] you get all of the
+benefits of linux_logo in a smaller, faster package!
+
+"ll" is written entirely in 32-bit Linux x86 nasm assembly-language!
+
+Features:
++ Runs in 4 miliseconds, more than twice as fast as the 10 linux_logo takes 
+  on a K6-2+ 450!
++ Takes up only 3.9k when stripped!  This is small enough to fit in one 4k 
+  x86 memory page!
+  
+Amaze your enemies!  Impress your friends!
+
+BUGS:
+	No pretty-printing: This means that your computer is reported just
+                            as /proc/cpuinfo reports, ugly model-name, off 
+			    MHz, and all.
+
+	Doesn't work on >1GB systems: This is because I was lazy and didn't
+                                      want to do a 16bit divide in the 
+				      binary->decimal converter.  If there's
+				      enough demand I can probably fix this 
+				      up in a few bytes.
+				       
+	Not very portable:  I could have used the Linux-assembly project's
+	                    arch-independent stuff, but didn't bother.
+			    
+	Possibly kernel-dependent:  I only tested this on 2.4.x kernels.
+	
+
+Useful Resources:  http://www.linuxassembly.org
+
+---------
+Vince Weaver <vince@deater.net>  http://www.deater.net/weave

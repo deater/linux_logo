@@ -1,0 +1,55 @@
+# Debian Logo
+# Made by a nostalgic Javier Fernandez-Sanguino Peña <jfs@computer.org>
+# (rescued from the linux_logo 1.06-6 patch made 12 Oct 1998)
+  
+SYSINFO_POSITION right
+  
+DESCRIPTION_STRING Debian Old Penguin Logos
+
+BEGIN_LOGO
+[0m[37m[40m 
+[0m[37m[40m          [0;1;31;41m         [40m            [0;37;40m
+[0;1;31;40m         [41m   [40m       [41m   [40m         [0;47;40m[1;47mDDDD[3CEEEEEE[1CBBBB[3CIIIIII[2CAAAA[3CNN[3CNN[40m
+[0;1;31;40m        [41m   [40m   [35;45m    [31;40m   [41m      [40m    [0;37;40m[1;47mDD[1CDD[2CEE[5CBB[1CBB[4CII[3CAA[2CAA[2CNNN[2CNN[40m
+[0;1;31;40m       [41m   [40m     [35;45m   [31;40m  [41m  [40m         [0;37;40m[1;47mDD[2CDD[1CEEEEE[2CBBBBB[4CII[3CAAAAAA[2CNNNN[1CNN[40m
+[0;1;31;40m      [41m   [40m            [41m  [40m        [0;37;40m[1;47mDD[1CDD[2CEE[5CBB[2CBB[3CII[3CAA[2CAA[2CNN[1CNNNN[40m
+[0;1;31;40m     [41m   [40m    [41m  [40m        [41m  [40m       [0;37;40m[1;47mDDDD[3CEEEEEE[1CBBBBB[2CIIIIII[1CAA[2CAA[2CNN[3CNN[40m
+[0;1;31;40m    [41m   [40m    [41m    [40m         [41m  [40m     [0;37;40m
+[0;1;31;40m   [41m   [40m       [41m   [40m         [41m  [40m    [0;37;40m[2C[1;37;40m
+[0;1;31;40m  [41m   [40m                    [41m   [40m   [0;37;40m[2C[1;37;40m
+[0;1;31;40m  [41m   [40m                   [41m    [40m   [0;37;40m[2C[1;37;40m
+[0;1;31;40m  [41m  [40m                  [41m      [40m   [0;37;40m[2C[1;37;40m
+[0;1;31;40m   [41m  [40m               [41m      [40m     [0;37;40m[2C[1;37;40m
+[0;1;31;40m    [41m   [40m          [41m       [40m       [0;37;40m[2C
+[0;1;31;40m      [41m               [40m          [0;37;40m[2C
+[0;1;31;40m          [41m    [40m                  [0;37;40m[2C
+[0;1;31;40m  [41m                      [40m       [0;37;40m
+[0m[255D
+END_LOGO
+
+
+BEGIN_ASCII_LOGO
+
+           s_a%aa,            DDDD   EEEEEE BBBB   IIIIII  AAAA   NN   NN
+         _ZSr""`  \_          DD DD  EE     BB BB    II   AA  AA  NNN  NN
+        JXX'   _a, M""So_,    DD  DD EEEEE  BBBBB    II   AAAAAA  NNNN NN
+       J2X`    !X!   XXr!"    DD DD  EE     BB  BB   II   AA  AA  NN NNNN
+      ]S2'           {[       DDDD   EEEEEE BBBBB  IIIIII AA  AA  NN   NN
+     JSe'     ,       ",
+   _SX'      ],       M,
+   jXS'       "3        ML
+   )Sr                   )s
+   )2(                   J2[
+    X;                  J2S'
+    ](                soSr'
+     !,            _J22r'
+      M\   s_s%S2SSXe"
+        M {Xr"""
+   _s_s_a_L/\a_a_s_a_sr
+    """!""!'   """!""""
+END_ASCII_LOGO
+                               
+                               
+                              
+                             
+                            

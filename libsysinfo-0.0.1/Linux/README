@@ -1,0 +1,33 @@
+Linux sysinfo gathering:
+
+cpuinfo is obtained from parsing /proc/cpuinfo.
+        This can be convoluted at times, especially since every stable
+	kernel release seems to change the format.
+	
+	Thankfully with the advent of the 'cpuinfo' instruction things
+	have stabalized a bit.
+	
+	Some complex parsing goes on to give cleaner output.
+	
+os_info is obtained using the uname() function.
+
+hostname is also obtained using the uname() function
+
+memory is obtained by a fstat() on /proc/kcore
+        
+	this sometimes ends up a Megabyte short if ACPI or APM
+	are in use.
+	
+	Other methods are available. 
+	
+	+ /proc/meminfo tends to always turn up a few megabytes short
+	  because it ignores reserved and kernel memory
+	  
+	+ the sysinfo() function has similar problems
+	
+uptime is obtained from /proc/uptime
+
+loadaverage is obtained from /proc/loadavg
+
+	+ this is proc filesystem dependent of course.
+	  Maybe I should look into sysinfo()
