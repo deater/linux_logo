@@ -1,64 +1,51 @@
-# Generated automatically from Makefile.in by configure.
 ##############################################################
-#  Makefile for Linux Logo      -- by Vince Weaver           #
+#  Makefile for Linux Logo 3.0  -- by Vince Weaver           #
 #                                                            #
-#  Updated to use gnu autoconf 27 March 1999                 #
+#  To modify for your configuration, add or remove the #     #
 #                                                            #
 ##############################################################
 
-SHELL = /bin/sh
-VPATH = ./.
-
-subdirs = @subdirs@
-top_srcdir = ./.
-srcdir = ./.
-prefix = /usr/local
-exec_prefix = ${prefix}
-bindir = $(exec_prefix)/bin
-infodir = $(prefix)/info
-libdir = $(prefix)/lib/gnudl
-mandir = $(prefix)/man/man1
-
-BUILD_OS = LINUX
-BUILD_CPU = i586
-
+#Your compiler.  If gcc doesn't work, try CC
 CC = gcc
-CPPFLAGS = 
-CFLAGS = -DBUILD_OS=$(BUILD_OS) $(CPPFLAGS) -g -O2
-LDFLAGS = 
-LIBS = 
-INSTALL = /bin/install -c
 
-all:
-	cd src && $(MAKE) all
+#For Linux Systems
+PLATFORM = 'Linux'
+C_OPTS = -O2 -Wall -DLINUX_ANSI 
 
-install:
-	$(top_srcdir)/mkinstalldirs $(bindir)
-	cd src && $(MAKE) install
-	$(INSTALL) linux_logo.1 $(mandir)
-	
+#For Sgi
+#PLATFORM = 'SGI'
+#C_OPTS = -O2 -DIRIX_ANSI -DSGI
+
+#For AIX
+#PLATFORM = 'AIX'
+#C_OPTS = -O2 -DAIX
+
+#For All Other Unixes
+#PLATFORM = 'Default Unix'
+#C_OPTS = -O2 
+
+all:	linux_logo
+
 clean:
-	/bin/rm -f *~
-	cd src && $(MAKE) clean
+	rm -f *.o
+	rm -f linux_logo
+	rm *~
+
+install:	linux_logo
+	cp linux_logo /usr/local/bin
 	
-distclean:	clean
-	/bin/rm -f Makefile config.h config.status config.cache config.log
-	cd src && $(MAKE) distclean
-	
-# automatic re-running of configure if the ocnfigure.in file has changed
-${srcdir}/configure:	configure.in aclocal.m4
-	cd ${srcdir} && autoconf
-	
-# autoheader might not change config.h.in, so touch a stamp file
-${srcdir}/config.h.in:	stamp-h.in
-${srcdir}/stamp-h.in:	configure.in aclocal.m4
-	cd ${srcdir} && autoheader
-	echo timestamp > ${srcdir}/stamp-h.in
-					
-config.h:	stamp-h
-stamp-h:	config.h.in config.status
-	./config.status
-Makefile:	Makefile.in config.status
-	./config.status
-config.status:	configure
-	./config.status --recheck
+linux_logo:	linux_logo.o sysinfo.o bogomips.o
+	$(CC) $(C_OPTS) -o linux_logo linux_logo.o bogomips.o sysinfo.o $(L_OPTS)
+	@strip linux_logo
+
+linux_logo.o:	linux_logo.c ascii_penguin.h defaults.h
+	@echo Compiling for $(PLATFORM)
+	@echo Edit the Makefile to change Platform
+	@echo Edit defaults.h to change Default Values
+	$(CC) $(C_OPTS) -c linux_logo.c
+
+sysinfo.o:	sysinfo.c sysinfo.c sysinfo_default.c sysinfo_common.h sysinfo_aix.c sysinfo_irix.c sysinfo_ix86.c sysinfo_m68k.c sysinfo_ppc.c sysinfo_sparc.c sysinfo_mips.c
+	$(CC) $(C_OPTS) -c sysinfo.c 
+
+bogomips.o:	bogomips.c
+	$(CC) $(C_OPTS) -c bogomips.c

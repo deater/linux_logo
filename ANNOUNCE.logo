@@ -1,16 +1,16 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.00 -- Shows a Logo With some System Info - 27 March 1999
+   LINUX_LOGO 3.0 -- Shows a Logo With some System Info - 2 April 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
-     SUPPORTS Linux (intel, m68k, Alpha, Sparc) and some non-Linux OS's
+   SUPPORTS Linux (intel, m68k, Alpha, Sparc, MIPS) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 3.00 of my linux_logo package.  
+I have released version 3.0 of my linux_logo package.  
 
 A sample ascii output of the new banner mode is attached to the end.  The
 banner looks much, much cooler in color ;)
 
-NEW IN VERSION 3.00
+NEW IN VERSION 3.0
   -- Major overhaul allowing new '-F' command line option.  Makes the 
      system info output TOTALLY CUSTOMIZABLE.  Also reduces code size a bit.
   -- Some bug fixes and tweaks.
@@ -35,7 +35,7 @@ DESCRIPTION
   
 FEATURES
   -- Works great on standard Linux systems
-  -- Supports SMP, Atari m68k, and a few other non-linux os's
+  -- Works on almost all Linux architectures and a few other non-linux os's
   -- Modular: easy to change the logo that gets displayed
   -- Lots of command-line options to tweak the display
   -- Raw ASCII output for those wanting simplicity/dumb terminal output.
@@ -51,9 +51,9 @@ USES [instructions included]
 -------------------------------------------------------------------------
 WHERE TO GET LINUX_LOGO:
 -------------------------------------------------------------------------
-  http://www.glue.umd.edu/~weave/vmwprod/
-  http://www.vince.weaver.org/vmwprod/
-  http://metalab.unc.edu/pub/Linux/logos/penguin/linux_logo-3.00.tar.gz
+  http://www.glue.umd.edu/~weave/vmwprod/linux_logo
+  http://www.vince.weaver.org/vmwprod/linux_logo
+  http://metalab.unc.edu/pub/Linux/logos/penguin/linux_logo-3.0.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
@@ -71,7 +71,9 @@ Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
     ##      ## @@# #  ##     ##  ###   ###    ##   ##    QQQQQQQ#     #QQQQQQQ 
   ############  ###  ####   ####   #### ### ##### ######   QQQQQ#######QQQQQ   
 
-       Linux Version 2.2.0-pre5, Compiled #47 Fri Jan 8 10:37:09 EST 1999
+         Linux Version 2.2.5, Compiled #7 Mon Mar 29 09:48:23 EST 1999
           One 188MHz AMD K6 Processor, 64M RAM, 374.37 Bogomips Total
+                         Load average 0.00, 0.00, 0.00
+                           Uptime 14 hours 44 minutes
                                     deranged
-
+                                        

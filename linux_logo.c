@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 3.0b2 -Creates a Nifty Logo With some System Info- 26 March 1999
+LINUX LOGO 3.0 -Creates a Nifty Logo With some System Info- 2 April 1999
     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -16,10 +16,6 @@ LINUX LOGO 3.0b2 -Creates a Nifty Logo With some System Info- 26 March 1999
  
 -------------------------------------------------------------------------*/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -28,7 +24,7 @@ LINUX LOGO 3.0b2 -Creates a Nifty Logo With some System Info- 26 March 1999
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "3.0b2"
+#define VERSION "3.0"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"

@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.00 -- Shows a Logo With some System Info - 27 March 1999
+     LINUX_LOGO 3.0 -- Shows a Logo With some System Info - 2 April 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (most architectures) and some non-Linux OS's
@@ -434,9 +434,9 @@ TOOLS TO CREATE OTHER LOGOS
 ------------------------------------------------------------------------->
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
-  http://www.glue.umd.edu/~weave/vmwprod/
-  http://www.vince.weaver.org/vmwprod/
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.00.tar.gz
+  http://www.glue.umd.edu/~weave/vmwprod/linux_logo
+  http://www.vince.weaver.org/vmwprod/linux_logo
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.0.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 

@@ -364,7 +364,12 @@
   files.. hopefully it will work just fine...
 + Pack it up and release to freshmeat.... here comes 3.0b2
 
-27 March 1999
-+ Added rudimentary autoconf support.  Used the tutorial by Mark Galassi
-  at http://nis-www.lanl.gov/~rosalia/mydocs/autoconf_tutorial_toc.html
-  
+2 April 1999
++ Not many bug reports at all.. gearing up for a 3.0 release later today.
++ Tried in the past week to get a GNU autoconf configure script working...
+  I did.. but the extra overhead [doubling the size of the archive] to just
+  check for gcc/cc or architecture isn't worth it.  The architecture 
+  detection code would have been just as much of a kludge as the current
+  sysinfo.c, and I don't have all the machines to test it on.  So for now
+  at least I will stick with old-fashioned makefiles.
++ Released 3.0 to freshmeat and metalab.
