@@ -131,7 +131,7 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 
           /* Athlons */
        if (strstr(model_string,"Athlon(tm) 64")!=NULL) {
-	  strncpy(cpu_info->chip_type,"Opteron",8);
+	  strncpy(cpu_info->chip_type,"Athlon 64",10);
        } else
        if (strstr(model_string,"Athlon")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Athlon",7);

@@ -1,6 +1,6 @@
 Summary:	Displays an ANSI or ASCII penguin and system information.
 Name:		linux_logo
-Version:	4.01
+Version:	4.09
 Release:	1cma
 Copyright:	GPL
 Group:		Applications/System

@@ -692,3 +692,13 @@
 14 March 2004
 + Update to work on all known cpuinfos.  Fix a lot of Opteron/P4 chips, etc.
 + Added minimal FreeBSD support
+
+17 March 2004
++ Update the spec-file
++ Go through http://packages.qa.debian.org/l/linuxlogo.html
+  buglist.
++ Have "parse_logos" handle \r 's in files better.  Took the debian
+  patch even though I am not sure if it is the best solution.
++ Added norwegian bokmaal translation from 
+  Per Oeyvind Karlsen [iso-8859-1] <peroyvind@linux-mandrake.com>
+  

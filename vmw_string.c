@@ -24,9 +24,12 @@ char *read_string_from_disk(FILE *fff,char *string)
    
         strcpy(temp,"");
         while ((ch=fgetc(fff))==' ');
-        while ( (ch!='\n') && (ch!=EOF) && (i<((BUFSIZ-5)-1)) ) {
-	                   temp[i]=ch; i++;
-	                   ch=fgetc(fff);
+        while ( (ch!='\n') && (ch!=EOF) && (i<((BUFSIZ-6)-1)) ) {
+	   if (ch!='\r') {                
+	      temp[i]=ch; 
+	      i++;
+	   }
+	   ch=fgetc(fff);
 	}
         if(ch==EOF) return NULL;
         temp[i]='\0';
@@ -41,9 +44,12 @@ char *read_string_from_disk_exact(FILE *fff,char *string)
    
         strcpy(temp,"");
         ch=fgetc(fff);
-        while ( (ch!='\n') && (ch!=EOF) && (i<((BUFSIZ-5)-1)) ) {
-	                   temp[i]=ch; i++;
-	                   ch=fgetc(fff);
+        while ( (ch!='\n') && (ch!=EOF) && (i<((BUFSIZ-6)-1)) ) {
+	   if (ch!='\r') {
+	      temp[i]=ch; 
+	      i++;
+	   }   
+	   ch=fgetc(fff);
 	}
         if(ch==EOF) return NULL;
         if (ch=='\n') {
