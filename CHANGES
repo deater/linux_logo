@@ -85,3 +85,15 @@
 + Changed to read the vendor_id to report vendor.  Idea also thanks to 
   <adam@princeton.edu>
   
+13 MARCH 1998
++ Added minimal AIX port [thanks to Thomas Grewe]
++ Added indredible Banner support!  "linux_logo -banner"
+  Much thanks to Albert Lai <aylai@unixg.ubc.ca>
++ Also added "-rX" option to change the character in banner, and 
+  "-w Num" which changes width [all under banner]  
++ Made old linux_logo look "linux_logo -classic"
++ Modularized the getsysinfo.c files.  Trying to follow all the #ifdef
+  statements was getting confusing.
++ Included a nice "further info" file from Tony Nugent <T.Nugent@sct.gu.edu.au>
++ Bunch of other stuff to get ready for release
++ Released version 2.00

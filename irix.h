@@ -1,4 +1,4 @@
-const char color_logo[][200]={
+const char *color_logo[]={
    "[7C[0;1m>>>> [30mOOO[8C[47mIIIIII[1CIIIIII[1CIIIIII[1CII[2CII[0;1m",
    "[5C[37m>>>>>[0mN N[1;30mOOOO[8C[47mII[3CII[2CII[3CII[4CIIII[0;1m",
    "   OOO[37m>> [0mNN NN [1;30mOOOO[6C[47mII[3CIIIIII[3CII[5CII[0;1m",

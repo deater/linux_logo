@@ -8,14 +8,227 @@ Things possibly to do:
 - regular ascii art for non-linux platforms.
 - autoconfigure?
 
-- what to do when nonexistent params are used
-  I think ignoring is just ok
+- better command line paramater handling.  I am lazy and don't check the
+  options very well ;)
+
 - what to do on a negative offset, is ignored right now
 - a limitation for the offset would be also cool so that the penguin isn't
   destroyed if offset is to big
-  but this thing is IMO a bit tricky because you need the width of the
-  display
-  and to get that width, I think, you've to use ncurses or
-  is there another possibility to get this value
-- maybe you could put an exit into help_message because it is always
-  used as "help_message(...); return 1; ", the code would get smaller
+
+
+What follows is an e-mail chock full of stuff to add if I get a chance ;)
+
+
+To: Vince Weaver <weave@eng.umd.edu>
+From: Tony Nugent <T.Nugent@sct.gu.edu.au>
+
+
+Vince,
+
+G'day mate.  I'm subscribed to the linux-announce mailing list and
+came across your recent announcement there of your program(s).  Always
+curious, I thought I'd have a look at linux_logo.
+
+Great little ditty, way cool!  :-)
+Thanks for sharing it with us all.
+
+Even though I have a fast P200, I don't really like working in an X
+environment, much preferring to work on (at least 8) text console
+screens.  I do a lot of programming - perl, shell, cgi, C, whatever.
+In fact, I have a 4Mb S3 ViRGE video card, and by using some tweaked
+values with SVGATextMode, I now regularly run with 8 (or more)
+160-column, 75-line consoles!  It's so good to see very large chunks
+of code in one go , or lynx displaying everything (or lots of things)
+on web pages, or being able to view so much of a mail message in one
+screen, etc - who needs "scrollback"???  -- although that still
+cetainly works too!  :-)  If I had a better/larger monitor, then I'd
+do it in 240x100 :-)  Some say that the font is a bit small, but it is
+clear, my eyesight is excellent, and I don't find it a hassle at all.
+
+Anyway, I was looking through the TODO in the linux_logo
+distribution...
+
+> - what to do when nonexistent params are used
+>   I think ignoring is just ok
+
+Yeah, it's an eternal problem... do you just do nothing, print the
+help screen and/or an error message, or simply ignore it and do the
+default?
+
+I don't know the answer, any of these would be the RightThing(TM).
+What you've done is ok, but perhaps you might want to build in some
+compile-time switches/defines to create any of these behaviours.
+
+> - what to do on a negative offset, is ignored right now
+
+Go in from the RIGHT of the screen that many characters.  How to get
+the right side of the screen??? - read on...
+
+> - a limitation for the offset would be also cool so that the penguin isn't
+>   destroyed if offset is to big
+>   but this thing is IMO a bit tricky because you need the width of the display
+>   and to get that width, I think, you've to use ncurses or
+>   is there another possibility to get this value
+
+Yes, there certainly is!  You get it from the console driver itself!
+(No need to link with ncurses).
+
+You say (somewhere) that you've done ascii art in the past (I've
+played around with this sort of thing myself, but I'm no ascii artist
+- more of a technophobe:).  And, like me, your background appears to
+be DOS.  (Actually, I've been subscribed to the figlet mailing list
+for several years now, and I used to visit rec.arts.ascii etc on a
+fairly regular basis).  I've also played around a lot with vt100
+terminals.  Check out this customised colour-enhanced termcap/terminfo
+entry I have for TERM=linux...
+
+% infocmp
+#	Reconstructed via infocmp from file: /usr/share/terminfo/l/linux
+linux|console|con80x25|dumb, 
+	am, bce, ccc, eo, mir, msgr, xenl, xon, 
+	colors#8, it#8, ncv#3, pairs#64, 
+	acsc=`\004a\261f\370g\361h\260j\331k\277l\332m\300n\305o~q\304r\362s_t\303u\264v\301w\302x\263y\371z\372{\373|\374}\375~\376.\031-\030\,\021+^P0\333p\304r\304y\363z\362{\343|\330}\234, 
+	bel=^G, blink=\E[5m, bold=\E[1;37;43m, civis=\E[?25l, 
+	clear=\E[H\E[J, cnorm=\E[?25h\E[0;1;32;40m, cr=^M, 
+	csr=\E[%i%p1%d;%p2%dr, cub=\E[%p1%dD, cub1=^H, 
+	cud=\E[%p1%dB, cud1=^J, cuf=\E[%p1%dC, cuf1=\E[C, 
+	cup=\E[%i%p1%d;%p2%dH, cuu=\E[%p1%dA, cuu1=\E[A, 
+	cvvis=\E[?25h, dch=\E[%p1%dP, dch1=\E[P, dim=\E[2m, 
+	dispc=\E[10?%\E[11m, dl=\E[%p1%dM, dl1=\E[M, 
+	ech=\E[%p1%dX, ed=\E[J, el=\E[K, el1=\E[1K, enacs=\E)0, 
+	flash=\E[?5h\E[?5l$<200/>, home=\E[H, hpa=\E[%i%p1%dG, 
+	ht=^I, hts=\EH, ich=\E[%p1%d@, ich1=\E[@, il=\E[%p1%dL, 
+	il1=\E[L, ind=^J, initc=\E]P%p1%x%p2%02x%p3%02x%p4%02x, 
+	invis=\E[8m, kb2=\E[G, kbs=\177, kcbt=\E[Z, kcub1=\E[D, 
+	kcud1=\E[B, kcuf1=\E[C, kcuu1=\E[A, kdch1=\E[3~, kel=\E[K, 
+	kend=\E[4~, kf0=\E[21~, kf1=\E[[A, kf10=\E[21~, 
+	kf11=\E[23~, kf12=\E[24~, kf13=\E[25~, kf14=\E[26~, 
+	kf15=\E[28~, kf16=\E[29~, kf17=\E[31~, kf18=\E[32~, 
+	kf19=\E[33~, kf2=\E[[B, kf20=\E[34~, kf3=\E[[C, kf4=\E[[D, 
+	kf5=\E[[E, kf6=\E[17~, kf7=\E[18~, kf8=\E[19~, kf9=\E[20~, 
+	khome=\E[1~, kich1=\E[2~, knp=\E[6~, kpp=\E[5~, kspd=^Z, 
+	ll=\E[1;25r\E[25;1H, nel=^M^J, oc=\E]R, op=\E[39;49m, 
+	rc=\E8, rev=\E[7m, ri=\EM, ritm=\E32m, rmacs=\E[10m, 
+	rmam=\E[?7l, rmcup=\Ei, rmir=\E[4l, rmkx=, rmpch=\E[10m, 
+	rmso=\E[0;1;27;32;40m, rmul=\E[24;0;1;32;40m, rs1=\Ec, 
+	rs2=\E>\E[?3l\E[?4l\E[?5l\E[?7h\E[1;32;40m\E[?8h, 
+	sc=\E7, setab=\E[4%p1%dm, setaf=\E[3%p1%dm, 
+	setb=\E[%p1%{40}%+%dm, setf=\E[%p1%{30}%+%dm, 
+	sgr=\E[0;10%?%p1%t;7%;%?%p2%t;4%;%?%p3%t;7%;%?%p4%t;5%;%?%p5%t;2%;%?%p6%t;1%;%?%p7%t;8%;%?%p9%t;11%;m, 
+	sgr0=\E[0;10;1;32;40m, sitm=\E33m, smacs=\E[11m, 
+	smam=\E?7h, smcup=\E[r\E[H, smir=\E[4h, smkx=, 
+	smpch=\E[11m, smso=\E[0;1;33;44m, smul=\E[4;1;36m, 
+	tbc=\E[3g, u6=\E[%i%d;%dR, u7=\E[6n, u8=\E[?6c, u9=\E[c, 
+	vpa=\E[%i%p1%dd, 
+
+It works really well, even if setting "norm" to produce bright green
+on black sometimes has some rare but unexpected consequences.  (BTW,
+it's easy to hack this entry for your own use... if you don't know
+how, then get back to me and I'll explain).
+
+I might refer you to Linux's console_codes(4) man page if you haven't
+already discovered it.  There's a lot of interesting stuff in there -
+there are ways to use console codes to do all sorts of interesting
+things (Linux has some "extended" codes to allow you to set the
+console screen saver timeout and so on).
+
+ANSI codes are a subset of the vt-100 terminal codes, so things like
+cursor positioning and so on are the same.  One of the features of
+vt100-like consoles is the ability to query them for identification
+and the current cursor position.  This is the clue for how to
+determine the size of the current (vt) terminal!
+
+This is how it is done:
+
+1.	Save current cursor position:
+	^[7
+2.	Position the cursor in the lower right corner:
+	^[[200;200H
+	If the values used (here: "200;200") ARE larger than the screen,
+	it will always move to the bottom-most or left-most positions.
+	You might want to use larger values in case the screen is
+	actually WIDER than this.
+3.	Send a request for the cursor position:
+	^[[6n
+4.	The console will (should!) respond with:
+	^[x;yR
+	where x and y are the column and row co-ordinates of the
+	cursor position - at the bottom-left corner.
+5.	Restore the cursor to its saved position:
+	^[8
+6.	Parse the response string to extract the column and row values
+	and VOILA! - you have the dimensions of the screen!
+
+Armed with this information, you are now in a position to do things
+like add switches that:
+-	add a "clear screen" to the logo (a suggestion),
+-	centers the logo on the screen, column- and/or row-wise, and
+-	even rescales the logo to fit the screen!  (Tricky:)
+
+BTW, I've never known any problems cat'ing the `%' character to a file
+(as mentioned in "BUGS").  The commands:
+
+% echo '%%% %%%' > test.file
+% echo '%%% %%%' | cat > test.file
+
+work exactly as expected.  What's the problem here?
+
+Or perhaps I'm missing the point... you might be referring to the
+presence of `%' characters in /etc/{issue.net,issue}.
+
+Ahh yes, that would be it!
+
+The telnetd daemon interprets `%' as an "escape" character to
+represent "system variables" for display purposes (like the current
+time, hostname, tty name, and so on).
+
+Why not just add a switch that forces the `%' character to be escaped
+with itself (for the purpose of sending output to this particular file)?
+
+There's also a problem with /etc/issue.  Some `getty' programs
+interpret unescaped `%' characters the same way as telnetd, while
+other getty's (like `agetty', which I normally use) use `/' as the
+escape character.  Again, corruption of the ascii graphic is a
+potential problem.
+
+No, a better solution is to add a switch that forces the "escape" of
+certain specified characters with a specified "escape character"...
+
+[-e c]	specify escape character for special characters.
+[-c c]  specify which special character(s) to escape, eg, -c '%$&'
+	escapes all three characters.  If not specified, the escape
+	character will escape only itself.
+
+That would account for any number of generic possibilities.  You might
+also want to have something specific like this for the /etc/issue*
+files:
+
+[-p]    use the percent (`%') character as the escape character
+        (for /etc/issue.net)
+[-P]    use the forward-slash (`/') character as the escape character
+        (for /etc/issue)
+
+Oh, and now you know how you can determine in which column to start
+the offset when given negative values with the -o switch!
+
+I'll add two attachments.  One is a list of the vt102 codes, which you
+might find very handy as it lists the console query codes (along with
+everything else).  The other is a shell script that queries the
+console in exactly the way I describe above.  (It is a response to a
+question I asked in usenet a couple of years ago, and it works really
+well.  I'll leave in the comments).  The script contains some escape
+codes, so I hope these don't cause any hassles as text/plain.
+
+I all hope this lot helps to inspire you to build an even more
+interesting and versatile program!
+
+Good luck.
+
+Cheers                               .
+Tony                             _--_|\
+    tony@trishul.sci.gu.edu.au  /     *\ T.Nugent@sct.gu.edu.au
+    ae.nugent@student.qut.edu.au\_.--._/  tnugent@cit.gu.edu.au
+    tony@sctnugen.ppp.gu.edu.au       v  Brisbane Qld Australia
+   -=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-=*#*=-
+
+

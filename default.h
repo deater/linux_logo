@@ -1,4 +1,4 @@
-const char color_logo[][200]={ 
+const char *color_logo[]={ 
 "[44m Put the logo from your   [2C[30;47mUU[2CUU[1CNN[2CNN[1CIIIIII[1CXX[2CXX[40m",
 "[44m  [37mOperating System HERE   [2C[30;47mUU[2CUU[1CNNN[1CNN[3CII[4CXXXX[40m",
 "[44m                          [2C[47mUU[2CUU[1CNNNNNN[3CII[5CXX[40m",
