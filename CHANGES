@@ -658,3 +658,10 @@
 19 July 2002
 + Had released 4.03
 + Update USAGE to reflect redhat 7.x series
+
+27 August 2002
++ Have to release version 4.05 because of a segfault when
+  HOME not set (can be a problem if used during boot).
+  Thanks to Steve Kostecke <steve@debian.org> and the helpful
+  debian people who file bug reports.
+  

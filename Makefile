@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 4.04 -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.05 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -49,7 +49,7 @@ logos-default:
 
 clean:
 	rm -f *.o
-	rm -f linux_logo linux_logo-dyn parse_logos
+	rm -f linux_logo linux_logo-dyn parse_logos load_logos.h
 	rm -f *~
 	cd $(LIBSYSINFO) && $(MAKE) clean
 	cd po && $(MAKE) clean

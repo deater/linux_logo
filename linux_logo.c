@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.04 - Creates Nifty Logo With System Info - 8 August 2002
+  LINUX LOGO 4.05 - Creates Nifty Logo With System Info - 27 August 2002
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -22,7 +22,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.04"
+#define VERSION "4.05"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -84,7 +84,12 @@ struct logo_info *load_logo_from_disk(char *filename) {
    FILE *fff;
       
    new_logo=calloc(1,sizeof(struct logo_info));
-   
+
+   if (new_logo==NULL) {
+      printf("Error allocating memory!\n");
+      return NULL;
+   }
+	
    fff=fopen(filename,"r");
    if (fff==NULL) {
       printf("Error loading logo: %s\n",filename);
@@ -281,7 +286,7 @@ char *uptime_string(int seconds) {
    
     int up_days,up_hrs,up_mins;
     char temp_string[BUFSIZ];
-       
+   
     up_days=seconds/86400;
     up_hrs=(seconds-(up_days*86400))/3600;
     up_mins=(seconds-(up_days*86400)-(up_hrs*3600))/60;
@@ -596,7 +601,7 @@ int main(int argc,char **argv)
     struct linux_logo_info_type settings;
     struct logo_info *temp_logo,*custom_logo=NULL;
     struct timeval time_time;
-    FILE *config_file;
+    FILE *config_file=NULL;
     char *fake_data;
     char **fake_argv=NULL;
     int file_size=0,ch=0,in_quote=0,fake_data_offset=0,fake_argc=0,counter=0; 
@@ -622,12 +627,14 @@ int main(int argc,char **argv)
        /* Check for the files */
    
        /* look for ~/.linux_logo */
-    string_size=strlen(getenv("HOME"));
-    tempst=calloc(strlen("/.linux_logo")+string_size,sizeof(char));
-    strncpy(tempst,getenv("HOME"),string_size);
-    strncat(tempst,"/.linux_logo",strlen("/.linux_logo"));
-    config_file=fopen(tempst,"r");
-    free(tempst);  /* free the calloc's! */
+    if (getenv("HOME")) {
+       string_size=strlen(getenv("HOME"));
+       tempst=calloc(strlen("/.linux_logo")+string_size,sizeof(char));
+       strncpy(tempst,getenv("HOME"),string_size);
+       strncat(tempst,"/.linux_logo",strlen("/.linux_logo"));
+       config_file=fopen(tempst,"r");
+       free(tempst);  /* free the calloc's! */
+    }
 
        /* if no ~/.linux_logo, check for /etc/linux_logo.conf */
     if (config_file==NULL) {

@@ -1,6 +1,5 @@
 + Update AIX and Irix ports to the new architecture
 + Merge in FreeBSD patches
-+ s390 rpm's exist.  Does anyone have cpuinfo files?
 + A cygwin port exists for windows.  Does anyone have the source?
 + Separate libsysinfo off as a separate library?
 + Make libsysinfo a shared-library?
