@@ -77,7 +77,7 @@ long int get_mem_size_iomem(void) {
     if (mem_size > 0) {
        /* Up the size by 1 because the value we got was counting from 0 and
 	* convert the value from bytes to Megabytes */
-       mem_size = ++mem_size / (1024*1024);
+       mem_size = (mem_size+1) / (1024*1024);
        if (mem_size==0) {
 	  /* we overflowed over 4gb */
 	  mem_size=4096;

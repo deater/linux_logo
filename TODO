@@ -22,3 +22,11 @@
    want some-sort of override switch to overcome it too]
 
 - see the ./libsysinfo directory for sysinfo stuff
+
+
+from: Eugene Paskevich
+
+1) Why not include #I in Format string to indicate time in HH:MM format?
+
+2) All text in output is printed in ESC[1;37;40m. It would be nice to
+have an option for that. For example: linux_logo -z 0-37-40 ...

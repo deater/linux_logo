@@ -37,7 +37,7 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 	  
 	     /* should this be PA-RISC?  Or maybe leave it blank? */
 	  if ( !(strncmp(temp_string,"cpu family",10))) {
-	     strncpy(vendor_string,"HPPA",8);
+	     strncpy(vendor_string,"PA-RISC",8);
 	  }
 	  
           if ( !(strncmp(temp_string,"cpu MHz",6))) {	       
@@ -54,6 +54,15 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        }
     }
 
+    if (strstr(model_string,"Forte W")) {
+       strncpy(model_string,"Forte W",8);
+    } else
+    if (strstr(model_string,"Crescendo")) {
+       strncpy(model_string,"Crescendo",10);
+    }
+   
+	
+   
     strncpy(cpu_info->chip_vendor,vendor_string,32);
     strncpy(cpu_info->chip_type,model_string,63);
    

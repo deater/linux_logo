@@ -3,7 +3,7 @@ INSTALL_CMD= ${INSTALL} -m 644
 INSTALLDIR=/usr/lib/locale
 PACKAGE = linux_logo
 
-CATALOGS = de.mo dk.mo es.mo fr.mo nl.mo it.mo pl.mo pt_BR.mo zh_TW.mo
+CATALOGS = de.mo dk.mo es.mo fr.mo nl.mo it.mo pl.mo pt_BR.mo ru.mo ua.mo zh_TW.mo
 
 POTFILES= ../*.c ../*.h
 

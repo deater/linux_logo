@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.07 - Creates Nifty Logo With System Info - 23 January 2003
+  LINUX LOGO 4.08 - Creates Nifty Logo With System Info - 15 March 2004
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -22,7 +22,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.07"
+#define VERSION "4.08"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -33,7 +33,7 @@
 #include "defaults.h"
 
     /* See defaults.h when setting this */
-#if (USE_I8N==0)
+#if (USE_I18N==0)
 #undef _(string)
 #define _(string) string
 #endif
@@ -326,7 +326,7 @@ void help_message(char *binname, char full)
     printf("         [-d]     -- disable \"prettying\" of output\n");
     printf("         [-D file]-- use custom logo from \"file\"\n"); 
     printf("         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for "
-	   "debugging\n");
+	   "debugging]\n");
     printf("         [-f]     -- force the screen clear before drawing\n");
     printf("         [-F format] Format output.  See README.\n");
     printf("      B  [-g]     -- give system info only\n");

@@ -682,3 +682,9 @@
   easier from Chris Brien <spam-me-and-die@negativezero.plus.com>
 + Added TW Chinese translation from <rickz@bbs.sayya.org>
 + Hopefully finally release linux_logo 4.07
+
+11 July 2003
++ Six years of linux_logo!
++ Patches sent in by Eugene Paskevich <eugene@raptor.kiev.ua>
+  fix typo of i18n, add Ukranian and Russian po files, and add
+  simplified logo.

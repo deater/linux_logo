@@ -81,7 +81,18 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 
     if (strstr(model_string,"SpitFire")!=NULL) {
        strncpy(cpu_info->chip_type,"SpitFire",9);
-    }
+    } else
+    if (strstr(model_string,"Power-UP")!=NULL) {
+       strncpy(cpu_info->chip_type,"Power-UP",9);  
+    } else
+    if (strstr(model_string,"UltraSparc II ")!=NULL) {
+       strncpy(cpu_info->chip_type,"UltraSparc II",14);  
+    } else
+    if (strstr(model_string,"UltraSparc III+")!=NULL) {
+       strncpy(cpu_info->chip_type,"UltraSparc III+",16);  
+    }   
+       
+   
        
     cpu_info->num_cpus=cpu_count;
     cpu_info->megahertz=megahertz;

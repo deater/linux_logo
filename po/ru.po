@@ -1,0 +1,95 @@
+# Russian Translation file for linux_logo project.
+# Copyright (C) 2003 Free Software Foundation, Inc.
+# Eugene Paskevich <eugene@raptor.kiev.ua>, 2003.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: linux_logo 4.07\n"
+"POT-Creation-Date: 2003-08-07 19:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Eugene Paskevich <eugene@raptor.kiev.ua>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=KOI8-R\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../linux_logo.c:53
+msgid "Zero"
+msgstr "Ноль"
+
+#: ../linux_logo.c:54
+msgid "One"
+msgstr "Один"
+
+#: ../linux_logo.c:55
+msgid "Two"
+msgstr "Два"
+
+#: ../linux_logo.c:56
+msgid "Three"
+msgstr "Три"
+
+#: ../linux_logo.c:57
+msgid "Four"
+msgstr "Четыре"
+
+#: ../linux_logo.c:58
+msgid "Five"
+msgstr "Пять"
+
+#: ../linux_logo.c:59
+msgid "Six"
+msgstr "Шесть"
+
+#: ../linux_logo.c:60
+msgid "Seven"
+msgstr "Семь"
+
+#: ../linux_logo.c:61
+msgid "Eight"
+msgstr "Восемь"
+
+#: ../linux_logo.c:62
+msgid "Nine"
+msgstr "Девять"
+
+#: ../linux_logo.c:63
+msgid "Many"
+msgstr "Много"
+
+#. This is the default format of the output file.  See the README for more *\
+#. \* information on how to configure this option.
+#: ../defaults.h:13
+msgid ""
+"#O Version #V, Compiled #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Version #V, Compiled #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
+
+
+#: ../defaults.h:14
+msgid ""
+"#O Version #V\n"
+"Compiled #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Version #V\n"
+"Compiled #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
+
+#: ../defaults.h:19
+msgid "Processor"
+msgstr "Процессор"
+
+#: ../defaults.h:20
+msgid "Processors"
+msgstr "Процессор(а/ов)"
+

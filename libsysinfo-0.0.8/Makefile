@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for libsysinfo-0.0.1  -- by Vince Weaver         #
+#  Makefile for libsysinfo-0.0.8  -- by Vince Weaver         #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #

@@ -50,6 +50,12 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        }
     }
   
+    if (strstr(model_string,"COLDFIRE")) {
+       strncpy(model_string,"COLDFIRE",9);
+    }
+   
+	
+   
     strncpy(cpu_info->chip_vendor,"Motorola",9);
     strncpy(cpu_info->chip_type,model_string,63);
   

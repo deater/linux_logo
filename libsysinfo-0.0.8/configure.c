@@ -9,7 +9,7 @@ int linux_detect_arch(void) {
  
     /* Yes this is a bit messy, but it cleans up the makefile a bit *\
     \* The C-Preproccessor can be out friend ;)                     */
-
+   
 /*   return ARCH_HPPA; */
       
 #if defined(__alpha__)

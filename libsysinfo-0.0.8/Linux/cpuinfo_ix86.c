@@ -81,6 +81,9 @@ int get_cpu_info(cpu_info_t *cpu_info) {
    
     strncpy(cpu_info->chip_vendor,"Unknown",9);
   
+    /* sanity */
+    if (cpu_count<1) cpu_count=1;
+   
     cpu_info->num_cpus=cpu_count;
     cpu_info->bogomips=bogomips;
    
@@ -144,6 +147,17 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        if (strstr(model_string,"Duron")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Duron",6);
        }
+       
+       if (strstr(model_string,"Unknown")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Unknown",8);
+       }
+       
+          /* Opterons */
+       if (strstr(model_string,"Opteron")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Opteron",8);
+       }
+       
+	    
        
           /* Work around old kernels */
        if (model_string[0]==0) {
@@ -222,6 +236,23 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        if (!(strncmp(model_string,"Intel(R) Pentium(R) 4",21))) {
 	  strncpy(cpu_info->chip_type,"Pentium 4",10);
        }
+       
+       if (strstr(model_string,"Pentium(R) M")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Pentium M",10);
+       }
+       if (strstr(model_string,"Pentium(R) III")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Pentium III",12);
+       }
+       if (strstr(model_string,"Xeon(TM) MP")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Xeon MP",8);
+       }
+       if (strstr(model_string,"Pentium(R) 4 - M")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Pentium 4 M",12);
+       }
+       
+	    
+       
+	    
        
        if ( !(strncmp(model_string,"Intel(R) Xeon(TM) CPU",21)) ||
 	    !(strncmp(model_string,"Intel(R) Genuine CPU",19)) || 

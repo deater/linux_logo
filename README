@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 4.07 -- Shows a Logo With some System Info - 23 January 2003
+    LINUX_LOGO 4.08 -- Shows a Logo With some System Info - 14 March 2004
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
@@ -57,10 +57,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-4.07.tar.gz
+        tar -xzvf linux_logo-4.08.tar.gz
 	
     enter the directory
-        cd linux_logo-4.07
+        cd linux_logo-4.08
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -370,7 +370,7 @@ THANKS
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
    Without you linux_logo wouldn't work on so many machines.
    
-   Special thanks to Kristina Gonser and my friends John Clemens and Marie
+   Special thanks to Kristina (KRG) and my friends John Clemens and Marie
    Prosser.
    
 -----------------

@@ -81,3 +81,7 @@
 30 December 2002
 + A new G3 model in the ppc cpuinfo support from RJ Bergeron 
   <rj@bergeron-us.net>
+
+13 March 2004
++ Update to work with all known Alpha cpuinfo's
++ Update to work with all known ARM cpuinfo's
