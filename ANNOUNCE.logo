@@ -1,17 +1,21 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 2.02 -- Shows a Logo With some System Info - 13 May 1998
+    LINUX_LOGO 2.05 -- Shows a Logo With some System Info - 9 July 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
-       SUPPORTS Linux (SMP, Atari m68k, Alpha) and some non-Linux OS's
+     SUPPORTS Linux (intel, m68k, Alpha, Sparc) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 2.02 of my linux_logo package.  Why a major increase 
+I have released version 2.05 of my linux_logo package.  Why a major increase 
 in version number?  Well many new features have been added, most notably a
 new default "linux banner" sent by Albert Lai.
 
 A sample ascii output of the new banner mode is attached to the end.  The
 banner looks much, much cooler in color ;)
 
+NEW IN VERSION 2.05
+  -- Much more customizable
+  -- Better support for Alpha and Sparc CPUs
+  
 NEW IN VERSION 2.02
   -- Fixed mulitple command-line options bug
 
@@ -44,9 +48,10 @@ USES [instructions included]
 -------------------------------------------------------------------------
 WHERE TO GET LINUX_LOGO:
 -------------------------------------------------------------------------
-  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-2.02.tar.gz
-  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-2.02.tar.gz -- at first
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.02.tar.gz
+  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-2.05.tar.gz
+  http://www.vince.weaver.org/vmwprod/linux_logo-2.05.tar.gz
+  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-2.05.tar.gz -- at first
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.05.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 

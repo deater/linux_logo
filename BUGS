@@ -1,7 +1,9 @@
 KNOWN "FEATURES"
 
+ignores unsupported/incompatible options
+
 % character won't work in ascii art if catting to /etc/issue.net
 
 no plain ascii art for non-linux platforms.
 
-Alpha CPU detection not work right?
+centering of system info below the banner isn't exactly quite center

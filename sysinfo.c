@@ -7,10 +7,13 @@
 
 #if defined(linux)
 #define MREE 1
+
 #if defined(m68000)
 #include "sysinfo_m68k.c"
 #elif  defined(__alpha__)
 #include "sysinfo_alpha.c"
+#elif defined(__sparc__)
+#include "sysinfo_sparc.c"
 #else
 #include "sysinfo_ix86.c"
 #endif 
@@ -18,7 +21,7 @@
 
 #ifdef SGI
 #define MREE 1
-#include "sysingo_sgi.c"
+#include "sysinfo_sgi.c"
 #endif
 
 #ifdef AIX

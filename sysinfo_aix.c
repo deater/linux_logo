@@ -51,13 +51,12 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,char *host_nam
    uname( &buf);
 
    strcpy(os_name,buf.sysname);
-   strcpy(os_version,buf.release);   
-   strcpy(os_revision,buf.version);
+   strcpy(os_version,buf.version);   /* switched around, JSt */
    strcpy(os_revision,"Revision ");
-   strcat(os_revision,buf.version);
+   strcat(os_revision,buf.release);
    strcpy(host_name,buf.nodename);
-   /* 
-   printf("machine: %s\n",buf.machine);
+   
+  /* printf("machine: %s\n",buf.machine);
    printf("domain:  %s\n",buf.domainname);*/
  }
     
@@ -80,19 +79,35 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
 
-       /*      sprintf(cpuinfo,"Unkown CPU");*/
+       /*      sprintf(cpuinfo,"Unknown CPU");*/
     if ((fff=popen("lsattr -El proc0","r") )!=NULL) {
        while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
-	  if ( !(strcmp(temp_string2,"type")) ) {
-	     fscanf(fff,"%s%s%s%s%s",(char *)&temp_string,(char *)&temp_string,
-		   (char *)&chip,(char *)&temp_string,(char *)&temp_string);
-	     read_string_from_disk(fff,(char *)&model);
-	     sscanf(model,"%s",(char *)&temp_string);
+	  if ( !(strcmp(temp_string2,"type")) ) { 
+/* moved &chip, JSt
+   output of lsattr -El proc0 gives
+state enable Processor state False
+type  POWER2 Processor type  False
+   on AIX 4.1.5 systems
+ */
+	     fscanf(fff,"%s%s%s%s%s",(char *)&chip,(char *)&temp_string,
+		   (char *)&temp_string,(char *)&temp_string,(char *)&temp_string);
 	  }
        }
     }
     pclose(fff);
-    sprintf(cpuinfo,"%s",chip);
+
+/* count cpus ... ugly using wc, JSt */
+    if ((fff=popen("lsdev -Cc processor -SA|wc -l","r") )!=NULL) {
+	     fscanf(fff,"%d",&cpus);
+	  }
+    pclose(fff);
+/* check mem, JSt */
+    if ((fff=popen("lsattr -E -l sys0 -a realmem -F value","r") )!=NULL) {
+	     fscanf(fff,"%ld",&mem);
+	  }
+    pclose(fff);
+
+    sprintf(cpuinfo,"%s %s Processor%s %ldM RAM",ordinal[cpus],chip,(cpus>1)?"s,":",",mem/1024);
   	    
       if (!skip_bogomips)
          if ( (external_bogomips( (char *)&bogomips_total))==-1 )

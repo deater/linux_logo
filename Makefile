@@ -38,13 +38,14 @@ linux_logo:	linux_logo.o sysinfo.o bogomips.o
 	$(CC) $(C_OPTS) -o linux_logo linux_logo.o bogomips.o sysinfo.o $(L_OPTS)
 	@strip linux_logo
 
-linux_logo.o:	linux_logo.c ascii_penguin.h
+linux_logo.o:	linux_logo.c ascii_penguin.h defaults.h
 	@echo Compiling for $(PLATFORM)
 	@echo Edit the Makefile to change Platform
+	@echo Edit defaults.h to change Default Values
 	$(CC) $(C_OPTS) -c linux_logo.c
 
-sysinfo.o:	sysinfo.c
-	$(CC) $(C_OPTS) -c sysinfo.c
+sysinfo.o:	sysinfo.c 
+	$(CC) $(C_OPTS) -c sysinfo.c 
 
 bogomips.o:	bogomips.c
 	$(CC) $(C_OPTS) -c bogomips.c

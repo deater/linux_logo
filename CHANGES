@@ -110,6 +110,59 @@
 + Fixed it so that command line paramaters were passed to the relevant
   modules.  This had been broken for some time; thanks to
   <mengmeng@earthling.net> for pointing this out.
-+ The boot-logo flamewar has started on linux-kernel, so I think I will
++ The boot-logo flamewar has resumed on linux-kernel, so I think I will
   zip up and get 2.0.2 ready to announce....
   
+27 May 1998
++ Finally released 2.0.2.  Posted announcements to freshmeat.net and c.o.l.a.
+
+28 May 1998
++ Got a lot of feedback due to the announcement on freshmeat.net.
++ Added -f option to clear screen.. thanks to Sean Kelly <smkelly@zombie.org>
+  for the suggestion.
++ Fixed a typo in sysinfo_{default,aix}.c thanks to zap <zap@arosnet.se>
++ Added a section to the README about having fun with the -R option
++ Increased the size of some buffers so that long cpu names [especially
+  Pentium II ones] don't overflow.  [Thanks to Caleb Epstein
+  <epstein_caleb_unix@jpmorgan.com> and Steve <steve@steve.paradise.net.nz> 
+  for reporting this problem].
++ Changed the 'penguin_port' in the README to 54321.  Thanks to 
+  David Nedrow <dnedrow@usa.net> for letting me know that port 1234
+  has a reserved meaning and that a higher numbered port would be better.
++ Added Linux-Sparc support with the help of Raymond Wu <rwu@ml.com>
+
+1 June 1998
++ Added better BogoMips reporting for Sparc64 [thanks to "Eddie C. Dost"
+  <ecd@skynet.be>]
+
+3 June 1998
++ Fixed typo in sysinfo.c thanks to Rod Begbie <rod@begbie.com>
+
+4 June 1998
++ Fixed problem where if there was no vendor it would include extrneous
+  space in the sysinfo ouput.  Thanks to report from Mark Lundeberg
+  <aa026@pgfn.bc.ca>
++ added contrib directory for possible future logos
++ improved AIX support thanks to Jochen Stein <jst@writeme.com>
+
+18 June 1998
++ Added -k switch to enable chaning of backround shape independently of
+  foreground.  Thanks to Alexandre Aufrere <alexandre.aufrere@bigfoot.com>
++ Fixed a bug on showing MMX pentiums with 2.0.34?
+
+9 July 1998
++ Someone reported 2.03 to freshmeat although it wasn't quite an official
+  "Announce to the world" release.  So I got to working on this a bit.
++ Made a patch to allow adding the linux_logo [in color] to the linux kernel.
+  I think the logo should remain user_space, but people kept whining how ugly
+  the text logos were with fbcon.  Oddly, I got no response for my patch.
+  None at all.  It can be obtained at 
+  http://www.ee.umd.edu/~weave/color-vga-linux-logo.patch
+  And is against 2.1.108 with some of Geert's fbcon fixes.
++ Messed with the directory structure some more, moving the "Samples" to the
+  ./samples directory.
++ Restructured source to use global variables instead of paramater passing.
+  Made code much easier to follow and smaller.
++ Now default behavior is customizable by editing the "defaults.h" file.
++ Added the -l and -g switches to disable sysinfo and logo respectively.
++ Fixed up the README file a lot.

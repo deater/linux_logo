@@ -69,8 +69,8 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
-   char temp_string2[40],model[15],vendor[30],chip[20];
-   char temp_string[80],bogomips_total[30];
+   char temp_string2[BUFSIZ],model[BUFSIZ],vendor[BUFSIZ],chip[BUFSIZ];
+   char temp_string[BUFSIZ],bogomips_total[BUFSIZ];
    float total_bogo=0.0;
    /*Anyone have more than 9 cpu's yet?*/	
 	char ordinal[10][10]={"Zero","One","Two","Three","Four","Five","Six",
@@ -92,10 +92,26 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	         sscanf(model,"%s",(char *)&temp_string);
 	       
 	       /* Fix Ugly Look Proc info with custom */
+	         
+	       
+	         
 	         if ( !(strcmp(temp_string,"K6")))
 		    sprintf(model,"%s","K6");
+	       
+	       /* Does this improve things on AMD K6 systems on 2.0.3x? *\
+	       \* It is very hard to add support for older kernels      */
+	       /* without breaking a different chip type.  2.1.x fixes  *\
+	       \* This, hopefully 2.2 is out soon.                      */
+     
+	         if ( (!(strcmp(temp_string,"6"))) 
+		    && (!(strcmp(vendor,"AMD "))) )
+      		    sprintf(model,"%s","K6");
+               /* If it breaks K6-3D, someone with one send me a        *\
+	       \*    /proc/cpuinfo                                      */
 		 if ( !(strncmp(temp_string,"6x86L",5)))
-		    sprintf(model,"%s","6x86");	 
+		    sprintf(model,"%s","6x86");
+	         if ( !(strncmp(temp_string,"K5",2)))
+		    sprintf(model,"%s","K5");
 	         if ( !(strcmp(temp_string,"unknown")))
 		    sprintf(model,"%s",chip);
 	    }
@@ -103,14 +119,19 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	       fscanf(fff,"%s",(char *)&temp_string);
 	       read_string_from_disk(fff,(char *)&vendor);
 	       sscanf(vendor,"%s",(char *)&temp_string);
+
 	       if ( !(strcmp(temp_string,"AuthenticAMD"))) {
-	          sprintf(vendor,"%s","AMD");
+	          sprintf(vendor,"%s","AMD ");
 	       }
 	       if ( !(strcmp(temp_string,"GenuineIntel"))) {
-	          sprintf(vendor,"%s","Intel");
+	          sprintf(vendor,"%s","Intel ");
+		  /* Report Pentium MMX's right on Intel? */
+		  if ( !strcmp(chip,"586") ) {
+		     sprintf(model,"%s","Pentium");
+		  }
 	       }
 	       if ( !(strcmp(temp_string,"CyrixInstead"))) {
-	          sprintf(vendor,"%s","Cyrix");            
+	          sprintf(vendor,"%s","Cyrix ");            
 	       }
 	       if ( !(strcmp(temp_string,"unknown"))) {
 		  vendor[0]='\0';
@@ -129,7 +150,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    mem=buff.st_size;
    mem/=1024; mem/=1024;
 	    
-      sprintf(cpuinfo,"%s %s %s Processor%s %ldM RAM",ordinal[cpus],vendor,
+      sprintf(cpuinfo,"%s %s%s Processor%s %ldM RAM",ordinal[cpus],vendor,
 	      model,(cpus>1)?"s,":",",(long int)mem);
       sprintf(bogo_total,"%.2f Bogomips Total",total_bogo);      
 

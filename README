@@ -1,8 +1,8 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 2.02 -- Shows a Logo With some System Info - 13 May 1998
+    LINUX_LOGO 2.05 -- Shows a Logo With some System Info - 9 July 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
-
-       SUPPORTS Linux ( SMP, Atari m68k, Alpha) and some other non-Linux OS's
+                                         http://www.vince.weaver.org/
+     SUPPORTS Linux (Intel, m68k, Alpha, Sparc) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
 HISTORY: 
@@ -111,7 +111,7 @@ POTENTIAL USES FOR linux_logo
          with the Penguin! 
 	 
          Add the following line to /etc/services
-	     penguin         1234/tcp        penguin
+	     penguin         54321/tcp        penguin
 	     
 	 Add the following line to /etc/inetd.conf
 	    penguin stream  tcp     nowait  root   /usr/local/bin/linux_logo
@@ -127,10 +127,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-2.02.tar.gz
+        tar -xzvf linux_logo-2.05.tar.gz
 	
     enter the directory
-        cd linux_logo-2.02
+        cd linux_logo-2.05
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -147,21 +147,99 @@ POTENTIAL USES FOR linux_logo
 --------------------------------------------------------------------------->
 USAGE
 --------------------------------------------------------------------------->
-
-Usage:   linux_logo [-ascii] [-banner] [-classic] [-rX] [-w Num] [-o Num]
-                    [-n] [-p] [-s] [-v] [-h]
-		    
-	 [-ascii] -- ascii only monochrome logo
-	 [-banner] - New default Banner Logo!  
-	 [-classic]- The Old [original] linux_logo look
+Usage:   ./linux_logo [-ascii] [-banner] [-classic] [-f] [-g] [-h] [-kX] [-l]
+                     [-n] [-o Num] [-p] [-rX] [-s] [-v] [-w Num]
+         [-ascii] -- Display logo as ascii only monochrome
+         [-banner] - New default Banner Logo!
+         [-classic]- The Old [original] linux_logo look
+         [-f]     -- force the screen clear before drawing
+         [-g]     -- give system info only
+         [-h]     -- this help screen
+         [-kX]    -- X is a character to replace the background one.
+         [-l]     -- display logo only
+         [-n]     -- toggle periods off [may make cleaner output
+         [-o Num] -- offset output Num spaces to the right
+         [-p]     -- preserve cursor location
          [-rX]    -- X is a character to replace '#' with in banner mode
-	 [-w Num] -- set width of screen to Num [default 80]
-	 [-o Num] -- offset output Num spaces to the right
-	 [-n] -- toggle periods off [may make output look better/cleaner]
-         [-p] -- preserve cursor location
-	 [-s] -- skip Bogomips [speeds up display on non-Linux platforms]
-	 [-v] -- version information
-	 [-h] -- this help screen
+         [-s]     -- skip Bogomips [speeds up on non-Linux platforms]
+         [-v]     -- version information
+         [-w Num] -- set width of screen to Num [default 80]
+
+More detailed explanations:
+
+[-ascii] : This option makes linux_logo output no fancy colors.  This is
+           useful if you are viewing linux_logo over a black and white 
+	   terminal, or a terminal that can't handle fancy escape sequences
+	   well [like default win95 telnet].
+	   
+[-banner]: This option makes sure you are viewing the new 'banner' style
+           output, which the author prefers.  I actually didn't draw this
+	   logo; Albert Lai did and let me use it.
+	   
+[-classic]:This option makes linux_logo display the 'classic' [i.e. pre 2.0]
+           style logo.  Apparently many people prefer this version.  I made
+	   it myself using some complex manipulation of TheDraw and of
+	   the 'official' logo.xpm that comes with the linux_sources.
+	   
+[-f]     : This option simply clears the screen before drawing the logo.
+
+[-g]     : This option makes linux_logo display the system_info only.
+           [Note.. this option only works in banner mode].  This is
+	   useful if you have your own, better, ansi logo and you don't
+	   want to mess with include files.  Just
+	   "cat My_Logo >> out; linux_logo -g >> out" to get your logo with
+	   my sysinfo.
+
+[-h]     : This simply displays the help screen, which is much less verbose
+           than this write-up.
+
+[-kX]    : This option lets you change which character is used when drawing 
+           the background of the logo.  Just put the character you want
+	   instead of X.  See the next section to learn how to use non-ascii
+	   values [like the IBM line-drawing values] instead.
+	   
+[-l]     : This option displays the logo only [Only works in banner mode].
+           This is useful if for whatever reason you don't want to see the
+	   system info.
+	   
+[-n]     : This option toggles periods off.  It makes the classic logo look
+           somewhat nicer.  It has no effect on the banner logo.
+
+[-o Num] : This option will offset the logo towards the right of the screen
+           Num spaces.
+
+[-p]     : This option preserves the position of the cursor on the screen
+           while drawing the logo under it.
+	   
+[-rX]    : This option is similar to the -kX option described above, only
+           it replaces the foreground character not the background one.
+
+[-s]     : This option skips the bogomips test on non-linux ports.  On 
+           platforms that don't have the bogomips value in a /proc file,
+	   linux_logo calculates the value itself using a GPL'd routine.
+	   This can take a while, especially on slower machines, so it can
+	   be disabled.
+
+[-v]     : This option displays the version of linux_logo you are using.
+
+[-w Num] : Use this option to set the width of the screen.  It helps in trying
+           to center the banner mode. Default is 80 columns.
+	   
+--------------------------------------------------------------------------->
+NEAT THINGS TO DO
+--------------------------------------------------------------------------->
+
+Changing the output character of the banner
+   + You do this with the -rX option where X is the character to output
+     instead of the default #
+   + Some interesting chars to use instead are $ % X * and ~
+   + If you have an IBM-VGA font loaded with ibm's extended graphics
+     characters [ascii codes 128-256] you can output these commands when
+     using the bas shell via
+        linux_logo -R$'\nnn'
+     Where you replace nnn with the octal [base eight] code for the ascii
+     value.  Some neat values of nnn to try are 333 316 260 and 263
+
 
 --------------------------------------------------------------------------->
 TROUBLESHOOTING
@@ -183,16 +261,18 @@ Know bugs:
 	 so this combination cannot be used in a picture.
 	 
 ------------------------------------------------------------------------>
-"TWEAKING" THE SYSTEM INFO OUTPUT
+CUSTOMIZING "TWEAKING" THE SYSTEM INFO OUTPUT
 ------------------------------------------------------------------------>
+     To customize some options of linux_logo, try editing the defaults
+         in the "defaults.h" file.
+	 
      The cpuinfo supplied in /proc/cpuinfo is not always the most 
          desirable text to be displayed as the cpuinfo.  In the relevant
 	 sysinfo_x.c file there is a place where I add custom outputs to
 	 "beautify" the output.  For instance I parse the ugly
 	 "K6 (166 - 266)" given by /proc/cpuinfo and have it instead just
 	 print "K6".
-	 
-     
+	      
      If your particular chip gives ugly output, send me a sample /proc/cpuinfo
         and what you'd rather it say.  I have already added fixes for the K6
 	and certain Cyrix chips.
@@ -216,9 +296,10 @@ TOOLS TO CREATE OTHER LOGOS
 ------------------------------------------------------------------------->
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
-  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-2.02.tar.gz
-  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-2.02.tar.gz -- at first
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.02.tar.gz
+  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-2.05.tar.gz
+  http://www.vince.weaver.org/vmwprod/linux_logo-2.05.tar.gz
+  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-2.05.tar.gz -- at first
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.05.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
@@ -234,3 +315,10 @@ THANKS
 -----------------
 Vince
 weave@eng.umd.edu
+vince@weaver.org
+
+Linux Logo Version 2.05 -- by Vince Weaver (weave@eng.umd.edu)
+   Newest Versions at:
+      http://www.glue.umd.edu/~weave/vmwprod
+      http://sunsite.unc.edu/pub/Linux/logos/penguins
+

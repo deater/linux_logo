@@ -1,4 +1,17 @@
+Fix so doesn't quietly ignore un-supported options.
+
 Things possibly to do:  
+
+- suggested by Edward Betts <edward@hairnet.demon.co.uk>
+> One of the monitors on my linux box is an old ibm monochrome display. I
+> always run linux-logo as linux_logo -ascii, because the colour version
+> really does not work very well. I wonder could you check the value of TERM
+> and if it is linux-m, run in mono mode (print linux_logo -ascii) by default,
+> as some other programs do like mc, lynx, mutt and slrn do.
+
+  [this is possible.  Don't have time to code it right now however.. would
+   want some-sort of override switch to overcome it too]
+
 
 - Allan Joergensen <dw@null.dk> suggests an "up-time" option.
   This might be a good idea for a command line option. 
