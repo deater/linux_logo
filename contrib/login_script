@@ -1,0 +1,37 @@
+#
+# LINUX_LOGO
+#
+# This sample script by Juhapekka Tolvanen <juhtolv@silmu.st.jyu.fi>
+# goes at the end of a .bashrc file.  It detects where you are logging
+# in from, and will run Welcome2L [a intel-specific logo program],
+# linux_logo, or linux_logo -a depending on term type.
+
+R=$(cat /etc/redhat-release)
+
+#eval resize# if [ $LINES >= 40 ]; then
+
+#$HOME/bin/linux_logo -ascii -y -u
+
+
+#$HOME/bin/linux_logo -ascii -y -u
+
+case "$TERM" in
+
+linux)
+#$HOME/bin/linux_logo_custom -t "Red Hat Linux $R" -y -u
+$HOME/bin/Welcome2L
+uptime
+echo Red Hat Linux $R
+echo ""
+;;
+
+xterm-color)
+$HOME/bin/linux_logo -t "Red Hat Linux $R" -y -u
+;;
+
+*)
+$HOME/bin/linux_logo -t "Red Hat Linux $R" -y -u -ascii
+
+esac
+
+# fi

@@ -309,3 +309,12 @@
 + Added code to print the MHz if given by the new tsc code in kernels
   >2.1.127
 + Actually finally release 2.12
+
+5 December 1998
++ Idea from Juhapekka Tolvanen <juhtolv@silmu.st.jyu.fi> to totally
+  re-write sysinfo stuff.  Will work on over break.
++ Also added sample scripts from him to contrib directory.
++ Pending re-write of entire sub-system, to break compatibilty?
+  Linux_logo 3.0?
+  
+  

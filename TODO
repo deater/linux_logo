@@ -2,6 +2,13 @@ Fix so doesn't quietly ignore un-supported options.
 
 Things possibly to do:  
 
+- Have background color be configurable?
+  (thanks to Ian Downard -- (www.umr.edu/~itd) )
+  
+- Allow arbitrary number of custom text lines?
+  Thanks to Peter Magnusson <iocc@home.se>
+  
+  
 - re-write the parse code to be more /proc/cpuinfo fault tolerant...
 
 - fix the Banner/Classic mode options to not be specific to one or the other.
