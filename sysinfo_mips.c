@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "sysinfo_common.h"
+#include "vmw_string.h"
 
 int external_bogomips(char *bogomips_total);
 
@@ -54,21 +55,30 @@ void get_hw_info(struct hw_info_type *hw_info,
 	 if ( !(strcmp(temp_string2,"model")) ) {
 	    fscanf(fff,"%s",(char *)&temp_string);
 	    fscanf(fff,"%s",(char *)&temp_string);
-	    sprintf(model,"MIPS %s",temp_string);
+	    if (strstr(temp_string,"NEC")) {
+	       fscanf(fff,"%s",(char *)&temp_string);
+	    }
+	    sprintf(model,"%s",temp_string);
 
 	 }
 	 if ( !(strcmp(temp_string2,"type")) ) {
 	    fscanf(fff,"%s",(char *)&temp_string);
-	    read_string_from_disk(fff,(char *)&vendor);
-	    sprintf(temp_string,"%s",vendor);
+	    fscanf(fff,"%s",(char *)&temp_string);
+//	    read_string_from_disk(fff,(char *)&vendor);
+            fscanf(fff,"%s",(char *)&vendor);
+	    strcat(vendor," with ");
+//	    sprintf(temp_string,"%s",vendor);
 	       
 	    /* Fix Ugly Look Proc info with custom */
-	    if (strstr(temp_string,"DECstation")!=NULL){
-	       sprintf(vendor,"%s","DEC ");
-	    }
-	    if (strstr(temp_string,"SGI")!=NULL){
-	       sprintf(vendor,"%s","SGI ");
-	    }
+//	    if (strstr(temp_string,"DECstation")!=NULL){
+//	       sprintf(vendor,"%s","DEC ");
+//	    }
+//	    if (strstr(temp_string,"SGI")!=NULL){
+//	       sprintf(vendor,"%s","SGI ");
+//	    }
+//	    if (strstr(temp_string,"Clio")!=NULL){
+//	       sprintf(vendor,"%s","Clio with ");
+//	    }
 	 }
 	  
 	 if ( strstr(temp_string2,"BogoMIPS")!=NULL ) {

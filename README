@@ -1,7 +1,6 @@
 /*--------------------------------------------------------------------------*\
-     LINUX_LOGO 3.04 -- Shows a Logo With some System Info - 13 January 2000
+     LINUX_LOGO 3.9b1 -- Shows a Logo With some System Info - 6 August 2000
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
-                                         http://www.vince.weaver.org/
      SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
@@ -145,10 +144,10 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-3.01.tar.gz
+        tar -xzvf linux_logo-3.9b1.tar.gz
 	
     enter the directory
-        cd linux_logo-3.01
+        cd linux_logo-3.9b1
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -166,33 +165,32 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
 USAGE
 --------------------------------------------------------------------------->
 
-Usage:   linux_logo [-a] [-b] [-c] [-d] [-e file] [-f] [-g] [-h] [-kX] [-l] 
-                    [-n] [-o num] [-p] [-rX] [-s] [-t str] [-u] [-v] [-w Num]
-                    [-x] [-y] [-F format]
-         [-a]     -- Display logo as ascii only monochrome
-         [-b]     -- New default Banner Logo!
-         [-c]     -- The Old [classic] linux_logo look
-	 [-d]     -- disable "prettying" of output
+Usage:   linux_logo [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]
+                    [-h] [-l] [-n] [-o num] [-p] [-s] [-t str] [-u] [-v]
+                    [-w Num] [-x] [-y] [-F format] [-L num | list | random_xx]
+         [-a]     -- Display an ascii-only Logo
+         [-b]     -- Display a Banner Logo!
+         [-c]     -- Display a "Classic" type logo
+         [-d]     -- disable "prettying" of output
+         [-D file]-- use custom logo from "file"
          [-e file]-- Use "file" instead of /proc/cpuinfo [for debugging
          [-f]     -- force the screen clear before drawing
+         [-F format] Format output.  See README.
       B  [-g]     -- give system info only
          [-h]     -- this help screen
-      B  [-kX]    -- X is a character to replace the background one.
       B  [-l]     -- display logo only
-      C  [-n]     -- toggle periods off [may make cleaner output]
       C  [-o Num] -- offset output Num spaces to the right
          [-p]     -- preserve cursor location
-      B  [-rX]    -- X is a character to replace '#' with in banner mode
          [-s]     -- skip Bogomips [speeds up on non-Linux platforms]
          [-t str] -- display user-supplied string
       *  [-u]     -- show uptime
          [-v]     -- version information
          [-w Num] -- set width of screen to Num [default 80]
-      B  [-x]     -- narrow logo [useful if issue displays wrong]
       *  [-y]     -- show load average
-         [-F format] Format output.  See README.
+         [-L ...] -- multiple Logo options.  See README
 
  B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux
+
 
 
 More detailed explanations:
@@ -202,25 +200,33 @@ More detailed explanations:
 	   terminal, or a terminal that can't handle fancy escape sequences
 	   well [like default win95 telnet].
 	   
-[-b]     : This option makes sure you are viewing the new 'banner' style
-           output, which the author prefers.  I actually didn't draw this
-	   logo; Albert Lai did and let me use it.
+[-b]     : This option makes linux_logo display the first compiled-in "banner" 
+           style logo.
 	   
-[-c]     : This option makes linux_logo display the 'classic' [i.e. pre 2.0]
-           style logo.  Apparently many people prefer this version.  I made
-	   it myself using some complex manipulation of TheDraw and of
-	   the 'official' logo.xpm that comes with the linux_sources.
+[-c]     : This option makes linux_logo display the first compiled-in 
+           "classic" style logo.  Many people prefer this version of the
+	   logo.  I made it myself using some complex manipulation of TheDraw 
+	   and the 'official' logo.xpm that comes with the linux_sources.
 	   
 [-d]     : This option turns off Megahertz rounding and cpuinfo "prettying".
            That is, it prints your /proc/cpuinfo's "model name" verbatim,
 	   instead of being clever and making it look nice.
-	   
+
+[-D file]: Use an alternate logo on disk.  Just make sure 'file' points
+           to a valid '.logo' file.  Read README.CUSTOM_LOGOS for more
+	   info on how to make these.  Some can be found in the 
+	   ./logos directory of the linux_logo distribution.
+
 [-e file]: Specify an alternate cpuinfo file.  This is only really useful
            if you are debugging a /proc/cpuinfo file that is not from
 	   your own computer.  Theoretically you could also use this to
 	   make your old 386 appear to be a Pentium to users ;)
 
 [-f]     : This option simply clears the screen before drawing the logo.
+
+[-F format]: Use this to super-customize the output of the cpuinfo.  You 
+           pass a string, for example "#V\n#U\n#L\n".  See the section
+	   below entitled "THE NEAT NEW FORMAT COMMAND" for further info.
 
 [-g]     : This option makes linux_logo display the system_info only.
            [Note.. this option only works in banner mode].  This is
@@ -232,17 +238,40 @@ More detailed explanations:
 [-h]     : This simply displays the help screen, which is much less verbose
            than this write-up.
 
-[-kX]    : This option lets you change which character is used when drawing 
-           the background of the logo.  Just put the character you want
-	   instead of X.  See the next section to learn how to use non-ascii
-	   values [like the IBM line-drawing values] instead.
-	   
+[-kX]    : This option has been removed from linux_logo 3.9 and above.
+           If you want to create a logo that looks different than the
+	   default, read README.CUSTOM_LOGOS.
+	   	   
 [-l]     : This option displays the logo only [Only works in banner mode].
            This is useful if for whatever reason you don't want to see the
 	   system info.
+
+[-L num | list | random_xy]:  This option is used to manipulate compiled-in
+           custom logos.  As of linux_logo 3.9 you can compile in an
+	   arbitrary amount of logos, although the default is to just have
+	   the original and banner logos.
 	   
-[-n]     : This option toggles periods off.  It makes the classic logo look
-           somewhat nicer.  It has no effect on the banner logo.
+	   "-L list" will list all of the logos available
+	   "-L num" will display logo number num, where the number is
+	       obtained using the "-L list" command
+	   "-L random_xy" will pick a logo at random, with criteria xy.
+	       When you replace x with the letter:
+	          b : pick a random banner mode logo
+                  c : pick a random classic mode logo
+                  e : pick a logo from either banner or classic
+	       When you replace y with the letter:
+	          a: pick a random ascii logo
+		  n: pick a non-ascii logo
+		  e: pick either type of logo
+	       So to summarize "-L random_ba" picks a random ascii banner,
+	                       "-L random_ce" picks a random classic logo
+			       "-L random_ee" picks any logo, etc, etc
+			       
+	   See README.CUSTOM_LOGOS for more info
+	   
+[-n]     : This option has been removed from linux_logo 3.9 and above.
+           If you want to create a logo that looks different than the
+	   default, read README.CUSTOM_LOGOS.
 
 [-o Num] : This option will offset the logo towards the right of the screen
            Num spaces.
@@ -250,8 +279,9 @@ More detailed explanations:
 [-p]     : This option preserves the position of the cursor on the screen
            while drawing the logo under it.
 	   
-[-rX]    : This option is similar to the -kX option described above, only
-           it replaces the foreground character not the background one.
+[-rX]    : This option has been removed from linux_logo 3.9 and above.
+           If you want to create a logo that looks different than the
+	   default, read README.CUSTOM_LOGOS.
 
 [-s]     : This option skips the bogomips test on non-linux ports.  On 
            platforms that don't have the bogomips value in a /proc file,
@@ -275,32 +305,18 @@ More detailed explanations:
 [-w Num] : Use this option to set the width of the screen.  It helps in trying
            to center the banner mode. Default is 80 columns.
 	   
-[-x]     : This option makes the banner mode output only 79 characters wide,
-           possibly counteracting probelms some Xterm/telnet clients have
-	   when connection to a computer with linux_logo in issue.net
+[-x]     : This option has been removed from linux_logo 3.9 and above.
+           If you want to create a logo that is narrower than the
+	   default, read README.CUSTOM_LOGOS.
 	   
 [-y]     : Display the load average.  [Yes I have just about run out of
            letters to use as command line options ;)]
 
-[-F format]: Use this to super-customize the output of the cpuinfo.  You 
-           pass a string, for example "#V\n#U\n#L\n".  See the section
-	   below entitled "THE NEAT NEW FORMAT COMMAND" for further info.
 
 --------------------------------------------------------------------------->
 NEAT THINGS YOU CAN DO
 --------------------------------------------------------------------------->
 
-Changing the output character of the banner
-   + You do this with the -rX option where X is the character to output
-     instead of the default #
-   + Some interesting chars to use instead are $ % X * and ~
-   + If you have an IBM-VGA font loaded with ibm's extended graphics
-     characters [ascii codes 128-256] you can output these commands when
-     using the bas shell via
-        linux_logo -R$'\nnn'
-     Where you replace nnn with the octal [base eight] code for the ascii
-     value.  Some neat values of nnn to try are 333 316 260 and 263
-     [Note.. this only seems to work properly with bash 2.0 and greater]
    + You can have it report Redhat version using the -t option
      (thanks to Aleksey Makarov <makarov@iitam.omsk.net.ru>
      for this tip).
@@ -326,8 +342,6 @@ TROUBLESHOOTING
 
 Know bugs: 
   
-      Will not support >9 CPU SMP machines currently.
-      
       Different architectures have odd /proc files.  If you send me
       a copy of relevant files (/proc/cpuinfo and /proc/version usually)
       I can see about adding support.
@@ -338,10 +352,6 @@ Know bugs:
       To make easy updated to ansi files with difficult editors, 
          the combination ^[ is read as the ESC code (#27 decimal)
 	 so this combination cannot be used in a picture.
-	 
-      If you use linux_logo to make your issue.net file, and it comes across
-         all garbled and corrupt when telnetting in, try using linux_logo
-	 with the -x option.
 	 
 ------------------------------------------------------------------------>
 CUSTOMIZING "TWEAKING" THE SYSTEM INFO OUTPUT
@@ -432,21 +442,17 @@ As you can see, the possibilities are endless.
 
 
 ------------------------------------------------------------------------>
-TOOLS TO CREATE OTHER LOGOS
+CREATING/USING CUSTOM LOGOS
 ------------------------------------------------------------------------>
-     The image was created using the logo.xpm from the Linux distribution,
-     ppm2ansi by Carsten Haitzler -- http://www.cse.unsw.edu.au/~s2154962/
-     and was hand edited using THEDRAW under dosemu 0.66.7
-     
-     Another good ansi editor [under development] from Adam Lackorzynski
-     can be obtained at http://www.inf.tu-dresden.de/~al10/aae/
+  See the file README.CUSTOM_LOGOS for more than you ever wanted to know
+  about making and using your own logo files.
      
 ------------------------------------------------------------------------->
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.glue.umd.edu/~weave/vmwprod/linux_logo
   http://www.vince.weaver.org/vmwprod/linux_logo
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.01.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b1.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
@@ -462,4 +468,4 @@ THANKS
 -----------------
 Vince
 weave@eng.umd.edu
-vince@weaver.org
+

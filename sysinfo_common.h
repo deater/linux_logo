@@ -3,35 +3,6 @@
 
 #include "getsysinfo.h"
 
-/* The following utility functions taken from my game SEABATTLE */
-
-int my_string_comp(const char *cs, const char *ct)
-{                           /* partly borrowed /usr/src/linux/lib/string.c */
-      register signed char __res;  /* like strcmp, but case-insensitive    */
-   
-      while(1) {
-	 if ((__res = toupper(*cs)-toupper(*ct++))!=0 || !*cs++) break;
-      }
-      return __res;
-}
-
-char *read_string_from_disk(FILE *fff,char *string)
-{                                 /* My own version of fgets */
-     int ch,i=0;                  /* Handles \n much better */
-     char temp[150];
-   
-     strcpy(temp,"");
-     while ((ch=fgetc(fff))==' ');
-     while ( (ch!='\n') && (ch!=EOF) ) {
-	        temp[i]=ch; i++;
-	        ch=fgetc(fff);
-     }
-     if(ch==EOF) return NULL;
-     temp[i]='\0';
-     strcpy(string,temp);
-     return string;
-}
-
 char *linux_get_proc_uptime () 
 {            /* This code modeled on the linux sh-utils 1.16 uptime.c code */
     FILE *fff;

@@ -1,7 +1,5 @@
 KNOWN "FEATURES"
 
-ignores unsupported/incompatible options
-
 % character won't work in ascii art if catting to /etc/issue.net
 
 no plain ascii art for non-linux platforms.

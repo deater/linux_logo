@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "sysinfo_common.h"
+#include "vmw_string.h"
 
 int external_bogomips(char *bogomips_total);
 

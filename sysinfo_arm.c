@@ -1,8 +1,6 @@
-/* sysinfo_alpha.c                                                *\
-\* I was trying to make this easier to add other platforms/       */
-/* architectures.  Feel free to add yours, and send me the patch. *\
-\*----------------------------------------------------------------*/
-/* Added Linux alpha support   -- JrB                             */
+/* sysinfo_arm.c                                                *\
+\*--------------------------------------------------------------*/
+/* lousy arm support -- vmw                                     */
 
 #include <stdio.h>
 #include <ctype.h>
@@ -42,8 +40,9 @@ void get_hw_info(struct hw_info_type *hw_info,
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
-   char temp_string2[BUFSIZ],model[BUFSIZ]="Unknown";
+   char temp_string2[BUFSIZ],vendor[BUFSIZ]="Unknown";
    char temp_string[BUFSIZ],bogomips_total[BUFSIZ];
+   char *model=NULL;
    float total_bogo=0.0;
    float megahertz=0.0;
    
@@ -56,23 +55,30 @@ void get_hw_info(struct hw_info_type *hw_info,
     if ((fff=fopen(logo_info->cpuinfo_file,"r") )!=NULL) {
        while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 
-	  if ( !(strcmp(temp_string2,"model")) ) {
+	  if ( !(strcmp(temp_string2,"Processor")) ) {
 	     fscanf(fff,"%s",(char *)&temp_string);
-	     read_string_from_disk(fff,(char *)&model);
-	     sscanf(model,"%s",(char *)&temp_string);
-	  }
-	  if ( !(strcmp(temp_string2,"cycle")) ) {
-	     fscanf(fff,"%s%s%s%f",(char *)&temp_string,(char *)&temp_string,
-		    (char *)&temp_string,&megahertz);
-	  }
-          if ( !(strcmp(temp_string2,"CPUs")) ) {
-	     fscanf(fff,"%s%i",(char *)&temp_string,&cpus);
+	     read_string_from_disk(fff,(char *)&vendor);
+	     
+	        /* Huge big ugly hack */
+	     if (strstr(vendor,"sa1100")!=NULL) {
+		model=strdup("sa1100");
+	     }
+	     if (strstr(vendor,"710")!=NULL) {
+		model=strdup("ARM 710");
+	     }
+	     sscanf(vendor,"%s",(char *)&vendor);
+	     strcat(vendor," ");
 	  }
 	  
- 	  if ( !(my_string_comp(temp_string2,"bogomips")) ) {
+ 	  if ( !(my_string_comp(temp_string2,"BogoMIPS")) ) {
 	    fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
 	    total_bogo+=bogomips;			       
-	 }
+	  }
+	  if ( !(my_string_comp(temp_string2,"BogoMips")) ) {
+	    fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
+	    total_bogo+=bogomips;			       
+	  }
+	  
 	 
       }
    }
@@ -85,17 +91,22 @@ void get_hw_info(struct hw_info_type *hw_info,
    
       sprintf(temp_string,"%.2f",total_bogo);
       hw_info->bogo_total=strdup(temp_string);
-   
-      hw_info->cpu_vendor=strdup("Alpha ");
-   
+      
       hw_info->num_cpus=cpus;
+     
+      hw_info->cpu_vendor=strdup(vendor);
 
       if (megahertz>1) {
 	 sprintf(temp_string,"%.0fMHz ",(megahertz/1000000));
 	 hw_info->megahertz=strdup(temp_string);
       }
    
-      hw_info->cpu_type=strdup(model);
+     printf("%s\n",model); fflush(stdout);
+   
+     if (model==NULL)
+        hw_info->cpu_type=strdup("Unknown");
+     else 
+        hw_info->cpu_type=strdup(model);
    
    
 }

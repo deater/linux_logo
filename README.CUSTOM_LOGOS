@@ -1,0 +1,122 @@
+How to Use the new custom logo tools
+------------------------------------
+++++++++++++++++++++++++++++++++++++
+
+
+
+Quick Summary of The -L command line option:
+-------------------------------------------
+
+    "linux_logo -L list" 
+        will list all of the logos available
+		                 
+    "linux_logo -L num" will display logo number num, where the number is
+        obtained using the "-L list" command
+     
+    "linux_logo -L random_xy" will pick a logo at random, with
+        criteria xy.
+               
+	When you replace x with the letter:
+	     b : pick a random banner mode logo
+	     c : pick a random classic mode logo
+             e : pick a logo from either banner or classic
+	When you replace y with the letter:
+	     a: pick a random ascii logo
+	     n: pick a non-ascii logo
+             e: pick either type of logo
+  
+  So to summarize "-L random_ba" picks a random ascii banner,
+                  "-L random_ce" picks a random classic logo
+		  "-L random_ee" picks any logo, etc, etc
+
+
+Add logos by editing the "logo_config" file and re-running "make":
+-----------------------------------------------------------------
+
+   The file "logo_config" holds the files that are compiled in.
+   It is simply a list of file-names.
+   Just add the names of your logos, and they will be compiled in.
+   
+   Order is important; the order they are listen in "logo_config" is
+   the order they will appear in a "linux_logo -L list" command.
+   
+   Also, the options "-c" (classic) "-b" (banner) and "-a" (ascii) depend
+   on this order;  all they do is start with logo #1 and search down the
+   list for an appropriate logo.
+   
+   When you have finished adding logos, recompile with "make".  The
+   change to logo_config should be detected, "parse_logos" should run
+   on the file to ready the files for compiling in.  Any errors should
+   be printed to the screen.
+   
+Creating custom logo files:
+---------------------------
+    By default custom logo files are in the "./logos" directory tree.
+
+    You can test out logos without compiling them in by using the
+        "linux_logo -D filename" option, where filename is the path
+	to a .logo file
+	
+    The .logo file format is simple:
+    --------------------------------
+    
+    + See the ./logos directory for examples
+    
+    + Any line starting with a "#" is a comment and ignored
+    
+    + First comes some info about the logo.  A directive is all in caps,
+      starting at the far left of a line.  After the directive is a space
+      followed by the appropriate value.
+      
+    + Directives:
+    
+      SYSINFO_POSITION
+      
+          possible values:  
+	     
+	      bottom       - indicates a banner-type logo follows
+	      right        - indicates a classic-style logo follows
+	      
+      DESCRIPTION_STRING
+      
+          the characters following the space until the new-line are taken
+	  as a description of the logos.
+	  
+      BEGIN_LOGO
+      END_LOGO
+      
+          between these two directives should be the logo information for
+	  the full-color logo.  This can just be simply the output of an
+	  editor or an ansi-editor [see references].
+	  
+	  The character sequence ^[ is interpreted at the escape (#27) 
+	  character.
+	  
+	  A banner logo can be any length, but typically 80 wide by 12 high
+	  is standard.  Also, the sysinfo will be centered, so keep that in 
+	  mind.
+
+          A classic logo is usually a picutre 22 wide by 16 high, with 
+	  the OS name printed in block letters to the right of the first
+	  6 lines.   The system information is then printed starting on
+	  line 8 and until the sysinfo runs out [typicall between 5-8 lines].
+	  
+      BEGIN_ASCII_LOGO
+      END_ASCII_LOGO
+      
+          If available, an ascii version of the logo [with no escape 
+	  sequences] can be included between these two directives.  Sizing
+	  info is the same as for a normal logo.
+	  
+	  
+    + Be sure to remember to end your directives, and not to nest logo
+      directives.  I have not tested the parser to see how robust it is.
+	  
+ References:
+ ----------       
+          A good ansi editor [under development] from Adam Lackorzynski
+	       can be obtained at http://www.inf.tu-dresden.de/~al10/aae/
+	   
+	  For DOS/Windows I reccommend TheDraw ansi editor.
+	  
+	  Search for "Ansi Editor" on freshmeat.net for more.

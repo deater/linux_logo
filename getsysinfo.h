@@ -1,3 +1,4 @@
+
 struct os_info_type {
       char *os_name;
       char *os_version;

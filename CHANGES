@@ -479,3 +479,37 @@
 + Added a slackware logo
 + Upped version # to 3.05, just to be consistent, even though I haven't made
   enough changes to constitute a full release...
+
+11 June 2000
++ I've been very busy.  With schoolwork and everything.  Back in February
+  I started a massive re-design, but had to stop.  Now I have some time
+  again.
++ I am stuck in Lowell, Massachusetts, with only my 486 laptop, so I thought
+  I'd do some linux_logo developing while not playing civ2 on my friend's
+  machine.
++ Tore out a lot of old "compatibility" code that I hope not many people used.
+  This includes the turn-off periods, and replace background/foreground
+  character code.  This makes the code base cleaner, smaller, and makes it
+  much easier to implement arbitrary/random logo generation, which is my
+  eventual goal.
+
+29 July 2000
++ Believe it or not, I've been working on this off an on the past 2 months.
++ malloc and pointers are your friends!  AHHHH SEGFAULT SEGFAULT SEGFAULT
+  Yes, that's what the past few days of linux_logo development have been
+  like ;)
++ I got logo file loading/parsing done a few weeks ago.  Today I got 
+  ascii/banner/classic logos to all use the same draw_logo function! 
+  There's a lot of abstraction, struct passing, pointers, malloc, and 
+  even a linked list!  I can't believe it works.  And to think this just
+  started out with a bunch of printf's of hard-coded arrays of chars.
+
+4 August 2000
++ Finally got all of the new logo stuff done and working
++ I have a nice K6-2+ to test things on now....
+
+6 August 2000
++ Verified all the cpuinfo files I have work, added ARM support and added
+  crusoe and improved Athlon support.
++ Re-write most of the documentation
++ Release 3.9b1 to Freshmeat hopefully.

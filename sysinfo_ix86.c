@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "sysinfo_common.h"
+#include "vmw_string.h"
 
 int external_bogomips(char *bogomips_total);
 
@@ -56,7 +57,7 @@ void get_hw_info(struct hw_info_type *hw_info,
 
 {
    FILE *fff;
-   int cpus=0;
+   int cpus=0,acpi_found=0;
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
@@ -107,12 +108,14 @@ void get_hw_info(struct hw_info_type *hw_info,
 	         
 		    if ( !(strcmp(temp_string,"AMD-K6tm")))
 		       sprintf(model,"%s","K6");
-		    if ( !(strcmp(temp_string,"AMD-K6(tm)")))
+		    if ( !(strcmp(temp_string,"AMD-K6(tm)-III")))
+		       sprintf(model,"%s","K6-2+");
+		    else if ( !(strcmp(temp_string,"AMD-K6(tm)")))
 		       sprintf(model,"%s","K6-2");
 	            if ( !(strcmp(temp_string,"K6-2")))
 		       sprintf(model,"%s","K6-2");
 		    if (strstr(temp_string2,"3D+")!=NULL) {
-		       sprintf(model,"%s","K6-3");
+		       sprintf(model,"%s","K6-III");
 		    }
 		 }
 	       
@@ -121,6 +124,10 @@ void get_hw_info(struct hw_info_type *hw_info,
 		 }
 	       
 	         if (strstr(temp_string2,"K7")!=NULL) {
+		    sprintf(model,"%s","Athlon");
+		 }
+	       
+	         if (strstr(temp_string2,"Athlon")!=NULL) {
 		    sprintf(model,"%s","Athlon");
 		 }
 		    
@@ -150,6 +157,13 @@ void get_hw_info(struct hw_info_type *hw_info,
 		       sprintf(model,"%s","Pentium III");
 		    }
 		 }
+	       
+	            /* Crazy Transmeta Stuff */
+	         if (strstr(temp_string2,"Crusoe")!=NULL) {
+		    sprintf(model,"%s","Crusoe");
+		 }
+	        
+	            /* Misc Fix-ups */
 	         if (!(strcmp(temp_string,"00/07"))) {
 		    sprintf(model,"%s","Pentium III");
 		 }
@@ -204,10 +218,8 @@ ender:
                   \* default type.                                    */
 		  sprintf(vendor,"%s","Centaur ");  
 	       }
-	       if ( !(strcmp(temp_string,"TransmetaNow"))) {
+	       if ( !(strcmp(temp_string,"GenuineTMx86"))) {
 		  sprintf(vendor,"%s","Transmeta ");  
-		  /* Hehe this is a joke.  No I have no clue what *\
-                  \* Transmeta does.  ;)                          */
 	       }
 	       if ( !(strcmp(temp_string,"unknown"))) {
 		  vendor[0]='\0';
@@ -221,11 +233,26 @@ ender:
 	 }
       }
    }
-
+   fclose(fff);
    
    stat("/proc/kcore",&buff);
    mem=buff.st_size;
    mem/=1024; mem/=1024;
+   
+      /* Fix off by one ACPI memory error */
+   if (logo_info->pretty_output) {
+      if ( (fff=fopen("/proc/iomem","r"))!=NULL) {
+	 while(!feof(fff)) {
+	    read_string_from_disk(fff,(char *)&temp_string2);
+            if (strstr(temp_string2,"ACPI")!=NULL) {
+	       acpi_found=1;
+	    }
+	 }
+	 fclose(fff);
+	 if (acpi_found) mem++;
+      }
+   }
+      
    sprintf(temp_string,"%ldM",(long int)mem);
    hw_info->mem_size=strdup(temp_string);
    

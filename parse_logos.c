@@ -1,0 +1,189 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/utsname.h>
+
+
+#include "getsysinfo.h"
+#include "logo_types.h"
+#include "vmw_string.h"
+
+
+struct logo_info *load_logo_from_disk(char *filename) {
+
+   struct logo_info *new_logo;
+   int logo_start=0,ascii_logo_start=0;
+   int ascii_size=0,size=0;
+   char temp_st[BUFSIZ];
+   FILE *fff;
+      
+   new_logo=calloc(1,sizeof(struct logo_info));
+   
+   fff=fopen(filename,"r");
+   
+   if (fff==NULL) {
+      printf("\nError!  File %s doesn't exist!\n\n",filename);
+      return NULL;
+   }
+   
+   new_logo->logo=NULL;
+   new_logo->ascii_logo=NULL;
+   
+   while (!feof(fff)) {
+      read_string_from_disk_exact(fff,temp_st);
+      if (!strncmp(temp_st,"END_LOGO",8)) logo_start=0;
+      if (!strncmp(temp_st,"END_ASCII_LOGO",14)) ascii_logo_start=0;
+      if (logo_start) {
+	 size+=strlen(temp_st);
+	 if (new_logo->logo==NULL) {
+	    (char *)new_logo->logo=strdup(temp_st);
+	 }
+	 else {
+	    new_logo->logo=realloc(new_logo->logo,size+1);
+	    strncat( (char *)new_logo->logo,temp_st,strlen(temp_st));
+	 }
+	 new_logo->ysize++;
+      }
+      if (ascii_logo_start) {
+         ascii_size+=strlen(temp_st);
+	 if (new_logo->ascii_logo==NULL) {
+	    (char *)new_logo->ascii_logo=strdup(temp_st);
+	 }
+	 else {
+	    new_logo->ascii_logo=realloc(new_logo->ascii_logo,ascii_size+1);
+	    strncat( (char *)new_logo->ascii_logo,temp_st,strlen(temp_st));
+	 }
+	 new_logo->ascii_ysize++;
+      }
+      if (!strncmp(temp_st,"BEGIN_ASCII_LOGO",16)) ascii_logo_start=1;
+      if (!strncmp(temp_st,"BEGIN_LOGO",10)) logo_start=1;
+      if ( (!ascii_logo_start) && (!logo_start) ) {
+	 if (!strncmp(temp_st,"SYSINFO_POSITION",16)) {
+	    if (!strncmp(temp_st+17,"bottom",6)) {
+	       new_logo->sysinfo_position=SYSINFO_BOTTOM;
+	    }
+	    if (!strncmp(temp_st+17,"right",5)) {
+	       new_logo->sysinfo_position=SYSINFO_RIGHT;
+	    }
+	 }
+	 if (!strncmp(temp_st,"DESCRIPTION_STRING",18)) {
+	    new_logo->description=strdup(temp_st+19);	   
+	    (char)(new_logo->description)[strlen(new_logo->description)-1]
+	      ='\0';
+	 }
+      }
+   }
+   
+   new_logo->next_logo=NULL;
+   
+   fclose(fff);
+   
+   return new_logo;   
+}
+
+    /* People can put all kind of strange and wonderful ascii */
+    /* characters in a logo that would royally confuse printf */
+int sanitize_print_string(char *string, FILE *fff) {
+   
+   int i;
+   
+   for(i=0;i<strlen(string);i++) {
+      switch (string[i]) {
+       case '\n': fputc('\\',fff);
+                  fputc('n',fff);
+                  break;
+       case '\t': fputc('\\',fff);
+	          fputc('t',fff);
+	          break;
+       case '\\': fputc('\\',fff);
+	          fputc('\\',fff);
+	          break;
+       case '%':  fputc('\\',fff);  /* I think %% works as well */
+	          fputc('%',fff);
+	          break;
+       case '\r': fputc('\\',fff);
+	          fputc('r',fff);
+	          break;
+       case '"':  fputc('\\',fff);
+	          fputc('"',fff);
+	          break;
+       case '\'': fputc('\\',fff);
+	          fputc('\'',fff);
+	          break;
+       default:   fputc(string[i],fff);
+      }
+   }
+   return 0;
+}
+
+int main(int argc, char **argv) {
+ 
+    FILE *fff,*ggg;
+ 
+    struct logo_info *logo_info_temp;
+   
+    char temp_st[BUFSIZ];
+   
+    int logo_number = 0;
+   
+    fff=fopen("logo_config","r");
+    ggg=fopen("load_logos.h","w");
+
+    printf("\nParsing logos from file \"logo_config\"...\n"); 
+   
+    if (ggg==NULL) {
+       printf("\nError!  Cannot create load_logos.h!!!!\n\n");
+       return 3;
+    }
+   
+    if (fff==NULL) {
+       printf("\nWarning!  No logo_config file exists!  No Logos will "
+	      "be compiled in!\n\n");
+       fprintf(ggg,"/* No logos configured */\n");
+       fclose(ggg);
+       return 4;
+    }
+    
+    while (!feof(fff)) {
+       if ( fgets(temp_st,BUFSIZ,fff) !=NULL) {
+             /* Skip comments */
+	  if (temp_st[0]=='#') break;
+	  
+	  temp_st[strlen(temp_st)-1]='\0';  /* Stupid fgets */
+       
+          logo_info_temp=load_logo_from_disk(temp_st);
+	  fprintf(ggg,"\t\t/* %s -- %s */\n",temp_st,logo_info_temp->description);
+          fprintf(ggg,"\tnew_logo=calloc(1,sizeof(struct logo_info));\n");
+	  
+	  if (logo_number==0) {
+	     fprintf(ggg,"\n\tlogo_info_head=new_logo;\n\n");  	     
+	  } else {
+	     fprintf(ggg,"\n\tlogo_info_tail->next_logo=new_logo;\n\n");
+	  }
+	  
+	  fprintf(ggg,"\tnew_logo->description=strdup(\"%s\");\n",
+		      logo_info_temp->description);
+	  fprintf(ggg,"\t(char *)new_logo->logo=strdup(\"");
+	  sanitize_print_string((char *)logo_info_temp->logo,ggg);
+	  fprintf(ggg,"\");\n");
+	  fprintf(ggg,"\tnew_logo->ysize=%d;\n",logo_info_temp->ysize);
+	  fprintf(ggg,"\t(char *)new_logo->ascii_logo=strdup(\"");
+	  sanitize_print_string((char *)logo_info_temp->ascii_logo,ggg);
+	  fprintf(ggg,"\");\n");
+	  fprintf(ggg,"\tnew_logo->ascii_ysize=%d;\n",
+		      logo_info_temp->ascii_ysize);
+	  fprintf(ggg,"\tnew_logo->sysinfo_position=%d;\n",
+		      logo_info_temp->sysinfo_position);
+	  fprintf(ggg,"\tnew_logo->next_logo=NULL;\n");
+	  fprintf(ggg,"\tlogo_info_tail=new_logo;\n");
+          logo_number++;
+	  printf("+ Added logo %s containing \"%s\"\n",
+		 temp_st,logo_info_temp->description);
+       }
+    } 
+    printf("\n");
+    return 0;
+}

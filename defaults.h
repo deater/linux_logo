@@ -101,13 +101,13 @@ char ordinal[11][10]={"Aucun","Un","Deux","Trois","Quatre","Cinq","Six",
 /* Linux logo files.                                                      */
 
 /* This file contains the classic logo */
-#include "./classic_logos/penguin.h"
+//#include "./logos/classic_logos/penguin.h"
 
 /* This file contains the ascii version of the classic logo */
-#include "./classic_logos/ascii_penguin.h"
+//#include "./logos/classic_logos/ascii_penguin.h"
 
 /* This file contains the ascii version of the banner logo */
-#include "./banner_logos/ascii_banner.h"
+//#include "./logos/banner_logos/ascii_banner.h"
 
 /* This file contains the regular version of the banner logo */
-#include "./banner_logos/banner.h"
+//#include "./logos/banner_logos/banner.h"

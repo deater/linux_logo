@@ -1,0 +1,64 @@
+Frequently Asked Questions about Linux_Logo
+
+
+Sysinfo Problems
+
+ Q1. The sysinfo is garbled, what should I do?
+ Q2. Linux_Logo reports 1 Meg of RAM too little.  Why?
+
+Usage Issues
+
+ Q3. How can I have linux_logo update my /etc/issue file every X minutes?
+ Q4. How can I have my boot messages scroll w/o moving linux_logo?
+
+-------------------------------------------------------------------------
+
+
+Q1. The sysinfo output of linux_logo looks garbled.  What can I do?
+
+A1. First check your version of linux_logo (with "linux_logo -v") and
+    see if it is the newest version available at the web-page.  If not,
+    try getting the newest version.
+    
+    If it still doesn't quite look right, e-mail me a copy of your 
+    /proc/cpuinfo file and I'll do my best to fix things up.
+    
+Q2. Linux_logo reports I have 1 megabyte less RAM than I actually do.
+
+A2. If you have ACPI power management enabled, it uses some of your RAM.
+    The "/proc/kcore" method of RAM detection I use doesn't count this
+    RAM, thus misreporting it.
+    
+    I have added a hack for intel architectures that checks /proc/iomem
+    for ACPI support and "fixes" the output.  Unfortunately this only
+    works on 2.3.x kernels and later.
+
+
+
+Q3. How can I make linux_logo run every 15 minutes or so, that way I can
+    use the uptime option and impress my windows-using friends with my
+    incredible uptime?
+    
+A3. This is a common question.  The best thing to do is use cron. 
+    [See "man crontab"].  Setting up cron can be a bit tricky, but
+    a line such as
+    
+       */15 * * * * linux_logo -u > /etc/issue.net
+    
+    Should have issue.net updated every 15 minutes.  Setting up a crontab
+    file is a bit beyond the scope of this document; please see the
+    manpage for details.
+    
+    
+Q4. Can I have linux_logo stay on top of the screen while things scroll
+    in a window beneath it?
+    
+A4. Bill Anderson <bill@tb.dynip.com> did some research and came up with this: 
+    
+    I did sucessfully use:
+       clear; /bin/echo -e '\033[018;25r' ; linux_logo
+
+    to put the linux logo and info on the top 18 lines (fewer if you don't
+    care about the system info) of the screen and let the rest scroll...
+       /bin/echo -e '\033[0;0r' 
+    will turn it off again...
