@@ -35,7 +35,8 @@ void get_os_info(char *os_name,char *os_version,
  }
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
+void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+		       char *cpuinfo_file)
 {
    FILE *fff;
    int cpus=0;

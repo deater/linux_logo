@@ -34,7 +34,8 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,
  }
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
+void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+		       char *cpuinfo_file)
 {
    FILE *fff;
    int cpus=0;
@@ -52,7 +53,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
    
-   if ((fff=fopen("/proc/cpuinfo","r") )!=NULL) {
+   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
            while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"model")) ) {

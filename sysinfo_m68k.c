@@ -33,10 +33,11 @@ void get_os_info(char *os_name, char *os_version, char *os_revision,
  }
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
+void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+		       char *cpuinfo_file)
 {
    FILE *fff;
-   int cpus=0;
+   int cpus=0,model_seen=0;
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
@@ -48,13 +49,17 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
    
-   if ((fff=fopen("/proc/hardware","r") )!=NULL) {
+   if (!strncmp(cpuinfo_file,"/proc/cpuinfo",20)) {
+      strcpy("/proc/hardware",cpuinfo_file);
+   }
+   
+   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"Model:")) ) {
 		 fscanf(fff,"%s",(char *)&model);
 		 fscanf(fff,"%s",(char *)&model2);
-
+	         model_seen=1;
 	    }
             if ( !(strcmp(temp_string2,"CPU:")) ){
 		 fscanf(fff,"%s",(char *)&chip);
@@ -72,8 +77,11 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    stat("/proc/kcore",&buff);
    mem=buff.st_size;
    mem/=1024; mem/=1024;
-	    
-      sprintf(cpuinfo,"%s @ %s %s %s %ldM RAM",chip,clock,model,model2,(long int)mem);
+      if (model_seen)     
+         sprintf(cpuinfo,"%s @ %s %s %s %ldM RAM",chip,clock,
+		 model,model2,(long int)mem);
+      else
+         sprintf(cpuinfo,"One %s %s, %ldM RAM",clock,chip,(long int)mem);
       sprintf(bogo_total,"%.2f Bogomips",bogomips);      
     
       /* End Linux */

@@ -32,7 +32,8 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,
  }
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
+void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+		       char *cpuinfo_file)
 {
    FILE *fff;
    int cpus=0;
@@ -43,6 +44,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    char vendor[BUFSIZ]="Unknown",chip[BUFSIZ]="Unknown";
    char temp_string[BUFSIZ],bogomips_total[BUFSIZ]="???";
    float total_bogo=0.0;
+   float megahertz=0.0;
    /*Anyone have more than 9 cpu's yet?*/	
 	char ordinal[10][10]={"Zero","One","Two","Three","Four","Five","Six",
 	                      "Seven","Eight","Nine"};
@@ -51,16 +53,21 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
    
-   if ((fff=fopen("/proc/cpuinfo","r") )!=NULL) {
+   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"cpu")) ){
 		 fscanf(fff,"%s%s",(char *)&temp_string,(char *)&chip);
+
+	         if ( !(strcmp(temp_string,"MHz"))) {
+		    fscanf(fff,"%f",&megahertz);
+		 }
 	       /* Work around 2.0.x <-> 2.1.x incompatibilities? */
 	         if (chip[0]==':') {
 		    fscanf(fff,"%s",(char *)&temp_string);  
 	            sprintf(chip,"%s86",temp_string);
 		 }
+	         
 	    }
 	    if ( !(strcmp(temp_string2,"model")) ) {
 		 fscanf(fff,"%s",(char *)&temp_string);
@@ -87,7 +94,8 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	         if ( !(strcmp(temp_string,"unknown")))
 		    sprintf(model,"%s",chip);
 	    }
-	    if (!(strcmp(temp_string2,"vendor_id"))) {
+	    if (!(strcmp(temp_string2,"vendor_id"))
+	       || !(strcmp(temp_string2, "vid"))) { /* Fix 1.2.13 */
 	       fscanf(fff,"%s",(char *)&temp_string);
 	       read_string_from_disk(fff,(char *)&vendor);
 	       sscanf(vendor,"%s",(char *)&temp_string);
@@ -148,9 +156,13 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    stat("/proc/kcore",&buff);
    mem=buff.st_size;
    mem/=1024; mem/=1024;
-	    
-      sprintf(cpuinfo,"%s %s%s Processor%s %ldM RAM",ordinal[cpus],vendor,
-	      model,(cpus>1)?"s,":",",(long int)mem);
+      if (megahertz<1) 	    
+         sprintf(cpuinfo,"%s %s%s Processor%s %ldM RAM",ordinal[cpus],vendor,
+	         model,(cpus>1)?"s,":",",(long int)mem);
+      else
+        sprintf(cpuinfo,"%s %.0fMHz %s%s Processor%s %ldM RAM",ordinal[cpus],
+		megahertz,vendor,model,(cpus>1)?"s,":",",(long int)mem);
+   
       sprintf(bogo_total,"%.2f Bogomips Total",total_bogo);      
 
 }

@@ -281,3 +281,31 @@
 + Realized using '@' as the character above screwed up the ascii output.
   Changed it to `
 + Found another mistake where I forgot to add ` s to ascii_banner.h
+
+30 October 1998
++ Have been busy busy busy busy doing other stuff.  Finally had time to
+  work on linux_logo and try to get back to the people who had sent me
+  stuff the last month.
++ Added an "-e" option.  This makes it easier for me to check problems
+  with other people's /proc/cpuinfo files that they send me.  It can also
+  be used, I suppose, to trick linux_logo into thinking you have a better
+  computer ;)
++ Tested the new version with some of the assorted cpuinfo files 
+  Alex Buell sent me.
++ Michael Somos <somos@grail.cba.csuohio.edu> was suggesting I remove the
+  Escape character from my C code.  I disagreed...
++ Someone announced linux_logo-2.11 long before I thought it was ready
+  to announce.  Please people, let me do the announcing....
++ Peter Magnusson <iocc@home.se> let me know that using "`" for a special
+  character messes up the '-c' output.  Changed it to be "%".  Hopefully
+  this will keep other problems from happening.
++ Audited all of the non-intel architectures.  Cleaned up and fixed a lot.
+  Please let me know if anything else needs fixed.
++ Bundled up 2.12 for release.  Hope I don't make any mistakes...
+
+8 November 1998
++ Added support for older 1.2.x kernels, thanks to Rusty Haddock 
+  <rusty@fe2o3.lonestar.org>
++ Added code to print the MHz if given by the new tsc code in kernels
+  >2.1.127
++ Actually finally release 2.12

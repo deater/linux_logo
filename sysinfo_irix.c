@@ -33,7 +33,8 @@ void get_os_info(char *os_name, char *os_version, char *os_revision,
 }
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
+void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+		       char *cpuinfo_file)
 {
    FILE *fff;
    char chip[BUFSIZ]="Unknown";

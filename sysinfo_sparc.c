@@ -33,10 +33,11 @@ void get_os_info(char *os_name, char *os_version, char *os_revision,
 }
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
+void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+		       char *cpuinfo_file)
 {
    FILE *fff;
-   int cpus=0;
+   int cpus=0,vendor_seen=0;
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
@@ -51,7 +52,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
    
-   if ((fff=fopen("/proc/cpuinfo","r") )!=NULL) {
+   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
       while ( (fscanf(fff,"%s",(char *)&temp_string2)!=EOF) ) {
 	 if (!(strcmp(temp_string2,"ncpus")) && (cpus==0)) {
 	    fscanf(fff,"%s%s",(char *)&temp_string,(char *)&temp_string);
@@ -65,7 +66,8 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	       
 	    /* Fix Ugly Look Proc info with custom */
 	    if (strstr(temp_string,"Texas")!=NULL){
-	       sprintf(vendor,"%s","TI");	
+	       sprintf(vendor,"%s","TI");
+	       vendor_seen=1;
 	    }
             if (strstr(temp_string,"SuperSparc")!=NULL) {
 	       sprintf(model,"%s","SuperSparc");
@@ -90,9 +92,13 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    stat("/proc/kcore",&buff);
    mem=buff.st_size;
    mem/=1024; mem/=1024;
-	    
+
+   if (vendor_seen) 
       sprintf(cpuinfo,"%s %s %s Processor%s %ldM RAM",ordinal[cpus],
-	      vendor,model,(cpus>1)?"s,":",",(long int)mem);
+	vendor,model,(cpus>1)?"s,":",",(long int)mem);
+   else
+      sprintf(cpuinfo,"%s %s Processor%s %ldM RAM",ordinal[cpus],
+	      model,(cpus>1)?"s,":",",(long int)mem);
       sprintf(bogo_total,"%.2f Bogomips Total",total_bogo);      
 
 }

@@ -19,23 +19,22 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,
 {  
    struct utsname buf;
    uname( &buf);
-
    strcpy(os_name,buf.sysname);
    strcpy(os_version,buf.release);   
    strcpy(os_revision,buf.version);
    strcpy(os_revision,"Compiled ");
    strcat(os_revision,buf.version);
    strcpy(host_name,buf.nodename);
-   
    strcpy(uptime,linux_get_proc_uptime(uptime));
    strcpy(load_avg,get_loadavg_noproc(load_avg));
- }
+}
     
 
-void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
+void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips,
+		       char *cpuinfo_file)
 {
    FILE *fff;
-   int cpus=0;
+   int cpus=0,model_seen=0;
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
@@ -51,7 +50,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 \* To debug other architectures, create copies of the  proc files and  */ 
 /*   fopen() them.                                                    */
    
-   if ((fff=fopen("/proc/cpuinfo","r") )!=NULL) {
+   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"cpu")) ){
@@ -64,10 +63,12 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	         sscanf(model,"%s",(char *)&temp_string);
 	    }
 	 
-	    if (!(strcmp(temp_string2,"machine"))) {
+	    if (!(strcmp(temp_string2,"model"))) {
 	       fscanf(fff,"%s",(char *)&temp_string);
 	       read_string_from_disk(fff,(char *)&vendor);
 	       sscanf(vendor,"%s",(char *)&temp_string);
+	       sscanf(model,"%s",(char *)&temp_string);
+	       model_seen=1;
 	    }
 	 
 	 if ( !(my_string_comp(temp_string2,"bogomips")) ) {
@@ -81,9 +82,13 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    stat("/proc/kcore",&buff);
    mem=buff.st_size;
    mem/=1024; mem/=1024;
-	    
-      sprintf(cpuinfo,"%s %s %s %s Processor%s %ldM RAM",ordinal[cpus],vendor,
-	      model,chip,(cpus>1)?"s,":",",(long int)mem);
+
+   if (model_seen) 
+      sprintf(cpuinfo,"%s %s %s Processor%s %ldM RAM",ordinal[cpus],vendor,
+	      chip,(cpus>1)?"s,":",",(long int)mem);
+   else
+      sprintf(cpuinfo,"%s %s %s %s Processor%s %ldM RAM",ordinal[cpus],model,
+	      "PowerPC",chip,(cpus>1)?"s,":",",(long int)mem);
       sprintf(bogo_total,"%.2f Bogomips Total",total_bogo);      
 
 }

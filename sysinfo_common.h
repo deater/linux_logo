@@ -88,7 +88,8 @@ char *get_loadavg_noproc(char *string)
 {
     /* Unfortunately it seems getting the load-average is platform *\
     \* dependant.                                                  */
-    return NULL;  
+    strncpy(string,"\0",1);
+    return string;  
 }
 
 char *utmp_get_uptime(char *string) 
@@ -97,6 +98,7 @@ char *utmp_get_uptime(char *string)
     \* has to scan the /var/utmp file.  Very annoying thing to do   */
     /* Check out the linux sh-utils uptime.c for a reference.       *\
     \* Currently not implemented here.                              */
-    return NULL;
+    strncpy(string,"\0",1);
+    return string;
    
 }

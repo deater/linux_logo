@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 2.11 -Creates a Nifty Logo With some System Info- 2 October 1998
+LINUX LOGO 2.12 -Creates a Nifty Logo With some System Info- 30 October 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -29,7 +29,7 @@ LINUX LOGO 2.11 -Creates a Nifty Logo With some System Info- 2 October 1998
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "2.11"
+#define VERSION "2.12"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"
@@ -59,6 +59,7 @@ char symbol=DEFAULT_SYMBOL,                /* Defaults to '#'  */
      symbol_bgnd=DEFAULT_SYMBOL_BGND;      /* Defaults to '#'  */
 char *user_text = NULL; /* Change this and display_usertext to *\
                          \*        have a default message       */
+char *cpuinfo_file=NULL;
 
 void do_spacing(int spaces)
 {
@@ -97,7 +98,7 @@ int ansi_print(const char *string,int no_periods,int offset,int alt_char,
         case '\0': return 0;
 	case ESCAPE: {next_is_escape=1;} break;
         case '^' : if (string[i+1]=='[') {next_is_escape=1; i++;} break;
-	case '`' : if (!narrow_logo) {
+	case '%' : if (!narrow_logo) {
 	              if (alt_char_bgnd) putchar(alt_char_bgnd);
 	              else putchar(','); 
 	           }  break;
@@ -146,6 +147,8 @@ void help_message(char *binname, char full)
     printf("         [-a]     -- Display logo as ascii only monochrome\n");
     printf("         [-b]     -- New default Banner Logo!\n");
     printf("         [-c]     -- The Old [original] linux_logo look\n");
+    printf("         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for "
+	   "debugging\n");
     printf("         [-f]     -- force the screen clear before drawing\n");
     printf("      B  [-g]     -- give system info only\n");
     printf("         [-h]     -- this help screen\n");   
@@ -179,8 +182,8 @@ void draw_classic_logo(char **logo)
          bogo_total[BUFSIZ],uptime[BUFSIZ],load_avg[BUFSIZ];
     int i,num_info=0;
 
-    char info_lines[7][BUFSIZ]={"\000","\000","\000","\000",
-                                "\000","\000","\000"}; 
+    char info_lines[8][BUFSIZ]={"\000","\000","\000","\000",
+                                "\000","\000","\000","\000"}; 
                                 /* yes ugly.  should malloc it */
                                 /* But I am lazy right now ;)  */
     
@@ -197,7 +200,8 @@ void draw_classic_logo(char **logo)
     sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",os_revision);
  
        /* Get some hardware info using getsysinfo.c */
-    get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips);
+    get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips,
+		      cpuinfo_file);
     sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",cpu_info);
     sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",bogo_total);
      
@@ -215,14 +219,14 @@ void draw_classic_logo(char **logo)
        ansi_print(logo[i],no_periods,offset,0,0); 
        printf("\n"); 
     }
-    for(i=7;i<13;i++) {
+    for(i=7;i<15;i++) {
        ansi_print(logo[i],no_periods,offset,0,0);
        do_spacing(2);
        if (info_lines[i-7][0]!='\000') ansi_print(info_lines[i-7],0,0,0,0);
        else printf("\n");
     }
 	    
-    for(i=13;i<16;i++) {
+    for(i=15;i<16;i++) {
        ansi_print(logo[i],no_periods,offset,0,0); 
        printf("\n"); 
     }
@@ -263,9 +267,10 @@ void draw_banner_logo()
 
        sprintf(temp_string,"%s Version %s, %s",os_name,os_version,os_revision);
        center_and_print(temp_string,strlen(temp_string),width);
-    
+
           /* Get some hardware info using getsysinfo.c */
-       get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips);
+       get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips,
+			 cpuinfo_file);
 
        sprintf(temp_string,"%s, %s",cpu_info,bogo_total);
        center_and_print(temp_string,strlen(temp_string),width);
@@ -292,12 +297,15 @@ int main(int argc,char **argv)
     char *endptr;
     int c;
    
-    while ((c = getopt (argc, argv,
-	  "A::B::C::FGHK:LNO:PR:ST:UVW:XYa::b::c::fghk:lno:pr:st:uvw:xy"))!=-1)
+    cpuinfo_file=strdup("/proc/cpuinfo");
+   
+    while ((c = getopt (argc, argv,"A::B::C::E:FGHK:LNO:PR:ST:UVW:XY"
+			           "a::b::c::e:fghk:lno:pr:st:uvw:xy"))!=-1)
        switch (c) {
 	  case 'a': case 'A': plain_ascii=1; break;
 	  case 'b': case 'B': banner_mode=1; break;
 	  case 'c': case 'C': banner_mode=0; break;
+	  case 'e': case 'E': cpuinfo_file=strdup(optarg); break;
 	  case 'f': case 'F': wipe_screen=1; break;
 	  case 'g': case 'G': display_sysinfo_only=1; break;
 	  case 'h': case 'H': help_message(argv[0], 1);

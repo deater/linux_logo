@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 2.11 -- Shows a Logo With some System Info - 2 October 1998
+   LINUX_LOGO 2.12 -- Shows a Logo With some System Info - 30 October 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (Intel, m68k, Alpha, Sparc) and some non-Linux OS's
@@ -137,10 +137,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-2.11.tar.gz
+        tar -xzvf linux_logo-2.12.tar.gz
 	
     enter the directory
-        cd linux_logo-2.11
+        cd linux_logo-2.12
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -162,6 +162,7 @@ Usage:   ./linux_logo [-a] [-b] [-c] [-f] [-g] [-h] [-kX] [-l] [-n] [-o Num]
          [-a]     -- Display logo as ascii only monochrome
 	 [-b]     -- New default Banner Logo!
          [-c]     -- The Old [original] linux_logo look
+	 [-e file]-- specify alternate cpuinfo file [for debugging]
          [-f]     -- force the screen clear before drawing
       B  [-g]     -- give system info only
          [-h]     -- this help screen
@@ -195,6 +196,11 @@ More detailed explanations:
 	   it myself using some complex manipulation of TheDraw and of
 	   the 'official' logo.xpm that comes with the linux_sources.
 	   
+[-e file]: Specify an alternate cpuinfo file.  This is only really useful
+           if you are debugging a /proc/cpuinfo file that is not from
+	   your own computer.  Theoretically you could also use this to
+	   make your old 386 appear to be a Pentium to users ;)
+
 [-f]     : This option simply clears the screen before drawing the logo.
 
 [-g]     : This option makes linux_logo display the system_info only.
@@ -348,7 +354,7 @@ WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.glue.umd.edu/~weave/vmwprod/
   http://www.vince.weaver.org/vmwprod/
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.11.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.12.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
