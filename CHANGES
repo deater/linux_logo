@@ -97,3 +97,11 @@
 + Included a nice "further info" file from Tony Nugent <T.Nugent@sct.gu.edu.au>
 + Bunch of other stuff to get ready for release
 + Released version 2.00
+
+16 APRIL 1998
++ Finally had time to work on things again.
++ Thanks to Joerg Berg <joerg@joberg.snafu.de> linux-alpha support should
+  work.
++ I also rearranged the "sysinfo.c" file.  It now relies on pre-processor
+  magic, but simplified the Makefile a lot.
++ Zipped up version 2.0.1
