@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 3.9b2 -- Shows a Logo With some System Info - 5 March 2001
+    LINUX_LOGO 3.9b3 -- Shows a Logo With some System Info - 16 April 2001
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
@@ -28,126 +28,18 @@ HISTORY:
 POTENTIAL USES FOR linux_logo
 ----------------------------------------------------------------------->
 
-Note: also see the file "USAGE.FAQ" for some commonly asked questions
-      on how to use linux_logo.
+   There are so many uses, I split them off into a separate "USAGE" file.
+   
 
-* BOOT UP PENGUIN: just stick "/usr/local/bin/linux_logo" in an rc file.
-     [/etc/rc.d/rc.M is a good place if you are running Slackware.  Place
-      it right above where sendmail causes a pause.]
-  
-* MOTD/LOGIN: You can have the penguin appear at the login prompt.
-  
-    FOR SLACKWARE/OPENLINUX
-        Add the following lines to /etc/rc.d/rc.M [in slackware] 
-        or to /etc/rc.d/rc.local [OpenLinux]
-	
-       /usr/local/bin/linux_logo > /etc/issue
-       /usr/local/bin/linux_logo > /etc/issue.net
-  
-      and the penguin appears at all the login prompts, even remote ones.
-        
-    FOR REDHAT: Here is how to do the above with a Redhat distribution.
-                [these were tested for Redhat 6.0]
-		
-	 In the file /etc/rc.d/rc.local Look for the lines saying 
-	 
-    # This will overwrite /etc/issue at every boot.  So, make any changes you
-    # want to make to /etc/issue here or you will lose them when you reboot.
-    
-         towards the middle of the file.  Comment out [by putting a # at the
-	     start of each line] the following 6 lines, up to, but not
-	     including,  the line that says 'fi'.
-	 
-	 Before the 'fi' put in the following lines:
-	 
-             if [ -f /usr/local/bin/linux_logo ]; then
-                echo "" > /etc/issue
-                /usr/local/bin/linux_logo -t "$R" >> /etc/issue
-	        /usr/local/bin/linux_logo -a -t "$R" > /etc/issue.net
-	        echo >> /etc/issue
-	     fi
-	
-	This will give you a color linux_logo at the consoles, and an 
-	    ascii linux_logo when telnetting in.
-	    
-    FOR DEBIAN: 
-        [thanks to <rlovison@simons-rock.edu> ]
-        Nice program!  Just wanted to let you know how I used it within a 
-	Debian system.  I have the logo appear above any text in the message 
-	of the day and as long as the day's message remains under a few lines, 
-	it works out wonderfully.  First I renamed the Debian default 
-	/etc/motd, created a new one with touch motd', used the following 
-	command:
-	
-            /usr/local/bin/linux_logo > /etc/motd 
-	    
-       and then added a line of text at the end of the file.  Next I edited 
-       /etc/init.d/boot.  In the following lines which appear near the end 
-       of the file:
-     
-           if [ "$EDITMOTD" != no ]
-           then
-               uname -a > /tmp/motd
-	       sed 1d /etc/motd >> /tmp/motd
-	       mv /tmp/motd /etc/motd
-           fi
-			     
-      change the third line to:
-      
-	  /usr/local/bin/linux_logo > /tmp/motd
-			     
-      and the fourth line to:
-			     
-	 sed 1,18d /etc/motd >> /tmp/motd
-			     
-     and as long as EDITMOTD is set to yes at the beginning of the file, it
-     should work.
-     
-    FOR SUSE:
-      [thanks to Rodolfo Pilas <rodolfo@linux.org.uy>]
-      
-      Edit /sbin/init.d/boot.local file and add the
-      following lines before "exit 0" line:
-      
-          /usr/local/bin/linux_logo > /etc/issue
-	  /usr/local/bin/linux_logo -a > /etc/issue.net			     
-	      
-      
-* NETWORK LOGIN:
-        Note: for platforms that do not have color ansi telnet connections
-	you might want to use the new "linux_logo -a" option.  This gives
-	a plain ascii [though less exciting and uglier] output.  However
-	boring telnet clients like win95's can then see the Penguin.  To
-	add this functionality, follow the above instructions, but instead
-	of:
-	      /usr/local/bin/linux_logo > /etc/issue.net
-	use the following in the appropriate place
-	      /usr/local/bin/linux_logo -a > /etc/issue.net
-	 
-* PENGUIN PORT: You can set up a port on your Linux box to answer connections
-         with the Penguin! 
-	 
-         Add the following line to /etc/services
-	     penguin         54321/tcp        penguin
-	     
-	 Add the following line to /etc/inetd.conf
-	    penguin stream  tcp     nowait  root   /usr/local/bin/linux_logo
-	    
-         Restart inetd (killall -HUP inetd) and you have it!!
-	 
-	 Locally "telnet your.host penguin" will do it.  From other machines
-	 you will need the port number ("telnet your.host 1234").. it is easy
-	 to customize.. just pick a port number and away you go!
- 
  ----------------------------------------------------------------------->
- INSTALLING linux_logo
+ QUICKLY INSTALLING linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-3.9b2.tar.gz
+        tar -xzvf linux_logo-3.9b3.tar.gz
 	
     enter the directory
-        cd linux_logo-3.9b2
+        cd linux_logo-3.9b3
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -155,14 +47,49 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
     compile the program
         make
 	
-    you can install it by hand
-        cp linux_logo /usr/local/bin
+    install with
+        make install
 	
-    "make install" will do this for you.  You can place it anywhere you want,
-    but /usr/local/bin is as good a place as any.
-  
+	
+-------------------------------------------------------------------------->
+ADVANCED LINUX_LOGO Installation
+-------------------------------------------------------------------------->
+
+
+   Picking logos:
+
+      You can choose which logos are compiled into linux_logo.  
+      Many contributed logos can be found in the ./logos directory.
+    
+      By editing the file logo_config, you can pick which logos are included.
+    
+      You can create a linux_logo binary with ALL of them
+      by doing
+    
+         make logos-all
+       
+      Note: this will overwrite the current logo_config, so be careful.
+       
+      Then use "linux_logo -L list" to see them, or 
+      "linux_logo -L random" to randomly go through them
+    
+   Compile time changes:
+   
+      Edit the "defaults.h" file to change a lot of linux_logo's default
+      behaviors.
+    
+   Translations:
+   
+      Initial internationalization support has been added.  If you are running
+      with the LANGUAGE environmental variable set, and there is a translation
+      for your language, then you should get linux_logo in yor own tongue.
+      
+      This can be turned off by changing the USE_I18N option at the top
+      of the defaults.h file.
+
+
 --------------------------------------------------------------------------->
-USAGE
+COMMAND LINE OPTIONS
 --------------------------------------------------------------------------->
 
 Usage:   linux_logo [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]
@@ -187,7 +114,7 @@ Usage:   linux_logo [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] [-F] [-g]
          [-v]     -- version information
          [-w Num] -- set width of screen to Num [default 80]
       *  [-y]     -- show load average
-         [-L ...] -- multiple Logo options.  See README
+         [-L ...] -- multiple Logo options.
 
  B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux
 
@@ -312,30 +239,6 @@ More detailed explanations:
 [-y]     : Display the load average.  [Yes I have just about run out of
            letters to use as command line options ;)]
 
-
---------------------------------------------------------------------------->
-NEAT THINGS YOU CAN DO
---------------------------------------------------------------------------->
-
-   + You can have it report Redhat version using the -t option
-     (thanks to Aleksey Makarov <makarov@iitam.omsk.net.ru>
-     for this tip).
-     
-     If you have redhat installed already, change /etc/rc.d/rc.local so
-     where it says
-     
-        echo "" > /etc/issue
-        echo "Red Hat Linux $R" >> /etc/issue
-        echo "Kernel $(uname -r) on $a $(uname -m)" >> /etc/issue
-     
-     comment it out [or delete it] and add instead put 
-     
-       /usr/local/bin/linux_logo -f -t "$R" > /etc/issue
-
-     For older versions of redhad [older than 5.2] you might try
-
-       /usr/local/bin/linux_logo -f -t "Red Hat $R" > /etc/issue
-
 --------------------------------------------------------------------------->
 TROUBLESHOOTING
 --------------------------------------------------------------------------->
@@ -353,32 +256,6 @@ Know bugs:
          the combination ^[ is read as the ESC code (#27 decimal)
 	 so this combination cannot be used in a picture.
 	 
------------------------------------------------------------------------->
-CUSTOMIZING "TWEAKING" THE SYSTEM INFO OUTPUT
------------------------------------------------------------------------->
-     To customize some options of linux_logo, try editing the defaults
-         in the "defaults.h" file.
-	 
-     For ultimate customization, see the section below on the "Format"
-         option.
-	 
-     The cpuinfo supplied in /proc/cpuinfo is not always the most 
-         desirable text to be displayed as the cpuinfo.  In the relevant
-	 sysinfo_x.c file there is a place where I add custom outputs to
-	 "beautify" the output.  For instance I parse the ugly
-	 "K6 (166 - 266)" given by /proc/cpuinfo and have it instead just
-	 print "K6".
-	      
-     If your particular chip gives ugly output, send me a sample /proc/cpuinfo
-        and what you'd rather it say.  I have already added fixes for the K6
-	and certain Cyrix chips.
-	
-     Unfortunately the 2.0.x kernels don't know about newer chips.  So to get
-        linux_logo to recognize your Pentium II and newer chips, unless you
-	can find some sort of distinguishing feature that distinguishes them
-	in /proc/cpuinfo from a pentium pro, my only suggestion is to run
-	Linux 2.2.x [or soon, a 2.3.x kernel].
-	
 ------------------------------------------------------------------------>
 THE NEAT NEW FORMAT COMMAND
 ------------------------------------------------------------------------>
@@ -449,7 +326,7 @@ CREATING/USING CUSTOM LOGOS
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.deater.net/weave/vmwprod/linux_logo
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b2.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b3.tar.gz
   
 Check out other programs by me at http://www.deater.net/weave/vmwprod
 
@@ -460,7 +337,7 @@ THANKS
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
    Without you linux_logo wouldn't work on so many machines.
    
-   Also many Thanks to Marie Prosser who is always there for me.
+   Also many Thanks to Marie Prosser.
    
 -----------------
 Vince

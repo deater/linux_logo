@@ -1,0 +1,10 @@
+check for gcc
+check for ranlib
+detect OS and architecture
+
+
+if --static 
+  check for ld
+  check for pre-existing libsysinfo [and assume newer=better]
+  install lib and run ldconfig
+fi

@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 3.9b2 - Creates Nifty Logo With System Info - 4 March 2001
+  LINUX LOGO 3.9b3 - Creates Nifty Logo With System Info - 16 April 2001
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -18,8 +18,10 @@
 #include <sys/utsname.h>
 #include <sys/time.h>
 
+#include "i18n.h"
+
 #define ESCAPE '\033'
-#define VERSION "3.9b2"
+#define VERSION "3.9b3"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -28,6 +30,33 @@
 
 /* Change the values in the below file to alter default behavior */
 #include "defaults.h"
+
+    /* See defaults.h when setting this */
+#if (USE_I8N==0)
+#undef _(string)
+#define _(string) string
+#endif
+
+char *ordinal(int value) {
+   static char text[20];
+   
+   switch(value) {
+    case 0: strncpy(text,_("Zero"),19); break;
+    case 1: strncpy(text,_("One"),19); break;
+    case 2: strncpy(text,_("Two"),19); break;
+    case 3: strncpy(text,_("Three"),19); break;
+    case 4: strncpy(text,_("Four"),19); break;
+    case 5: strncpy(text,_("Five"),19); break;
+    case 6: strncpy(text,_("Six"),19); break;
+    case 7: strncpy(text,_("Seven"),19); break;
+    case 8: strncpy(text,_("Eight"),19); break;
+    case 9: strncpy(text,_("Nine"),19); break;
+    default: strncpy(text,_("Many"),19);break;
+      
+   }
+   return text;
+}
+
 
 /* Some global variables.  Possibly bad in practice, but it saves a lot *\
 \* of paramater passing, which has caused bugs to develop before.       */
@@ -136,8 +165,6 @@ void setup_info(struct linux_logo_info_type *settings) {
     settings->display_sysinfo_only=0;
     settings->display_usertext=0;
     settings->custom_format=0;
-    settings->symbol=DEFAULT_SYMBOL;                /* Defaults to '#'  */
-    settings->symbol_bgnd=DEFAULT_SYMBOL_BGND;      /* Defaults to '#'  */
     settings->user_text = NULL; /* Change this and display_usertext to *\
                                  \*        have a default message       */
     settings->format=NULL;
@@ -334,7 +361,7 @@ int print_sysinfo(int line, char *string,
 	             break;
 	   case 'M': if (cpu_info.megahertz>0.0) {
 	                if (cpu_info.megahertz>999.0) {
-			   sprintf(temp_string,"%.0fGHz",cpu_info.megahertz/1000.0);
+			   sprintf(temp_string,"%.2fGHz",cpu_info.megahertz/1000.0);
 	                }
 	                else {
 			    sprintf(temp_string,"%.0fMHz",cpu_info.megahertz);
@@ -347,12 +374,12 @@ int print_sysinfo(int line, char *string,
 		     }
 	             break;
 	   case 'N': if (cpu_info.num_cpus<=9) 
-	                string_ptr+=vmw_strcat(string,ordinal[cpu_info.num_cpus]); 
+	                string_ptr+=vmw_strcat(string,ordinal(cpu_info.num_cpus)); 
 	             else if (cpu_info.num_cpus<=99999) {
 			sprintf(temp_string,"%d",cpu_info.num_cpus);
 			string_ptr+=vmw_strcat(string,temp_string);
 		     }
-	             else string_ptr+=vmw_strcat(string,ordinal[10]);
+	             else string_ptr+=vmw_strcat(string,ordinal(10));
 	             break;
 	   case 'O': string_ptr+=vmw_strcat(string,os_info.os_name); break;
 	   case 'R': sprintf(temp_string,"%ldM",get_mem_size());
@@ -526,6 +553,10 @@ int main(int argc,char **argv)
     struct linux_logo_info_type settings;
     struct logo_info *temp_logo,*custom_logo=NULL;
     struct timeval time_time;
+
+       /* i18n */
+    bindtextdomain("linux_logo", "/usr/share/locale");
+    textdomain("linux_logo");
    
        /* Set some defaults */
     setup_info(&settings); 
@@ -713,7 +744,7 @@ int main(int argc,char **argv)
        /* appropriate "custom" output string             */
     if (!settings.custom_format) {
        if (settings.banner_mode) 
-	  settings.format=strdup(DEFAULT_BANNER_FORMAT);
+	  settings.format=strdup(_(DEFAULT_BANNER_FORMAT));
        else settings.format=strdup(DEFAULT_CLASSIC_FORMAT);
     
        if (settings.display_usertext) {

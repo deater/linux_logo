@@ -14,7 +14,7 @@ all:	configure ./os/Makefile.inc libsysinfo.a
 
 clean:
 	rm -f *.o *~
-	rm -f libsysinfo.a config.h
+	rm -f libsysinfo.a libsysinfo.so config.h
 	rm -f ./os/Makefile.inc configure
 	cd os && make clean
 	cd all && make clean
@@ -34,3 +34,6 @@ libsysinfo.a:	configure
 	cd all && make
 	cd os && make
 	ar crus libsysinfo.a ./os/*.o ./all/*.o
+
+shared:	libsysinfo.a
+	ld -shared -o libsysinfo.so ./os/*.o ./all/*.o

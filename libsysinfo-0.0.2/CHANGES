@@ -1,0 +1,12 @@
+4 March 2001
++ Completed the new, separate libsysinfo stuff, splitting it off
+  from linux_logo
+  
+27 March 2001
++ Added minimal SunOS [Solaris] support.  It compiles and displays
+  mostly empty strings.
+
+3 April 2001
++ You can do a "make shared" to get a .so linux shared library.
+  It works, but I am sure it's not as robust as a shared lib
+  should be.

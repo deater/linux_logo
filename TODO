@@ -1,3 +1,5 @@
+- i18n support?  I am going to see how much bigger/complicated this
+  makes the code.
 
 - configure scripts?  I tried this, but it just bloated the sourcecode
     just to detect gcc/cc and architecture stuff.  For now I think the
@@ -10,8 +12,6 @@
   
 - fix the Banner/Classic mode options to not be specific to one or the other.
 
-- Support for utmp uptime support
-
 - suggested by Edward Betts <edward@hairnet.demon.co.uk>
 > One of the monitors on my linux box is an old ibm monochrome display. I
 > always run linux-logo as linux_logo -ascii, because the colour version
@@ -21,3 +21,5 @@
 
   [this is possible.  Don't have time to code it right now however.. would
    want some-sort of override switch to overcome it too]
+
+- see the ./libsysinfo directory for sysinfo stuff

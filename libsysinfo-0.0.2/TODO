@@ -1,0 +1,12 @@
++ Update AIX and Irix ports to the new architecture
++ Merge in FreeBSD patches
++ s390 rpm's exist.  Does anyone have cpuinfo files?
++ A cygwin port exists for windows.  Does anyone have the source?
++ Separate libsysinfo off as a separate library?
++ Make libsysinfo a shared-library?
++ Create a ./configure script?  This is painful and large, but
+  maybe I should eventually do this.
++ Possibly use the intel CPUID instruction ourselves?  This would
+  duplicate a lot of linux-kernel code, but would let us have a
+  lot of control, plus the same code could in theory work on
+  all x86 platforms [Linux,*BSD,w32]

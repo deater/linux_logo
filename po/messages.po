@@ -1,0 +1,59 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2001-03-16 17:23-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+
+#: ../linux_logo.c:38
+msgid "Zero"
+msgstr ""
+
+#: ../linux_logo.c:39
+msgid "One"
+msgstr ""
+
+#: ../linux_logo.c:40
+msgid "Two"
+msgstr ""
+
+#: ../linux_logo.c:41
+msgid "Three"
+msgstr ""
+
+#: ../linux_logo.c:42
+msgid "Four"
+msgstr ""
+
+#: ../linux_logo.c:43
+msgid "Five"
+msgstr ""
+
+#: ../linux_logo.c:44
+msgid "Six"
+msgstr ""
+
+#: ../linux_logo.c:45
+msgid "Seven"
+msgstr ""
+
+#: ../linux_logo.c:46
+msgid "Eight"
+msgstr ""
+
+#: ../linux_logo.c:47
+msgid "Nine"
+msgstr ""
+
+#: ../linux_logo.c:48
+msgid "Many"
+msgstr ""

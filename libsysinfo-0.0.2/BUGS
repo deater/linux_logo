@@ -1,0 +1,7 @@
++ Megahertz pretty printing is still off if the value is really off.
+  397.9Mhz system does not round to 400Mhz properly.
+  We have to be careful though... does a 377.9Mhz system
+  round to 380Mhz or 375Mhz?
+
++ RAM can still end up being 1MB off, usually when ACPI is in use, but
+  not always.

@@ -2,10 +2,16 @@
 \* Behavior of the linux_logo program.                                */
 
 
+/* This option picks internationalization support.              */
+/* If 0, linux_logo always appears in English                   */
+/* If 1, some parts of it might show up in your native language */
+/*    if you have the LANGUAGE environmental variable set.      */
+#define USE_I8N 1
+
 /* This is the default format of the output file.  See the README for more *\
 \* information on how to configure this option.                            */
-#define DEFAULT_BANNER_FORMAT "#O Version #V, Compiled #C\n#N #M #X #T Processor#S, #R RAM, #B Bogomips Total\n#H\n"
-#define DEFAULT_CLASSIC_FORMAT "#O Version #V\nCompiled #C\n#N #M #X #T Processor#S, #R RAM\n#B Bogomips Total\n#H\n"
+char DEFAULT_BANNER_FORMAT[]= S_("#O Version #V, Compiled #C\n#N #M #X #T Processor#S, #R RAM, #B Bogomips Total\n#H\n");
+char DEFAULT_CLASSIC_FORMAT[]= S_("#O Version #V\nCompiled #C\n#N #M #X #T Processor#S, #R RAM\n#B Bogomips Total\n#H\n");
 
 /* This option picks the default mode of the linux_logo program.            *\
 \* If a 1 is picked, banner mode will be the default mode.                  */
@@ -60,58 +66,3 @@
 \* /proc/cpuinfo returns, etc.  I reccommend you keep it on.             */
 #define DEFAULT_PRETTY_OUTPUT 1
 
-/* If you don't like the standard look of linux_logo you can alter the two *\
-\* defines below.  Be sure to use only one character, and they must be     */
-/* Surrounded by single quotes.  You can over-ride these defaults with the *\
-\* -rX and -kX command line options.                                       */
-#define DEFAULT_SYMBOL '#'
-#define DEFAULT_SYMBOL_BGND '#'
-
-/* Here you can change the default language with which to say how many   *\
-\* Processors you have.  I have invcluded the only two languages I know  */
-
-#define ENGLISH 0
-#define DEUTSCH 1
-#define NEDERLANDS 2
-#define ITALIANO 3
-#define FRENCH   4
-#define SPANISH  5
-#define LANGUAGE ENGLISH
-
-#if LANGUAGE==ENGLISH
-char ordinal[11][10]={"Zero","One","Two","Three","Four","Five","Six",
-	                                 "Seven","Eight","Nine","Many"};
-#elif LANGUAGE==DEUTSCH
-char ordinal[11][10]={"Null","Ein","Zwei","Drei","Vier","Fuenf","Sechs",
-                                          "Sieben","Acht","Neun","Viele"};
-#elif LANGUAGE==NEDERLANDS
-char ordinal[11][10]={"Nul","Een","Twee","Drie","Vier","Vijf","Zes",
-                                         "Zeven","Acht","Negen","Veel"};
-#elif LANGUAGE==ITALIANO
-char ordinal[11][10]={"Zero","Uno","Due","Tre","Quattro","Cinque","Sei",
-                                            "Sette","Otto","Nove","Tanti"};
-#elif LANGUAGE==FRENCH
-char ordinal[11][10]={"Aucun","Un","Deux","Trois","Quatre","Cinq","Six",
-                                          "Sept","Huit","Neuf","Plusieurs" };
-#elif LANGUAGE==SPANISH                                                         
-char ordinal[11][10]={"Cero","Un","Dos","Tres","Cuatro","Cinco","Seis",         
-                                               "Siete","Ocho","Nueve","Muchos" 
-};   
-#endif
-/* --------------------Logo File Defaults-----------------------------------*/
-
-/* You can replace the names of the files pointed to here as long as the  *\
-\* files included have a similar [almost identical] setup to the standard */
-/* Linux logo files.                                                      */
-
-/* This file contains the classic logo */
-//#include "./logos/classic_logos/penguin.h"
-
-/* This file contains the ascii version of the classic logo */
-//#include "./logos/classic_logos/ascii_penguin.h"
-
-/* This file contains the ascii version of the banner logo */
-//#include "./logos/banner_logos/ascii_banner.h"
-
-/* This file contains the regular version of the banner logo */
-//#include "./logos/banner_logos/banner.h"

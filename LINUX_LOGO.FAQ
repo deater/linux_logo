@@ -11,6 +11,9 @@ Usage Issues
  Q3. How can I have linux_logo update my /etc/issue file every X minutes?
  Q4. How can I have my boot messages scroll w/o moving linux_logo?
 
+Other
+ Q5. Did you invent the Linux "Tux" logo?
+
 -------------------------------------------------------------------------
 
 
@@ -62,3 +65,13 @@ A4. Bill Anderson <bill@tb.dynip.com> did some research and came up with this:
     care about the system info) of the screen and let the rest scroll...
        /bin/echo -e '\033[0;0r' 
     will turn it off again...
+
+
+Q5. Did you invent the Linux "Tux" logo?
+
+A5. No.  Sometimes there seems to be some confusion about this.  I am only
+    responsible for the program "linux_logo."
+    
+    Tux the Linux penguin was invented by Larry Ewing.  See his page here
+    for more info: http://www.isc.tamu.edu/~lewing/linux/
+    

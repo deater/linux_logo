@@ -70,7 +70,11 @@ int main(int argc, char **argv) {
        fprintf(fff,"\t$(CC) $(C_FLAGS) -o cpuinfo.o -c cpuinfo_%s.c\n",arch);
 
     }
+    if (!strncmp(buf.sysname,"SunOS",5)) {   
+       fprintf(fff,"# comment\n");
+    }
    
     printf("\n");
     fclose(fff);
+    return 0;
 }

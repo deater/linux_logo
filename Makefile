@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 3.9b2  -- by Vince Weaver         #
+#  Makefile for Linux Logo 3.9b3  -- by Vince Weaver         #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -18,20 +18,48 @@ L_OPTS = -L./libsysinfo
 #PLATFORM = 'Default Unix'
 #C_OPTS = -O2 
 
+#
+# Installation location
+#
+
+DESTDIR = /usr/local
+INSTALL_BINPATH = $(DESTDIR)/bin
+INSTALL_MANPATH = $(DESTDIR)/man
+INSTALL_DOCPATH = /usr/share/doc
+PROGNAME = linux_logo
+
+#
+# You shouldn't have to modify 
+# anything below this point.
+#
+
 all:	parse_logos linux_logo
+	cd po && make
+
+logos-all:
+	find ./logos -type f > logo_config
+	make all
+
+logos-default:
+	echo "./logos/banner.logo" > logo_config
+	echo "./logos/classic.logo" >> logo_config
+	make all
 
 clean:
 	rm -f *.o
-	rm -f linux_logo parse_logos
+	rm -f linux_logo linux_logo-dyn parse_logos
 	rm -f *~
 	cd libsysinfo && make clean
+	cd po && make clean
 
-install:	linux_logo
-	cp linux_logo /usr/local/bin
 	
 linux_logo:	linux_logo.o vmw_string.o ./libsysinfo/libsysinfo.a
 	$(CC) $(C_OPTS) -o linux_logo linux_logo.o vmw_string.o ./libsysinfo/libsysinfo.a $(L_OPTS)
 	@strip linux_logo
+
+linux_logo_shared:	linux_logo.o vmw_string.o ./libsysinfo/libsysinfo.a
+	$(CC) $(C_OPTS) -o linux_logo-dyn linux_logo.o vmw_string.o -L./libsysinfo -lsysinfo
+	@strip linux_logo-dyn
 
 ./libsysinfo/libsysinfo.a:
 	cd libsysinfo && make
@@ -54,3 +82,15 @@ linux_logo.o:	linux_logo.c defaults.h load_logos.h
 	@echo Edit defaults.h to change Default Values
 	$(CC) $(C_OPTS) -c linux_logo.c
 
+install:	linux_logo
+	/usr/bin/install -s -m 755 $(PROGNAME) $(INSTALL_BINPATH)
+	/usr/bin/install -m 644 $(PROGNAME).1.gz $(INSTALL_MANPATH)/man1
+	cd po && make install
+
+install-doc:
+	/usr/bin/install -d -m 755 $(INSTALL_DOCPATH)/$(PROGNAME)
+	/usr/bin/install -p -m 644 *[A-Z] $(INSTALL_DOCPATH)/$(PROGNAME)
+	
+# The old way of installing
+install-by-copying:
+	cp linux_logo /usr/local/bin

@@ -25,8 +25,8 @@ static void delay(int loops)
     ;
 }
 
-int external_bogomips(char *bogomips_total)
-{
+float external_bogomips() {
+   
   unsigned long loops_per_sec = 1;
   unsigned long ticks;
   
@@ -36,11 +36,8 @@ int external_bogomips(char *bogomips_total)
     ticks = clock() - ticks;
     if (ticks >= CLOCKS_PER_SEC) {
       loops_per_sec = (loops_per_sec / ticks) * CLOCKS_PER_SEC;
-      sprintf(bogomips_total,"%lu.%02lu",
- 	     loops_per_sec/500000,
-	     (loops_per_sec/5000) % 100
-	     );
-         return 0;
+      return (float)loops_per_sec/500000;
+
     }
   }
   return -1;

@@ -550,6 +550,8 @@
 + Finished updating PPC
 + Finished updating Sparc
 + Started a libsysinfo specific CHANGES and README file
++ From now on all libsysinfo related updates will be reported
+  in the ./libsysinfo/CHANGELOG file.
 + Merged in some ascii logos and readme updates from 
   Javier Fernandez-Sanguino Peña <jfs@computer.org>
 + Looked into merging in i18n patch.  Sill a bit wary of it.
@@ -557,3 +559,19 @@
 5 March 2001
 + Release 3.9b2 to servers.  Hoepfully can realease 4.0
   after a normal bugfixing period.
+
+16 March 2001
++ Fix GHz output to show 2 decimal points at least.  This is because
+  I found on the net some clandestine SMP-Athlon /proc/cpuinfo files.
++ Added preliminary i18n [that is, internationalization] support.
+  The first translation was a poorly-done German one [the only
+  language besides English I am somewhat understandable in].
+
+3 April 2001
++ Add a "make logos-all" Makefile option.  Fun to use with the 
+  "linux_logo -L random" option ;)
++ Included debian and redhat banner logos from
+  Phillip Jackson <pjacklsu@bellsouth.net>
++ Thanks to Martin Bayer <mbayer@zedat.fu-berlin.de> for the following
+  changes:  new "make install", compressed man-page.
++ Split off a "USAGE" file to make the README a bit less cluttered.

@@ -1,6 +1,7 @@
 KNOWN "FEATURES"
 
-
 centering of system info below the banner isn't exactly quite center
 
 Lots more to find and iron-out before 4.0
+
+see ./libsysinfo/BUGS for sysinfo BUGS
