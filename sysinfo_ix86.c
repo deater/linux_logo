@@ -14,6 +14,26 @@
 
 int external_bogomips(char *bogomips_total);
 
+float fix_megahertz(int factor,float megahertz) {
+   int temp_MHz,temp_mod,temp_div;
+   float new_megahertz;
+   
+   new_megahertz=megahertz;
+   temp_MHz=(int)megahertz;
+      
+   temp_mod=temp_MHz%factor;
+   temp_div=temp_MHz/factor;
+         
+   if (temp_mod<=2) {
+      new_megahertz=(float) (temp_div*factor);
+   }
+   if (temp_mod>=(factor-2)) {
+      new_megahertz=(float) (temp_div+1)*factor;
+   }
+   return new_megahertz;
+}
+   
+
 void get_os_info(struct os_info_type *os_info)
 {  
    struct utsname buf;
@@ -73,25 +93,58 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 		    fscanf(fff,"%s",(char *)&temp_string);
 		 }
 		 read_string_from_disk(fff,(char *)&model);
+	         sprintf(temp_string2,"%s",model);
 	         sscanf(model,"%s",(char *)&temp_string);
+	        
 	       
 	       /* Fix Ugly Look Proc info with custom */
-	         	         
-	         if ( !(strcmp(temp_string,"K6")))
+	         
+	            /* Crazy K6 Stuff */
+	         if (strstr(temp_string2,"K6")!=NULL) {
 		    sprintf(model,"%s","K6");	       
-	         if ( !(strcmp(temp_string,"AMD-K6tm")))
-		    sprintf(model,"%s","K6");
-	         if ( !(strcmp(temp_string,"K6-2")))
-		    sprintf(model,"%s","K6-2");
-	       	 if ( !(strncmp(temp_string,"6x86L",5)))
+	         
+		    if ( !(strcmp(temp_string,"AMD-K6tm")))
+		       sprintf(model,"%s","K6");
+	            if ( !(strcmp(temp_string,"K6-2")))
+		       sprintf(model,"%s","K6-2");
+		    if (strstr(temp_string2,"3D+")!=NULL) {
+		       sprintf(model,"%s","K6-3");
+		    }
+		 }
+		    
+	       	    /* Crazy Cyrix Stuff */
+	         if ( !(strncmp(temp_string,"6x86L",5)))
 		    sprintf(model,"%s","6x86");
 	         if ( !(strncmp(temp_string,"6x86M",5)))
 		    sprintf(model,"%s","6x86MMX");
+	         if ( !(strncmp(temp_string,"M",5))) {
+		    if (strstr(temp_string2,"II")!=NULL) {
+		       sprintf(model,"%s","MII");
+		    }
+		 }
+		 
+		    /* Crazy Intel Stuff */
+	         if (!(strcmp(temp_string,"Pentium"))) {
+	            if (strstr(temp_string2,"75")!=NULL) {
+		       sprintf(model,"%s","Pentium");
+		    }
+		    if (strstr(temp_string2,"Pro")!=NULL) {
+		       sprintf(model,"%s","Pentium Pro");
+		    }
+		    if (strstr(temp_string2,"II")!=NULL) {
+		       sprintf(model,"%s","Pentium II");
+		    }
+		    if (strstr(temp_string2,"III")!=NULL) {
+		       sprintf(model,"%s","Pentium III");
+		    }
+		 }
+		    
 	         if ( !(strncmp(temp_string,"K5",2)))
 		    sprintf(model,"%s","K5");
 	         if ( !(strcmp(temp_string,"unknown")))
 		    sprintf(model,"%s",chip);
 	    }
+	       
 	    if (!(strcmp(temp_string2,"vendor_id"))
 	       || !(strcmp(temp_string2, "vid"))) { /* Fix 1.2.13 */
 	       fscanf(fff,"%s",(char *)&temp_string);
@@ -119,7 +172,7 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
                   \* but didn't work.  Come on, Linus, release 2.2 ;)       */
 		  
 		  if ( !strcmp(chip,"686") ) {
-		     if (model[0]=='3') sprintf(model,"%s","Pentium II");
+		     if (model[0]=='5') sprintf(model,"%s","Pentium II");
 		  }
 		  
 	       }
@@ -166,6 +219,14 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
    hw_info->num_cpus=cpus;
    
    if (megahertz>1) {
+      
+        /* Round CPU speeds so you don't get odd ones like 401Mhz */
+        /* or 448Mhz... let me know if this is a bad idea */
+      megahertz=fix_megahertz(25,megahertz);
+      
+        /* Do we need this one? */
+      /* megahertz=fix_megahertz(33,megahertz); */
+      
       sprintf(temp_string,"%.0fMHz ",megahertz);
       hw_info->megahertz=strdup(temp_string);
    }

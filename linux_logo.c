@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 3.0b1 -Creates a Nifty Logo With some System Info- 9 January 1999
+LINUX LOGO 3.0b2 -Creates a Nifty Logo With some System Info- 26 March 1999
     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -8,7 +8,7 @@ LINUX LOGO 3.0b1 -Creates a Nifty Logo With some System Info- 9 January 1999
   The file is ANSI escape sequences, so it should work OK with most terminals.
  
  The image was created using the logo.xpm from the Linux distribution,
-     ppm2ansi by Carsten Haitzler -- http://www.cse.unsw.edu.au/~s2154962/
+     ppm2ansi by Carsten Haitzler -- http://www.rasterman.com
      and was hand edited using THEDRAW under dosemu 0.66.7
 
  Thanks to many, many people who sent patches in.  See the Changes file for
@@ -24,7 +24,7 @@ LINUX LOGO 3.0b1 -Creates a Nifty Logo With some System Info- 9 January 1999
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "3.0b1"
+#define VERSION "3.0b2"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"

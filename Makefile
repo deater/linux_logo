@@ -8,7 +8,7 @@
 #Your compiler.  If gcc doesn't work, try CC
 CC = gcc
 
-#For Intel Linux Systems
+#For Linux Systems
 PLATFORM = 'Linux'
 C_OPTS = -O2 -Wall -DLINUX_ANSI 
 
@@ -44,7 +44,7 @@ linux_logo.o:	linux_logo.c ascii_penguin.h defaults.h
 	@echo Edit defaults.h to change Default Values
 	$(CC) $(C_OPTS) -c linux_logo.c
 
-sysinfo.o:	sysinfo.c 
+sysinfo.o:	sysinfo.c sysinfo.c sysinfo_default.c sysinfo_common.h sysinfo_aix.c sysinfo_irix.c sysinfo_ix86.c sysinfo_m68k.c sysinfo_ppc.c sysinfo_sparc.c sysinfo_mips.c
 	$(CC) $(C_OPTS) -c sysinfo.c 
 
 bogomips.o:	bogomips.c

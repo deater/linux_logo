@@ -8,9 +8,12 @@
 #if defined(linux)
 #define MREE 1
 
-#if defined(__PPC__)
+#if defined(__mips__)
+#include "sysinfo_mips.c"
+#elif defined(__PPC__)
 #include "sysinfo_ppc.c"
-#elif defined(m68000)
+/* #elif defined(mc68000) -Acpu(m68k)*/
+#elif (defined(mc68000) || #cpu(m68k))
 #include "sysinfo_m68k.c"
 #elif  defined(__alpha__)
 #include "sysinfo_alpha.c"
@@ -19,9 +22,8 @@
 #else
 #include "sysinfo_ix86.c"
 #endif 
-#endif /* Linux */
-
-#ifdef SGI
+       /* Linux */
+#elif defined (SGI)
 #define MREE 1
 #include "sysinfo_irix.c"
 #endif

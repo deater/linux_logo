@@ -340,3 +340,26 @@
 + Tried to fix things up for a beta release to freshmeat tomorrow
 + Went through bringing up all non-intel targets to code.
 + Added Megahertz printing for Alpha chips
+
+25 March 1999
++ Finally had time to work on linux_logo again.  School has just been tough.
+  This is my spring break so I grabbed some time to try to get beta2 and 
+  eventually 3.00 stable out the door.
++ Thanks to Christian T. Steigies <cts@ap031.experimentalphysik.uni-kiel.de>
+  for sending in a patch fixing m68k and making sure it works on Amiga.
+
+26 March 1999
++ Implemented MIPS [decstation and SGI indy]
++ Got intel up to par.  Modularized it a bit.  Sorta detects K6-3's and
+  all the various pentium versions right as far as I can tell.
++ Thanks to Greg Smith <mke2fs@adirondack-park.net> for sending a patch
+  to fix pentium2 detection under 2.0.x.
++ Thanks to "Evert Meulie esq." <evert@royal.net> for Dutch number support.
++ tim <theaney@toadmail.toad.net> sent in some fixes for the README
++ Fixed the MHz to fudge a bit so 400Mhz chips are reported as that and
+  not as 399Mhz or 401Mhz as /proc/cpuinfo might think they are.
++ Added the gpl COPYING file, since I've always said this was gpl'd but never
+  included the license with it.
++ Tweaked SPARC and ALPHA a bit.. this version passes all of my sample proc
+  files.. hopefully it will work just fine...
++ Pack it up and release to freshmeat.... here comes 3.0b2

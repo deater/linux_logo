@@ -1,8 +1,8 @@
-.TH LINUX_LOGO 1 "7 August 1998" "Debian" "Debian GNU/Linux Manual"
+.TH LINUX_LOGO 1 "26 March 1999" "Debian" "Debian GNU/Linux Manual"
 .SH NAME
 linux_logo \- Color ANSI penguin logo w/ system information.
 .SH SYNOPSIS
-.BR "linux_logo " [ "-h" " | " "-v" " | [[" "-ascii" " | " "-a" " | " "-banner" " | " "-b" " | " "-classic" " | " "-c" "] [" "-f" "] [" "-g" " | " "-l" "] [" "-u" "] [" "-s" "] [" "-w Num" "] [" "-o Num" "] [" "-p" "] [" "-n" "] [" "-kX" "] [" "-rX" "] [" "-t string" "]"
+.BR "linux_logo " [ "-h" " | " "-v" " ] [" "-a" " ] [ " "-b" " | " "-c" "] [" "-f" "] [" "-g" " | " "-l" "] [" "-n" "] [" "-p" "] [" "-s" "] [" "-u" "] [" "-x" "] [" "-y" "] [" "-kX" "] [" "-o Num" "] [" "-rX" "] [" "-t string" "] [" "-w Num" "]"
 .SH "DESCRIPTION"
 .B linux_logo
 .SM
@@ -28,14 +28,14 @@ Display the original penguin logo.
 .B \-f
 Force the screen clear before drawing the logo.
 .TP
-.B \-l
-Display only the logo.
-.TP
 .B \-g
 Display only the system infomation.
 .TP
-.B \-u
-Display the system uptime.
+.B \-l
+Display only the logo.
+.TP
+.B \-n
+Do not display the 'Classic' logo background periods.
 .TP
 .B \-s
 Skip the BogoMips test [ speeds up display on non-Linux platforms ].
@@ -43,8 +43,17 @@ Skip the BogoMips test [ speeds up display on non-Linux platforms ].
 .B \-t string
 Display an arbitrary string
 .TP
-.B \-w Num
-Set the screen width to Num [ default is 80 ].
+.B \-u
+Display the system uptime.
+.TP
+.B \-x
+Display Narrow Logo.
+.TP
+.B \-y
+Display the load average.
+.TP
+.B \-kX
+Replace the background character with X.
 .TP
 .B \-o Num
 Offset the output by Num spaces to the right.
@@ -52,14 +61,34 @@ Offset the output by Num spaces to the right.
 .B \-p
 Preserve the cursor location.
 .TP
-.B \-n
-Do not display the 'Classic' logo background periods.
-.TP
-.B \-kX
-Replace the background character with X.
-.TP
 .B \-rX
 Replace the '#' character, in banner mode, with X.
+.TP
+.B \-w Num
+Set the screen width to Num [ default is 80 ].
+.TP
+.B \-F String
+Use "String" to Format the output of the system information.
+See the README file for more details.
+
+Quick Reference
+____________________________________
+  ##     #
+  #B     Bogomips                       
+  #C     Compiled Date                
+  #E     User Text [given with the -t]       
+  #H     Hostname                          
+  #L     Load average                       
+  #M     Megahertz [where supported]        
+  #N     Number of CPU's                     
+  #O     Operating System Name               
+  #R     Ram [in Megabytes]                 
+  #S     Plural                            
+  #T     Type of CPU                         
+  #U     Uptime                              
+  #V     Version of OS                     
+  #X     CPU Vendor                          
+  \\n     carriage return
 .SH DEBIAN
 The Debian pre-packaged version of
 .B linux_logo

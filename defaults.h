@@ -66,7 +66,7 @@
 
 #define ENGLISH 0
 #define DEUTSCH 1
-
+#define NEDERLANDS 2
 #define LANGUAGE ENGLISH
 
 #if LANGUAGE==ENGLISH
@@ -75,6 +75,9 @@ char ordinal[11][10]={"Zero","One","Two","Three","Four","Five","Six",
 #elif LANGUAGE=DEUTSCH
 char ordinal[11][10]={"Null","Ein","Zwei","Drei","Vier","Fuenf","Sechs",
                                           "Sieben","Acht","Neun","Viele"};
+#elif LANGUAGE=NEDERLANDS
+char ordinal[11][10]={"Nul","Een","Twee","Drie","Vier","Vijf","Zes",
+                                         "Zeven","Acht","Negen","Veel"};
 #endif
 
 /* --------------------Logo File Defaults-----------------------------------*/

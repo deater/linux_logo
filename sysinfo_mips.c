@@ -1,4 +1,4 @@
-/* sysinfo_sparc.c                                                *\
+/* sysinfo_mips.c                                                 *\
 \* I was trying to make this easier to add other platforms/       */
 /* architectures.  Feel free to add yours, and send me the patch. *\
 \*----------------------------------------------------------------*/
@@ -35,7 +35,7 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 
 {
    FILE *fff;
-   int cpus=0,vendor_seen=0;
+   int cpus=0;
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
@@ -51,39 +51,35 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
    
    if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
       while ( (fscanf(fff,"%s",(char *)&temp_string2)!=EOF) ) {
-	 if (!(strcmp(temp_string2,"ncpus")) && (cpus==0)) {
-	    fscanf(fff,"%s%s",(char *)&temp_string,(char *)&temp_string);
-	    fscanf(fff,"%d",&cpus);
-	    rewind(fff);
-	 }
-	 if ( !(strcmp(temp_string2,"cpu")) ) {
+	 if ( !(strcmp(temp_string2,"model")) ) {
 	    fscanf(fff,"%s",(char *)&temp_string);
-	    read_string_from_disk(fff,(char *)&model);
-	    sprintf(temp_string,"%s",model);
+	    fscanf(fff,"%s",(char *)&temp_string);
+	    sprintf(model,"MIPS %s",temp_string);
+
+	 }
+	 if ( !(strcmp(temp_string2,"type")) ) {
+	    fscanf(fff,"%s",(char *)&temp_string);
+	    read_string_from_disk(fff,(char *)&vendor);
+	    sprintf(temp_string,"%s",vendor);
 	       
 	    /* Fix Ugly Look Proc info with custom */
-	    if (strstr(temp_string,"Texas")!=NULL){
-	       sprintf(vendor,"%s","TI ");
-	       vendor_seen=1;
+	    if (strstr(temp_string,"DECstation")!=NULL){
+	       sprintf(vendor,"%s","DEC ");
 	    }
-            if (strstr(temp_string,"SuperSparc")!=NULL) {
-	       sprintf(model,"%s","SuperSparc");
-	       vendor_seen=1;
+	    if (strstr(temp_string,"SGI")!=NULL){
+	       sprintf(vendor,"%s","SGI ");
 	    }
 	 }
 	  
-	 if ( !(strcmp(temp_string2,"BogoMips"))) {
-	    /*if ( strstr(temp_string2,"Cpu")!=NULL ) {
-	       fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
+	 if ( strstr(temp_string2,"BogoMIPS")!=NULL ) {
+	    fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
 	       total_bogo+=bogomips;
-	    }*/
-	    if ( strstr(temp_string2,"Mips")!=NULL ) {
-	       fscanf(fff,"%s%f",(char *)&bogomips_total,&bogomips);
-	       total_bogo+=bogomips;
-	    }
+	       cpus++;
 	 }
+	  
       }
    }
+
    
    
       stat("/proc/kcore",&buff);
@@ -95,9 +91,9 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
       sprintf(temp_string,"%.2f",total_bogo);
       hw_info->bogo_total=strdup(temp_string);
 
-      if (vendor_seen) {
-         hw_info->cpu_vendor=strdup(vendor);	 
-      }
+
+      hw_info->cpu_vendor=strdup(vendor);	 
+
       
       hw_info->num_cpus=cpus;
       

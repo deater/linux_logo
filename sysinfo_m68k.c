@@ -3,6 +3,11 @@
 /* architectures.  Feel free to add yours, and send me the patch. *\
 \*----------------------------------------------------------------*/
 /* Added Linux mc6800 support    -- Christian Marillat            */
+/* the arch is called m68k, the processors 680x0                  */
+/* the gcc predefine is mc68000, NOT mc6800 neither m6800         */
+/* sidenote: linux-m68k is running on amiga, atari, mac and vme   */
+/*                                                            CTS */
+
 
 #include <stdio.h>
 #include <ctype.h>
@@ -51,15 +56,16 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
    clear_hw_pointers(hw_info);
    
    if (!strncmp(cpuinfo_file,"/proc/cpuinfo",20)) {
-      strcpy("/proc/hardware",cpuinfo_file);
+      strncpy(cpuinfo_file,"/proc/hardware",40);
    }
    
    if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"Model:")) ) {
-		 fscanf(fff,"%s",(char *)&model);
+		 fscanf(fff,"%s",(char *)&temp_string);
 		 fscanf(fff,"%s",(char *)&model2);
+	         sprintf(model,"%s ",temp_string);
 	         model_seen=1;
 	    }
             if ( !(strcmp(temp_string2,"CPU:")) ){

@@ -1,8 +1,8 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.00 -- Shows a Logo With some System Info - 9 January 1999
+   LINUX_LOGO 3.00 -- Shows a Logo With some System Info - 27 March 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
-     SUPPORTS Linux (Intel, m68k, Alpha, Sparc) and some non-Linux OS's
+     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
 HISTORY: 
@@ -66,7 +66,7 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
          and then change the echo line after it to:
              echo "" >> /etc/issue
 	    
-    FOR DEBAIN: 
+    FOR DEBIAN: 
         [thanks to <rlovison@simons-rock.edu> ]
         Nice program!  Just wanted to let you know how I used it within a 
 	Debian system.  I have the logo appear above any text in the message 
@@ -295,16 +295,20 @@ Changing the output character of the banner
      (thanks to Aleksey Makarov <makarov@iitam.omsk.net.ru>
      for this tip).
      
-     If you have redhat installed already, change /etc/rc.local so
+     If you have redhat installed already, change /etc/rc.d/rc.local so
      where it says
      
         echo "" > /etc/issue
         echo "Red Hat Linux $R" >> /etc/issue
         echo "Kernel $(uname -r) on $a $(uname -m)" >> /etc/issue
      
-     comment it out [or delete it] and add instead
+     comment it out [or delete it] and add instead put 
      
-     /usr/local/bin/linux_logo -f -t "Red Hat Linux $R" > /etc/issue
+       /usr/local/bin/linux_logo -f -t "$R" > /etc/issue
+
+     For older versions of redhad [older than 5.2] you might try
+
+       /usr/local/bin/linux_logo -f -t "Red Hat $R" > /etc/issue
 
 --------------------------------------------------------------------------->
 TROUBLESHOOTING

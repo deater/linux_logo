@@ -1,7 +1,11 @@
 Most Needed:
   + autoconfigure sctipts?  I can't find good documentation for this
   + Update the man page?  I am not sure the easiest way to do that.
-
+  + Have a "model" option, so that on non-intel architectures it defaults
+    to something like
+       "Amiga 3000 with one 49.7Mhz 68040 Processor" instead of
+       "One 49.7Mhz 68040 Processor"
+  
 ----------------------------------------------------------------------
 Other things
 
