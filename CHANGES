@@ -474,3 +474,8 @@
 
 31 January 2000
 + Fix y2k bug with the LSM and hope metalab accepts it...
+
+29 February 2000
++ Added a slackware logo
++ Upped version # to 3.05, just to be consistent, even though I haven't made
+  enough changes to constitute a full release...
