@@ -1,5 +1,5 @@
-/*------------------------------------------------------------------------*\
- LINUX LOGO 0.1 -- Creates a Nifty Logo With some System Info - 9 July 1997
+/*-------------------------------------------------------------------------*\
+ LINUX LOGO 0.2 -- Creates a Nifty Logo With some System Info - 10 July 1997
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
 There is always controvery on the linux-kernel mailing list about an x86 
@@ -35,5 +35,5 @@ BUGS:
  
 WHERE TO GET LINUX_LOGO:
   http://www.glue.umd.edu/~weave/vmwprod
-  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-0.1.tar.gz -- at first
-  http://sunsite.unc.edu/pub/Linux/logos/linux_logo-0.1.tar.gz -- eventually?
+  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-0.2.tar.gz -- at first
+  http://sunsite.unc.edu/pub/Linux/logos/linux_logo-0.2.tar.gz -- eventually?
