@@ -1,0 +1,44 @@
+# Core Linux Logo
+# This file based on Classic Linux Logo
+# Original Core Linux logo by jd - coredistro.sourceforge.net
+# Logo converted and this file created by Tony Whitmore, October 2002.
+# URL: www.tonywhitmore.co.uk
+# e-mail: tonywhitmore@users.sourceforge.net
+
+SYSINFO_POSITION right
+
+DESCRIPTION_STRING Core Linux Logo
+
+BEGIN_LOGO
+[0m[2J[1;1H[0;25;37;47m                      [0m
+[47m         [33;45m    [37;47m         [0m  [31;47m  [40m [0m    [31;47m      [0m [31;47m  [0m   [31;47m  [0m [31;47m  [0m  [31;47m  [0m [31;47m  [0m  [31;47m  [0m
+[47m       [30;44m [33;45m  [37;47m  [33;45m   [37;47m       [0m  [31;47m  [0m[7C[31;47m  [0m   [31;47m   [0m  [31;47m  [0m [31;47m  [0m  [31;47m  [0m  [31;47m    [40m  [0m
+[47m     [30;44m   [37;47m      [33;45m  [30;41m [37;47m     [0m  [31;47m  [0m[7C[31;47m  [0m   [31;47m    [40m [47m  [0m [31;47m  [0m  [31;47m  [0m   [31;47m  [0m
+[47m    [30;44m  [37;47m          [30;41m  [37;47m    [0m  [31;47m  [0m[7C[31;47m  [0m   [31;47m  [0m [31;47m    [0m [31;47m  [0m  [31;47m  [0m  [31;47m    [0m
+[47m [33m  [30;44m  [37;47m            [30;41m  [37;47m   [0m  [31;47m      [0m [31;47m      [0m [31;47m  [0m   [31;47m  [0m  [31;47m    [0m  [31;47m  [0m  [31;47m  [0m
+[47m  [33;44m  [37;47m  [30mC  O  R  E[37m  [30;44m  [37;47m  [0m
+[47m [33m  [30;41m  [37;47m            [30;44m  [37;47m   [0m
+[47m    [30;41m  [37;47m          [30;44m  [37;47m    [0m
+[47m     [30;41m [33;45m  [37;47m      [30;44m   [37;47m     [0m
+[47m     [33m  [45m   [47m  [45m  [30;44m [37;47m       [0m
+[47m       [33m  [45m    [37;47m         [0m
+[47m                      [0m
+END_LOGO
+
+BEGIN_ASCII_LOGO
+                      
+         /--\           LL     IIIIII NN   NN UU  UU XX  XX
+       /      \         LL       II   NNN  NN UU  UU  XXXX  
+     /          \       LL       II   NNNN NN UU  UU   XX
+    |            |      LL       II   NN NNNN UU  UU  XXXX 
+   /              \     LLLLLL IIIIII NN   NN  UUUU  XX  XX
+   |  C  O  R  E  |   
+   \              /   
+    |            |    
+     \          /     
+       \      /       
+         \--/         
+                      
+END_ASCII_LOGO
+
+

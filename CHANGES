@@ -665,3 +665,11 @@
   Thanks to Steve Kostecke <steve@debian.org> and the helpful
   debian people who file bug reports.
   
+1 November 2002
++ dk.po translation from angel@port-it.net
++ Fixed a segfault in parse_logos when extraneous empty lines are in
+  the config_logos file (thanks to Tony Whitmore <whitmore@tony.com>)
++ Added new "core.logo" file for core linux, thanks to Tony Whitmore
+  again.
++ Remove some old debian specific stuff from manpage, thanks to
+  Steve Kostecke <steve@debian.org>

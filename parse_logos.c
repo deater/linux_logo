@@ -151,8 +151,13 @@ int main(int argc, char **argv) {
 	  if (temp_st[0]=='#') break;
 	  
 	  temp_st[strlen(temp_st)-1]='\0';  /* Stupid fgets */
-       
+	  
+	     /* Skip Empty lines in logo_config file */
+	  if (strlen(temp_st)<1) break;
+	  
           logo_info_temp=load_logo_from_disk(temp_st);
+	  if (logo_info_temp==NULL) break;
+	    
 	  fprintf(ggg,"\t\t/* %s -- %s */\n",temp_st,logo_info_temp->description);
           fprintf(ggg,"\tnew_logo=calloc(1,sizeof(struct logo_info));\n");
 	  
