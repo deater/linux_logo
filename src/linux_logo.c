@@ -16,6 +16,10 @@ LINUX LOGO 3.0b2 -Creates a Nifty Logo With some System Info- 26 March 1999
  
 -------------------------------------------------------------------------*/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

@@ -363,3 +363,8 @@
 + Tweaked SPARC and ALPHA a bit.. this version passes all of my sample proc
   files.. hopefully it will work just fine...
 + Pack it up and release to freshmeat.... here comes 3.0b2
+
+27 March 1999
++ Added rudimentary autoconf support.  Used the tutorial by Mark Galassi
+  at http://nis-www.lanl.gov/~rosalia/mydocs/autoconf_tutorial_toc.html
+  
