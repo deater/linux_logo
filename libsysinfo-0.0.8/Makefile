@@ -18,8 +18,8 @@ clean:
 	rm -f *.o *~
 	rm -f libsysinfo.a libsysinfo.so config.h
 	rm -f ./$(OS)/Makefile.inc configure
-	cd $(OS) && make clean
-	cd all && make clean
+	cd $(OS) && $(MAKE) clean
+	cd all && $(MAKE) clean
 	rm -f os
 
 install:	
@@ -34,8 +34,8 @@ configure.o:	configure.c
 	$(CC) $(C_OPTS) -c configure.c
 
 libsysinfo.a:	configure
-	cd all && make
-	cd $(OS) && make
+	cd all && $(MAKE)
+	cd $(OS) && $(MAKE)
 	ar crus libsysinfo.a ./$(OS)/*.o ./all/*.o
 
 shared:	libsysinfo.a

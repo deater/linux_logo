@@ -688,3 +688,7 @@
 + Patches sent in by Eugene Paskevich <eugene@raptor.kiev.ua>
   fix typo of i18n, add Ukranian and Russian po files, and add
   simplified logo.
+
+14 March 2004
++ Update to work on all known cpuinfos.  Fix a lot of Opteron/P4 chips, etc.
++ Added minimal FreeBSD support

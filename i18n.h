@@ -17,7 +17,14 @@
 
 /* default header (libintl.h) */
 
+#ifdef __FreeBSD__
+#define _(String) (String)
+#define S_(String) (String)
+#else
+
 #undef __OPTIMIZE__
 #include <libintl.h>
 #define _(String) gettext((String))
 #define S_(String) (String)
+
+#endif

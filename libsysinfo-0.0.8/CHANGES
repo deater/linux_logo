@@ -83,5 +83,6 @@
   <rj@bergeron-us.net>
 
 13 March 2004
-+ Update to work with all known Alpha cpuinfo's
-+ Update to work with all known ARM cpuinfo's
++ Update to work with all known cpuinfos
++ Barebones support for FreeBSD
+

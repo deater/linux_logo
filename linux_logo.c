@@ -611,12 +611,13 @@ int main(int argc,char **argv)
     int ignore_config_file=0;
     int old_optind,old_opterr,old_optopt,string_size;
     char *tempst;
-   
+
+#ifndef __FreeBSD__  
        /* i18n */
     setlocale(LC_ALL,"");
     textdomain("linux_logo");
     bindtextdomain("linux_logo", "/usr/lib/locale");
-   
+#endif   
        /* Set some defaults */
     setup_info(&settings); 
     

@@ -126,8 +126,12 @@ int main(int argc, char **argv) {
     char temp_st[BUFSIZ];
    
     int logo_number = 0;
-   
+
+#ifdef __FreeBSD__
+    fff=fopen("logo_config.BSD","r");
+#else   
     fff=fopen("logo_config","r");
+#endif   
     ggg=fopen("load_logos.h","w");
 
     printf("\nParsing logos from file \"logo_config\"...\n"); 
