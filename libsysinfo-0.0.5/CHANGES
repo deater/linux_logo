@@ -57,3 +57,6 @@
 + Fix so RAM over 2GB doesn't go negative.
   Thanks to Andreas S. Krebs <andreas.krebs@sap.com> for helping debug this.
   
+10 March 2002
++ Reverted sparc PROM code because it doesn't seem to work.
++ Added support for Pentium 4 processors

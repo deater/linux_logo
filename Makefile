@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 4.0  -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.02 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -64,7 +64,7 @@ linux_logo_shared:	linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a
 	@strip linux_logo-dyn
 
 ./$(LIBSYSINFO)/libsysinfo.a:
-	cd libsysinfo && $(MAKE)
+	cd $(LIBSYSINFO) && $(MAKE)
 
 vmw_string.o:	vmw_string.c
 	$(CC) $(C_OPTS) -c vmw_string.c

@@ -70,6 +70,11 @@ int get_cpu_info(cpu_info_t *cpu_info) {
     if (!strncmp(model_string,"Texas",5)) {
        strncpy(cpu_info->chip_vendor,"TI",3);
        sscanf(model_string,"%*s %*s %*s %*s %s",cpu_info->chip_type);
+       
+       if (strstr(model_string,"UltraSparc II ")!=NULL) {
+	  strncpy(cpu_info->chip_type,"UltraSparc II",14);  
+       }
+       
     }
 
     if (strstr(model_string,"SpitFire")!=NULL) {
@@ -103,7 +108,12 @@ int get_hardware(char hardware_string[65]) {
 }
 
    
-#define CROSS_DEBUGGING 0
+    /* I don't have a machine to test the below code on.  I have */
+    /* had multiple reports that the PROM code DOESN'T work, so  */
+    /* until someone sends me a patch that fixes it, I have turned */
+    /* off the PROM code */
+   
+#define CROSS_DEBUGGING 1
    
 /* Following routine provided by Ben Collins <bmc@visi.net>  */
 /* Ripped from prtconf: Copyright (C) 1998 Jakub Jelinek (jj@ultra.linux.cz) */

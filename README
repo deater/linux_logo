@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 4.0 -- Shows a Logo With some System Info - 13 February 2002
+    LINUX_LOGO 4.02 -- Shows a Logo With some System Info - 13 March 2002
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
@@ -366,7 +366,7 @@ THANKS
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
    Without you linux_logo wouldn't work on so many machines.
    
-   Special thanks to my friend Marie Prosser, for all her patience.
+   Special thanks to my friends Marie Prosser and Kristina Gonser. 
    
 -----------------
 Vince

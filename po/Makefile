@@ -3,11 +3,11 @@ INSTALL_CMD= ${INSTALL} -m 644
 INSTALLDIR=/usr/lib/locale
 PACKAGE = linux_logo
 
-CATALOGS = de.mo es.mo fr.mo nl.mo it.mo
+CATALOGS = de.mo es.mo fr.mo nl.mo it.mo pl.mo
 
 POTFILES= ../*.c ../*.h
 
-all: $(PACKAGE).pot $(CATALOGS)
+all: $(PACKAGE).pot update $(CATALOGS)
 
 $(PACKAGE).pot: $(POTFILES)
 	xgettext --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES)
@@ -18,7 +18,7 @@ $(PACKAGE).pot: $(POTFILES)
 	fi
 
 clean:
-	rm -f *mo $(PACKAGE).pot *~
+	rm -f *mo $(PACKAGE).pot *~ *.bac
 
 install: $(CATALOGS)
 	for n in $(CATALOGS); do \
@@ -29,3 +29,11 @@ install: $(CATALOGS)
 	done
 %.mo: %.po
 	msgfmt -o $@ $<
+
+update: $(PACKAGE).pot
+       for n in $(CATALOGS); do \
+       l=basename $$n .mo; \
+       l=$$l".po";\
+       mv -f $$l $$l".bac";\
+       msgmerge -o $$l $$l".bac" $(PACKAGE).pot; \
+       done

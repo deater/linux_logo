@@ -1,0 +1,10 @@
+5 March 2002
++ Start work on the ppc version
+
+8 March 2002
++ RLE (run-length-encode) compressed the logo.  Cuts 1.3k off the
+  size of the intel binary
+
+11 March 2002
++ Convert from nasm to 'gas' as the assembler.  Yes, I know, ick, ick, ick,
+  but it wasn't as bad as I thought it'd be.

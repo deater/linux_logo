@@ -214,6 +214,10 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 	     strncpy(cpu_info->chip_type,"Pentium IV",11);
 	  }
        }
+       if (!(strncmp(model_string,"Intel(R) Pentium(R) 4",21))) {
+	  strncpy(cpu_info->chip_type,"Pentium 4",10);
+       }
+       
           /* Should we handle all the various Celeron */
           /* types separately??                       */
        if (strstr(model_string,"Celeron")!=NULL) {

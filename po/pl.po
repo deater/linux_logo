@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 4.01\n"
+"POT-Creation-Date: 2002-02-19 00:50+0100\n"
+"PO-Revision-Date: 2002-02-18 19:14GMT\n"
+"Last-Translator: Patryk ¦ciborek <scibi@inetia.pl>\n"
+"Language-Team: Polski <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.9.5\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+
+#: ../linux_logo.c:53
+msgid "Zero"
+msgstr "Zero"
+
+#: ../linux_logo.c:54
+msgid "One"
+msgstr "Jeden"
+
+#: ../linux_logo.c:55
+msgid "Two"
+msgstr "Dwa"
+
+#: ../linux_logo.c:56
+msgid "Three"
+msgstr "Trzy"
+
+#: ../linux_logo.c:57
+msgid "Four"
+msgstr "Cztery"
+
+#: ../linux_logo.c:58
+msgid "Five"
+msgstr "Piêæ"
+
+#: ../linux_logo.c:59
+msgid "Six"
+msgstr "Sze¶æ"
+
+#: ../linux_logo.c:60
+msgid "Seven"
+msgstr "Siedem"
+
+#: ../linux_logo.c:61
+msgid "Eight"
+msgstr "Osiem"
+
+#: ../linux_logo.c:62
+msgid "Nine"
+msgstr "Dziewiêæ"
+
+#: ../linux_logo.c:63
+msgid "Many"
+msgstr "Wiele"
+
+#: ../linux_logo.c:416
+msgid "Processor"
+msgid_plural "Processors"
+msgstr[0] "procesor"
+msgstr[1] "procesory"
+msgstr[2] "procesorów"
+
+#. This is the default format of the output file.  See the README for more *\
+#. \* information on how to configure this option.
+#: ../defaults.h:13
+msgid ""
+"#O Version #V, Compiled #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O wersja #V, skompilowany #C\n"
+"#N #P #X #T #M, #R RAM, ³±cznie #B bogomips\n"
+"#H\n"
+
+#: ../defaults.h:14
+msgid ""
+"#O Version #V\n"
+"Compiled #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O wersja #V\n"
+"skompilowany #C\n"
+"#N #P #X #T #M, #R RAM\n"
+"³±cznie #B bogomips\n"
+"#H\n"
+
+#~ msgid "Processors"
+#~ msgstr "Procesory"

@@ -1,15 +1,15 @@
 Summary:	Displays an ANSI or ASCII penguin and system information.
 Name:		linux_logo
-Version:	3.9b1
-Release:	1
+Version:	4.01
+Release:	1cma
 Copyright:	GPL
 Group:		Applications/System
-Source:		http://www.deater.net/weave/vmwprod/%{name}/%{name}-%{version}.tar.gz
+Source0:	http://www.deater.net/weave/vmwprod/%{name}/%{name}-%{version}.tar.gz
 URL:		http://www.deater.net/weave/vmwprod/%{name}/
 Vendor:		VMW Software
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 Prefix:		%{_prefix}
-Packager:	Chris Ausbrooks <weed@bucket.pp.ualr.edu>
+Packager:	Chris Ausbrooks <weed@thebucket.org>
 
 %description
 Linux Logo is a small utility that displays an ANSI or ASCII logo of the
@@ -19,13 +19,55 @@ Linux penguin, along with some system information.
 %setup -n %{name}-%{version}
 
 %build
+ls ./logos/*/* >> logo_config
 make
-gzip -v9 %{name}.1
+(	echo '#!/bin/bash'
+	echo '#'
+	echo '# linux_logo	Hook to allow linux_logo to update issue and issue.net'
+	echo '#'
+	echo '# chkconfig: 2345 99 00'
+	echo '# description: Linux_logo puts up a greeting screen.'
+	echo ''
+	echo '# Source the function library.'
+	echo '. /etc/init.d/functions'
+	echo ''
+	echo 'RETVAL=0'
+	echo ''
+	echo '# See how we were called.'
+	echo 'case "${1}" in'
+	echo '	start|restart|reload)'
+	echo '		if [ -x /'%{prefix}'/bin/linux_logo -a -f /etc/issue ] ; then'
+	echo '			if [ -f /etc/redhat-release ]; then'
+	echo '				DASHT="-t"'
+	echo '				RRELEASE=$(cat /etc/redhat-release)'
+	echo '			fi'
+	echo '			action "Updating issue: "echo $(/'%{prefix}'/bin/linux_logo -f ${DASHT} "${RRELEASE}" > /etc/issue)'
+	echo '			if [ -f /etc/issue.net ]; then'
+	echo '				action "Updationg issue.net: " echo $(cat /etc/issue > /etc/issue.net)'
+	echo '			fi'
+	echo '			RETVAL=${?}'
+	echo '			[ "${RETVAL}" = 0 ] && touch /var/lock/subsys/linux_logo'
+	echo '		fi'
+	echo '		;;'
+	echo '	stop)'
+	echo '		# ignore'
+	echo '		rm -f /var/lock/subsys/linux_logo'
+	echo '		;;'
+	echo '	*)'
+	echo '		echo "Usage: ${0} {start|stop|restart|reload}"'
+	echo '		RETVAL=1'
+	echo 'esac'
+	echo ''
+	echo 'exit ${RETVAL}'
+) > linux_logo.init
+touch linux_logo.conf
 
 %install
 rm -rf %{buildroot}
 install -D -m 755 %{name} %{buildroot}/%{prefix}/bin/%{name}
 install -D -m 644 %{name}.1.gz %{buildroot}/%{prefix}/man/man1/%{name}.1.gz
+install -D -m 755 %{name}.init %{buildroot}/etc/rc.d/init.d/%{name}
+install -D -m 644 %{name}.conf %{buildroot}/etc/%{name}.conf
 
 %clean
 rm -rf %{buildroot}
@@ -33,47 +75,25 @@ rm -rf %{buildroot}
 %post
 if [ -f /etc/rc.d/rc.local ]; then
 	LOGOTMP=/tmp/rc.local.tmp
-	if [ `which mktemp 2> /dev/null` ]; then
-		LOGOTMP=`mktemp /tmp/rc.local.XXXXXX`
+	if [ $(which mktemp 2> /dev/null) ]; then
+		LOGOTMP=$(mktemp /tmp/rc.local.XXXXXX)
 	fi
-	grep -v LINUX_LOGO.RPM /etc/rc.d/rc.local > $LOGOTMP
-	cat $LOGOTMP > /etc/rc.d/rc.local
-	rm -f $LOGOTMP
+	grep -v LINUX_LOGO.RPM /etc/rc.d/rc.local > ${LOGOTMP}
+	cat ${LOGOTMP} > /etc/rc.d/rc.local
+	rm -f ${LOGOTMP}
 fi
-echo if [ \`which linux_logo 2\> /dev/null\` ]\; then"	"\
-	\#LINUX_LOGO.RPM >> /etc/rc.d/rc.local
-echo "	"if [ -f /etc/redhat-release ]\; then"	"\
-	\#LINUX_LOGO.RPM >> /etc/rc.d/rc.local
-echo "		"DASHT=\"-t\""			"\
-	\#LINUX_LOGO.RPM >> /etc/rc.d/rc.local
-echo "	"fi"					"\
-	\#LINUX_LOGO.RPM >> /etc/rc.d/rc.local
-echo "	"linux_logo -f \$DASHT \"\$R\" \> /etc/issue"	"\
-	\#LINUX_LOGO.RPM >> /etc/rc.d/rc.local
-echo "	"cp -f /etc/issue /etc/issue.net"		"\
-	\#LINUX_LOGO.RPM >> /etc/rc.d/rc.local
-echo fi"						"\
-	\#LINUX_LOGO.RPM >> /etc/rc.d/rc.local
-if [ `which linux_logo 2> /dev/null` ]; then
+/sbin/chkconfig --add linux_logo
+/sbin/service linux_logo restart > /dev/null 2>&1 || :
+if [ -f /etc/linux_logo.conf -a ! -s /etc/linux_logo.conf ] ; then
 	if [ -f /etc/redhat-release ]; then
 		DASHT="-t"
-		R=`cat /etc/redhat-release`
+		RRELEASE=$(cat /etc/redhat-release)
 	fi
-	linux_logo -f $DASHT "$R" > /etc/issue
-	cp -f /etc/issue /etc/issue.net
+	echo "-f ${DASHT} \"${RRELEASE}\"" >> /etc/linux_logo.conf
 fi
 
-%postun
-if [ $1 = 0 ]; then
-	if [ -f /etc/rc.d/rc.local ]; then
-		LOGOTMP=/tmp/rc.local.tmp
-		if [ `which mktemp 2> /dev/null` ]; then
-			LOGOTMP=`mktemp /tmp/rc.local.XXXXXX`
-		fi
-		grep -v LINUX_LOGO.RPM /etc/rc.d/rc.local > $LOGOTMP
-		cat $LOGOTMP > /etc/rc.d/rc.local
-		rm -f $LOGOTMP
-	fi
+%preun
+if [ "${1}" = 0 ]; then
 	if [ -f /etc/redhat-release ]; then
 		R=$(cat /etc/redhat-release)
 		arch=$(uname -m)
@@ -97,16 +117,39 @@ if [ $1 = 0 ]; then
 		cp -f /etc/issue /etc/issue.net
 		echo >> /etc/issue
 	fi
+	/sbin/service linux_logo stop > /dev/null 2>&1 || :
+	/sbin/chkconfig --del linux_logo
 fi
+
+%postun
+/sbin/service linux_logo restart > /dev/null 2>&1 || :
 
 %files
 %defattr(-, root, root)
-%doc ANNOUNCE.logo BUGS CHANGES COPYING linux_logo-3.9b1.lsm LINUX_LOGO.FAQ
-%doc README README.CUSTOM_LOGOS samples TODO
+%doc ANNOUNCE.logo BUGS CHANGES COPYING %{name}-%{version}.lsm LINUX_LOGO.FAQ
+%doc README README.CUSTOM_LOGOS TODO USAGE
+%config(noreplace) /etc/linux_logo.conf
+/etc/rc.d/*/*
 %{prefix}/bin/*
 %{prefix}/man/*/*
 
 %changelog
+* Tue Mar 05 2002 Chris Ausbrooks <weed@thebucket.org>
+- updated to 4.01
+- got rid of extra file
+- added conf manipulation
+
+* Thu Dec 06 2001 Chris Ausbrooks <weed@thebucket.org>
+- updated to b5
+- fixed email address
+
+* Sun Oct 14 2001 Chris Ausbrooks <weed@bucket.pp.ualr.edu>
+- added rc.d file, removed rc.local mods
+
+* Mon Mar 05 2001 Chris Ausbrooks <weed@bucket.pp.ualr.edu>
+- iterated version number
+- added more logos to logo_config now that they all work
+
 * Thu Mar 01 2001 Chris Ausbrooks <weed@bucket.pp.ualr.edu>
 - pretty much completely rewrote specfile
 - updated URLs

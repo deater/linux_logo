@@ -635,3 +635,13 @@
 14 February 2002
 + Release quick 4.01 version to fix machines with more than 2 GB of RAM
   on intel (although, still anything more than 4GB will need special code).
+
+11 March 2002
++ Some i18n fixes, and Polish translation, thanks to Patryk ciborek
+  <scibi@inetia.pl>
++ Updated to a newer spec file in the contrib directory.  Thanks to
+  Ford Prefect <weed@bucket.pp.ualr.edu>
++ Contributed "gnu-linux" logo from Torsten Stremlau <torsten@stremlau.de>
+  Maybe now RMS will run linux_logo ;)
++ New version of the "ll" assembly-language linux_logo included  
+  

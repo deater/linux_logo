@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.01 - Creates Nifty Logo With System Info - 13 February 2002
+  LINUX LOGO 4.02 - Creates Nifty Logo With System Info - 13 March 2002
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -17,11 +17,12 @@
 #include <string.h>
 #include <sys/utsname.h>
 #include <sys/time.h>
+#include <locale.h>
 
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.01"
+#define VERSION "4.02"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -602,8 +603,9 @@ int main(int argc,char **argv)
     char *tempst;
    
        /* i18n */
-    bindtextdomain("linux_logo", "/usr/lib/locale");
+    setlocale(LC_ALL,"");
     textdomain("linux_logo");
+    bindtextdomain("linux_logo", "/usr/lib/locale");
    
        /* Set some defaults */
     setup_info(&settings); 
