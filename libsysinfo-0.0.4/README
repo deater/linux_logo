@@ -102,8 +102,8 @@ INTERFACE:
    
    long int get_mem_size(void);
 
-      Returns memory size in bytes.  This will overflow on systems
-      with >2GB of memory currently.
+      Returns memory size in Megabytes.  
+      May be inaccurate on 32bit systems with >2GB of RAM.
       
    [---]   
 

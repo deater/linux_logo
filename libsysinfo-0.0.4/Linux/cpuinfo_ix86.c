@@ -130,6 +130,13 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        if (strstr(model_string,"Athlon")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Athlon",7);
        }
+       
+          /* Specialty Athlons */
+          /* Should we support MP too?  */
+          /* Should we decode the Speed ratings too (ie, 1600+) */
+       if (!strncmp(model_string,"AMD Athlon(tm) XP",17)) { 
+	  strncpy(cpu_info->chip_type,"Athlon XP",10);
+       }
 
           /* Durons */
        if (strstr(model_string,"Duron")!=NULL) {
@@ -152,6 +159,14 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 		  /* centaur cpuid is fully customizable, but this */
                   /* should catch the common case                  */
        strncpy(cpu_info->chip_vendor,"Centaur",8);
+       
+          /* Is this the proper thing to do?  It looks silly */
+          /* calling them "Centaur VIA" chips                */
+       if (strstr(model_string,"VIA")!=NULL) {
+	  strncpy(cpu_info->chip_vendor,"VIA",4);
+	  
+	  strcpy(cpu_info->chip_type,model_string+4);
+       }
     }
 
        /* *************** */
@@ -199,6 +214,13 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 	     strncpy(cpu_info->chip_type,"Pentium IV",11);
 	  }
        }
+          /* Should we handle all the various Celeron */
+          /* types separately??                       */
+       if (strstr(model_string,"Celeron")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Celeron",8);
+       }
+       
+       
           /* Fix up some older kernels */
        if (model_string[0]==0) {
 	  if (plain_model[0]=='5') {  
@@ -215,6 +237,13 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        /* ************* */
     if ( !(strncmp(vendor_string,"NexGenDriven",12))) {
        strncpy(cpu_info->chip_vendor,"NexGen",7);
+    }
+    
+       /* ********************************** */
+       /* National Semiconductor Geode Chips */
+       /* ********************************** */
+    if ( !(strncmp(vendor_string,"Geode by NSC",12))) {
+       strncpy(cpu_info->chip_vendor,"NSC",4);
     }
    
        /* ************* */
@@ -280,4 +309,10 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 int get_hardware_info(char hardware_string[256]) {
    
     return 0;
+}
+
+    /* Some architectures might have better ways of detecting RAM size */
+long int get_arch_specific_mem_size(void) {
+    /* We have no special way of detecting RAM */
+    return -1;
 }

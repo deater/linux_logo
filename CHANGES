@@ -618,3 +618,16 @@
 + Add "-i" option to ignore the new config files
 + Fixed some cases where an invalid file name would cause segfault
 + Update documentation
+
+4 February 2002
++ Add mandrake logos from their rpm, patch from Sitsofe Wheeler
+  <sits@sucs.swan.ac.uk>
+
+5 February 2002
++ Add change to print mem > 1000 MB in GB.  Have no way to test this 
+  though... I shouldn't be making changes like this in b5, I know, but
+  95% of people shouldn't be affected by this.
+
+11 February 2002
++ Cleaning up the documentation.  After 2 years 4.0 will finally be ready.
+  Shooting for a 13 February special "birthday" release.

@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 3.9b5 -- Shows a Logo With some System Info - 28 October 2001
+    LINUX_LOGO 4.0 -- Shows a Logo With some System Info - 13 February 2002
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
@@ -57,10 +57,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-3.9b5.tar.gz
+        tar -xzvf linux_logo-4.0.tar.gz
 	
     enter the directory
-        cd linux_logo-3.9b5
+        cd linux_logo-4.0
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -68,7 +68,7 @@ POTENTIAL USES FOR linux_logo
     compile the program
         make
 	
-    install with
+    install (you'll probably want to do this as root) with
         make install
 	
 	
@@ -278,14 +278,14 @@ Know bugs:
       On non-Linux platforms the BogoMips check can be quite slow.  To skip
          it use "linux_logo -s"
       
-      To make easy updated to ansi files with difficult editors, 
+      To make easy updates to ansi files with difficult editors, 
          the combination ^[ is read as the ESC code (#27 decimal)
 	 so this combination cannot be used in a picture.
 	 
 ------------------------------------------------------------------------>
 THE NEAT NEW FORMAT COMMAND
 ------------------------------------------------------------------------>
-These are instructions on how to use the new Format command in Linux Logo 3.0
+These are instructions on how to use the Format command added in Linux Logo 3.0
 
 The command line argument is -F.  
 
@@ -366,6 +366,7 @@ THANKS
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
    Without you linux_logo wouldn't work on so many machines.
    
+   Special thanks to my friend Marie Prosser, for all her patience.
    
 -----------------
 Vince

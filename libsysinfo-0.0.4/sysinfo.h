@@ -36,7 +36,10 @@ int get_hardware_info(char hardware_string[65]);
 
     /* mem_size (in megabytes)  (will this work on > 4Gig systems?) */
 long int get_mem_size(void);
+   
+    /* Use if the generic mem_size routines don't work for your arch */
+long int get_arch_specific_mem_size(void);
 
-    /* Debugging */
+/* Debugging */
 int set_cpuinfo_file(char *filename);
 void set_pretty_printing(int value);

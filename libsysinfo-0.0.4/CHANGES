@@ -28,3 +28,27 @@
 28 October 2001
 + Fix Cyrix Geode bug
 + Fix obscure megahertz reporting bug
+
+5 November 2001
++ Fix power-pc G4 printing (thanks to Nate Godin <nate@WPI.EDU> )
+
+4 February 2002
++ Fix Athlon XP to be printed properly.  Should we detect MP as well?
+  Should we do something with their fake MHz values (1600+)?
++ Better Linux memory detection using /proc/iomem with the old ways
+  as fallbacks.  Thanks to Sitsofe Wheeler <sits@sucs.swan.ac.uk>
+  for this nice patch
+
+5 February 2002
++ Add new "Geode by NSC" cpuinfo
++ Fix support for chips with Celeron in the name
++ Added "get_arch_specifig_mem_info()" function, and
+  openprom sparc mem checking mostly based on patches
+  from Ben Collins <bmc@visi.net>
++ Bump version number to 0.0.4 to make tracking any mem
+  related problems easier.
+
+11 February 2002
++ Ran my "test_proc compliance tests" and did some minor fixups
+  in the alpha, sparc, and ix86 "via" department.
++ Added pretty printing for m68k

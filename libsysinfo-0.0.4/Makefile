@@ -20,6 +20,7 @@ clean:
 	rm -f ./$(OS)/Makefile.inc configure
 	cd $(OS) && make clean
 	cd all && make clean
+	rm -f os
 
 install:	
 

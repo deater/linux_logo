@@ -1,34 +1,23 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.9b5 -- Shows a Logo With some System Info - 28 October 2001
+   LINUX_LOGO 4.0 -- Shows a Logo With some System Info - 13 February 2001
      by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
    SUPPORTS Linux (all but s390, SH, cris) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 3.9b5 of my linux_logo package.  
+I have released version 4.0 of my linux_logo package.  
 
 A sample ascii output is attached to the end.  
 
-NEW IN VERSION 3.9b5
+NEW IN VERSION 4.0
   -- new config file system
   -- lots of bug fixes
   -- ia64 support
-
-NEW IN VERSION 3.9b4
-  -- Minor bugfixes
-  -- Some i18n work
-
-NEW IN VERSION 3.9b3
   -- Internationalization code
   -- Additional banners
   -- Reorganized documentation
-
-NEW IN VERSION 3.9b2
   -- Complete overhaul of sysinfo code
-  -- Finally fix AMD Duron support
   -- optional assembly-language version
-
-NEW IN VERSION 3.9b1
   -- Re-wrote logo_generation code
   -- Any amount of custom logos can be compiled in
   -- Removal of some old options
@@ -59,7 +48,7 @@ USES [instructions included]
 WHERE TO GET LINUX_LOGO:
 -------------------------------------------------------------------------
   http://www.deater.net/weave/vmwprod/linux_logo
-  http://metalab.unc.edu/pub/Linux/logos/penguin/linux_logo-3.9b3.tar.gz
+  http://metalab.unc.edu/pub/Linux/logos/penguin/linux_logo-4.0.tar.gz
   
 Check out other programs by me at http://www.deater.net/weave/vmwprod
 

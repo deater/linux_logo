@@ -1,5 +1,5 @@
-/* Re-written from scratch 4 March 2001      */
-/* Handles sparc chips on Linux architecture */
+/* Re-written from scratch 3 March 2001      */
+/* Handles ppc chips on Linux architecture   */
 /* by Vince Weaver <vince@deater.net>        */
 
 #include <stdio.h>
@@ -25,47 +25,45 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        while ( (fgets(temp_string,255,fff)!=NULL) ) {
 	
 	  if ( !(strncmp(temp_string,"cpu",3))) {
-	     strncpy(model_string,parse_line(temp_string),256);  
+	     strncpy(model_string,parse_line(temp_string),256);
 	     clip_lf(model_string,255);
 	  }
-
-	  if ( !(strncmp(temp_string,"ncpus active",12))) {
-	     cpu_count=atoi(parse_line(temp_string));
-	     
+	  
+	  if (!(strncmp(temp_string,"clock",5))) {
+	     megahertz=atof(parse_line(temp_string));  
 	  }
 	  
 	     /* Ugh why must people play with capitalization */
 	  if ( !(strncmp(temp_string,"bogomips",8)) ||
 	       !(strncmp(temp_string,"BogoMips",8)) ||
-	       !(strncmp(temp_string,"BogoMIPS",8)) ||
-	       !(strncmp(temp_string,"Cpu",3))) {
+	       !(strncmp(temp_string,"BogoMIPS",8))) {
 	     bogomips+=atof(parse_line(temp_string));
+	     cpu_count++;  /* Cheating way to detect number of intel CPU's */
 	  }
        }
     }
   
-    strncpy(cpu_info->chip_vendor,"Sparc",32);
+    strncpy(cpu_info->chip_vendor,"PPC",4);
     strncpy(cpu_info->chip_type,model_string,63);
+
+    if (strstr(model_string,"POWER3")!=NULL) {
+       strncpy(cpu_info->chip_type,"POWER3",7);
+    }
+   
+       /* I Have an iBook now ;) */
+    if (strstr(model_string,"745/755")!=NULL) {
+       strncpy(cpu_info->chip_type,"G3",3);
+    }
+   
+    if (strstr(model_string,"7410,")!=NULL) {
+       strncpy(cpu_info->chip_type,"G4",3);
+    }
+   
+   
+    if (!strncmp(model_string,"PowerPC",7)) {
+       sscanf(model_string,"%s %s",throw_away,cpu_info->chip_type);
+    }
   
-       /* Fix up cpuinfo some */
-   
-    if (!strncmp(model_string,"Cypress",7)) {
-       strncpy(cpu_info->chip_vendor,"Cypress",8);
-       sscanf(model_string,"%s %s",throw_away,cpu_info->chip_type);
-    }
-   
-    if (!strncmp(model_string,"ROSS",4)) {
-       strncpy(cpu_info->chip_vendor,"ROSS",5);
-       sscanf(model_string,"%s %s",throw_away,cpu_info->chip_type);
-    }
-   
-    if (!strncmp(model_string,"Texas",5)) {
-       strncpy(cpu_info->chip_vendor,"TI",3);
-       sscanf(model_string,"%s %s %s %s %s",throw_away,throw_away,
-	      throw_away,throw_away,cpu_info->chip_type);
-    }
-       
-   
     cpu_info->num_cpus=cpu_count;
     cpu_info->megahertz=megahertz;
     cpu_info->bogomips=bogomips;
@@ -83,11 +81,17 @@ int get_hardware(char hardware_string[65]) {
        
        while ( (fgets(temp_string,255,fff)!=NULL) ) {
 	  	  
-	  if (!(strncmp(temp_string,"type",4))) {
+	  if (!(strncmp(temp_string,"machine",7))) {
              strncpy(hardware_string,parse_line(temp_string),64);
 	  }
 
        }
     }
     return 1;
+}
+
+    /* Some architectures might have better ways of detecting RAM size */
+long int get_arch_specific_mem_size(void) {
+       /* We have no special way of detecting RAM */
+       return -1;
 }

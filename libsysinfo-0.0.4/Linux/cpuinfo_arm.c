@@ -142,3 +142,8 @@ int get_hardware(char hardware_string[65]) {
 #endif  
  
 
+    /* Some architectures might have better ways of detecting RAM size */
+long int get_arch_specific_mem_size(void) {
+       /* We have no special way of detecting RAM */
+       return -1;
+}

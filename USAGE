@@ -188,7 +188,16 @@ B4): FOR DEBIAN:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 B5): FOR SUSE:
 
-      [thanks to Rodolfo Pilas <rodolfo@linux.org.uy>]
+      For version 7.3: [thanks to itzit <itzit@atari.net>]
+
+      Edit /etc/rc.d/boot.local file and add the
+      following lines before "exit 0" line:
+	     
+      /usr/local/bin/linux_logo > /etc/issue
+      /usr/local/bin/linux_logo -a > /etc/issue.net
+				 				 
+
+      [Older versions, thanks to Rodolfo Pilas <rodolfo@linux.org.uy>]
       
       Edit /sbin/init.d/boot.local file and add the
       following lines before "exit 0" line:

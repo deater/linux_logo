@@ -1,5 +1,5 @@
 /* Re-written from scratch 3 March 2001      */
-/* Handles ppc chips on Linux architecture   */
+/* Handles alpha chips on Linux architecture */
 /* by Vince Weaver <vince@deater.net>        */
 
 #include <stdio.h>
@@ -24,12 +24,25 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        
        while ( (fgets(temp_string,255,fff)!=NULL) ) {
 	
-	  if ( !(strncmp(temp_string,"cpu",3))) {
+	  if ( !(strncmp(temp_string,"cpu model",9))) {
 	     strncpy(model_string,parse_line(temp_string),256);
 	     clip_lf(model_string,255);
 	  }
+	  else if ( !(strncmp(temp_string,"cpu  ",5)) ||
+		    !(strncmp(temp_string,"cpu\t",4))) {
+	     strncpy(vendor_string,parse_line(temp_string),256);  
+	     clip_lf(vendor_string,255);
+	  }
 	  
-	  if (!(strncmp(temp_string,"clock",5))) {
+	  if (!(strncmp(temp_string,"cpus detected",13))) {
+	     cpu_count=atoi(parse_line(temp_string));
+	  }
+	     /* Older cpuinfo */
+	  if (!(strncmp(temp_string,"CPUs probed",11))) {
+	     sscanf(temp_string,"%s %s %i",throw_away,throw_away,&cpu_count);  
+	  }
+	  
+	  if (!(strncmp(temp_string,"cycle frequency",15))) {
 	     megahertz=atof(parse_line(temp_string));  
 	  }
 	  
@@ -43,15 +56,15 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        }
     }
   
-    strncpy(cpu_info->chip_vendor,"PPC",4);
+    strncpy(cpu_info->chip_vendor,vendor_string,32);
     strncpy(cpu_info->chip_type,model_string,63);
-   
-    if (!strncmp(model_string,"PowerPC",7)) {
-       sscanf(model_string,"%s %s",throw_away,cpu_info->chip_type);
-    }
   
+       /* Sanity check.  You can't run Linux w/o a cpu can you? */
+       /* an ev5 cpuinfo I have says "cpus detected: 0"         */
+    if (cpu_count==0) cpu_count=1;
+   
     cpu_info->num_cpus=cpu_count;
-    cpu_info->megahertz=megahertz;
+    cpu_info->megahertz=megahertz/1000000.0;
     cpu_info->bogomips=bogomips;
 
     return 0;
@@ -67,11 +80,17 @@ int get_hardware(char hardware_string[65]) {
        
        while ( (fgets(temp_string,255,fff)!=NULL) ) {
 	  	  
-	  if (!(strncmp(temp_string,"machine",7))) {
+	  if (!(strncmp(temp_string,"platform string",15))) {
              strncpy(hardware_string,parse_line(temp_string),64);
 	  }
 
        }
     }
     return 1;
+}
+
+    /* Some architectures might have better ways of detecting RAM size */
+long int get_arch_specific_mem_size(void) {
+    /* We have no special way of detecting RAM */
+    return -1;
 }
