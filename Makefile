@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 2.00 -- by Vince Weaver           #
+#  Makefile for Linux Logo 2.02 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #

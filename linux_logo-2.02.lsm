@@ -1,7 +1,7 @@
 Begin3
 Title: linux_logo
-Version: 2.00
-Entered-date: 13MAR98
+Version: 2.02
+Entered-date: 13MAY98
 Description: An ANSI Color Penguin Logo that can be run at bootup,
              at login, and many other interesting times.
 	     Supports many linux types, including SMP and m68k.
@@ -13,6 +13,7 @@ Maintained-by: weave@eng.umd.edu (Vince Weaver)
 Primary-site: sunsite.unc.edu /pub/Linux/logos/penguins
               21kB linux_logo-2.00.tar.gz
 Alternate-site: http://www.glue.umd.edu/~weave/vmwprod
+Alternate-site: http://vmw.home.ml.org/vmwprod
 Original-site:  
 Platforms: Linux (ix86,SMP,m68k,etc.), Irix, AIX, other Unixes
 Copying-policy: GPL

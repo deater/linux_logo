@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
- LINUX LOGO 2.00 - Creates a Nifty Logo With some System Info - 13 March 1998
+ LINUX LOGO 2.02 - Creates a Nifty Logo With some System Info - 13 May 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -28,7 +28,7 @@
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "2.00"
+#define VERSION "2.02"
 #define MAX_YSIZE 50
 
 #include "ascii_penguin.h"
@@ -102,11 +102,12 @@ void help_message(char *binname, char full)
     exit(0); 
 }
 
-void draw_color_logo(char **logo)
+void draw_color_logo(char **logo,int no_periods,int preserve_xy,
+		     int skip_bogomips,int offset)
 {
     char os_name[65],host_name[65],os_version[65],os_revision[65];
     char cpu_info[65],temp_string[100];
-    int i,no_periods=0,preserve_xy=0,skip_bogomips=0,offset=0;
+    int i;
     char bogo_total[65];
 
     for(i=0;i<7;i++) {
@@ -153,11 +154,12 @@ void draw_color_logo(char **logo)
     if (preserve_xy) ansi_print("^[8",no_periods,0,0);
 }
 
-void draw_ascii_logo(char **logo)
+void draw_ascii_logo(char **logo,int no_periods,int preserve_xy,
+		     int skip_bogomips,int offset)
 {
     char os_name[65],host_name[65],os_version[65],os_revision[65];
     char cpu_info[65],temp_string[100];
-    int i,no_periods=0,preserve_xy=0,skip_bogomips=0,offset=0;
+    int i;
     char bogo_total[65];
 
     for(i=0;i<7;i++) {
@@ -202,7 +204,7 @@ void draw_ascii_logo(char **logo)
     if (preserve_xy) ansi_print("^[8",no_periods,0,0); 
 }
 
-void draw_banner_logo(char symbol, int width_p,int use_ascii)
+void draw_banner_logo(char symbol, int width_p, int use_ascii)
 {
     char os_name[65],host_name[65],os_version[65],os_revision[65],cpu_info[65];
     char temp_string[100];
@@ -301,10 +303,12 @@ int main(int argc,char **argv)
     if (preserve_xy) ansi_print("^[7",no_periods,0,0);
    
     if (banner_mode) draw_banner_logo(symbol,width,plain_ascii);
-    else if (plain_ascii) draw_ascii_logo( (char**)ascii_logo);
+    else if (plain_ascii) draw_ascii_logo( (char**)ascii_logo,no_periods,
+					  preserve_xy,skip_bogomips,offset);
     else {
        ansi_print("^[[40m^[[40m\n",no_periods,0,0);
-       draw_color_logo( (char**)color_logo);
+       draw_color_logo( (char**)color_logo,no_periods,preserve_xy,
+			skip_bogomips,offset);
     }
     if (preserve_xy) ansi_print("^[8",no_periods,0,0);
    

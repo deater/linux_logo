@@ -105,3 +105,11 @@
 + I also rearranged the "sysinfo.c" file.  It now relies on pre-processor
   magic, but simplified the Makefile a lot.
 + Zipped up version 2.0.1
+
+13 May 1998
++ Fixed it so that command line paramaters were passed to the relevant
+  modules.  This had been broken for some time; thanks to
+  <mengmeng@earthling.net> for pointing this out.
++ The boot-logo flamewar has started on linux-kernel, so I think I will
+  zip up and get 2.0.2 ready to announce....
+  
