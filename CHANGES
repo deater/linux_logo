@@ -77,4 +77,11 @@
 12 FEBRUARY 1998
 + Found bug in 1.05 [% signs not work well in /etc/issue.net  ... they are
   escaped... ugh] so released 1.06
++ UGH! Uploaded 1.06 as ASCII instead of BIN at sunsite by mistake.  Changed
+  version of package to 1.07 but leave everything as 1.06 ;)  yes I'm lazy
+  
+19 FEBRUARY 1998
++ Added Cyrix 6x86 support [thanks to <adam@princeton.edu>]
++ Changed to read the vendor_id to report vendor.  Idea also thanks to 
+  <adam@princeton.edu>
   

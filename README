@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 1.06 -- Shows a Logo With some System Info - 12 February 1998
+   LINUX_LOGO 1.07 -- Shows a Logo With some System Info - 17 February 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
        SUPPORTS Linux, SMP, Atari m68k, and even some non-Linux OS's
@@ -29,20 +29,22 @@ HISTORY:
 POTENTIAL USES FOR linux_logo
 ----------------------------------------------------------------------->
 
-  BOOT UP PENGUIN: just stick "/usr/local/bin/linux_logo" in an rc file.
+* BOOT UP PENGUIN: just stick "/usr/local/bin/linux_logo" in an rc file.
      [/etc/rc.d/rc.M is a good place if you are running Slackware.  Place
       it right above where sendmail causes a pause.]
   
-  MOTD/LOGIN: You can have the penguin appear at the login prompt.  
+* MOTD/LOGIN: You can have the penguin appear at the login prompt.
+  
+    FOR SLACKWARE/OPENLINUX
         Add the following lines to /etc/rc.d/rc.S [in slackware] 
         or to /etc/rc.d/rc.local [OpenLinux]
 	
-  /usr/local/bin/linux_logo > /etc/issue
-  /usr/local/bin/linux_logo > /etc/issue.net
+       /usr/local/bin/linux_logo > /etc/issue
+       /usr/local/bin/linux_logo > /etc/issue.net
   
-        and the penguin appears at all the login prompts, even remote ones.
+      and the penguin appears at all the login prompts, even remote ones.
         
-  REDHAT LOGIN: Here is how to do the above with a Redhat distribution.
+    FOR REDHAT: Here is how to do the above with a Redhat distribution.
          [thanks to Esperandi]
 	 	 
 	 "I love your Penguin Linux Logo login thing.  It only took me a couple
@@ -60,8 +62,41 @@ POTENTIAL USES FOR linux_logo
 
          and then change the echo line after it to:
              echo "" >> /etc/issue
+	    
+    FOR DEBAIN: 
+        [thanks to <rlovison@simons-rock.edu> ]
+        Nice program!  Just wanted to let you know how I used it within a 
+	Debian system.  I have the logo appear above any text in the message 
+	of the day and as long as the day's message remains under a few lines, 
+	it works out wonderfully.  First I renamed the Debian default 
+	/etc/motd, created a new one with touch motd', used the following 
+	command:
+	
+            /usr/local/bin/linux_logo > /etc/motd 
+	    
+       and then added a line of text at the end of the file.  Next I edited 
+       /etc/init.d/boot.  In the following lines which appear near the end 
+       of the file:
+     
+           if [ "$EDITMOTD" != no ]
+           then
+               uname -a > /tmp/motd
+	       sed 1d /etc/motd >> /tmp/motd
+	       mv /tmp/motd /etc/motd
+           fi
+			     
+      change the third line to:
+      
+	  /usr/local/bin/linux_logo > /tmp/motd
+			     
+      and the fourth line to:
+			     
+	 sed 1,18d /etc/motd >> /tmp/motd
+			     
+     and as long as EDITMOTD is set to yes at the beginning of the file, it
+     should work.
 	 
-  NETWORK LOGIN:
+* NETWORK LOGIN:
         Note: for platforms that do not have color ansi telnet connections
 	you might want to use the new "linux_logo -a" option.  This gives
 	a plain ascii [though less exciting and uglier] output.  However
@@ -72,7 +107,7 @@ POTENTIAL USES FOR linux_logo
 	use the following in the appropriate place
 	      /usr/local/bin/linux_logo -a > /etc/issue.net
 	 
-  PENGUIN PORT: You can set up a port on your Linux box to answer connections
+* PENGUIN PORT: You can set up a port on your Linux box to answer connections
          with the Penguin! 
 	 
          Add the following line to /etc/services

@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 1.06 - Creates a Nifty Logo With some System Info - 11 February 1998
+LINUX LOGO 1.07 - Creates a Nifty Logo With some System Info - 12 February 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -27,7 +27,7 @@ LINUX LOGO 1.06 - Creates a Nifty Logo With some System Info - 11 February 1998
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "1.06"
+#define VERSION "1.07"
 #define MAX_YSIZE 50
 
 #include "ascii_penguin.h"
@@ -59,7 +59,6 @@ int ansi_print(const char *string,int no_periods,int offset)
        case '^' : if (string[i+1]=='[') {putchar('\033'); i++;} break;
        case '\\': if (string[i+1]=='n') {printf("\n"); i++;} 
        case '.' : if (no_periods) putchar(' '); else putchar(string[i]); break;
-       case '%' : putchar('\\'); putchar('%'); break;
        default  : putchar(string[i]);
       }
       i++;

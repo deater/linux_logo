@@ -4,6 +4,7 @@
 \*----------------------------------------------------------------*/
 /* Initial gernic Linux and Irix -- Vince Weaver                  *\
 \* Added Linux mc6800 support    -- Christian Marillat            */
+/* Added Cyrix 6x86 support"     -- Adam J. Thornton              */
 
 #include <stdio.h>
 #include <ctype.h>
@@ -74,7 +75,7 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
    struct stat buff;
    long long int mem;
    float bogomips=0.0;
-   char temp_string2[40],model[15];
+   char temp_string2[40],model[15],vendor[30],chip[20];
 #ifndef mc68000
    char temp_string[80],bogomips_total[30];
    float total_bogo=0.0;
@@ -110,19 +111,40 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	    fscanf(fff,"%f",&bogomips);
 #else
    if ((fff=fopen("/proc/cpuinfo","r") )!=NULL) {
-           while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
+      while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
-	    /*if ( !(strcmp(temp_string2,"cpu")) ){
+	    if ( !(strcmp(temp_string2,"cpu")) ){
 		 fscanf(fff,"%s%s",(char *)&temp_string,(char *)&chip);
-	    }*/
+	    }
 	    if ( !(strcmp(temp_string2,"model")) ) {
 		 fscanf(fff,"%s",(char *)&temp_string);
 		 read_string_from_disk(fff,(char *)&model);
 	         sscanf(model,"%s",(char *)&temp_string);
+	       
+	       /* Fix Ugly Look Proc info with custom */
 	         if ( !(strcmp(temp_string,"AMD-K6tm")))
-		 {
-		    sprintf(model,"%s","AMD-K6");
-		 }
+		    sprintf(model,"%s","K6");
+		 if ( !(strncmp(temp_string,"6x86L",5)))
+		    sprintf(model,"%s","6x86");	 
+	         if ( !(strcmp(temp_string,"unknown")))
+		    sprintf(model,"%s",chip);
+	    }
+	    if (!(strcmp(temp_string2,"vendor_id"))) {
+	       fscanf(fff,"%s",(char *)&temp_string);
+	       read_string_from_disk(fff,(char *)&vendor);
+	       sscanf(vendor,"%s",(char *)&temp_string);
+	       if ( !(strcmp(temp_string,"AuthenticAMD"))) {
+	          sprintf(vendor,"%s","AMD");
+	       }
+	       if ( !(strcmp(temp_string,"GenuineIntel"))) {
+	          sprintf(vendor,"%s","Intel");
+	       }
+	       if ( !(strcmp(temp_string,"CyrixInstead"))) {
+	          sprintf(vendor,"%s","Cyrix");            
+	       }
+	       if ( !(strcmp(temp_string,"unknown"))) {
+		  vendor[0]='\0';
+	       }
 	    }
 	 }
 	 if ( !(my_string_comp(temp_string2,"bogomips")) ) {
@@ -142,8 +164,8 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
       sprintf(cpuinfo,"%s @ %s %s %s %ldM RAM",chip,clock,model,model2,(long int)mem);
       sprintf(bogo_total,"%.2f Bogomips",bogomips);      
 #else
-      sprintf(cpuinfo,"%s %s Processor%s %ldM RAM",ordinal[cpus],model,
-	      (cpus>1)?"s,":",",(long int)mem);
+      sprintf(cpuinfo,"%s %s %s Processor%s %ldM RAM",ordinal[cpus],vendor,
+	      model,(cpus>1)?"s,":",",(long int)mem);
       sprintf(bogo_total,"%.2f Bogomips Total",total_bogo);      
 #endif
     

@@ -1,7 +1,11 @@
-Things possibly to do:  (Thanks to Adam L.)
+Things possibly to do:  
+
+- a "-no_escape" switch to completely skip escape sequences for dumb
+  terminals?
+- a "color" ascii art so that it looks ok on windows telnet but also on linux?
+- better ascii art?
 
 - regular ascii art for non-linux platforms.
-- Credit Adams ansi editor
 - autoconfigure?
 
 - what to do when nonexistent params are used
