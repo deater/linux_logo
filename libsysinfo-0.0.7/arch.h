@@ -6,7 +6,7 @@
 #define ARCH_IX86    5
 #define ARCH_M68K    6
 #define ARCH_MIPS    7
-#define ARCH_PARISC  8
+#define ARCH_HPPA    8
 #define ARCH_PPC     9
 #define ARCH_S390   10
 #define ARCH_SH3    11
@@ -15,7 +15,7 @@
 
 
 char *arch_names[]={
-    "Unknown",
+    "unknown",
     "alpha",
     "arm",
     "cris",
@@ -23,7 +23,7 @@ char *arch_names[]={
     "ix86",
     "m68k",
     "mips",
-    "parisc",
+    "hppa",
     "ppc",
     "s390",
     "sh3",

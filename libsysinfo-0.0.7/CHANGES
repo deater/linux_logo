@@ -67,3 +67,13 @@
 14 July 2002
 + Run through new batch of cpuinfo files, fixing anything needing fixed.
 + Added cris, s390, sh3, and vax Linux architectures
+
+17 July 2002
++ Force SPARC to use /proc/meminfo for now, as it is less inaccurate
+  than /proc/kcore.  If John will reboot my SparcStation5 I can try
+  the PROM stuff again.
+
+8 August 2002
++ Fix hppa and sh3 architectures so they compile.
++ Add yet another "sysinfo" memory detection
++ Fix up some new x86 funnies.

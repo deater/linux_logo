@@ -653,3 +653,8 @@
 + Fix that "-L list" was reporting classic/banner backwards!
   Thanks to Steve Kostecke <steve@debian.org>
 + Added "-k" option that disables centering of system info
+
+
+19 July 2002
++ Had released 4.03
++ Update USAGE to reflect redhat 7.x series

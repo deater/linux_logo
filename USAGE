@@ -121,19 +121,34 @@ B3). FOR REDHAT
 
 
    Generic Login:
+      
+      REDHAT 7.x INSTRUCTIONS
+      ~~~~~~~~~~~~~~~~~~~~~~~  
+	 The /etc/issue file comes with the redhat-release package.
+	 It is not updated every boot-up like in the 6.x series.
+	 
+	  One way to have linux_logo work is simply end the following
+	  lines to the end of the file "/etc/rc.d/rc.local"
+	              
+	     if [ -f /usr/local/bin/linux_logo ]; then
+                echo "" > /etc/issue
+                /usr/local/bin/linux_logo -t "$R" >> /etc/issue
+	        /usr/local/bin/linux_logo -a -t "$R" > /etc/issue.net
+	        echo >> /etc/issue
+	     fi
 
-                [these were tested for Redhat 6.0]
-		
+      REDHAT 6.x INSTRUCTIONS
+      ~~~~~~~~~~~~~~~~~~~~~~~	
 	 In the file /etc/rc.d/rc.local Look for the lines saying 
 	 
-    # This will overwrite /etc/issue at every boot.  So, make any changes you
-    # want to make to /etc/issue here or you will lose them when you reboot.
+           # This will overwrite /etc/issue at every boot.  So, make any changes you
+           # want to make to /etc/issue here or you will lose them when you reboot.
     
-         towards the middle of the file.  Comment out [by putting a # at the
-	     start of each line] the following 6 lines, up to, but not
-	     including,  the line that says 'fi'.
+           towards the middle of the file.  Comment out [by putting a # at the
+	      start of each line] the following 6 lines, up to, but not
+	      including,  the line that says 'fi'.
 	 
-	 Before the 'fi' put in the following lines:
+	   Before the 'fi' put in the following lines:
 	 
              if [ -f /usr/local/bin/linux_logo ]; then
                 echo "" > /etc/issue

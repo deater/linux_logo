@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 4.04 -- Shows a Logo With some System Info - 14 July 2002
+    LINUX_LOGO 4.04 -- Shows a Logo With some System Info - 8 August 2002
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
@@ -57,10 +57,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-4.0.tar.gz
+        tar -xzvf linux_logo-4.04.tar.gz
 	
     enter the directory
-        cd linux_logo-4.0
+        cd linux_logo-4.04
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -287,7 +287,7 @@ Know bugs:
 	 so this combination cannot be used in a picture.
 	 
 ------------------------------------------------------------------------>
-THE NEAT NEW FORMAT COMMAND
+THE NEAT FORMAT COMMAND
 ------------------------------------------------------------------------>
 These are instructions on how to use the Format command added in Linux Logo 3.0
 
@@ -370,7 +370,8 @@ THANKS
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
    Without you linux_logo wouldn't work on so many machines.
    
-   Special thanks to my friends Marie Prosser and Kristina Gonser. 
+   Special thanks to Kristina Gonser and my friends John Clemens and Marie
+   Prosser.
    
 -----------------
 Vince

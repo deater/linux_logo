@@ -23,15 +23,21 @@ int get_cpu_info(cpu_info_t *cpu_info) {
     if ((fff=fopen(get_cpuinfo_file(),"r") )!=NULL) {
        
        while ( (fgets(temp_string,255,fff)!=NULL) ) {
-	
-	  if ( !(strncmp(temp_string,"cpu  ",5)) ||
-	       !(strncmp(temp_string,"cpu\t",4))) {
+
+	  
+	    /* We use "model name" field here.  I only have 1 cpuinfo */
+	    /* to work with here.  Should we rather use the "cpu" or  */
+	    /* "model" fields instead?  I am unfamiliar with hppa     */
+	    /* terminology --vmw                                      */
+	  
+	  if ( !(strncmp(temp_string,"model name",9))) {
 	     strncpy(model_string,parse_line(temp_string),256);
 	     clip_lf(model_string,255);
 	  }
 	  
+	     /* should this be PA-RISC?  Or maybe leave it blank? */
 	  if ( !(strncmp(temp_string,"cpu family",10))) {
-	     strncpy(vendor_string,"PA-RISC",7);
+	     strncpy(vendor_string,"HPPA",8);
 	  }
 	  
           if ( !(strncmp(temp_string,"cpu MHz",6))) {	       

@@ -5,6 +5,8 @@
 #include <sys/stat.h> /* stat */
 #include <unistd.h>  /* stat */
 
+#include <sys/sysinfo.h> /* sysinfo() */
+
 #include "sysinfo.h"
 #include "uname.h"
 
@@ -102,6 +104,20 @@ long int get_mem_size_stat(void) {
     return mem_size;
 }
 
+long int get_mem_size_sysinfo(void) {
+ 
+   long int mem_size=-1;
+   struct sysinfo system_info;
+   
+   sysinfo(&system_info);
+  
+   mem_size=system_info.totalram/(1024*1024);
+   
+   if (mem_size>0) return mem_size;
+   else return -1;
+   
+}
+
     /* get mem size from /proc/meminfo */
 long int get_mem_size_meminfo(void) {
     
@@ -144,13 +160,24 @@ long int get_mem_size(void) {
    
        /* First try any arch-specific memsize functions */
     mem_size=get_arch_specific_mem_size();
-   
+
+    if (mem_size == -2) {
+       mem_size = -1;
+       goto meminfo_jump;  /* hack! */
+    }
+
        /* Next try the 2.4.x method of iomem */
     if (mem_size == -1) mem_size = get_mem_size_iomem();
 
        /* Try stat-ing /proc/kcore */
     if (mem_size == -1) mem_size = get_mem_size_stat();   
 
+meminfo_jump:
+
+       /* sysinfo should return same as /proc/meminfo */
+       /* which, sadly, is often from 1MB-20MB off    */
+    if (mem_size == -1) mem_size = get_mem_size_sysinfo();
+   
        /* If all else fails, try using /proc/meminfo */
     if (mem_size == -1) mem_size = get_mem_size_meminfo();
    

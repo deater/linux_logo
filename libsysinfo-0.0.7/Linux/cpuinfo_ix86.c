@@ -223,11 +223,12 @@ int get_cpu_info(cpu_info_t *cpu_info) {
 	  strncpy(cpu_info->chip_type,"Pentium 4",10);
        }
        
-       if (!(strncmp(model_string,"Intel(R) Xeon(TM) CPU",21))) {
+       if ( !(strncmp(model_string,"Intel(R) Xeon(TM) CPU",21)) ||
+	    !(strncmp(model_string,"Intel(R) Genuine CPU",19)) || 
+	    !(strncmp(model_string,"Intel(R) XEON(TM)",17))) {
 	  strncpy(cpu_info->chip_type,"Pentium 4 Xeon",16);
        }
-       
-	    
+      	    
        
           /* Should we handle all the various Celeron */
           /* types separately??                       */
@@ -284,9 +285,12 @@ int get_cpu_info(cpu_info_t *cpu_info) {
        /* ************** */
        /* UMC            */
        /* ************** */
-    if ( !(strncmp(vendor_string,"UMC UMC UMC ",12))) {
-          /* Does anyone really have one of these? */
+    if ( !(strncmp(vendor_string,"UMC UMC UMC",11))) {
        strncpy(cpu_info->chip_vendor,"UMC",4);
+       
+       if (!(strncmp(model_string,"SX",2))) {
+	  strncpy(cpu_info->chip_type,"486SX",6);
+       }
     }
    
        /* ****************************** */

@@ -10,6 +10,8 @@
 #include "sysinfo.h"
 #include "generic.h"
 
+
+
 int get_cpu_info(cpu_info_t *cpu_info) {
 
     FILE *fff;
@@ -122,7 +124,10 @@ int get_hardware(char hardware_string[65]) {
 #if (CROSS_DEBUGGING==1)
  
 long int get_arch_specific_mem_size(void) {
-   return -1;
+    
+       /* /proc/kcore does not reflect memsize on sparc */
+   return -2;
+    
 }
 #else
    
