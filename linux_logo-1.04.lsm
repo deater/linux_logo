@@ -1,0 +1,19 @@
+Begin3
+Title: linux_logo
+Version: 1.04 
+Entered-date: 06FEB98
+Description: An ANSI Color Penguin Logo that can be run at bootup,
+             at login, and many other interesting times.
+	     Version 1.0 has SMP and m68k support, plus now it can
+	     be configured for non-Linux platforms (Irix,etc).
+	     Versions 1.04 includes minor bug-fixes.
+Keywords: logo penguin boot system info ansi      
+Author: weave@eng.umd.edu (Vince Weaver)
+Maintained-by: weave@eng.umd.edu (Vince Weaver)
+Primary-site: sunsite.unc.edu /pub/Linux/logos/penguins
+              12kB linux_logo-1.04.tar.gz
+Alternate-site: http://www.glue.umd.edu/~weave/vmwprod
+Original-site:  
+Platforms: Linux (ix86,SMP,m68k,etc.), Irix, other Unixes
+Copying-policy: GPL
+End

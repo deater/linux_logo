@@ -1,0 +1,17 @@
+Things possibly to do:  (Thanks to Adam L.)
+
+- Fix up new sunsite location
+- Credit Adams ansi editor
+- autoconfigure?
+
+- what to do when nonexistent params are used
+  I think ignoring is just ok
+- what to do on a negative offset, is ignored right now
+- a limitation for the offset would be also cool so that the penguin isn't
+  destroyed if offset is to big
+  but this thing is IMO a bit tricky because you need the width of the
+  display
+  and to get that width, I think, you've to use ncurses or
+  is there another possibility to get this value
+- maybe you could put an exit into help_message because it is always
+  used as "help_message(...); return 1; ", the code would get smaller

@@ -1,0 +1,67 @@
+8 JULY 1997
++ Came up with the Idea
++ Converted the logo.xpm file to ANSI using ppm2ansi and xv
++ Fixed up the picture with THEDRAW under DOSEMU 0.66.7
++ Combined into a C program using jed.
+
+9 JULY 1997
++ Figured out the tricky proc stuff (very inelegant)
++ Released version 0.1
+
+10 JULY 1997
++ Fixed it so it looks better on a white background (standard rxvt or xterm)
++ Released version 0.2
++ Added documentation on how to add a "penguin port" to telnet into
+
+14 JULY 1997
++ Return for weekend to find lots of feedback on this program.
++ Started adding updates.
++ Cleaned up output routines, added SMP and Atari support, and cleaned
+  up the code in general.
++ Added a command line options. -v (version) -h (help) and -n (turn off
+  periods in the output)
++ Released version 0.4 to my website [0.3 was a never released minor bugfix]
+
+15 JULY 1997
++ Start on version 0.5
++ Really start modularizing.  Decide to make it completely platform
+  independent.
+
+16 JULY 1997
++ Finished modularization
++ Added -o option to print with offset
++ Finished cross-platform support (with a lot of #ifdef s)
++ Added IRIX and Default UNIX outputs
++ Added -s option to skip bogomips check on non-Linux OS's
++ Released version 0.6
+
+18 JULY 1997
++ Got improved Atari m68k Code from Christian Marillat
++ Removed extraneous ^[ combination from the ansi .h files
+  (so a cat of the header file shows the picture)
++ Released version 1.0 at sunsite and my site (no there is no 0.7-0.9
+  ... the improvements were so drastic I thought it deserved a full
+  version number).
+
+25 JULY 1997
++ Fixed some typos in the README (thanks to Esperandi)
++ Ran doc files through ispell .. i didn't realize it was that bad ;)
++ Fixed handling of the -o option when a number doesn't follow
+  (before resulted in seg-fault). (thanks to Adam Lackorzynski) 
++ Re-released as version 1.01
+
+4 AUGUST 1997
++ Worked some more on the -o problem (again many thanks to Adam Lackorzynski)
+  should not give any more problems.
+
+5 AUGUST 1997
++ Added a TODO file
++ Added an exit() call to the help section, and removed some return 1; s
++ Fixed a minor bug with SGI getcpuinfo.
++ Put version 1.02 at my site (for some reason I forgot to put 1.01 there)  
+
+6 FEBRUARY 1998
++ A few extremely minor bugs/typos fixed over the past months.
++ Added better support for K6-chips [I recently upgraded to one ;)] and
+  the newer kernels.
++ Package up version 1.04 and release for test to UM-LUG

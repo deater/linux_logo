@@ -1,39 +1,161 @@
-/*-------------------------------------------------------------------------*\
- LINUX LOGO 0.2 -- Creates a Nifty Logo With some System Info - 10 July 1997
+/*--------------------------------------------------------------------------*\
+   LINUX_LOGO 1.04 -- Shows a Logo With some System Info - 7 February 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
-There is always controvery on the linux-kernel mailing list about an x86 
-penguin logo on bootup.  I always thought this would be neat too, and set
-out to program one, but I lack the skills to integrate something like that
-into the kernel.
+       SUPPORTS Linux, SMP, Atari m68k, and even some non-Linux OS's
+\*--------------------------------------------------------------------------*/
 
-I did however manage to make this program that puts a crude ANSI picture of
-a penguin on the screen, as well as show some main system info.
+HISTORY: 
+  
+   Back in the summer of '97 there was a recurring topic on the linux-kernel
+   list about having a "boot-up" penguin in the kernel.  There were many 
+   arguments back and forth, but eventually the primary consensus was that
+   this would be better done in user-space.  [though with the advent
+   of GGI, etc, a graphical approach may become standard.  Patches did
+   float around of a Vga-font hack to get a penguin...]
+   
+   So using a ppm to ansi converter from Rasterman [www.rasterman.com],
+   a trial version of THEDRAW under DosEmu, and just some talents left
+   over from my Ansi-art BBS days I hacked together a rough likeness
+   of Ewing's Linux Penguin.  I added some system info from /proc, and
+   linux_logo was born.
+   
+   The program itself has grown more "feature-full" as people around the
+   world sent in their patches.  The newer versions are primarily minor
+   cosmetic fixes.  But I get a lot of positive feedback from this tiny
+   little program I created one summer day........
+   
+----------------------------------------------------------------------->
+POTENTIAL USES FOR linux_logo
+----------------------------------------------------------------------->
 
-USES:
   BOOT UP PENGUIN: just stick "/usr/local/bin/linux_logo" in an rc file.
      [/etc/rc.d/rc.M is a good place if you are running Slackware.  Place
-      it right above where sendmail is run because that creates a pause.]
+      it right above where sendmail causes a pause.]
   
-  MOTD: You could even have people get this at the login prompt.  This
-        would take some configuring of /etc/rc.d/rc.S but it is possible.
-      
-  FUN:  It is just cool to run it now and then.
+  MOTD/LOGIN: You can have the penguin appear at the login prompt.  
+        Add the following lines to /etc/rc.d/rc.S [in slackware]
+	
+  /usr/local/bin/linux_logo > /etc/issue
+  /usr/local/bin/linux_logo > /etc/issue.net
   
-  
-USAGE:
-  The file is ANSI escape sequences, so it should work OK with most terminals.
+        and the penguin appears at all the login prompts, even remote ones.
+        
+  REDHAT LOGIN: Here is how to do the above with a Redhat distribution.
+         [thanks to Esperandi]
+	 	 
+	 "I love your Penguin Linux Logo login thing.  It only took me a couple
+	 minutes but I figured out how to get it working with Red Hãt and its
+	 rc files.  I was kinda new to Red Hat, having used Slackware for a 
+	 billion years, and the rc files were totally different.  But I found
+	 the best way to implement the penguin quite beautifully was to go 
+	 into the rc.local files go down to the bottom, and above the line
+	 that reads:
+	 
+	     echo "" > /etc/issue
+
+         Insert this line:
+             /usr/bin/linux_logo > /etc/issue
+
+         and then change the echo line after it to:
+             echo "" >> /etc/issue
+	 
+  PENGUIN PORT: You can set up a port on your Linux box to answer connections
+         with the Penguin! 
+	 
+         Add the following line to /etc/services
+	     penguin         1234/tcp        penguin
+	     
+	 Add the following line to /etc/inetd.conf
+	    penguin stream  tcp     nowait  root   /usr/local/bin/linux_logo
+	    
+         Restart inetd (killall -HUP inetd) and you have it!!
+	 
+	 Locally "telnet your.host penguin" will do it.  From other machines
+	 you will need the port number ("telnet your.host 1234").. it is easy
+	 to customize.. just pick a port number and away you go!
  
-BUGS:   
-  Not tested with non-x86 systems.
-  Not SMP concious.  It would be nice to show multiple CPU info, but I don't
-                     have a SMP box to work with.
-   
- The image was created using the logo.xpm from the Linux distribution,
+ ----------------------------------------------------------------------->
+ INSTALLING linux_logo
+ ----------------------------------------------------------------------->
+ 
+    untar and uncompress the file
+        tar -xzvf linux_logo-1.04.tar.gz
+	
+    enter the directory
+        cd linux_logo-1.04
+	
+    edit the Makefile and be sure everything is set up the way you want.
+    [on stock Linux systems it should work without any changes]
+    
+    compile the program
+        make
+	
+    you can install it by hand
+        cp linux_logo /usr/local/bin
+	
+    "make install" will do this for you.  You can place it anywhere you want,
+    but /usr/local/bin is as good a place as any.
+  
+--------------------------------------------------------------------------->
+USAGE
+--------------------------------------------------------------------------->
+
+USAGE:   linux_logo [-n] [-p] [-o Num] [-s] [-v] [-h]
+         [-n] -- toggle periods off [may make output look better/cleaner]
+         [-p] -- preserve cursor location
+         [-o Num] offset output by Num spaces to the right
+         [-s] -- skip Bogomips [speeds up display on non-Linux platforms]
+         [-v] -- version information
+         [-h] -- this help screen
+
+--------------------------------------------------------------------------->
+TROUBLESHOOTING
+--------------------------------------------------------------------------->
+
+Know bugs: 
+  
+      Will not support >9 CPU SMP machines currently.
+      
+      Different architectures have odd /proc files.  If you send me
+      a copy of relevant files (/proc/cpuinfo and /proc/version usually)
+      I can see about adding support.
+      
+      On non-Linux platforms the BogoMips check can be quite slow.  To skip
+         it use "linux_logo -s"
+      
+      To make easy updated to ansi files with difficult editors, 
+         the combination ^[ is read as the ESC code (#27 decimal)
+	 so this combination cannot be used in a picture.
+
+------------------------------------------------------------------------>
+TOOLS TO CREATE OTHER LOGOS
+------------------------------------------------------------------------>
+     The image was created using the logo.xpm from the Linux distribution,
      ppm2ansi by Carsten Haitzler -- http://www.cse.unsw.edu.au/~s2154962/
      and was hand edited using THEDRAW under dosemu 0.66.7
- 
+     
+     Another good ansi editor [under development] from Adam Lackorzynski
+     can be obtained at http://www.inf.tu-dresden.de/~al10/aae-0.01.tar.gz
+     
+------------------------------------------------------------------------->
 WHERE TO GET LINUX_LOGO:
-  http://www.glue.umd.edu/~weave/vmwprod
-  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-0.2.tar.gz -- at first
-  http://sunsite.unc.edu/pub/Linux/logos/linux_logo-0.2.tar.gz -- eventually?
+------------------------------------------------------------------------->
+  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-1.04.tar.gz
+  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-1.04.tar.gz -- at first
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-1.04.tar.gz
+  
+Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
+
+-------------------------------------------------------------------------->
+THANKS
+-------------------------------------------------------------------------->
+
+   Many thanks to the people sending in patches and /proc/cpuinfo entries.
+   Without you linux_logo wouldn't work on many machines.
+   
+   Also many Thanks to Marie Prosser who is always there for me.
+   
+-----------------
+Vince
+weave@eng.umd.edu

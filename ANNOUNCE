@@ -1,0 +1,40 @@
+/*--------------------------------------------------------------------------*\
+   LINUX_LOGO 1.04 -- Shows a Logo With some System Info - 7 February 1998
+     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
+
+       SUPPORTS Linux, SMP, Atari m68k, and even some non-Linux OS's
+\*--------------------------------------------------------------------------*/
+
+DESCRIPTION
+  -- linux_logo outputs a color ansi version of a penguin, accompanied by
+     system info gathered from proc.
+  
+FEATURES
+  -- Works great on standard Linux systems
+  -- Supports SMP, Atari m68k, and a few other non-linux os's
+  -- Modular: easy to change the logo that gets displayed
+  -- Lots of command-line options to tweak the display
+
+USES [instructions included]
+  -- Have a boot-up penguin in userspace [avoid kernel bloat]
+  -- Impress your friends with a fancy color penguin login/motd
+  -- Have a "penguin" port on your computer
+  -- Use your imagination!
+
+NEW IN VERSION 1.04:
+  -- Improved Documentation
+  -- Better support for AMD-K6 processors [I upgraded my 486 ;)]
+  -- Works on 2.x.x kernels, tested on 2.1.x series up to 2.1.85
+ 
+-------------------------------------------------------------------------
+WHERE TO GET LINUX_LOGO:
+-------------------------------------------------------------------------
+  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-1.04.tar.gz
+  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-1.04.tar.gz -- at first
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-1.04.tar.gz
+  
+Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
+
+-------
+Vince
+weave@eng.umd.edu
