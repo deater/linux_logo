@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 2.10 -- Shows a Logo With some System Info - 11 September 1998
+   LINUX_LOGO 2.11 -- Shows a Logo With some System Info - 2 October 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (Intel, m68k, Alpha, Sparc) and some non-Linux OS's
@@ -137,10 +137,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-2.10.tar.gz
+        tar -xzvf linux_logo-2.11.tar.gz
 	
     enter the directory
-        cd linux_logo-2.10
+        cd linux_logo-2.11
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -157,26 +157,28 @@ POTENTIAL USES FOR linux_logo
 --------------------------------------------------------------------------->
 USAGE
 --------------------------------------------------------------------------->
-Usage:   ./linux_logo [-a] [-b] [-c] [-f] [-g] [-h] [-kX] [-l]
-                     [-n] [-o Num] [-p] [-rX] [-s] [-u] [-v] [-w Num]
+Usage:   ./linux_logo [-a] [-b] [-c] [-f] [-g] [-h] [-kX] [-l] [-n] [-o Num] 
+                      [-p] [-rX] [-s] [-u] [-v] [-w Num] [-x] [-y]
          [-a]     -- Display logo as ascii only monochrome
-         [-b]     -- New default Banner Logo!
+	 [-b]     -- New default Banner Logo!
          [-c]     -- The Old [original] linux_logo look
          [-f]     -- force the screen clear before drawing
-         [-g]     -- give system info only
+      B  [-g]     -- give system info only
          [-h]     -- this help screen
-         [-kX]    -- X is a character to replace the background one.
-         [-l]     -- display logo only
-         [-n]     -- toggle periods off [may make cleaner output
-         [-o Num] -- offset output Num spaces to the right
+      B  [-kX]    -- X is a character to replace the background one.
+      B  [-l]     -- display logo only
+      C  [-n]     -- toggle periods off [may make cleaner output]
+      C  [-o Num] -- offset output Num spaces to the right
          [-p]     -- preserve cursor location
-         [-rX]    -- X is a character to replace '#' with in banner mode
+      B  [-rX]    -- X is a character to replace '#' with in banner mode
          [-s]     -- skip Bogomips [speeds up on non-Linux platforms]
-         [-t str] -- display user-supplied string
-         [-u]     -- shows the uptime
+	 [-t str] -- display user-supplied string
+      *  [-u]     -- show uptime
          [-v]     -- version information
          [-w Num] -- set width of screen to Num [default 80]
-
+      B  [-x]     -- narrow logo [useful if issue displays wrong]
+      *  [-y]     -- show load average
+	    
 More detailed explanations:
 
 [-a]     : This option makes linux_logo output no fancy colors.  This is
@@ -248,6 +250,13 @@ More detailed explanations:
 [-w Num] : Use this option to set the width of the screen.  It helps in trying
            to center the banner mode. Default is 80 columns.
 	   
+[-x]     : This option makes the banner mode output only 79 characters wide,
+           possibly counteracting probelms some Xterm/telnet clients have
+	   when connection to a computer with linux_logo in issue.net
+	   
+[-y]     : Display the load average.  [Yes I have just about run out of
+           letters to use as command line options ;)]
+
 --------------------------------------------------------------------------->
 NEAT THINGS YOU CAN DO
 --------------------------------------------------------------------------->
@@ -297,6 +306,10 @@ Know bugs:
          the combination ^[ is read as the ESC code (#27 decimal)
 	 so this combination cannot be used in a picture.
 	 
+      If you use linux_logo to make your issue.net file, and it comes across
+         all garbled and corrupt when telnetting in, try using linux_logo
+	 with the -x option.
+	 
 ------------------------------------------------------------------------>
 CUSTOMIZING "TWEAKING" THE SYSTEM INFO OUTPUT
 ------------------------------------------------------------------------>
@@ -335,7 +348,7 @@ WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.glue.umd.edu/~weave/vmwprod/
   http://www.vince.weaver.org/vmwprod/
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.10.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.11.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 

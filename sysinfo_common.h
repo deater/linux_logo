@@ -62,6 +62,35 @@ char *linux_get_proc_uptime (char *string)
     return NULL;
 }
 
+    /* Code contributed by Anders Rundegren <anders@rundegren.com> */
+char *linux_get_proc_loadavg(char *string)
+{
+    FILE *fff;
+    float load_1;
+    float load_5;
+    float load_15;
+    char temp_string[BUFSIZ];
+   
+    fff=fopen("/proc/loadavg","r");
+    if (fff!=NULL) {
+       fscanf(fff,"%f" "%f" "%f", &load_1, &load_5, &load_15);
+       fclose (fff);
+	
+       sprintf(temp_string,"Load average %4.2f, %4.2f, %4.2f",
+	       load_1,load_5,load_15);
+       strcpy(string,temp_string);
+       return string;
+    }
+    return NULL;
+}
+   
+char *get_loadavg_noproc(char *string) 
+{
+    /* Unfortunately it seems getting the load-average is platform *\
+    \* dependant.                                                  */
+    return NULL;  
+}
+
 char *utmp_get_uptime(char *string) 
 {
     /* To implement uptime on architechtures w/o a /proc/uptime one *\

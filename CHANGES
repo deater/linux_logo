@@ -257,3 +257,27 @@
 11 September 1998
 + After numerous reports of linux_logo being broken for > 2.1.120 I 
   released 2.10
+
+13 September 1998
++ Fixed it so K6-2 machines look ok [at least on 2.0.35].
+
+25 September 1998
++ Started integrating some info that Alex Buell
+  <alex.buell@tahallah.demon.co.uk> kindly provided into the /proc/cpuinfo
+  parsing code.
+
+2 October 1998
++ After awful week of exams, decided to work on linux_logo a bit ;)
++ Added a new "-x" option that uses a new charachter '@' in the
+  banner.h file to indicate characters that can be dropped in order
+  to get a "narrower" logo.  This was a problem with some people where
+  the issue.net file being 80chars caused problems.. hopefully this fixes
+  that.
++ Added "-y" loadaverage support.  Also re-modularized the banner output
+  code.  Thanks to Anders Rundegren <anders@rundegren.com> for sending the
+  patch my way.
++ Packed up 2.11.  Won't announce to the world until I do a few beta-tests
+  first.
++ Realized using '@' as the character above screwed up the ascii output.
+  Changed it to `
++ Found another mistake where I forgot to add ` s to ascii_banner.h

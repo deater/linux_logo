@@ -2,6 +2,10 @@ Fix so doesn't quietly ignore un-supported options.
 
 Things possibly to do:  
 
+- re-write the parse code to be more /proc/cpuinfo fault tolerant...
+
+- fix the Banner/Classic mode options to not be specific to one or the other.
+
 - have MMX printed if the MMX flag is set
 
 - Support for utmp uptime support

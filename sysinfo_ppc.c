@@ -15,7 +15,7 @@
 int external_bogomips(char *bogomips_total);
 
 void get_os_info(char *os_name,char *os_version,char *os_revision,
-		 char *host_name,char *uptime)
+		 char *host_name,char *uptime,char *load_avg)
 {  
    struct utsname buf;
    uname( &buf);
@@ -28,7 +28,7 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,
    strcpy(host_name,buf.nodename);
    
    strcpy(uptime,linux_get_proc_uptime(uptime));
-   
+   strcpy(load_avg,get_loadavg_noproc(load_avg));
  }
     
 

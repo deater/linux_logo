@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 2.10 -Creates a Nifty Logo With some System Info- 11 September 1998
+LINUX LOGO 2.11 -Creates a Nifty Logo With some System Info- 2 October 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -29,7 +29,7 @@ LINUX LOGO 2.10 -Creates a Nifty Logo With some System Info- 11 September 1998
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "2.10"
+#define VERSION "2.11"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"
@@ -50,6 +50,8 @@ int  width=DEFAULT_WIDTH,                  /* Defaults to 80   */
      banner_mode=DEFAULT_BANNER_MODE,      /* Defualts to Yes  */
      wipe_screen=DEFAULT_WIPE_SCREEN,      /* Defaults to No   */
      show_uptime=DEFAULT_SHOW_UPTIME,      /* Defaults to No   */
+     show_load=DEFAULT_SHOW_LOAD,          /* Defaults to No   */
+     narrow_logo=DEFAULT_NARROW_LOGO,      /* Defaults to No   */
      display_logo_only=0,
      display_sysinfo_only=0,
      display_usertext=0;
@@ -95,6 +97,10 @@ int ansi_print(const char *string,int no_periods,int offset,int alt_char,
         case '\0': return 0;
 	case ESCAPE: {next_is_escape=1;} break;
         case '^' : if (string[i+1]=='[') {next_is_escape=1; i++;} break;
+	case '`' : if (!narrow_logo) {
+	              if (alt_char_bgnd) putchar(alt_char_bgnd);
+	              else putchar(','); 
+	           }  break;
         case '\\': if (string[i+1]=='n') {printf("\n"); i++;} 
         case '.' : if (no_periods) putchar(' '); 
 	           else putchar(string[i]); break;
@@ -107,6 +113,17 @@ int ansi_print(const char *string,int no_periods,int offset,int alt_char,
        i++;
     } 
     return 0;
+}
+
+void center_and_print(char *string,int size,int width)
+{
+   int i;
+   char temp_string[BUFSIZ];
+
+   i=((width-size)/2);
+   do_spacing(i);
+   sprintf(temp_string,"^[[1;37;40m%s^[[0m\n",string);
+   ansi_print(temp_string,0,0,0,0);   
 }
 
 void clear_screen()
@@ -123,30 +140,35 @@ void help_message(char *binname, char full)
     printf("      http://sunsite.unc.edu/pub/Linux/logos/penguins\n\n");
     if (!full) exit(0);
     printf("Usage:   %s [-a] [-b] [-c] [-f] [-g] [-h] [-kX] "
-	   "[-l]\n"
-	   "                     [-n] [-o Num] [-p] [-rX] [-s] [-u] [-v] "
-	   "[-w Num]\n",binname);
+	   "[-n] [-o Num]\n"
+	   "                    [-p] [-rX] [-s] [-u] [-v] [-w Num]\n",
+	   binname);
     printf("         [-a]     -- Display logo as ascii only monochrome\n");
     printf("         [-b]     -- New default Banner Logo!\n");
     printf("         [-c]     -- The Old [original] linux_logo look\n");
     printf("         [-f]     -- force the screen clear before drawing\n");
-    printf("         [-g]     -- give system info only\n");
+    printf("      B  [-g]     -- give system info only\n");
     printf("         [-h]     -- this help screen\n");   
-    printf("         [-kX]    -- X is a character to replace the "
+    printf("      B  [-kX]    -- X is a character to replace the "
 	   "background one.\n");
-    printf("         [-l]     -- display logo only\n");
-    printf("         [-n]     -- toggle periods off [may make cleaner "
+    printf("      B  [-l]     -- display logo only\n");
+    printf("      C  [-n]     -- toggle periods off [may make cleaner "
            "output]\n");
-    printf("         [-o Num] -- offset output Num spaces to the right\n");
+    printf("      C  [-o Num] -- offset output Num spaces to the right\n");
     printf("         [-p]     -- preserve cursor location\n");
-    printf("         [-rX]    -- X is a character to replace '#' with "
+    printf("      B  [-rX]    -- X is a character to replace '#' with "
 	   "in banner mode\n");  
     printf("         [-s]     -- skip Bogomips [speeds up on non-Linux "
            "platforms]\n");
     printf("         [-t str] -- display user-supplied string\n");
-    printf("         [-u]     -- show uptime\n");
+    printf("      *  [-u]     -- show uptime\n");
     printf("         [-v]     -- version information\n");
-    printf("         [-w Num] -- set width of screen to Num [default 80]\n\n");
+    printf("         [-w Num] -- set width of screen to Num [default 80]\n");
+    printf("      B  [-x]     -- narrow logo [useful if issue displays wrong]"
+	   "\n");
+    printf("      *  [-y]     -- show load average\n\n");
+    printf(" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux"
+	   "\n\n");
     exit(0); 
 }
 
@@ -154,7 +176,7 @@ void draw_classic_logo(char **logo)
 {
     char os_name[BUFSIZ],host_name[BUFSIZ],os_version[BUFSIZ],
          os_revision[BUFSIZ],cpu_info[BUFSIZ],
-         bogo_total[BUFSIZ],uptime[BUFSIZ];
+         bogo_total[BUFSIZ],uptime[BUFSIZ],load_avg[BUFSIZ];
     int i,num_info=0;
 
     char info_lines[7][BUFSIZ]={"\000","\000","\000","\000",
@@ -169,7 +191,7 @@ void draw_classic_logo(char **logo)
        /* Get some OS info using some external functions in getsysinfo.c */
     get_os_info( (char *)&os_name,(char *)&os_version,
 		 (char *)&os_revision,(char *)&host_name,
-		 (char *)&uptime);
+		 (char *)&uptime,(char *)&load_avg);
     sprintf(info_lines[num_info++],"^[[1;37;40m%s Version %s^[[0m\n",
 	    os_name,os_version);
     sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",os_revision);
@@ -181,6 +203,9 @@ void draw_classic_logo(char **logo)
      
     if (show_uptime) 
        sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",uptime);
+    
+    if (show_load)
+       sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",load_avg);
 	        
     sprintf(info_lines[num_info++],"^[[1;37;40m%s^[[0m\n",host_name);
  
@@ -210,7 +235,7 @@ void draw_banner_logo()
 {
     char os_name[BUFSIZ],host_name[BUFSIZ],os_version[BUFSIZ],
          os_revision[BUFSIZ],cpu_info[BUFSIZ],temp_string[BUFSIZ],
-         bogo_total[BUFSIZ],uptime[BUFSIZ];
+         bogo_total[BUFSIZ],uptime[BUFSIZ],load_avg[BUFSIZ];
     int i;
       
     if (width<80) width=80;
@@ -228,47 +253,34 @@ void draw_banner_logo()
    
     if (!display_logo_only) {
       
-       if (display_usertext) {
-	  i=((width-strlen(user_text))/2);
-	  do_spacing(i);
-	  sprintf(temp_string,"^[[1;37;40m%s^[[0m\n",user_text);
-	  ansi_print(temp_string,0,0,0,0);
-       }
-      
+       if (display_usertext) 
+	  center_and_print(user_text,strlen(user_text),width);
+
           /* Get some OS info using some external functions in getsysinfo.c */
        get_os_info((char *)&os_name,(char *)&os_version,
    		   (char *)&os_revision,(char *)&host_name,
-                   (char *)&uptime);
+                   (char *)&uptime,(char *)&load_avg);
 
-       i=((width-(strlen(os_name)+11+strlen(os_version)+
-		 strlen(os_revision)))/2);
-       do_spacing(i);
-       sprintf(temp_string,"^[[1;37;40m%s Version %s, %s^[[0m\n",
-	       os_name,os_version,os_revision);
-       ansi_print(temp_string,0,0,0,0);
+       sprintf(temp_string,"%s Version %s, %s",os_name,os_version,os_revision);
+       center_and_print(temp_string,strlen(temp_string),width);
     
           /* Get some hardware info using getsysinfo.c */
        get_hardware_info((char *)&cpu_info,(char *)&bogo_total,skip_bogomips);
-      
-       i=( (width- (strlen(cpu_info)+3+strlen(bogo_total)) ) /2);
-       do_spacing(i);
-       sprintf(temp_string,"^[[1;37;40m%s, %s^[[0m\n",
- 	       cpu_info,bogo_total);
-       ansi_print(temp_string,0,0,0,0);
+
+       sprintf(temp_string,"%s, %s",cpu_info,bogo_total);
+       center_and_print(temp_string,strlen(temp_string),width);
        
           /* Print Uptime */
-       if (show_uptime) {
-          i=((width-(strlen(uptime)))/2);
-	  do_spacing(i);
-          sprintf(temp_string,"^[[1;37;40m%s^[[0m\n",uptime);
-          ansi_print(temp_string,0,0,0,0);
-       }
+       if (show_uptime) 
+	  center_and_print(uptime,strlen(uptime),width);
+	  
+          /* Print Load Average */
+       if (show_load) 
+	  center_and_print(load_avg,strlen(load_avg),width);
        
           /* Print Host Name */
-       i=((width-(strlen(host_name)))/2);   
-       do_spacing(i);
-       sprintf(temp_string,"^[[1;37;40m%s^[[0m\n",host_name);
-       ansi_print(temp_string,0,0,0,0);
+       center_and_print(host_name,strlen(host_name),width);
+       
     }
     ansi_print("^[[0m^[[255D\n",no_periods,0,0,0);
 }
@@ -281,7 +293,7 @@ int main(int argc,char **argv)
     int c;
    
     while ((c = getopt (argc, argv,
-	  "A::B::C::FGHK:LNO:PR:ST:UVW:a::b::c::fghk:lno:pr:st:uvw:")) != -1)
+	  "A::B::C::FGHK:LNO:PR:ST:UVW:XYa::b::c::fghk:lno:pr:st:uvw:xy"))!=-1)
        switch (c) {
 	  case 'a': case 'A': plain_ascii=1; break;
 	  case 'b': case 'B': banner_mode=1; break;
@@ -309,6 +321,8 @@ int main(int argc,char **argv)
 	            width=strtol(optarg,&endptr,10);
 	            if ( endptr == optarg ) help_message(argv[0], 1);
 	            break;
+	  case 'x': case 'X': narrow_logo=1; break;
+	  case 'y': case 'Y': show_load=1; break;
 	  case '?': help_message(argv[0], 1);
        }
     if ( argv[optind] != NULL ) help_message(argv[0], 1);

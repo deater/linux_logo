@@ -15,7 +15,7 @@
 int external_bogomips(char *bogomips_total);
 
 void get_os_info(char *os_name,char *os_version,char *os_revision,
-		 char *host_name,char *uptime)
+		 char *host_name,char *uptime,char *load_avg)
 {  
    struct utsname buf;
    uname( &buf);
@@ -28,10 +28,7 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,
    strcpy(host_name,buf.nodename);
    
    strcpy(uptime,linux_get_proc_uptime(uptime));
-   
-   /* 
-   printf("machine: %s\n",buf.machine);
-   printf("domain:  %s\n",buf.domainname);*/
+   strcpy(load_avg,linux_get_proc_loadavg(load_avg));
  }
     
 
@@ -79,8 +76,12 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 		    sprintf(model,"%s","K6");	       
 	         if ( !(strcmp(temp_string,"AMD-K6tm")))
 		    sprintf(model,"%s","K6");
+	         if ( !(strcmp(temp_string,"K6-2")))
+		    sprintf(model,"%s","K6-2");
 	       	 if ( !(strncmp(temp_string,"6x86L",5)))
 		    sprintf(model,"%s","6x86");
+	         if ( !(strncmp(temp_string,"6x86M",5)))
+		    sprintf(model,"%s","6x86MMX");
 	         if ( !(strncmp(temp_string,"K5",2)))
 		    sprintf(model,"%s","K5");
 	         if ( !(strcmp(temp_string,"unknown")))

@@ -17,6 +17,9 @@
 \* create motd or issue files.                                             */
 #define DEFAULT_SHOW_UPTIME 0
 
+/* This mode sets whether you want the load average displayed by default. */
+#define DEFAULT_SHOW_LOAD 0
+
 /* Default width of the screen.  Change if you wish to use a wider screen. *\
 \* This option is over-ridden by the -wX command line option               */
 #define DEFAULT_WIDTH 80 
@@ -40,6 +43,10 @@
 /* By setting this option to 1, linux_logo will default to clearing the *\
 \* screen each time the program is run.                                 */
 #define DEFAULT_WIPE_SCREEN 0
+
+/* By setting this the logo only is 79 chars wide, instead of 80... this *\
+\* can help if linux_logo used to make an issue.net file                 */
+#define DEFAULT_NARROW_LOGO 0
 
 /* If you don't like the standard look of linux_logo you can alter the two *\
 \* defines below.  Be sure to use only one character, and they must be     */
