@@ -19,10 +19,11 @@ int get_cpu_info(cpu_info_t *cpu_info) {
    int val_int;
    int val_len;
    
-   char bogomips_total[BUFSIZ]="???";
+/*   char bogomips_total[BUFSIZ]="???";
    char bogo_total[BUFSIZ];
    
    struct utsname buf;
+*/
    char val_str[100];
 
    int ctl_cpu[] = { CTL_HW, HW_MODEL };

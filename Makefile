@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 4.09 -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.10 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -12,7 +12,7 @@ LIBSYSINFO = libsysinfo-0.0.8
 
 #For Linux Systems
 PLATFORM = 'Linux'
-C_OPTS = -O2 -Wall -I./$(LIBSYSINFO)
+C_OPTS = -g -O2 -Wall -I./$(LIBSYSINFO)
 L_OPTS = -L./$(LIBSYSINFO)
 
 
@@ -57,7 +57,7 @@ clean:
 	
 linux_logo:	linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a
 	$(CC) $(C_OPTS) -o linux_logo linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a $(L_OPTS)
-	@strip linux_logo
+
 
 linux_logo_shared:	linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a
 	$(CC) $(C_OPTS) -o linux_logo-dyn linux_logo.o vmw_string.o -L./$(LIBSYSINFO) -lsysinfo

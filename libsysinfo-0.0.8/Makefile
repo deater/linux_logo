@@ -10,7 +10,7 @@ CC = gcc
 
 OS = $(shell uname)
 
-C_FLAGS = -O2 -Wall -I.. -I.
+C_FLAGS = -g -O2 -Wall -I.. -I.
 
 all:	configure ./$(OS)/Makefile.inc libsysinfo.a
 

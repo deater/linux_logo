@@ -37,22 +37,22 @@ struct logo_info *load_logo_from_disk(char *filename) {
       if (logo_start) {
 	 size+=strlen(temp_st);
 	 if (new_logo->logo==NULL) {
-	    (char *)new_logo->logo=strdup(temp_st);
+	    new_logo->logo=strdup(temp_st);
 	 }
 	 else {
 	    new_logo->logo=realloc(new_logo->logo,size+1);
-	    strncat( (char *)new_logo->logo,temp_st,strlen(temp_st));
+	    strncat( new_logo->logo,temp_st,strlen(temp_st));
 	 }
 	 new_logo->ysize++;
       }
       if (ascii_logo_start) {
          ascii_size+=strlen(temp_st);
 	 if (new_logo->ascii_logo==NULL) {
-	    (char *)new_logo->ascii_logo=strdup(temp_st);
+	    new_logo->ascii_logo=strdup(temp_st);
 	 }
 	 else {
 	    new_logo->ascii_logo=realloc(new_logo->ascii_logo,ascii_size+1);
-	    strncat( (char *)new_logo->ascii_logo,temp_st,strlen(temp_st));
+	    strncat( new_logo->ascii_logo,temp_st,strlen(temp_st));
 	 }
 	 new_logo->ascii_ysize++;
       }
@@ -69,8 +69,7 @@ struct logo_info *load_logo_from_disk(char *filename) {
 	 }
 	 if (!strncmp(temp_st,"DESCRIPTION_STRING",18)) {
 	    new_logo->description=strdup(temp_st+19);	   
-	    (char)(new_logo->description)[strlen(new_logo->description)-1]
-	      ='\0';
+	    new_logo->description[strlen(new_logo->description)-1]='\0';
 	 }
       }
    }
@@ -173,12 +172,12 @@ int main(int argc, char **argv) {
 	  
 	  fprintf(ggg,"\tnew_logo->description=strdup(\"%s\");\n",
 		      logo_info_temp->description);
-	  fprintf(ggg,"\t(char *)new_logo->logo=strdup(\"");
-	  sanitize_print_string((char *)logo_info_temp->logo,ggg);
+	  fprintf(ggg,"\tnew_logo->logo=strdup(\"");
+	  sanitize_print_string(logo_info_temp->logo,ggg);
 	  fprintf(ggg,"\");\n");
 	  fprintf(ggg,"\tnew_logo->ysize=%d;\n",logo_info_temp->ysize);
-	  fprintf(ggg,"\t(char *)new_logo->ascii_logo=strdup(\"");
-	  sanitize_print_string((char *)logo_info_temp->ascii_logo,ggg);
+	  fprintf(ggg,"\tnew_logo->ascii_logo=strdup(\"");
+	  sanitize_print_string(logo_info_temp->ascii_logo,ggg);
 	  fprintf(ggg,"\");\n");
 	  fprintf(ggg,"\tnew_logo->ascii_ysize=%d;\n",
 		      logo_info_temp->ascii_ysize);

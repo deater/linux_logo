@@ -13,8 +13,6 @@
  * - CPU mgz                                                      *
  * - Patch telnetd to display /etc/issue when specified in        * 
  *   /etc/gettytab.                                               *
- * - System uptime                                                *
- * - Load average                                                 *
  ******************************************************************/
 
 #include <stdio.h>
@@ -27,6 +25,7 @@
 
 #include "sysinfo.h"
 #include "generic.h"
+#include "uname.h"
 
 #define SIZE(x) sizeof(x)/sizeof(x[0])
 
@@ -37,13 +36,44 @@ int get_os_info(os_info_t *os_info) {
 }
 
 
-/* Not implemented */
+/* Based on /usr/src/usr.bin/w/w.c */
 int get_uptime (void) {
-   
-       return 0;
+
+     struct timeval boottime;
+     time_t uptime, now;
+     size_t size;
+     int mib[2];
+
+     now=time(NULL);
+
+        /*
+         * Print how long system has been up.
+         * (Found by looking getting "boottime" from the kernel)
+         */
+      mib[0] = CTL_KERN;
+      mib[1] = KERN_BOOTTIME;
+      size = sizeof(boottime);
+      if (sysctl(mib, 2, &boottime, &size, NULL, 0) != -1 &&
+         boottime.tv_sec != 0) {
+
+         uptime = now - boottime.tv_sec;
+
+      }
+      return uptime;
 }
-/* Not Implemented */
+
+/* Based on /usr/src/usr.bin/w/w.c */
 void get_load_average(float *load_1,float *load_5,float *load_15) {
+   
+   double avenrun[3];
+   int i;
+   
+   getloadavg(avenrun, sizeof(avenrun) / sizeof(avenrun[0]));
+   
+   *load_1=avenrun[0];
+   *load_5=avenrun[1];
+   *load_15=avenrun[2];
+   
    
    return;
 }

@@ -1,3 +1,7 @@
+- script to make a "before" and "after" list of linux_logo results
+  based on the cpuinfo collection, then diff after to make sure no
+  regressions happened.
+
 - make own version of getopt
 
 - configure scripts?  I tried this, but it just bloated the sourcecode

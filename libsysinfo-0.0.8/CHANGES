@@ -86,3 +86,7 @@
 + Update to work with all known cpuinfos
 + Barebones support for FreeBSD
 
+30 March 2005
++ Added loadavg/uptime info for FreeBSD based on info sent in by
+  Metgod <metty@hfactorx.org>.
+  

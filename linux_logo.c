@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.09 - Creates Nifty Logo With System Info - 17 March 2004
+  LINUX LOGO 4.10 - Creates Nifty Logo With System Info - 30 March 2005
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -22,7 +22,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.09"
+#define VERSION "4.10"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -34,7 +34,7 @@
 
     /* See defaults.h when setting this */
 #if (USE_I18N==0)
-#undef _(string)
+#undef _
 #define _(string) string
 #endif
 
@@ -106,22 +106,22 @@ struct logo_info *load_logo_from_disk(char *filename) {
       if (logo_start) {
 	 size+=strlen(temp_st);
 	 if (new_logo->logo==NULL) {
-	    (char *)new_logo->logo=strdup(temp_st);
+	    new_logo->logo=strdup(temp_st);
 	 }
 	 else {
 	    new_logo->logo=realloc(new_logo->logo,size+1);
-	    strncat( (char *)new_logo->logo,temp_st,strlen(temp_st));
+	    strncat( new_logo->logo,temp_st,strlen(temp_st));
 	 }
 	 new_logo->ysize++;
       }
       if (ascii_logo_start) {
          ascii_size+=strlen(temp_st);
 	 if (new_logo->ascii_logo==NULL) {
-	    (char *)new_logo->ascii_logo=strdup(temp_st);
+	    new_logo->ascii_logo=strdup(temp_st);
 	 }
 	 else {
 	    new_logo->ascii_logo=realloc(new_logo->ascii_logo,ascii_size+1);
-	    strncat( (char *)new_logo->ascii_logo,temp_st,strlen(temp_st));
+	    strncat( new_logo->ascii_logo,temp_st,strlen(temp_st));
 	 }
 	 new_logo->ascii_ysize++;
       }
@@ -522,7 +522,7 @@ void draw_logo(struct logo_info *logo_override,
 	  printf("\nSpecified logo has no ascii version!\n\n");
 	  return;
        }
-       else string_point=(char *)our_logo_info->ascii_logo;
+       else string_point=our_logo_info->ascii_logo;
     }
     else {
        ysize=our_logo_info->ysize;
@@ -530,7 +530,7 @@ void draw_logo(struct logo_info *logo_override,
 	  printf("\nSpecified logo has no non-ascii version!\n\n");
 	  return;
        }
-       else string_point=(char *)our_logo_info->logo;
+       else string_point=our_logo_info->logo;
     }
    
        /* Draw the logos */
@@ -633,7 +633,8 @@ int main(int argc,char **argv)
        tempst=calloc(strlen("/.linux_logo")+string_size,sizeof(char));
        strncpy(tempst,getenv("HOME"),string_size);
        strncat(tempst,"/.linux_logo",strlen("/.linux_logo"));
-       config_file=fopen(tempst,"r");
+       printf("Trying to open %s\n",tempst); fflush(stdout);
+       config_file=NULL; //fopen("kdgl","r");
        free(tempst);  /* free the calloc's! */
     }
 

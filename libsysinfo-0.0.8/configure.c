@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     
     system("rm -f os");
    
-    sprintf(temp_string,"ln -n -s %s os",buf.sysname);
+    sprintf(temp_string,"ln -s %s os",buf.sysname);
     system(temp_string);
 
     fff=fopen("./os/Makefile.inc","w");

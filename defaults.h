@@ -6,7 +6,7 @@
 /* If 0, linux_logo always appears in English                   */
 /* If 1, some parts of it might show up in your native language */
 /*    if you have the LANGUAGE environmental variable set.      */
-#define USE_I18N 1
+#define USE_I18N 0
 
 /* This is the default format of the output file.  See the README for more *\
 \* information on how to configure this option.                            */

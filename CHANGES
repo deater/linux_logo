@@ -702,3 +702,12 @@
 + Added norwegian bokmaal translation from 
   Per Oeyvind Karlsen [iso-8859-1] <peroyvind@linux-mandrake.com>
   
+30 March 2005
++ Sorry for lack of updates
++ Fixed to compile with gcc 4.0.  Mainly removing a lot of stupid
+  needless (char *) casts.  Thanks to Colin Charles <colin@fedoraproject.org>
+  for pointing this out.
++ Updated Italian translation from Marco Colombo <m.colombo@ed.ac.uk>  
++ New Mandrakelinux logo from <peroyvind@linux-mandrake.com>
++ BSD updates from Metgod <metty@hfactorx.org>
++ released linux_logo-4.10
