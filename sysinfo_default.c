@@ -13,39 +13,12 @@
 #include <sys/utsname.h>
 #include <string.h>
 
+#include "sysinfo_common.h"
+
 int external_bogomips(char *bogomips_total);
 
-/* The following utility functions stolen from my game SEABATTLE */
-
-int my_string_comp(const char *cs, const char *ct)
-{                         /* partly borrowed /usr/src/linux/lib/string.c */
-      register signed char __res;   /* like strcmp, but case-insensitive    */
-   
-      while(1) {
-	 if ((__res = toupper(*cs)-toupper(*ct++))!=0 || !*cs++) break;
-      }
-      return __res;
-}
-
-char *read_string_from_disk(FILE *fff,char *string)
-{                                 /* My own, SUPERIOR version of fgets */
-     int ch,i=0;                     /* Handles \n much better */
-     char temp[150];
-   
-     strcpy(temp,"");
-     while ((ch=fgetc(fff))==' ');
-     while ( (ch!='\n') && (ch!=EOF) ) {
-	        temp[i]=ch; i++;
-	        ch=fgetc(fff);
-     }
-     if(ch==EOF) return NULL;
-     temp[i]='\0';
-     strcpy(string,temp);
-     return string;
-}
-
-
-void get_os_info(char *os_name,char *os_version,char *os_revision,char *host_name)
+void get_os_info(char *os_name, char *os_version, char *os_revision,
+		 char *host_name, char *uptime)
 {  
    struct utsname buf;
    uname( &buf);
@@ -54,6 +27,9 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,char *host_nam
    strcpy(os_version,buf.release);   
    strcpy(os_revision,buf.version);
    strcpy(host_name,buf.nodename);
+   
+   strcpy(uptime,utmp_get_uptime(uptime));
+   
    /* 
    printf("machine: %s\n",buf.machine);
    printf("domain:  %s\n",buf.domainname);*/

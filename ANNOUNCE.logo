@@ -1,23 +1,20 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 2.05 -- Shows a Logo With some System Info - 9 July 1998
+    LINUX_LOGO 2.07 -- Shows a Logo With some System Info - 14 July 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
      SUPPORTS Linux (intel, m68k, Alpha, Sparc) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
-I have released version 2.05 of my linux_logo package.  Why a major increase 
-in version number?  Well many new features have been added, most notably a
-new default "linux banner" sent by Albert Lai.
+I have released version 2.07 of my linux_logo package.  
 
 A sample ascii output of the new banner mode is attached to the end.  The
 banner looks much, much cooler in color ;)
 
-NEW IN VERSION 2.05
-  -- Much more customizable
+NEW IN VERSION 2.07
+  -- Uptime support
+  -- New "logo-only" or "system-info only" switches
+  -- Able to change default settings via DEFINEs at compile time.
   -- Better support for Alpha and Sparc CPUs
-  
-NEW IN VERSION 2.02
-  -- Fixed mulitple command-line options bug
 
 NEW IN VERSION 2.00:
   -- Better support for AMD and Cyrix processors
@@ -42,16 +39,16 @@ USES [instructions included]
   -- Have a boot-up penguin in userspace [avoid kernel bloat]
   -- Impress your friends with a fancy color penguin login/motd
   -- Have a "penguin" port on your computer
+  -- Use the "sysinfo-only" option to display info in SSI or cgi-scripts.
   -- Use your imagination!
 
  
 -------------------------------------------------------------------------
 WHERE TO GET LINUX_LOGO:
 -------------------------------------------------------------------------
-  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-2.05.tar.gz
-  http://www.vince.weaver.org/vmwprod/linux_logo-2.05.tar.gz
-  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-2.05.tar.gz -- at first
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.05.tar.gz
+  http://www.glue.umd.edu/~weave/vmwprod/
+  http://www.vince.weaver.org/vmwprod/
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.07.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
@@ -69,7 +66,6 @@ Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
     ##      ## @@# #  ##     ##  ###   ###    ##   ##    QQQQQQQ#     #QQQQQQQ
   ############  ###  ####   ####   #### ### ##### ######   QQQQQ#######QQQQQ  
 
-        Linux Version 2.1.101, Compiled #8 Mon Mar 9 14:09:52 EST 1998
-            One AMD K6 Processor, 32M RAM, 374.37 Bogomips Total
-                                   deranged
-
+      Linux Version 2.1.108, Compiled #51 SMP Thu Jul 2 12:45:49 EDT 1998
+       One Intel Pentium Pro Processor, 128M RAM, 199.07 Bogomips Total
+	                             orws5

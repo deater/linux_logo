@@ -21,7 +21,7 @@
 
 #ifdef SGI
 #define MREE 1
-#include "sysinfo_sgi.c"
+#include "sysinfo_irix.c"
 #endif
 
 #ifdef AIX

@@ -2,6 +2,8 @@ Fix so doesn't quietly ignore un-supported options.
 
 Things possibly to do:  
 
+- Support for utmp uptime support
+
 - suggested by Edward Betts <edward@hairnet.demon.co.uk>
 > One of the monitors on my linux box is an old ibm monochrome display. I
 > always run linux-logo as linux_logo -ascii, because the colour version
@@ -13,16 +15,6 @@ Things possibly to do:
    want some-sort of override switch to overcome it too]
 
 
-- Allan Joergensen <dw@null.dk> suggests an "up-time" option.
-  This might be a good idea for a command line option. 
-  The problem with having it as default is that many people use linux_logo
-  in start-up scripts, thus having the login prompt forever declaring "0 days"
-  of uptime....
-
-
-- a "-no_escape" switch to completely skip escape sequences for dumb
-  terminals?
-- a "color" ascii art so that it looks ok on windows telnet but also on linux?
 - better ascii art?
 
 - regular ascii art for non-linux platforms.

@@ -11,6 +11,12 @@
 \* ascii mode.                                                             */
 #define DEFAULT_PLAIN_ASCII 0
 
+/* This mode sets whether you want the output to defaultly display uptime  *\
+\* or not.  This is useful if you are using linux_logo on the fly or in    */
+/* Server side includes; it is not useful if you are using linux_logo to   *\
+\* create motd or issue files.                                             */
+#define DEFAULT_SHOW_UPTIME 0
+
 /* Default width of the screen.  Change if you wish to use a wider screen. *\
 \* This option is over-ridden by the -wX command line option               */
 #define DEFAULT_WIDTH 80 

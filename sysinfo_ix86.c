@@ -13,39 +13,12 @@
 #include <sys/utsname.h>
 #include <string.h>
 
+#include "sysinfo_common.h"
+
 int external_bogomips(char *bogomips_total);
 
-/* The following utility functions stolen from my game SEABATTLE */
-
-int my_string_comp(const char *cs, const char *ct)
-{                         /* partly borrowed /usr/src/linux/lib/string.c */
-      register signed char __res;   /* like strcmp, but case-insensitive    */
-   
-      while(1) {
-	 if ((__res = toupper(*cs)-toupper(*ct++))!=0 || !*cs++) break;
-      }
-      return __res;
-}
-
-char *read_string_from_disk(FILE *fff,char *string)
-{                                 /* My own, SUPERIOR version of fgets */
-     int ch,i=0;                     /* Handles \n much better */
-     char temp[150];
-   
-     strcpy(temp,"");
-     while ((ch=fgetc(fff))==' ');
-     while ( (ch!='\n') && (ch!=EOF) ) {
-	        temp[i]=ch; i++;
-	        ch=fgetc(fff);
-     }
-     if(ch==EOF) return NULL;
-     temp[i]='\0';
-     strcpy(string,temp);
-     return string;
-}
-
-
-void get_os_info(char *os_name,char *os_version,char *os_revision,char *host_name)
+void get_os_info(char *os_name,char *os_version,char *os_revision,
+		 char *host_name,char *uptime)
 {  
    struct utsname buf;
    uname( &buf);
@@ -56,6 +29,9 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,char *host_nam
    strcpy(os_revision,"Compiled ");
    strcat(os_revision,buf.version);
    strcpy(host_name,buf.nodename);
+   
+   strcpy(uptime,linux_get_proc_uptime(uptime));
+   
    /* 
    printf("machine: %s\n",buf.machine);
    printf("domain:  %s\n",buf.domainname);*/
@@ -85,6 +61,11 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"cpu")) ){
 		 fscanf(fff,"%s%s",(char *)&temp_string,(char *)&chip);
+	       /* Work around 2.0.x <-> 2.1.x incompatibilities? */
+	         if (chip[0]==':') {
+		    fscanf(fff,"%s",(char *)&temp_string);  
+	            sprintf(chip,"%s86",temp_string);
+		 }
 	    }
 	    if ( !(strcmp(temp_string2,"model")) ) {
 		 fscanf(fff,"%s",(char *)&temp_string);
@@ -92,23 +73,10 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	         sscanf(model,"%s",(char *)&temp_string);
 	       
 	       /* Fix Ugly Look Proc info with custom */
-	         
-	       
-	         
+	         	         
 	         if ( !(strcmp(temp_string,"K6")))
-		    sprintf(model,"%s","K6");
-	       
-	       /* Does this improve things on AMD K6 systems on 2.0.3x? *\
-	       \* It is very hard to add support for older kernels      */
-	       /* without breaking a different chip type.  2.1.x fixes  *\
-	       \* This, hopefully 2.2 is out soon.                      */
-     
-	         if ( (!(strcmp(temp_string,"6"))) 
-		    && (!(strcmp(vendor,"AMD "))) )
-      		    sprintf(model,"%s","K6");
-               /* If it breaks K6-3D, someone with one send me a        *\
-	       \*    /proc/cpuinfo                                      */
-		 if ( !(strncmp(temp_string,"6x86L",5)))
+		    sprintf(model,"%s","K6");	       
+	       	 if ( !(strncmp(temp_string,"6x86L",5)))
 		    sprintf(model,"%s","6x86");
 	         if ( !(strncmp(temp_string,"K5",2)))
 		    sprintf(model,"%s","K5");
@@ -122,6 +90,14 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 
 	       if ( !(strcmp(temp_string,"AuthenticAMD"))) {
 	          sprintf(vendor,"%s","AMD ");
+		  
+		  /* Does the following line fix things on K6 systems with *\
+                  \* 2.0.3x? It is very hard to add support for older      */
+	          /* kernels without breaking a different chip type.       *\
+                  \* 2.1.x fixes this. Hopefully 2.2 is out soon.          */
+                  /* If it breaks K6-3D, someone with one send me a        *\
+	          \*    /proc/cpuinfo                                      */
+		  if (model[0]=='6') sprintf(model,"%s","K6");
 	       }
 	       if ( !(strcmp(temp_string,"GenuineIntel"))) {
 	          sprintf(vendor,"%s","Intel ");
@@ -132,6 +108,18 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	       }
 	       if ( !(strcmp(temp_string,"CyrixInstead"))) {
 	          sprintf(vendor,"%s","Cyrix ");            
+	       }
+	       if ( !(strcmp(temp_string,"CentaurHauls"))) {
+		  /* I've heard that all the cpuinfo stuff my centaur *\
+                  \* Is fully user customizable and it can masquerade */
+		  /* As any chip type.  However this should catch the *\
+                  \* default type.                                    */
+		  sprintf(vendor,"%s","Centaur");  
+	       }
+	       if ( !(strcmp(temp_string,"TransmetaNow"))) {
+		  sprintf(vendor,"%s","Transmeta");  
+		  /* Hehe this is a joke.  No I have no clue what *\
+                  \* Transmeta does.  ;)                          */
 	       }
 	       if ( !(strcmp(temp_string,"unknown"))) {
 		  vendor[0]='\0';

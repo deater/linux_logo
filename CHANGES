@@ -166,3 +166,32 @@
 + Now default behavior is customizable by editing the "defaults.h" file.
 + Added the -l and -g switches to disable sysinfo and logo respectively.
 + Fixed up the README file a lot.
++ Packed up 2.05 and released it.
+
+10 July 1998
++ Improved support for K6 on 2.0.34 so it actually works now.
++ Added support for Centaur and "Transmeta" ;) Chips.
+  Note... The transmeta thing is a joke.  I have no clue if they are
+  making Intel-type chips.
++ Packaged up a "2.05a" version.
+
+13 July 1998
++ Fixed a bug where the -k and -x options didn't work.  UGH.  Thanks to my
+  friend John, at whose house I figured out the problem.
++ Fixed it so it displays non-cpuid [ <486] chips sort of right under
+  2.1.x series kernels.  Need to test this on 2.0.x series kernels to see
+  if I broke anything....
++ Packed up and released as "2.05b"
++ Added -u uptime option.  Suggested by many people, including 
+  David Christensson <david.christensson@swipnet.se>,
+  Allan Joergensen <dw@null.dk>, and my friend John C. <clemej@rpi.edu>
+  ** NOTE ** involved changes to many of the architecture specific files.
+  PLEASE TEST AND REPORT ANY BUGS.
++ Made it so the -ascii switch really doesn't display any ESC characters.
++ Removed a lot of redundant code.
++ Updated CHANGES and TODO and BUGS files.
++ Will release "2.06" on my web-site temporarily.
+
+14 July 1998
++ Got everything ready for the 2.07 release.  Trying not to forget anything
+  [I always do anyway].
