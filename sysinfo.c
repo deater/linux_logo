@@ -9,7 +9,7 @@
 #define MREE 1
 #if defined(m68000)
 #include "sysinfo_m68k.c"
-#elif  defined(alpha)
+#elif  defined(__alpha__)
 #include "sysinfo_alpha.c"
 #else
 #include "sysinfo_ix86.c"
