@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-     LINUX_LOGO 3.0 -- Shows a Logo With some System Info - 2 April 1999
+     LINUX_LOGO 3.01 -- Shows a Logo With some System Info - 23 June 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (most architectures) and some non-Linux OS's
@@ -48,20 +48,14 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
       and the penguin appears at all the login prompts, even remote ones.
         
     FOR REDHAT: Here is how to do the above with a Redhat distribution.
-         [thanks to Esperandi]
-	 	 
-	 "I love your Penguin Linux Logo login thing.  It only took me a couple
-	 minutes but I figured out how to get it working with Red Hãt and its
-	 rc files.  I was kinda new to Red Hat, having used Slackware for a 
-	 billion years, and the rc files were totally different.  But I found
-	 the best way to implement the penguin quite beautifully was to go 
-	 into the rc.local files go down to the bottom, and above the line
-	 that reads:
-	 
+         [thanks to Esperandi and others]
+
+         Edit "/etc/rc.d/rc.local" and towards the bottom after the line 
+
 	     echo "" > /etc/issue
 
          Insert this line:
-             /usr/bin/linux_logo > /etc/issue
+             /usr/local/bin/linux_logo > /etc/issue
 
          and then change the echo line after it to:
              echo "" >> /etc/issue
@@ -106,7 +100,7 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
       following lines before "exit 0" line:
       
           /usr/local/bin/linux_logo > /etc/issue
-	  /usr/local/bin/linux_logo > /etc/issue.net
+	  /usr/local/bin/linux_logo -a > /etc/issue.net			     
 	      
       
 * NETWORK LOGIN:
@@ -140,10 +134,10 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-3.00.tar.gz
+        tar -xzvf linux_logo-3.01.tar.gz
 	
     enter the directory
-        cd linux_logo-3.00
+        cd linux_logo-3.01
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -161,12 +155,13 @@ Note: also see the file "USAGE.FAQ" for some commonly asked questions
 USAGE
 --------------------------------------------------------------------------->
 
-Usage:   linux_logo [-a] [-b] [-c] [-e file] [-f] [-g] [-h] [-kX] [-l] [-n]
-                    [-o num] [-p] [-rX] [-s] [-t str] [-u] [-v] [-w Num]
+Usage:   linux_logo [-a] [-b] [-c] [-d] [-e file] [-f] [-g] [-h] [-kX] [-l] 
+                    [-n] [-o num] [-p] [-rX] [-s] [-t str] [-u] [-v] [-w Num]
                     [-x] [-y] [-F format]
          [-a]     -- Display logo as ascii only monochrome
          [-b]     -- New default Banner Logo!
          [-c]     -- The Old [classic] linux_logo look
+	 [-d]     -- disable "prettying" of output
          [-e file]-- Use "file" instead of /proc/cpuinfo [for debugging
          [-f]     -- force the screen clear before drawing
       B  [-g]     -- give system info only
@@ -204,6 +199,10 @@ More detailed explanations:
            style logo.  Apparently many people prefer this version.  I made
 	   it myself using some complex manipulation of TheDraw and of
 	   the 'official' logo.xpm that comes with the linux_sources.
+	   
+[-d]     : This option turns off Megahertz rounding and cpuinfo "prettying".
+           That is, it prints your /proc/cpuinfo's "model name" verbatim,
+	   instead of being clever and making it look nice.
 	   
 [-e file]: Specify an alternate cpuinfo file.  This is only really useful
            if you are debugging a /proc/cpuinfo file that is not from
@@ -436,7 +435,7 @@ WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.glue.umd.edu/~weave/vmwprod/linux_logo
   http://www.vince.weaver.org/vmwprod/linux_logo
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.0.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-3.01.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
@@ -445,7 +444,7 @@ THANKS
 -------------------------------------------------------------------------->
 
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
-   Without you linux_logo wouldn't work on many machines.
+   Without you linux_logo wouldn't work on so many machines.
    
    Also many Thanks to Marie Prosser who is always there for me.
    

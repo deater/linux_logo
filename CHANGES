@@ -373,3 +373,40 @@
   sysinfo.c, and I don't have all the machines to test it on.  So for now
   at least I will stick with old-fashioned makefiles.
 + Released 3.0 to freshmeat and metalab.
+
+6 April 1999
++ This release has gone a lot smoother than previous releases.  Very few
+  actual bugs noted this time.
++ Thanks to Nate Godin <nate@graymalkin.res.wpi.net> for a K6-2 fix.
++ Fixed some problems in the README.  Thanks to Brandon Griffith
+  <project7@qx.net> for a RedHat instructions fix.
++ Ran a "tr -d '\r'" on the README to remove extraneous ^M characters.
+  These shouldn't be needed [why were they even there at all?  I don't
+  think I ever edited linux_logo under DOS] and were 
+  causing <iain@monitormedia.co.uk> some problems when viewing the logs
+  using less.
+  
+22 June 1999
++ Got a K6-2 350 the other day, so I guess I should finally publish a 3.01
+  that fixes the K6-2 Problem.  The K6-2 is nice, even though my motherboard
+  [A wonderful PA-2007] can only drive it at 337.5Mhz [75x4.5].  Had to solder
+  a resistor to a jumper to get the right voltage, but it works like a charm.
++ Revise the README somewhat.  I have a Redhat6.0 box at work so I can test
+  out that myself now.
++ Add support for Pentium III for older kernels that don't realize it is
+  a pentium III.
++ Added French support (Alexandre Blanchette <blanalex@netscape.net>)
++ Added Italian support (Davide Melan <davidemelan@tin.it>)  See his page
+  http://davidemelan.freeweb.org for an ENTIRELY Italian linux_logo.  Pretty
+  neat.
++ Changed the giant mass of global variables to a structure whose pointer
+  is passed around.  Hoped this would make the code more modular, but I 
+  fear it makes it just 1k bigger and more complicated.
++ Added -d option in case you want to disable linux_logo from "fixing up"
+  the output.  IE, you really want it to say AMD K6(tm) w Multimedia Extensions
+  or whatever your /proc/cpuinfo really says.  It also skips the Megahertz
+  fudging.  (Original idea from an e-mail exchange with Ben Esacove
+  <ben@socrates.cs.swt.edu>)
++ Ahhhhh it's late.  I have tested as much as I can, and think I have 3.01
+  ready to go out the door.  Hopefully I don't have a common error, as 
+  usually happens.  Off to announce at freshmeat tomorrow.

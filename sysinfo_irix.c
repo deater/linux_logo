@@ -32,8 +32,9 @@ void get_os_info(struct os_info_type *os_info)
 }
     
 
-void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
-		                        char *cpuinfo_file)
+void get_hw_info(struct hw_info_type *hw_info,
+		 struct linux_logo_info_type *logo_info)
+
 {
    FILE *fff;
    char chip[BUFSIZ]="Unknown";
@@ -56,7 +57,7 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
    read_string_from_disk(fff,(char *)&temp_string);
    pclose(fff);
    	    
-      if (!skip_bogomips)
+      if (!logo_info->skip_bogomips)
          if ( (external_bogomips( (char *)&bogomips_total))==-1 )
          sprintf(bogo_total," ");
          else sprintf(bogo_total,"%s",bogomips_total);

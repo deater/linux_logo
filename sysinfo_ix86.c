@@ -51,8 +51,9 @@ void get_os_info(struct os_info_type *os_info)
  }
     
 
-void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
-		       char *cpuinfo_file)
+void get_hw_info(struct hw_info_type *hw_info,
+		 struct linux_logo_info_type *logo_info)
+
 {
    FILE *fff;
    int cpus=0;
@@ -71,7 +72,7 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 
    clear_hw_pointers(hw_info);
    
-   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
+   if ((fff=fopen(logo_info->cpuinfo_file,"r") )!=NULL) {
       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"cpu")) ){
@@ -96,6 +97,7 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 	         sprintf(temp_string2,"%s",model);
 	         sscanf(model,"%s",(char *)&temp_string);
 	        
+	         if (!logo_info->pretty_output) goto ender;
 	       
 	       /* Fix Ugly Look Proc info with custom */
 	         
@@ -105,6 +107,8 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 	         
 		    if ( !(strcmp(temp_string,"AMD-K6tm")))
 		       sprintf(model,"%s","K6");
+		    if ( !(strcmp(temp_string,"AMD-K6(tm)")))
+		       sprintf(model,"%s","K6-2");
 	            if ( !(strcmp(temp_string,"K6-2")))
 		       sprintf(model,"%s","K6-2");
 		    if (strstr(temp_string2,"3D+")!=NULL) {
@@ -138,11 +142,15 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 		       sprintf(model,"%s","Pentium III");
 		    }
 		 }
-		    
+	         if (!(strcmp(temp_string,"00/07"))) {
+		    sprintf(model,"%s","Pentium III");
+		 }
+					    
 	         if ( !(strncmp(temp_string,"K5",2)))
 		    sprintf(model,"%s","K5");
 	         if ( !(strcmp(temp_string,"unknown")))
 		    sprintf(model,"%s",chip);
+ender:
 	    }
 	       
 	    if (!(strcmp(temp_string2,"vendor_id"))
@@ -180,9 +188,9 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 	          sprintf(vendor,"%s","Cyrix ");            
 	       }
 	       if ( !(strcmp(temp_string,"CentaurHauls"))) {
-		  /* I've heard that all the cpuinfo stuff my centaur *\
-                  \* Is fully user customizable and it can masquerade */
-		  /* As any chip type.  However this should catch the *\
+		  /* I've heard that all the cpuinfo stuff by centaur *\
+                  \* is fully user customizable and it can masquerade */
+		  /* as any chip type.  However this should catch the *\
                   \* default type.                                    */
 		  sprintf(vendor,"%s","Centaur ");  
 	       }
@@ -222,7 +230,8 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
       
         /* Round CPU speeds so you don't get odd ones like 401Mhz */
         /* or 448Mhz... let me know if this is a bad idea */
-      megahertz=fix_megahertz(25,megahertz);
+      if (logo_info->pretty_output) 
+         megahertz=fix_megahertz(25,megahertz);
       
         /* Do we need this one? */
       /* megahertz=fix_megahertz(33,megahertz); */

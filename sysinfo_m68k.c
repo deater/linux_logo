@@ -36,8 +36,9 @@ void get_os_info(struct os_info_type *os_info)
    os_info->load_average=strdup(linux_get_proc_loadavg());
  }
     
-void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
-		                        char *cpuinfo_file)
+void get_hw_info(struct hw_info_type *hw_info,
+		 struct linux_logo_info_type *logo_info)
+
 {
    FILE *fff;
    int cpus=0,model_seen=0;
@@ -55,11 +56,11 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
    
    clear_hw_pointers(hw_info);
    
-   if (!strncmp(cpuinfo_file,"/proc/cpuinfo",20)) {
-      strncpy(cpuinfo_file,"/proc/hardware",40);
+   if (!strncmp(logo_info->cpuinfo_file,"/proc/cpuinfo",20)) {
+      logo_info->cpuinfo_file=strdup("/proc/hardware");
    }
    
-   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
+   if ((fff=fopen(logo_info->cpuinfo_file,"r") )!=NULL) {
       while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"Model:")) ) {

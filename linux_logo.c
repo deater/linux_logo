@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-LINUX LOGO 3.0 -Creates a Nifty Logo With some System Info- 2 April 1999
+  LINUX LOGO 3.01 -Creates a Nifty Logo With some System Info- 23 June 1999
     by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -24,7 +24,7 @@ LINUX LOGO 3.0 -Creates a Nifty Logo With some System Info- 2 April 1999
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "3.0"
+#define VERSION "3.01"
 #define MAX_YSIZE 50
 
 #include "getsysinfo.h"
@@ -39,30 +39,35 @@ LINUX LOGO 3.0 -Creates a Nifty Logo With some System Info- 2 April 1999
 struct os_info_type os_info;
 struct hw_info_type hw_info;
 
-int  width=DEFAULT_WIDTH,                  /* Defaults to 80   */
-     no_periods=DEFAULT_NO_PERIODS,        /* Defaults to None */ 
-     preserve_xy=DEFAULT_PRESERVE_XY,      /* Defaults to Off  */            
-     skip_bogomips=DEFAULT_SKIP_BOGOMIPS,  /* Defaults to No   */
-     offset=DEFAULT_OFFSET,                /* Defaults to 0    */
-     plain_ascii=DEFAULT_PLAIN_ASCII,      /* Defaults to No   */
-     banner_mode=DEFAULT_BANNER_MODE,      /* Defualts to Yes  */
-     wipe_screen=DEFAULT_WIPE_SCREEN,      /* Defaults to No   */
-     show_uptime=DEFAULT_SHOW_UPTIME,      /* Defaults to No   */
-     show_load=DEFAULT_SHOW_LOAD,          /* Defaults to No   */
-     narrow_logo=DEFAULT_NARROW_LOGO,      /* Defaults to No   */
-     display_logo_only=0,
-     display_sysinfo_only=0,
-     display_usertext=0,
-     custom_format=0;
-char symbol=DEFAULT_SYMBOL,                /* Defaults to '#'  */
-     symbol_bgnd=DEFAULT_SYMBOL_BGND;      /* Defaults to '#'  */
-char *user_text = NULL; /* Change this and display_usertext to *\
-                         \*        have a default message       */
-char *cpuinfo_file=NULL;
-char *format;
+void setup_info(struct linux_logo_info_type *logo_info) {
+    
+    logo_info->width=DEFAULT_WIDTH;                  /* Defaults to 80   */
+    logo_info->no_periods=DEFAULT_NO_PERIODS;        /* Defaults to None */ 
+    logo_info->preserve_xy=DEFAULT_PRESERVE_XY;      /* Defaults to Off  */
+    logo_info->skip_bogomips=DEFAULT_SKIP_BOGOMIPS;  /* Defaults to No   */
+    logo_info->offset=DEFAULT_OFFSET;                /* Defaults to 0    */
+    logo_info->plain_ascii=DEFAULT_PLAIN_ASCII;      /* Defaults to No   */
+    logo_info->banner_mode=DEFAULT_BANNER_MODE;      /* Defualts to Yes  */
+    logo_info->wipe_screen=DEFAULT_WIPE_SCREEN;      /* Defaults to No   */
+    logo_info->show_uptime=DEFAULT_SHOW_UPTIME;      /* Defaults to No   */
+    logo_info->show_load=DEFAULT_SHOW_LOAD;          /* Defaults to No   */
+    logo_info->narrow_logo=DEFAULT_NARROW_LOGO;      /* Defaults to No   */
+    logo_info->pretty_output=DEFAULT_PRETTY_OUTPUT;  /* Defaults to Yes  */
+     
+    logo_info->display_logo_only=0;
+    logo_info->display_sysinfo_only=0;
+    logo_info->display_usertext=0;
+    logo_info->custom_format=0;
+    logo_info->symbol=DEFAULT_SYMBOL;                /* Defaults to '#'  */
+    logo_info->symbol_bgnd=DEFAULT_SYMBOL_BGND;      /* Defaults to '#'  */
+    logo_info->user_text = NULL; /* Change this and display_usertext to *\
+                                 \*        have a default message       */
+    logo_info->cpuinfo_file=NULL;
+    logo_info->format=NULL;
+}
 
 
-void do_spacing(int spaces)
+void do_spacing(int spaces,int plain_ascii)
 {
     int i;
    
@@ -77,15 +82,15 @@ void do_spacing(int spaces)
 /* The name doesn't indicate any sort of ANSI standard; it is left over *\
 \*    from years gone by when I used to make "ansi art" for a WWIV BBS  */
 int ansi_print(const char *string,int no_periods,int offset,int alt_char,
-	       int alt_char_bgnd)
+	       int alt_char_bgnd,struct linux_logo_info_type *logo_info)
 {
     int i,next_is_escape=0;
    
-    do_spacing(offset);
+    do_spacing(offset,logo_info->plain_ascii);
     i=0;
     while(1) {
        if (next_is_escape) {
-	  if (plain_ascii) {
+	  if (logo_info->plain_ascii) {
 	     while( (!isalpha(string[i])) && (string[i]!='\0')) i++;
 	     i++;
 	     next_is_escape=0;
@@ -99,7 +104,7 @@ int ansi_print(const char *string,int no_periods,int offset,int alt_char,
         case '\0': return 0;
 	case ESCAPE: {next_is_escape=1;} break;
         case '^' : if (string[i+1]=='[') {next_is_escape=1; i++;} break;
-	case '%' : if (!narrow_logo) {
+	case '%' : if (!logo_info->narrow_logo) {
 	              if (alt_char_bgnd) putchar(alt_char_bgnd);
 	              else putchar(','); 
 	           }  break;
@@ -117,20 +122,21 @@ int ansi_print(const char *string,int no_periods,int offset,int alt_char,
     return 0;
 }
 
-void center_and_print(char *string,int size,int width)
+void center_and_print(char *string,int size,int width,
+		      struct linux_logo_info_type *logo_info)
 {
    int i;
    char temp_string[BUFSIZ];
 
    i=((width-size)/2);
-   do_spacing(i);
+   do_spacing(i,logo_info->plain_ascii);
    sprintf(temp_string,"^[[1;37;40m%s^[[0m\n",string);
-   ansi_print(temp_string,0,0,0,0);   
+   ansi_print(temp_string,0,0,0,0,logo_info);   
 }
 
-void clear_screen()
+void clear_screen(struct linux_logo_info_type *logo_info)
 {
-   ansi_print("^[[2J^[[0;0H\n",0,0,0,0);  
+   ansi_print("^[[2J^[[0;0H\n",0,0,0,0,logo_info);  
 }
 
 void help_message(char *binname, char full)
@@ -141,14 +147,15 @@ void help_message(char *binname, char full)
     printf("      http://www.glue.umd.edu/~weave/vmwprod\n");
     printf("      http://metalab.unc.edu/pub/Linux/logos/penguins\n\n");
     if (!full) exit(0);
-    printf("Usage:   %s [-a] [-b] [-c] [-e file] [-f] [-g] [-h] [-kX] "
-	   "[-l] [-n]\n"
-	   "                    [-o num] [-p] [-rX] [-s] [-t str] [-u] [-v] "
-	   "[-w Num]\n"
+    printf("Usage:   %s [-a] [-b] [-c] [-d] [-e file] [-f] [-g] [-h] [-kX] "
+	   "[-l]\n"
+	   "                    [-n] [-o num] [-p] [-rX] [-s] [-t str] [-u] "
+	   "[-v] [-w Num]\n"
            "                    [-x] [-y] [-F format]\n",binname);
     printf("         [-a]     -- Display logo as ascii only monochrome\n");
     printf("         [-b]     -- New default Banner Logo!\n");
     printf("         [-c]     -- The Old [classic] linux_logo look\n");
+    printf("         [-d]     -- disable \"prettying\" of output\n");
     printf("         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for "
 	   "debugging\n");
     printf("         [-f]     -- force the screen clear before drawing\n");
@@ -187,35 +194,36 @@ int my_strcat(char *dest,char *src) {
     else return 0;
 }
 
-int print_sysinfo(int line, char *string) {
+int print_sysinfo(int line, char *string,
+		  struct linux_logo_info_type *logo_info) {
     int x=0,y=0,len;
     int string_ptr;
    
-    len=strlen(format);
+    len=strlen(logo_info->format);
    
     string_ptr=0;
     string[string_ptr]='\000';
 
     while (y<line) {
-        if (format[x]=='\n') y++;
+        if (logo_info->format[x]=='\n') y++;
         x++;
         if (x>len) return 1;
     }
     
-    while (format[x]!='\n') {
-       if (format[x]!='#') {
-	  string[string_ptr]=format[x];
+    while (logo_info->format[x]!='\n') {
+       if (logo_info->format[x]!='#') {
+	  string[string_ptr]=logo_info->format[x];
 	  string_ptr++;
        }
        else {
 	  string[string_ptr]='\000';
 	  x++;
 	  if (x>len) break;	  
-	  switch(format[x]) {
+	  switch(logo_info->format[x]) {
 	   case '#': string_ptr+=my_strcat(string,"#"); break;
 	   case 'B': string_ptr+=my_strcat(string,hw_info.bogo_total); break;
 	   case 'C': string_ptr+=my_strcat(string,os_info.os_revision); break;
-	   case 'E': string_ptr+=my_strcat(string,user_text); break;
+	   case 'E': string_ptr+=my_strcat(string,logo_info->user_text); break;
 	   case 'H': string_ptr+=my_strcat(string,os_info.host_name); break;
 	   case 'L': string_ptr+=my_strcat(string,os_info.load_average); break;
 	   case 'M': string_ptr+=my_strcat(string,hw_info.megahertz); break;
@@ -229,7 +237,7 @@ int print_sysinfo(int line, char *string) {
 	   case 'U': string_ptr+=my_strcat(string,os_info.uptime); break;
 	   case 'V': string_ptr+=my_strcat(string,os_info.os_version); break;
 	   case 'X': string_ptr+=my_strcat(string,hw_info.cpu_vendor); break;
-	   default: printf("\nInvalid format '#%c'\n",format[x]);
+	   default: printf("\nInvalid format '#%c'\n",logo_info->format[x]);
 	  }
        }
        x++;
@@ -240,67 +248,73 @@ int print_sysinfo(int line, char *string) {
 }
 
 
-void draw_classic_logo(char **logo)
+void draw_classic_logo(char **logo, struct linux_logo_info_type *logo_info)
 {
     char temp_string[BUFSIZ];
     int i;
 
     get_os_info(&os_info);
-    get_hw_info(&hw_info,skip_bogomips,cpuinfo_file);
+    get_hw_info(&hw_info,logo_info);
     
-       /* OK we've got the info ready, let's print it all */
-    if (wipe_screen) clear_screen();
+   /* OK we've got the info ready, let's print it all */
+    if (logo_info->wipe_screen) clear_screen(logo_info);
     for(i=0;i<7;i++) {
-       ansi_print(logo[i],no_periods,offset,0,0); 
+       ansi_print(logo[i],logo_info->no_periods,logo_info->offset,0,0,
+		  logo_info); 
        printf("\n"); 
     }
     
     for(i=7;i<16;i++) {
-       ansi_print(logo[i],no_periods,offset,0,0);
-       do_spacing(2);
-       if (print_sysinfo(i-7,temp_string)!=1) {
-	  ansi_print("^[[1;37;40m",0,0,0,0);
-	  ansi_print(temp_string,0,0,0,0);
-	  ansi_print("^[[0m\n",0,0,0,0);
+       ansi_print(logo[i],logo_info->no_periods,logo_info->offset,0,0,
+		  logo_info);
+       do_spacing(2,logo_info->plain_ascii);
+       if (print_sysinfo(i-7,temp_string,logo_info)!=1) {
+	  ansi_print("^[[1;37;40m",0,0,0,0,logo_info);
+	  ansi_print(temp_string,0,0,0,0,logo_info);
+	  ansi_print("^[[0m\n",0,0,0,0,logo_info);
        }
        else printf("\n");
     }
   
-    ansi_print("^[[0m^[[255D\n",no_periods,0,0,0);
-    if (preserve_xy) ansi_print("^[8",no_periods,0,0,0);
+    ansi_print("^[[0m^[[255D\n",logo_info->no_periods,0,0,0,logo_info);
+    if (logo_info->preserve_xy) 
+       ansi_print("^[8",logo_info->no_periods,0,0,0,logo_info);
 }
 
 
 
-void draw_banner_logo()
+void draw_banner_logo(struct linux_logo_info_type *logo_info)
 {
     char temp_string[BUFSIZ];
     int i;
       
-    if (width<80) width=80;
+    if (logo_info->width<80) logo_info->width=80;
 
-    if (wipe_screen) clear_screen();
-    if (!display_sysinfo_only) {
+    if (logo_info->wipe_screen) clear_screen(logo_info);
+    if (!logo_info->display_sysinfo_only) {
        for(i=0;i<12;i++) {
-          do_spacing((width-80)/2);
-          if (plain_ascii) ansi_print(ascii_banner[i],0,0,symbol,' ');
-          else ansi_print(banner[i],0,0,symbol,symbol_bgnd);
+          do_spacing((logo_info->width-80)/2,logo_info->plain_ascii);
+          if (logo_info->plain_ascii) 
+	     ansi_print(ascii_banner[i],0,0,logo_info->symbol,' ',logo_info);
+          else ansi_print(banner[i],0,0,logo_info->symbol,
+			  logo_info->symbol_bgnd,logo_info);
           printf("\n");
        }
-       if (!display_logo_only) printf("\n");
+       if (!logo_info->display_logo_only) printf("\n");
     }
    
-    if (!display_logo_only) {
+    if (!logo_info->display_logo_only) {
        get_os_info(&os_info);
-       get_hw_info(&hw_info,skip_bogomips,cpuinfo_file);
+       get_hw_info(&hw_info,logo_info);
        
        i=0;
-       while (print_sysinfo(i,temp_string)!=1) {
-	  center_and_print(temp_string,strlen(temp_string),width);
+       while (print_sysinfo(i,temp_string,logo_info)!=1) {
+	  center_and_print(temp_string,strlen(temp_string),logo_info->width,
+			   logo_info);
 	  i++;
        }
     }
-    ansi_print("^[[0m^[[255D",no_periods,0,0,0);
+    ansi_print("^[[0m^[[255D",logo_info->no_periods,0,0,0,logo_info);
 }
 
 
@@ -309,94 +323,102 @@ int main(int argc,char **argv)
     char *endptr;
     int c,i,x;
     char temp_string[BUFSIZ];
-      
-    cpuinfo_file=strdup("/proc/cpuinfo");
+   
+    struct linux_logo_info_type logo_info;
+   
+    setup_info(&logo_info); 
+       
+    logo_info.cpuinfo_file=strdup("/proc/cpuinfo");
    
     while ((c = getopt (argc, argv,"F:"
-			           "a::b::c::e:fghk:lno:pr:st:uvw:xy"))!=-1)
+			           "a::b::c::de:fghk:lno:pr:st:uvw:xy"))!=-1)
        switch (c) {
-	  case 'a': plain_ascii=1; break;
-	  case 'b': banner_mode=1; break;
-	  case 'c': banner_mode=0; break;
-	  case 'e': cpuinfo_file=strdup(optarg); break;
-	  case 'f': wipe_screen=1; break;
+	  case 'a': logo_info.plain_ascii=1; break;
+	  case 'b': logo_info.banner_mode=1; break;
+	  case 'c': logo_info.banner_mode=0; break;
+	  case 'd': logo_info.pretty_output=0; break; 
+	  case 'e': logo_info.cpuinfo_file=strdup(optarg); break;
+	  case 'f': logo_info.wipe_screen=1; break;
 	  case 'F': 
-	            custom_format=1;
-	            format=strdup(optarg);
+	            logo_info.custom_format=1;
+	            logo_info.format=strdup(optarg);
 	              /* Decode the \n's.  Why do I have to do this? */
 	            i=0; x=0;
-	            while(i<strlen(format)) {
-		      if (format[i]=='\\') {  
-			 switch(format[i+1]) {
+	            while(i<strlen(logo_info.format)) {
+		      if (logo_info.format[i]=='\\') {  
+			 switch(logo_info.format[i+1]) {
 			  case 'n': temp_string[x]='\n'; i++; break;
 			  default: temp_string[x]='\\'; i++; break; 
 			 }
 		      }
-		      else temp_string[x]=format[i];
+		      else temp_string[x]=logo_info.format[i];
 		      i++; x++;
 		    }
-	            sprintf(format,"%s",temp_string);
+	            sprintf(logo_info.format,"%s",temp_string);
 	            break;
-	  case 'g': display_sysinfo_only=1; break;
+	  case 'g': logo_info.display_sysinfo_only=1; break;
 	  case 'h': help_message(argv[0], 1);
-	  case 'k': symbol_bgnd=optarg[0]; break;
-	  case 'l': display_logo_only=1; break;
-	  case 'n': no_periods=1; break;
+	  case 'k': logo_info.symbol_bgnd=optarg[0]; break;
+	  case 'l': logo_info.display_logo_only=1; break;
+	  case 'n': logo_info.no_periods=1; break;
 	  case 'o': 
-	            offset=strtol(optarg,&endptr,10);
+	            logo_info.offset=strtol(optarg,&endptr,10);
 	            if ( endptr == optarg ) help_message(argv[0], 1);
 	            break;
-	  case 'p': preserve_xy=1; break;
-	  case 'r': symbol=optarg[0]; break;
-	  case 's': skip_bogomips=1; break;
+	  case 'p': logo_info.preserve_xy=1; break;
+	  case 'r': logo_info.symbol=optarg[0]; break;
+	  case 's': logo_info.skip_bogomips=1; break;
 	  case 't': 
-	            display_usertext=1;
-	            user_text=strdup(optarg);
+	            logo_info.display_usertext=1;
+	            logo_info.user_text=strdup(optarg);
 	            break;
-	  case 'u': show_uptime=1; break;
+	  case 'u': logo_info.show_uptime=1; break;
 	  case 'v': help_message(argv[0], 0);
 	  case 'w':
-	            width=strtol(optarg,&endptr,10);
+	            logo_info.width=strtol(optarg,&endptr,10);
 	            if ( endptr == optarg ) help_message(argv[0], 1);
 	            break;
-	  case 'x': narrow_logo=1; break;
-	  case 'y': show_load=1; break;
+	  case 'x': logo_info.narrow_logo=1; break;
+	  case 'y': logo_info.show_load=1; break;
 	  case '?': help_message(argv[0], 1);
        }
     if ( argv[optind] != NULL ) help_message(argv[0], 1);
 
-    if (!custom_format) {
-       if (banner_mode) format=strdup(DEFAULT_BANNER_FORMAT);
-       else format=strdup(DEFAULT_CLASSIC_FORMAT);
+    if (!logo_info.custom_format) {
+       if (logo_info.banner_mode) 
+	  logo_info.format=strdup(DEFAULT_BANNER_FORMAT);
+       else logo_info.format=strdup(DEFAULT_CLASSIC_FORMAT);
     
           /* Maybe not the best way to do this, but I wanted it to *\
           \* be backwards comaptible with old linux_logos          */
-       if (display_usertext) {
-          sprintf(temp_string,"#E\n%s",format);
-          format=strdup(temp_string);
+       if (logo_info.display_usertext) {
+          sprintf(temp_string,"#E\n%s",logo_info.format);
+          logo_info.format=strdup(temp_string);
        }
-       if (show_load) {
-	  format[strlen(format)-3]='\000';
-	  sprintf(temp_string,"%s#L\n#H\n",format);
-	  format=strdup(temp_string);
+       if (logo_info.show_load) {
+	  logo_info.format[strlen(logo_info.format)-3]='\000';
+	  sprintf(temp_string,"%s#L\n#H\n",logo_info.format);
+	  logo_info.format=strdup(temp_string);
        }
-       if (show_uptime) {
-	  format[strlen(format)-3]='\000';
-	  sprintf(temp_string,"%s#U\n#H\n",format);
-	  format=strdup(temp_string);
+       if (logo_info.show_uptime) {
+	  logo_info.format[strlen(logo_info.format)-3]='\000';
+	  sprintf(temp_string,"%s#U\n#H\n",logo_info.format);
+	  logo_info.format=strdup(temp_string);
        }
     }
    
        /* Start Printing the Design */
-    if (preserve_xy) ansi_print("^[7",no_periods,0,0,0);
+    if (logo_info.preserve_xy) ansi_print("^[7",logo_info.no_periods,0,0,0,
+					  &logo_info);
    
-    if (banner_mode) draw_banner_logo();
-    else if (plain_ascii) draw_classic_logo( (char**)ascii_logo);
+    if (logo_info.banner_mode) draw_banner_logo(&logo_info);
+    else if (logo_info.plain_ascii) draw_classic_logo( (char**)ascii_logo,
+						       &logo_info);
     else {
-       ansi_print("^[[40m^[[40m\n",0,0,0,0);
-       draw_classic_logo( (char**)color_logo);
+       ansi_print("^[[40m^[[40m\n",0,0,0,0,&logo_info);
+       draw_classic_logo( (char**)color_logo,&logo_info);
     }
-    if (preserve_xy) ansi_print("^[8",0,0,0,0);
+    if (logo_info.preserve_xy) ansi_print("^[8",0,0,0,0,&logo_info);
    
     return 0;
 }

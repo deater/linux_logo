@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 3.0 -- Shows a Logo With some System Info - 2 April 1999
+   LINUX_LOGO 3.01 -- Shows a Logo With some System Info - 23 June 1999
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
    SUPPORTS Linux (intel, m68k, Alpha, Sparc, MIPS) and some non-Linux OS's
@@ -9,6 +9,10 @@ I have released version 3.0 of my linux_logo package.
 
 A sample ascii output of the new banner mode is attached to the end.  The
 banner looks much, much cooler in color ;)
+
+NEW IN VERSION 3.01
+  -- Bug-fixes for K6-2 and Pentium III
+  -- new '-d' option to turn off Mhz rounding and cpuinfo 'prettying'
 
 NEW IN VERSION 3.0
   -- Major overhaul allowing new '-F' command line option.  Makes the 

@@ -54,6 +54,12 @@
 \* can help if linux_logo used to make an issue.net file                 */
 #define DEFAULT_NARROW_LOGO 0
 
+/* By setting this, the system_info parsing will "tidy up" your system   *\
+\* info.  That is, try to make Megahertz's on proper numbers, report your*/
+/* K6 as a K6 and not the "AMD K6 with Multimedia Extensions" that       *\
+\* /proc/cpuinfo returns, etc.  I reccommend you keep it on.             */
+#define DEFAULT_PRETTY_OUTPUT 1
+
 /* If you don't like the standard look of linux_logo you can alter the two *\
 \* defines below.  Be sure to use only one character, and they must be     */
 /* Surrounded by single quotes.  You can over-ride these defaults with the *\
@@ -67,17 +73,25 @@
 #define ENGLISH 0
 #define DEUTSCH 1
 #define NEDERLANDS 2
+#define ITALIANO 3
+#define FRENCH 4
 #define LANGUAGE ENGLISH
 
 #if LANGUAGE==ENGLISH
 char ordinal[11][10]={"Zero","One","Two","Three","Four","Five","Six",
 	                                 "Seven","Eight","Nine","Many"};
-#elif LANGUAGE=DEUTSCH
+#elif LANGUAGE==DEUTSCH
 char ordinal[11][10]={"Null","Ein","Zwei","Drei","Vier","Fuenf","Sechs",
                                           "Sieben","Acht","Neun","Viele"};
-#elif LANGUAGE=NEDERLANDS
+#elif LANGUAGE==NEDERLANDS
 char ordinal[11][10]={"Nul","Een","Twee","Drie","Vier","Vijf","Zes",
                                          "Zeven","Acht","Negen","Veel"};
+#elif LANGUAGE==ITALIANO
+char ordinal[11][10]={"Zero","Uno","Due","Tre","Quattro","Cinque","Sei",
+                                            "Sette","Otto","Nove","Tanti"};
+#elif LANGUAGE==FRENCH
+char ordinal[11][10]={"Aucun","Un","Deux","Trois","Quatre","Cinq","Six",
+                                          "Sept","Huit","Neuf","Plusieurs" };
 #endif
 
 /* --------------------Logo File Defaults-----------------------------------*/

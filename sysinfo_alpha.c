@@ -32,8 +32,9 @@ void get_os_info(struct os_info_type *os_info)
  }
     
 
-void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
-		                        char *cpuinfo_file)
+void get_hw_info(struct hw_info_type *hw_info,
+		 struct linux_logo_info_type *logo_info)
+
 {
    FILE *fff;
    int cpus=0;
@@ -51,7 +52,7 @@ void get_hw_info(struct hw_info_type *hw_info,int skip_bogomips,
 
     clear_hw_pointers(hw_info);
    
-   if ((fff=fopen(cpuinfo_file,"r") )!=NULL) {
+   if ((fff=fopen(logo_info->cpuinfo_file,"r") )!=NULL) {
            while ( fscanf(fff,"%s",(char *)&temp_string2)!=EOF) {
 	 if (cpus==0) {
 	    if ( !(strcmp(temp_string2,"model")) ) {

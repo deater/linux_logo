@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 3.0  -- by Vince Weaver           #
+#  Makefile for Linux Logo 3.01  -- by Vince Weaver          #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -10,7 +10,7 @@ CC = gcc
 
 #For Linux Systems
 PLATFORM = 'Linux'
-C_OPTS = -O2 -Wall -DLINUX_ANSI 
+C_OPTS = -O2 -Wall -DLINUX_ANSI
 
 #For Sgi
 #PLATFORM = 'SGI'
