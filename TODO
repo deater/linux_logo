@@ -2,6 +2,8 @@ Fix so doesn't quietly ignore un-supported options.
 
 Things possibly to do:  
 
+- have MMX printed if the MMX flag is set
+
 - Support for utmp uptime support
 
 - suggested by Edward Betts <edward@hairnet.demon.co.uk>

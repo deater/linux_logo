@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 2.07 -- Shows a Logo With some System Info - 14 July 1998
+    LINUX_LOGO 2.09 -- Shows a Logo With some System Info - 1 September 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
                                          http://www.vince.weaver.org/
      SUPPORTS Linux (Intel, m68k, Alpha, Sparc) and some non-Linux OS's
@@ -137,10 +137,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-2.07.tar.gz
+        tar -xzvf linux_logo-2.09.tar.gz
 	
     enter the directory
-        cd linux_logo-2.07
+        cd linux_logo-2.09
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -157,11 +157,11 @@ POTENTIAL USES FOR linux_logo
 --------------------------------------------------------------------------->
 USAGE
 --------------------------------------------------------------------------->
-Usage:   ./linux_logo [-ascii] [-banner] [-classic] [-f] [-g] [-h] [-kX] [-l]
+Usage:   ./linux_logo [-a] [-b] [-c] [-f] [-g] [-h] [-kX] [-l]
                      [-n] [-o Num] [-p] [-rX] [-s] [-u] [-v] [-w Num]
-         [-ascii] -- Display logo as ascii only monochrome
-         [-banner] - New default Banner Logo!
-         [-classic]- The Old [original] linux_logo look
+         [-a]     -- Display logo as ascii only monochrome
+         [-b]     -- New default Banner Logo!
+         [-c]     -- The Old [original] linux_logo look
          [-f]     -- force the screen clear before drawing
          [-g]     -- give system info only
          [-h]     -- this help screen
@@ -172,22 +172,23 @@ Usage:   ./linux_logo [-ascii] [-banner] [-classic] [-f] [-g] [-h] [-kX] [-l]
          [-p]     -- preserve cursor location
          [-rX]    -- X is a character to replace '#' with in banner mode
          [-s]     -- skip Bogomips [speeds up on non-Linux platforms]
-	 [-u]     -- shows the uptime
+         [-t str] -- display user-supplied string
+         [-u]     -- shows the uptime
          [-v]     -- version information
          [-w Num] -- set width of screen to Num [default 80]
 
 More detailed explanations:
 
-[-ascii] : This option makes linux_logo output no fancy colors.  This is
+[-a]     : This option makes linux_logo output no fancy colors.  This is
            useful if you are viewing linux_logo over a black and white 
 	   terminal, or a terminal that can't handle fancy escape sequences
 	   well [like default win95 telnet].
 	   
-[-banner]: This option makes sure you are viewing the new 'banner' style
+[-b]     : This option makes sure you are viewing the new 'banner' style
            output, which the author prefers.  I actually didn't draw this
 	   logo; Albert Lai did and let me use it.
 	   
-[-classic]:This option makes linux_logo display the 'classic' [i.e. pre 2.0]
+[-c]     : This option makes linux_logo display the 'classic' [i.e. pre 2.0]
            style logo.  Apparently many people prefer this version.  I made
 	   it myself using some complex manipulation of TheDraw and of
 	   the 'official' logo.xpm that comes with the linux_sources.
@@ -230,7 +231,11 @@ More detailed explanations:
 	   linux_logo calculates the value itself using a GPL'd routine.
 	   This can take a while, especially on slower machines, so it can
 	   be disabled.
-
+	   
+[-t str] : This option displays user-supplied string (for example,
+           Red Hat release or welcome...')  in first line of system info.
+           See the "Things to do" section for ways to use this.
+	   
 [-u]     : This option displays the uptime along with the other system
            information.  While useless when putting logos in issue or motd
 	   files, this option comes in handy if you are using linux_logo
@@ -244,7 +249,7 @@ More detailed explanations:
            to center the banner mode. Default is 80 columns.
 	   
 --------------------------------------------------------------------------->
-NEAT THINGS TO DO
+NEAT THINGS YOU CAN DO
 --------------------------------------------------------------------------->
 
 Changing the output character of the banner
@@ -258,7 +263,21 @@ Changing the output character of the banner
      Where you replace nnn with the octal [base eight] code for the ascii
      value.  Some neat values of nnn to try are 333 316 260 and 263
      [Note.. this only seems to work properly with bash 2.0 and greater]
-
+   + You can have it report Redhat version using the -t option
+     (thanks to Aleksey Makarov <makarov@iitam.omsk.net.ru>
+     for this tip).
+     
+     If you have redhat installed already, change /etc/rc.local so
+     where it says
+     
+        echo "" > /etc/issue
+        echo "Red Hat Linux $R" >> /etc/issue
+        echo "Kernel $(uname -r) on $a $(uname -m)" >> /etc/issue
+     
+     comment it out [or delete it] and add instead
+     
+     /usr/local/bin/linux_logo -f -t "Red Hat Linux $R" > /etc/issue
+     
 --------------------------------------------------------------------------->
 TROUBLESHOOTING
 --------------------------------------------------------------------------->
@@ -316,7 +335,7 @@ WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
   http://www.glue.umd.edu/~weave/vmwprod/
   http://www.vince.weaver.org/vmwprod/
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.07.tar.gz
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-2.09.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 

@@ -229,4 +229,24 @@
 + Added information to the README for adding linux_logo to SUSE linux systems.
   Thanks to Rodolfo Pilas <rodolfo@linux.org.uy>.
   
+1 September 1998
++ Back at school.  Trying to merge stuff up the best I can.
++ Integrated [with some changes] a patch sent by Aleksey Makarov
+  <makarov@iitam.omsk.net.ru>.  This changed the command-line parsing
+  to the get_opt() command, plus added the -t command line option
+  to print arbitrary text.
++ Shortened the -ascii -banner and -classic commands to -a,-b, and -c.
+  The old ones still work, but this is more "correct".  I will probably
+  add --ascii --banner and --classic at some point.
++ Updates the -t option to work with classic mode, substantially
+  re-structuring the classic mode code.  
++ Alexander Klink <ak@wireworm.com> sent me a cool picture of linux_logo
+  on a vt102.  See the linux_logo page [www.ee.umd.edu/~weave/vmwprod]
+  for a copy of the picture.
++ Found out that there is a debian package of linux_logo, and it even
+  has its own maintainer, Steve Kostecke <steve@kostecke.net>.
+  Anyway he sent in some patches, including a man page and some ppc
+  fixes, so I merged them in as well.
   
+  
+

@@ -1,0 +1,80 @@
+.TH LINUX_LOGO 1 "7 August 1998" "Debian" "Debian GNU/Linux Manual"
+.SH NAME
+linux_logo \- Color ANSI penguin logo w/ system information.
+.SH SYNOPSIS
+.BR "linux_logo " [ "-h" " | " "-v" " | [[" "-ascii" " | " "-a" " | " "-banner" " | " "-b" " | " "-classic" " | " "-c" "] [" "-f" "] [" "-g" " | " "-l" "] [" "-u" "] [" "-s" "] [" "-w Num" "] [" "-o Num" "] [" "-p" "] [" "-n" "] [" "-kX" "] [" "-rX" "] [" "-t string" "]"
+.SH "DESCRIPTION"
+.B linux_logo
+.SM
+is a program that generates a color ANSI picture of a penguin which
+includes some system information obtained from the /proc filesystem.
+.SH OPTIONS
+.TP
+.B \-h
+Show summary of options.
+.TP
+.B \-v
+Show version of program.
+.TP
+.B \-ascii -a
+Display the logo as monochrome ascii.
+.TP
+.B \-banner -b
+Display the banner-style logo.
+.TP
+.B \-classic -c
+Display the original penguin logo.
+.TP
+.B \-f
+Force the screen clear before drawing the logo.
+.TP
+.B \-l
+Display only the logo.
+.TP
+.B \-g
+Display only the system infomation.
+.TP
+.B \-u
+Display the system uptime.
+.TP
+.B \-s
+Skip the BogoMips test [ speeds up display on non-Linux platforms ].
+.TP
+.B \-t string
+Display an arbitrary string
+.TP
+.B \-w Num
+Set the screen width to Num [ default is 80 ].
+.TP
+.B \-o Num
+Offset the output by Num spaces to the right.
+.TP
+.B \-p
+Preserve the cursor location.
+.TP
+.B \-n
+Do not display the 'Classic' logo background periods.
+.TP
+.B \-kX
+Replace the background character with X.
+.TP
+.B \-rX
+Replace the '#' character, in banner mode, with X.
+.SH DEBIAN
+The Debian pre-packaged version of
+.B linux_logo
+is compiled with the 'Classic' logo as the default logo. And the 'Classic' logo has been modified to display 'Debian' instead of 'Linux'.
+.PP
+The Debian linuxlogo package includes a utility,
+.BR linuxlogoconfig (8)
+for selecting if the linuxlogo is displayed at boot time or at the login prompt.
+.SH "SEE ALSO"
+.IR /usr/doc/linux_logo ", http://www.glue.umd.edu/~weave"
+.SH AUTHOR
+.TP
+Vince Weaver
+<weave@eng.umd.edu>.
+.PP
+This manual page was written by Steve Kostecke <steve@debian.org>,
+for the Debian GNU/Linux system.
+

@@ -29,9 +29,6 @@ void get_os_info(char *os_name,char *os_version,char *os_revision,
    
    strcpy(uptime,linux_get_proc_uptime(uptime));
    
-   /* 
-   printf("machine: %s\n",buf.machine);
-   printf("domain:  %s\n",buf.domainname);*/
  }
     
 
