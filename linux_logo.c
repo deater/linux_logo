@@ -214,9 +214,9 @@ void draw_banner_logo()
     int i;
       
     if (width<80) width=80;
-   
+
+    if (wipe_screen) clear_screen();
     if (!display_sysinfo_only) {
-       if (wipe_screen) clear_screen();
        for(i=0;i<12;i++) {
           do_spacing((width-80)/2);
           if (plain_ascii) ansi_print(ascii_banner[i],0,0,symbol,' ');

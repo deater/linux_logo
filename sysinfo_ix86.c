@@ -67,6 +67,9 @@ void get_hardware_info(char *cpuinfo,char *bogo_total,int skip_bogomips)
 	    }
 	    if ( !(strcmp(temp_string2,"model")) ) {
 		 fscanf(fff,"%s",(char *)&temp_string);
+	         if (!(strcmp(temp_string,"name")) ) { /* Fix 2.1.120!UGH!*/
+		    fscanf(fff,"%s",(char *)&temp_string);
+		 }
 		 read_string_from_disk(fff,(char *)&model);
 	         sscanf(model,"%s",(char *)&temp_string);
 	       
