@@ -65,3 +65,9 @@
 + Added better support for K6-chips [I recently upgraded to one ;)] and
   the newer kernels.
 + Package up version 1.04 and release for test to UM-LUG
+
+11 FEBRUARY 1998
++ Added "plain ascii" penguin and -a option to display it.
++ Fixed URL in the -h option
++ Make appropriate updates
++ Added OpenLinux instructions to Readme [thanks to <heaney@zombie.ncsc.mil>]

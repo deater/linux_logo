@@ -1,5 +1,5 @@
-/*----------------------------------------------------------------------------
- LINUX LOGO 1.04 - Creates a Nifty Logo With some System Info - 1 February 1998
+/*-----------------------------------------------------------------------------
+LINUX LOGO 1.05 - Creates a Nifty Logo With some System Info - 11 February 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 		  
   perfect if you want a Penguin on Boot Up, but not in the kernel.
@@ -27,7 +27,10 @@
 #include <sys/utsname.h>
 
 #define ESCAPE '\033'
-#define VERSION "1.04"
+#define VERSION "1.05"
+#define MAX_YSIZE 50
+
+#include "ascii_penguin.h"
 
 #ifdef IRIX_ANSI     /* It's easy to create a custom Ansi */
 #include "irix.h"    /* Just make it with an ansi-making tool (i.e. TheDraw) */
@@ -69,9 +72,10 @@ void help_message(char *binname, char full)
    printf(" -- by Vince Weaver (weave@eng.umd.edu)\n");
    printf("   Newest Versions at:\n");
    printf("      http://www.glue.umd.edu/~weave/vmwprod\n");
-   printf("      http://sunsite.unc.edu/pub/Linux/logos\n\n");
+   printf("      http://sunsite.unc.edu/pub/Linux/logos/penguins\n\n");
    if (!full) exit(0);
-   printf("Usage:   %s [-n] [-p] [-o Num] [-s] [-v] [-h]\n",binname);
+   printf("Usage:   %s [-a] [-n] [-p] [-o Num] [-s] [-v] [-h]\n",binname);
+   printf("         [-a] -- ascii only monochrome penguin\n");
    printf("         [-n] -- toggle periods off [may make output look better/cleaner]\n");
    printf("         [-p] -- preserve cursor location\n");
    printf("         [-o Num] offset output by Num spaces to the right\n");
@@ -88,9 +92,9 @@ int main(int argc,char **argv)
    char os_name[65],host_name[65],os_version[65],os_revision[65];
    char cpu_info[65],*endptr;
    char ch,temp_string[100];
-   int i,no_periods=0,preserve_xy=0,skip_bogomips=0,offset=0;
+   int i,no_periods=0,preserve_xy=0,skip_bogomips=0,offset=0,plain_ascii=0;
    char bogo_total[65];
-
+   char **logo;
 
    
 /* Parse Command Line Arguments */
@@ -103,6 +107,7 @@ int main(int argc,char **argv)
 	  switch(ch){
 	   case 'v': case 'V': help_message(argv[0], 0);
 	   case 'h': case 'H': case '?': help_message(argv[0], 1);
+	   case 'a': case 'A': plain_ascii=1; break;
 	   case 'n': case 'N': no_periods=1; break;
 	   case 'p': case 'P': preserve_xy=1; break;
            case 's': case 'S': skip_bogomips=1; break;
@@ -122,12 +127,20 @@ int main(int argc,char **argv)
    }
 
    /* Start Printing the Design */
-   
-   if(preserve_xy) ansi_print("^[7",no_periods,0);
-   ansi_print("^[[40m^[[40m\n",no_periods,0);
-  
-    for(i=0;i<7;i++) {ansi_print(logo[i],no_periods,offset); printf("\n"); }
 
+   if (plain_ascii) 
+      logo=(char**)ascii_logo;
+   else
+      logo=(char**)color_logo;
+     
+   if (preserve_xy) ansi_print("^[7",no_periods,0);
+   ansi_print("^[[40m^[[40m\n",no_periods,0);
+
+   for(i=0;i<7;i++) {
+      ansi_print(logo[i],no_periods,offset); 
+      printf("\n"); 
+   }
+   
     ansi_print(logo[7],no_periods,offset);
 
       /* Get some OS info using some external functions in getsysinfo.c */

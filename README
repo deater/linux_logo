@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-   LINUX_LOGO 1.04 -- Shows a Logo With some System Info - 7 February 1998
+   LINUX_LOGO 1.05 -- Shows a Logo With some System Info - 11 February 1998
      by Vince Weaver (weave@eng.umd.edu, http://www.glue.umd.edu/~weave )
 
        SUPPORTS Linux, SMP, Atari m68k, and even some non-Linux OS's
@@ -34,7 +34,8 @@ POTENTIAL USES FOR linux_logo
       it right above where sendmail causes a pause.]
   
   MOTD/LOGIN: You can have the penguin appear at the login prompt.  
-        Add the following lines to /etc/rc.d/rc.S [in slackware]
+        Add the following lines to /etc/rc.d/rc.S [in slackware] 
+        or to /etc/rc.d/rc.local [OpenLinux]
 	
   /usr/local/bin/linux_logo > /etc/issue
   /usr/local/bin/linux_logo > /etc/issue.net
@@ -60,6 +61,17 @@ POTENTIAL USES FOR linux_logo
          and then change the echo line after it to:
              echo "" >> /etc/issue
 	 
+  NETWORK LOGIN:
+        Note: for platforms that do not have color ansi telnet connections
+	you might want to use the new "linux_logo -a" option.  This gives
+	a plain ascii [though less exciting and uglier] output.  However
+	boring telnet clients like win95's can then see the Penguin.  To
+	add this functionality, follow the above instructions, but instead
+	of:
+	      /usr/local/bin/linux_logo > /etc/issue.net
+	use the following in the appropriate place
+	      /usr/local/bin/linux_logo -a > /etc/issue.net
+	 
   PENGUIN PORT: You can set up a port on your Linux box to answer connections
          with the Penguin! 
 	 
@@ -80,10 +92,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-1.04.tar.gz
+        tar -xzvf linux_logo-1.05.tar.gz
 	
     enter the directory
-        cd linux_logo-1.04
+        cd linux_logo-1.05
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
@@ -141,9 +153,9 @@ TOOLS TO CREATE OTHER LOGOS
 ------------------------------------------------------------------------->
 WHERE TO GET LINUX_LOGO:
 ------------------------------------------------------------------------->
-  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-1.04.tar.gz
-  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-1.04.tar.gz -- at first
-  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-1.04.tar.gz
+  http://www.glue.umd.edu/~weave/vmwprod/linux_logo-1.05.tar.gz
+  http://sunsite.unc.edu/pub/Linux/Incoming/linux_logo-1.05.tar.gz -- at first
+  http://sunsite.unc.edu/pub/Linux/logos/penguin/linux_logo-1.05.tar.gz
   
 Check out other programs by me at http://www.glue.umd.edu/~weave/vmwprod
 
