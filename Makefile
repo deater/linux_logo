@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 3.03  -- by Vince Weaver          #
+#  Makefile for Linux Logo 3.04  -- by Vince Weaver          #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #

@@ -121,7 +121,7 @@ void get_hw_info(struct hw_info_type *hw_info,
 		 }
 	       
 	         if (strstr(temp_string2,"K7")!=NULL) {
-		    sprintf(model,"%s","Athalon");
+		    sprintf(model,"%s","Athlon");
 		 }
 		    
 	       	    /* Crazy Cyrix Stuff */

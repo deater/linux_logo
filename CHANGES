@@ -458,8 +458,19 @@
   file format doesn't seem to be.
 + Added a named-pipe example to ./contrib/scripts from Jörg Ziefle 
 
-10 January 2000
+11 January 2000
 + Made two new directories, "classic_logos" and "banner_logos" and put all of
   the various contributed logos into them.  This should make it a bit easier
   for peole to browse and pick which ones they want compiled in.
 + Upload and release
+
+12 January 2000
++ Of course I manage to spell Athlon wrong.  Thanks to alp@unistat.com
+
+13 January 2000
++ Ooops.  More people finding my Athlon problem.  Better release 3.04
++ One month left till my birthday.... plenty of time left to send me 
+  a present ;)
+
+31 January 2000
++ Fix y2k bug with the LSM and hope metalab accepts it...
