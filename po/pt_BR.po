@@ -1,0 +1,98 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Anderson Rocha <xcommander@bol.com.br>, 2002.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: linux_logo 4.06\n"
+"POT-Creation-Date: 2002-12-01 12:00-0200\n"
+"PO-Revision-Date: 2002-12-01 12:00-0200\n"
+"Last-Translator: Anderson Rocha <xcommanderx@bol.com.br>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+
+#: ../linux_logo.c:38
+msgid "Zero"
+msgstr "Zero"
+
+#: ../linux_logo.c:39
+msgid "One"
+msgstr "Um"
+
+#: ../linux_logo.c:40
+msgid "Two"
+msgstr "Dois"
+
+#: ../linux_logo.c:41
+msgid "Three"
+msgstr "Três"
+
+#: ../linux_logo.c:42
+msgid "Four"
+msgstr "Quatro"
+
+#: ../linux_logo.c:43
+msgid "Five"
+msgstr "Cinco"
+
+#: ../linux_logo.c:44
+msgid "Six"
+msgstr "Seis"
+
+#: ../linux_logo.c:45
+msgid "Seven"
+msgstr "Sete"
+
+#: ../linux_logo.c:46
+msgid "Eight"
+msgstr "Oito"
+
+#: ../linux_logo.c:47
+msgid "Nine"
+msgstr "Nove"
+
+#: ../linux_logo.c:48
+msgid "Many"
+msgstr "Muitos"
+
+#. This is the default format of the output file.  See the README for more *\
+#. \* information on how to configure this option.
+#: ../defaults.h:7
+msgid ""
+"#O Version #V, Compiled #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Versão #V, Compilado #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
+
+
+
+#: ../defaults.h:8
+msgid ""
+"#O Version #V\n"
+"Compiled #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Versão #V\n"
+"Compilado #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
+
+#: ../defaults.h:9
+msgid ""
+"Processor"
+msgstr "Processador"
+
+#: ../defaults.h:10
+msgid ""
+"Processors"
+msgstr "Processadores"
+

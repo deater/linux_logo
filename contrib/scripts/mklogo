@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#
+# Ickle script to cobble together seperate logo and comment files.
+# This makes it much easier to work with programs like duhdraw.
+#
+# Copyright 2003 Chris Brien <christopher_brien@hotmail.com> and
+# distributed under the GPL.
+
+if ! [[ $1 ]]; then
+  echo "No name specified"
+  exit 1
+fi
+
+(
+  cat $1.comment
+  echo
+  echo BEGIN_LOGO
+  cat $1-color.ansi
+  echo END_LOGO
+  echo
+  echo BEGIN_ASCII_LOGO
+  cat $1.ansi
+  echo END_ASCII_LOGO
+) > $1.logo

@@ -77,3 +77,7 @@
 + Fix hppa and sh3 architectures so they compile.
 + Add yet another "sysinfo" memory detection
 + Fix up some new x86 funnies.
+
+30 December 2002
++ A new G3 model in the ppc cpuinfo support from RJ Bergeron 
+  <rj@bergeron-us.net>

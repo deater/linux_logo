@@ -1,0 +1,93 @@
+# Quoth, the Raven.
+# Drawn by Chris Brien <christopher_brien@hotmail.com>
+# Original design by Ryan Abrams <ryan.abrams@attbi.com>
+
+SYSINFO_POSITION bottom
+
+DESCRIPTION_STRING Source Mage GNU/Linux large logo
+
+BEGIN_LOGO
+
+[45C[1;30m####[0m
+[13C[1;31m#####[0m[5C[1;31m####[0m    [1;31m###[0m  [1;31m###[0m  [1;31m##[30m#######[0m  [1;31m#####[0m   [1;31m#######[0m
+[12C[1;31m#######[0m   [1;31m######[0m   [1;31m###[0m  [1;31m###[0m  [1;31m####[30m######[31m#######[0m  [1;31m#######[0m
+[11C[1;31m#########[0m [1;31m########[0m  [1;31m###[0m  [1;31m###[0m  [1;31m#####[30m#####[31m########[0m [1;31m#######[0m
+[11C[1;31m####[0m [1;31m####[0m [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m [1;31m#[30m#######[31m#[0m [1;31m#### #######[0m
+[11C[1;31m####[0m [1;31m####[0m [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m [1;31m#[30m#######[31m#[0m [1;31m####[0m [1;31m####[0m
+[11C[1;31m#####[0m[5C[1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m [1;31m#[30m########[0m [1;31m####[0m [1;31m####[0m
+[12C[1;31m#####[0m    [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m#####[30m#########[31m####[0m [1;31m#######[0m
+[13C[1;31m#####[0m   [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m#####[30m##########[0m    [1;31m#######[0m
+[14C[1;31m#####[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m [1;31m##[30m##########[0m   [1;31m#######[0m
+[15C[1;31m#####[0m [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m##[30m########[31m###[0m [1;31m####[0m
+[11C[1;31m####[0m [1;31m####[0m [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[30m########[31m##[0m [1;31m####[0m
+[11C[1;31m####[0m [1;31m####[0m [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[0m  [1;31m###[30m########[31m##[0m [1;31m####[0m
+[11C[1;31m#########[0m [1;31m########[0m  [1;31m########[0m  [1;31m###[0m  [1;31m###[0m [1;30m########[31m#[0m [1;31m#######[0m
+[12C[1;31m#######[0m   [1;31m######[0m   [1;31m########[0m  [1;31m###[0m  [1;31m###[30m##[31m#[30m#######[0m [1;31m#######[0m
+[11C[1m##[31m#####[37m#[0m  [1m##[31m####[37m#[0m   [1m#[31m######[37m##[0m [1;31m###[0m  [1;31m#[30m#####[37m#[31m###[30m####[31m#######[0m
+[11C[1m#[0m[6C[1m#[0m [1m#[0m[7C[1m#[0m  [1m#[0m[7C[1m#[0m    [1m##[0m[7C[1m##[0m  [1m#[0m[9C[1m#[0m
+[11C[1m#[0m[6C[1m###[0m[7C[1m#[0m [1m##[0m[7C[1m##[0m  [1m##[0m[9C[1m##[0m [1m#[0m[9C[1m#[0m
+[11C[1m#[0m[6C[1m###[0m[7C[1m#[0m [1m##[0m[8C[1m#[0m  [1m#[0m[11C[1m#[0m [1m#[0m[9C[1m#[0m
+[11C[1m#[0m[6C[1m###[0m[7C[1m#[0m [1m#[0m[9C[1m#[0m  [1m#[0m[5C[1m#[0m[5C[1m#[0m [1m#[0m[9C[1m#[0m
+[11C[1m#[0m[7C[1m##[0m[7C[1m#[0m [1m#[0m[9C[1m#[0m [1m##[0m    [1m###[0m    [1m###[0m[5C[1m####[0m
+[11C[1m#[0m[7C[1m##[0m[7C[1m#[0m [1m#[0m    [1m#[0m    [1m#[0m [1m##[0m    [1m###[0m    [1m###[0m[5C[1m#[0m
+[11C[1m#[0m[7C[1m#[0m[8C[1m#[0m [1m#[0m    [1m#[0m    [1m#[0m [1m##[0m    [1m###[0m[5C[1m##[0m[5C[1m#[0m
+[11C[1m#[0m[7C[1m#[0m[8C[1m#[0m [1m#[0m    [1m#[0m    [1m####[0m    [1m########[0m [1m#[0m[5C[1m####[0m
+[11C[1m#[0m    [1m#[0m  [1m#[0m   [1m#[0m    [1m#[0m [1m#[0m    [1m#[0m    [1m####[0m    [1m########[0m [1m#[0m[8C[1m##[0m
+[11C[1m#[0m    [1m#[0m[5C[1m##[0m    [1m###[0m    [1m##[0m    [1m###[0m    [1m########[0m [1m#[0m[8C[1m##[0m
+[11C[1m#[0m    [1m#[0m[5C[1m##[0m    [1m###[0m    [1m##[0m    [1m###[0m    [1m##[0m[6C[1m##[0m[8C[1m##[0m
+[11C[1m#[0m    [1m#[0m[5C[1m##[0m    [1m##[0m[5C[1m##[0m    [1m###[0m    [1m##[0m[6C[1m##[0m[6C[1m####[0m
+[11C[1m#[0m    [1m#[0m[5C[1m##[0m    [1m##[0m[5C[1m##[0m    [1m###[0m    [1m###[0m[5C[1m##[0m[5C[1m####[0m
+[11C[1m#[0m    [1m#[0m[5C[1m##[0m    [1m##[0m[11C[1m###[0m    [1m###[0m[5C[1m##[0m[5C[1m#[0m
+[11C[1m#[0m    [1m##[0m    [1m##[0m    [1m##[0m[11C[1m###[0m    [1m###[0m[5C[1m##[0m[5C[1m#[0m
+[11C[1m#[0m    [1m##[0m    [1m##[0m    [1m##[0m[11C[1m###[0m    [1m###[0m[5C[1m##[0m[5C[1m#[0m
+[11C[1m#[0m    [1m##[0m    [1m##[0m    [1m##[0m[5C[1m##[0m    [1m###[0m    [1m###[0m[5C[1m##[0m[5C[1m#####[0m
+[11C[1m#[0m    [1m##[0m   [1m###[0m    [1m##[0m    [1m###[0m[5C[1m##[0m[23C[1m#[0m
+[11C[1m#[0m    [1m##[0m   [1m###[0m    [1m#[0m[5C[1m###[0m[5C[1m##[0m[10C[1mGNU / Linux[0m  [1m#[0m
+[11C[1m#[0m    [1m##[0m   [1m###[0m [1m [0m  [1m#[0m[5C[1m###[0m[5C[1m###[0m[22C[1m#[0m
+[11C[1m########################[0m [1m#######[0m  [1m#######################[0m
+
+[17C[1mLinux so advanced it may as well be magic[0m
+END_LOGO
+
+BEGIN_ASCII_LOGO
+
+                                            RRRR
+             xxxxx     xxxx    xxx  xxx  xxRRRRRRR  xxxxx   xxxxxxx
+            xxxxxxx   xxxxxx   xxx  xxx  xxxxRRRRRRxxxxxxx  xxxxxxx
+           xxxxxxxxx xxxxxxxx  xxx  xxx  xxxxxRRRRRxxxxxxxx xxxxxxx
+           xxxx xxxx xxx  xxx  xxx  xxx  xxx xRRRRRRRx xxxx xxxxxxx
+           xxxx xxxx xxx  xxx  xxx  xxx  xxx xRRRRRRRx xxxx xxxx
+           xxxxx     xxx  xxx  xxx  xxx  xxx xRRRRRRRR xxxx xxxx
+            xxxxx    xxx  xxx  xxx  xxx  xxxxxRRRRRRRRRxxxx xxxxxxx
+             xxxxx   xxx  xxx  xxx  xxx  xxxxxRRRRRRRRRR    xxxxxxx
+              xxxxx  xxx  xxx  xxx  xxx  xxx xxRRRRRRRRRR   xxxxxxx
+               xxxxx xxx  xxx  xxx  xxx  xxx  xxRRRRRRRRxxx xxxx
+           xxxx xxxx xxx  xxx  xxx  xxx  xxx  xxxRRRRRRRRxx xxxx
+           xxxx xxxx xxx  xxx  xxx  xxx  xxx  xxxRRRRRRRRxx xxxx
+           xxxxxxxxx xxxxxxxx  xxxxxxxx  xxx  xxx RRRRRRRRx xxxxxxx
+            xxxxxxx   xxxxxx   xxxxxxxx  xxx  xxxRRxRRRRRRR xxxxxxx
+           WWxxxxxW  WWxxxxW   WxxxxxxWW xxx  xRRRRRWxxxRRRRxxxxxxx
+           W      W W       W  W       W    WW       WW  W         W
+           W      WWW       W WW       WW  WW         WW W         W
+           W      WWW       W WW        W  W           W W         W
+           W      WWW       W W         W  W     W     W W         W
+           W       WW       W W         W WW    WWW    WWW     WWWW
+           W       WW       W W    W    W WW    WWW    WWW     W
+           W       W        W W    W    W WW    WWW     WW     W
+           W       W        W W    W    WWWW    WWWWWWWW W     WWWW
+           W    W  W   W    W W    W    WWWW    WWWWWWWW W        WW
+           W    W     WW    WWW    WW    WWW    WWWWWWWW W        WW
+           W    W     WW    WWW    WW    WWW    WW      WW        WW
+           W    W     WW    WW     WW    WWW    WW      WW      WWWW
+           W    W     WW    WW     WW    WWW    WWW     WW     WWWW
+           W    W     WW    WW           WWW    WWW     WW     W
+           W    WW    WW    WW           WWW    WWW     WW     W
+           W    WW    WW    WW           WWW    WWW     WW     W
+           W    WW    WW    WW     WW    WWW    WWW     WW     WWWWW
+           W    WW   WWW    WW    WWW     WW                       W
+           W    WW   WWW    W     WWW     WW          GNU / Linux  W
+           W    WW   WWW    W     WWW     WWW                      W
+           WWWWWWWWWWWWWWWWWWWWWWWW WWWWWWW  WWWWWWWWWWWWWWWWWWWWWWW
+
+                 Linux so advanced it may as well be magic
+END_ASCII_LOGO

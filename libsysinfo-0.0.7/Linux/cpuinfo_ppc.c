@@ -54,7 +54,13 @@ int get_cpu_info(cpu_info_t *cpu_info) {
     if (strstr(model_string,"745/755")!=NULL) {
        strncpy(cpu_info->chip_type,"G3",3);
     }
-
+       
+       /* But that's not the only iBook around! ;) */
+    if (strstr(model_string,"750CX")!=NULL) {
+       strncpy(cpu_info->chip_type,"G3",3);	    
+    }
+   
+   
     if (strstr(model_string,"7400")!=NULL) {
        strncpy(cpu_info->chip_type,"7400",5);
     }

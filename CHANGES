@@ -673,3 +673,12 @@
   again.
 + Remove some old debian specific stuff from manpage, thanks to
   Steve Kostecke <steve@debian.org>
+
+30 December 2002
++ Brazilian Portugese translation from Anderson Rocha <xcommanderx@bol.com.br>
+
+23 January 2003
++ Added sourcemage logos and a script to make adding comments to ansis
+  easier from Chris Brien <spam-me-and-die@negativezero.plus.com>
++ Added TW Chinese translation from <rickz@bbs.sayya.org>
++ Hopefully finally release linux_logo 4.07
