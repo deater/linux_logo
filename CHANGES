@@ -711,3 +711,10 @@
 + New Mandrakelinux logo from <peroyvind@linux-mandrake.com>
 + BSD updates from Metgod <metty@hfactorx.org>
 + released linux_logo-4.10
+
+29 April 2005
++ Embarassing bug where it always prints out "Trying to open
+  $HOME/.linux_logo".  Has that bug really been there for over a year
+  with no one noticing?
+  (Thanks to Matthias Saou <matthias@rpmforge.net> for noticing)
+  
