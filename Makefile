@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 4.11 -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.12 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -36,7 +36,9 @@ PROGNAME = linux_logo
 #
 
 all:	parse_logos linux_logo
-	cd po && $(MAKE)
+	if `which xgettext`; then echo "No xgettext support"; \
+	else cd po && $(MAKE); \
+	fi
 
 logos-all:
 	find ./logos -type f > logo_config
@@ -57,6 +59,7 @@ clean:
 	
 linux_logo:	linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a
 	$(CC) $(C_OPTS) -o linux_logo linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a $(L_OPTS)
+	@strip linux_logo
 
 
 linux_logo_shared:	linux_logo.o vmw_string.o ./$(LIBSYSINFO)/libsysinfo.a

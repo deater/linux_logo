@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.11 - Creates Nifty Logo With System Info - 30 April 2005
+  LINUX LOGO 4.12 - Creates Nifty Logo With System Info - 30 April 2005
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -22,7 +22,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.11"
+#define VERSION "4.12"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -614,7 +614,7 @@ int main(int argc,char **argv)
 
 #ifndef __FreeBSD__  
        /* i18n */
-    setlocale(LC_ALL,"");
+    setlocale(LC_ALL, "");
     textdomain("linux_logo");
     bindtextdomain("linux_logo", "/usr/lib/locale");
 #endif   
@@ -633,8 +633,7 @@ int main(int argc,char **argv)
        tempst=calloc(strlen("/.linux_logo")+string_size,sizeof(char));
        strncpy(tempst,getenv("HOME"),string_size);
        strncat(tempst,"/.linux_logo",strlen("/.linux_logo"));
-       //printf("Trying to open %s\n",tempst); fflush(stdout);
-       config_file=NULL; //fopen("kdgl","r");
+       config_file=fopen(tempst,"r");
        free(tempst);  /* free the calloc's! */
     }
 

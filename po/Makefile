@@ -10,12 +10,12 @@ POTFILES= ../*.c ../*.h
 all: $(PACKAGE).pot update $(CATALOGS)
 
 $(PACKAGE).pot: $(POTFILES)
-	xgettext --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES)
+	xgettext --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES); 
 	if cmp -s $(PACKAGE).po $(PACKAGE).pot; then \
 	rm -f $(PACKAGE).po; \
 	else \
 	mv $(PACKAGE).po $(PACKAGE).pot; \
-	fi
+	fi 
 
 clean:
 	rm -f *mo $(PACKAGE).pot *~ *.bac
@@ -27,8 +27,9 @@ install: $(CATALOGS)
 	$(INSTALL) -m 755 -d $(INSTALLDIR)/$$l/LC_MESSAGES; \
 	$(INSTALL) -m 644 $$n $(INSTALLDIR)/$$l/LC_MESSAGES/$(PACKAGE).mo; \
 	done
+
 %.mo: %.po
-	msgfmt -o $@ $<
+	msgfmt -o $@ $< 
 
 update: $(PACKAGE).pot
        for n in $(CATALOGS); do \

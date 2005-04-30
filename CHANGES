@@ -718,3 +718,12 @@
   with no one noticing?
   (Thanks to Matthias Saou <matthias@rpmforge.net> for noticing)
   
+30 April 2005
++ OK, above bug wasn't as old as feared.  It was a problem with some
+  debugging output inserted and then forgotten about in the year 
+  between 4.09 and 4.10.  I've reverted the behavior and it should
+  work a bit better.
++ Made it so even if you don't have i18n installed on your machine,
+  linux_logo will still successfully Make the whole way through
+  (though with lots of warnings in the po directory).
+  
