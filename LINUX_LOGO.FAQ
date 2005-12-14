@@ -79,7 +79,7 @@ Q5. Can I have linux_logo stay on top of the screen while things scroll
     
 A5. Bill Anderson <bill@tb.dynip.com> did some research and came up with this: 
     
-    I did sucessfully use:
+    I did successfully use:
        clear; /bin/echo -e '\033[018;25r' ; linux_logo
 
     to put the linux logo and info on the top 18 lines (fewer if you don't

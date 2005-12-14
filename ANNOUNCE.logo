@@ -21,7 +21,7 @@ NEW IN VERSION 4.0
   -- Re-wrote logo_generation code
   -- Any amount of custom logos can be compiled in
   -- Removal of some old options
-  -- Addition of ARM acrhitecture
+  -- Addition of ARM architecture
   -- All kinds of fixes and tweaks.
   -- Smaller executable!
 

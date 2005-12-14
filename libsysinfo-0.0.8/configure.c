@@ -20,8 +20,10 @@ int linux_detect_arch(void) {
     return ARCH_CRIS;
 #elif defined(__ia64__)
     return ARCH_IA64;
-#elif (defined(i386) || defined(__x86_64__))
+#elif defined(i386) 
     return ARCH_IX86;
+#elif defined(__x86_64__)
+    return ARCH_X86_64;
 #elif (defined(mc68000) || #cpu(m68k))
     return ARCH_M68K;
 #elif defined(__mips__)

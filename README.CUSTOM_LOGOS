@@ -96,7 +96,7 @@ Creating custom logo files:
 	  is standard.  Also, the sysinfo will be centered, so keep that in 
 	  mind.
 
-          A classic logo is usually a picutre 22 wide by 16 high, with 
+          A classic logo is usually a picture 22 wide by 16 high, with 
 	  the OS name printed in block letters to the right of the first
 	  6 lines.   The system information is then printed starting on
 	  line 8 and until the sysinfo runs out [typicall between 5-8 lines].
@@ -115,14 +115,14 @@ Creating custom logo files:
     + Be sure to have both a LOGO and a ASCII_LOGO in the logo file 
       if not, parse_logo will not be able to add them (core dump :(
       You might use the script in contrib/script/logo2ascii in order to
-      conver them.
+      convert them.
 
  References:
  ----------       
           A good ansi editor [under development] from Adam Lackorzynski
 	       can be obtained at http://www.inf.tu-dresden.de/~al10/aae/
 	   
-	  For DOS/Windows I reccommend TheDraw ansi editor.
+	  For DOS/Windows I recommend TheDraw ansi editor.
  
  	  Some tools to convert from graphic formats to ascii art can be found
  	  in the netpbm toolkit at

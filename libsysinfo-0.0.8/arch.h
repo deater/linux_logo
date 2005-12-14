@@ -12,7 +12,7 @@
 #define ARCH_SH3    11
 #define ARCH_SPARC  12
 #define ARCH_VAX    13
-
+#define ARCH_X86_64 14
 
 char *arch_names[]={
     "unknown",
@@ -28,5 +28,6 @@ char *arch_names[]={
     "s390",
     "sh3",
     "sparc",
-    "vax"
+    "vax",
+    "x86_64"
 };

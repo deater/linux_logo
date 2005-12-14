@@ -29,7 +29,7 @@ install:
 
 configure:	configure.o
 	$(CC) $(L_OPTS) -o configure configure.o
-	
+
 configure.o:	configure.c
 	$(CC) $(C_OPTS) -c configure.c
 

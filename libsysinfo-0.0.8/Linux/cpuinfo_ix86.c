@@ -98,6 +98,10 @@ int get_cpu_info(cpu_info_t *cpu_info) {
     if (!strncmp(vendor_string,"AuthenticAMD",12)) {
        strncpy(cpu_info->chip_vendor,"AMD",4);
 
+       if (!(strncmp(model_string,"AMD Sempron",11))) {
+	 strncpy(cpu_info->chip_type,"Sempron",8);
+       }
+
           /* Clean-up K6 model info */
        if (strstr(model_string,"K6")!=NULL) {
 	     /* Default to K6 */

@@ -726,4 +726,10 @@
 + Made it so even if you don't have i18n installed on your machine,
   linux_logo will still successfully Make the whole way through
   (though with lots of warnings in the po directory).
-  
+
+15 December 2005
++ Some changes to libsysinfo
++ Looked at http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=linuxlogo
+  Fixed what bugs I could
++ Merged some of a spell-check fix (didn't fix the Changelog).
+  Bug  #321971  

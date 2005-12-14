@@ -165,9 +165,12 @@ long int get_mem_size(void) {
        mem_size = -1;
        goto meminfo_jump;  /* hack! */
     }
-
+    
+#if defined(__x86_64__)
+#else
        /* Next try the 2.4.x method of iomem */
     if (mem_size == -1) mem_size = get_mem_size_iomem();
+#endif
 
        /* Try stat-ing /proc/kcore */
     if (mem_size == -1) mem_size = get_mem_size_stat();   

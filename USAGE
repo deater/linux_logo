@@ -4,7 +4,7 @@ Usage tricks:
       A1 ). Having the tty printed when used at login.
       A2 ). Having an ascii logo for network login.
       A3 ). Creating a "penguin port" on your computer.
-      A4 ). Confusing script-kidies
+      A4 ). Confusing script-kiddies
 
    Distribution Specific
       B1 ). Slackware 
@@ -48,7 +48,7 @@ A2). Having an ascii logo for network login
 
 ###################################################################
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-A3) You can create a "Pengun Port"
+A3) You can create a "Penguin Port"
 	
 	That is, set up a port on your Linux box to answer connections
          with the linux_logo penguin! 
@@ -74,14 +74,14 @@ A3) You can create a "Pengun Port"
 #################################################################
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A4) Confusing script kidies!
+A4) Confusing script kiddies!
 
     Many distributions turn off linux_logo if you pick "most secure" at
     installation time.  This is because letting others know your processor,
     memory type, and kernel version can make it easier for you to be attacked
     by outsiders.
     
-    Instead of disabling linux_logo, why not use it as a weapon to cofuse
+    Instead of disabling linux_logo, why not use it as a weapon to confuse
     those who might attack you?  For example with
     
        linux_logo -F "Linux Version 2.7.105, Compiled ##45 Tue Feb 13 13:40:15 \
@@ -180,7 +180,7 @@ B3). FOR REDHAT
 
             /usr/local/bin/linux_logo -f -t "$R" > /etc/issue
        
-         For older versions of redhad [older than 5.2] you might try
+         For older versions of Redhat [older than 5.2] you might try
 	    
 	    /usr/local/bin/linux_logo -f -t "Red Hat $R" > /etc/issue
 		   

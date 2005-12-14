@@ -90,3 +90,7 @@
 + Added loadavg/uptime info for FreeBSD based on info sent in by
   Metgod <metty@hfactorx.org>.
   
+14 December 2005
++ Make amd64 machines not use /proc/iomem as it seems to be 32bit only
+  and not report proper ram amounts > 2GB
+  (thanks to Alan Chapman <alan@welsh-cob.compulink.co.uk>)
