@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 4.12 -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.13 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #

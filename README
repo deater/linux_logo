@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 4.13 -- Shows a Logo With some System Info - 15 December 2005
+    LINUX_LOGO 4.13 -- Shows a Logo With some System Info - 11 January 2006
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
@@ -57,10 +57,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-4.12.tar.gz
+        tar -xzvf linux_logo-4.13.tar.gz
 	
     enter the directory
-        cd linux_logo-4.12
+        cd linux_logo-4.13
 	
     edit the Makefile and be sure everything is set up the way you want.
     [on stock Linux systems it should work without any changes]
