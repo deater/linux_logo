@@ -1,24 +1,35 @@
 ##############################################################
-#  Makefile for Linux Logo 4.13 -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.14 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
 ##############################################################
 
+OS = $(shell uname)
+
 #Your compiler.  If gcc doesn't work, try CC
 CC = gcc
 
-LIBSYSINFO = libsysinfo-0.0.8
+LIBSYSINFO = libsysinfo-0.1.0
 
-#For Linux Systems
-PLATFORM = 'Linux'
-C_OPTS = -g -O2 -Wall -I./$(LIBSYSINFO)
-L_OPTS = -L./$(LIBSYSINFO)
+ifeq ($(OS),Linux)
+   C_OPTS = -O2 -Wall -I./$(LIBSYSINFO)
+   L_OPTS = -L./$(LIBSYSINFO)
+   OS_SUPPORTED = 1
+endif
 
+ifeq ($(OS),IRIX64) 
+   C_OPTS = -O2 -Wall -I./$(LIBSYSINFO)
+   L_OPTS = -L./$(LIBSYSINFO) -lintl
+   OS_SUPPORTED = 1
+endif
 
-#For All Other Unixes
-#PLATFORM = 'Default Unix'
-#C_OPTS = -O2 
+ifeq ($(OS),FreeBSD) 
+   C_OPTS = -O2 -Wall -I./$(LIBSYSINFO)
+   L_OPTS = -L./$(LIBSYSINFO)
+   OS_SUPPORTED = 1
+endif
+
 
 #
 # Installation location
@@ -82,8 +93,7 @@ load_logos.h:	logo_config parse_logos
 	./parse_logos
 
 linux_logo.o:	linux_logo.c defaults.h load_logos.h
-	@echo Compiling for $(PLATFORM)
-	@echo Edit the Makefile to change Platform
+	@echo Compiling for $(OS)
 	@echo Edit defaults.h to change Default Values
 	$(CC) $(C_OPTS) -c linux_logo.c
 

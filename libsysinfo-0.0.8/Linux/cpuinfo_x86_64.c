@@ -1,1 +1,0 @@
-cpuinfo_ix86.c

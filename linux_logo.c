@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.13 - Creates Nifty Logo With System Info - 11 January 2006
+  LINUX LOGO 4.14 - Creates Nifty Logo With System Info - 20 July 2006
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -22,7 +22,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.13"
+#define VERSION "4.14"
 
 #include "sysinfo.h"
 #include "linux_logo.h"
@@ -391,7 +391,12 @@ int print_sysinfo(int line, char *string,
 	  if (x>len) break;	  
 	  switch(settings->format[x]) {
 	   case '#': string_ptr+=vmw_strcat(string,"#"); break;
-	   case 'B': sprintf(temp_string,"%.2f",cpu_info.bogomips);
+	   case 'B': if (cpu_info.bogomips<10000.0) {
+	                sprintf(temp_string,"%.2f",cpu_info.bogomips);
+	             }
+	             else {
+			sprintf(temp_string,"%.0f",cpu_info.bogomips);
+		     }
 	             string_ptr+=vmw_strcat(string,temp_string); break;
 	   case 'C': string_ptr+=vmw_strcat(string,os_info.os_revision); break;
 	   case 'E': string_ptr+=vmw_strcat(string,settings->user_text); break;
@@ -427,7 +432,11 @@ int print_sysinfo(int line, char *string,
 	                string_ptr+=vmw_strcat(string,_(PROCESSOR_PLURAL));
 	             else string_ptr+=vmw_strcat(string,_(PROCESSOR_SINGULAR));
 	             break;
-	   case 'R': if (get_mem_size()>1000) {
+	   case 'R': if (get_mem_size()>1000000) {
+	                sprintf(temp_string,"%.2gTB",
+				((float)get_mem_size())/(1024.0*1024.0));
+	             } 
+	             else if (get_mem_size()>1000) {
 	                sprintf(temp_string,"%.2gGB",
 				((float)get_mem_size())/1024.0);
 	             } else sprintf(temp_string,"%ldM",get_mem_size());
@@ -611,7 +620,9 @@ int main(int argc,char **argv)
     int ignore_config_file=0;
     int old_optind,old_opterr,old_optopt,string_size;
     char *tempst;
-
+    char config_string[BUFSIZ];
+    int valid_string=0;
+   
 #ifndef __FreeBSD__  
        /* i18n */
     setlocale(LC_ALL, "");
@@ -630,7 +641,7 @@ int main(int argc,char **argv)
        /* look for ~/.linux_logo */
     if (getenv("HOME")) {
        string_size=strlen(getenv("HOME"));
-       tempst=calloc(strlen("/.linux_logo")+string_size,sizeof(char));
+       tempst=calloc(strlen("/.linux_logo")+string_size+1,sizeof(char));
        strncpy(tempst,getenv("HOME"),string_size);
        strncat(tempst,"/.linux_logo",strlen("/.linux_logo"));
        config_file=fopen(tempst,"r");
@@ -643,70 +654,97 @@ int main(int argc,char **argv)
     }
    
        /* If no config files, just make do with command-line arguments */
+       /* Note to Vince of 2000.. this is the most horrible     */
+       /* atrocity of code ever.  -- Vince of 2006              */
+   
     if (config_file==NULL) {
        read_from_file=0;
     } 
     else {
+
+       
           /* Create "fake" argc and argv */
-       read_from_file=1;   
-          /* calculate size */
-       while( (ch=fgetc(config_file))!=EOF) {
-          if (ch=='\n') break;
-          file_size++;
+       read_from_file=1;
+       
+       while(!valid_string) {
+          fgets(config_string,BUFSIZ,config_file);
+	  for(i=0;i<strlen(config_string);i++) {
+	     if (config_string[i]=='#') break;  /* a comment */
+	     else if (config_string[i]=='\n') break; /* empty line */
+	     else if (config_string[i]==' ' || config_string[i]=='\t'); /* whitespace */
+	     else {
+		valid_string=1;
+		break;
+	     }
+	  }
+	  if (feof(config_file)) break;
        }
-          /* create room for the fake command-line */
-       fake_data=calloc(file_size+12,sizeof(char));
-          /* stick "linux_logo" as argv[0] */
-       strncpy(fake_data,"linux_logo ",11);
-       fake_data_offset=11;
-          /* actually read the fake command-line in */
-       rewind(config_file);
+       
+       
+       if (valid_string) {
+          file_size=strlen(config_string);
 
-       ch=' ';
-   
-       for(i=0;i<file_size;i++) {
-          oldch=ch;
-          ch=fgetc(config_file);
 
-             /* if after a space, and not in a quote, begin a new token */
-          if ((oldch==' ') && (!in_quote) && (ch!=' ')) {
-	     if (fake_data_offset>0) fake_data[fake_data_offset]='\0';
-	     fake_data_offset++;
-	     fake_argc++;
-          }
+	  config_string[file_size-1]='\0';  /* get rid of trailing \n */
+
+             /* create room for the fake command-line */
+          fake_data=calloc(file_size+12,sizeof(char));
+             /* stick "linux_logo" as argv[0] */
+          strncpy(fake_data,"linux_logo ",11);
+	  fake_data_offset=11;
+          strncat(fake_data,config_string,file_size);
+	  	  
+	  ch=' ';
+	  for(i=0;i<file_size;i++) {
+	     
+	     oldch=ch;
+	     ch=config_string[i]; /* start after linux_logo */
+	     
+                /* if after a space, and not in a quote, begin a new token */
+             if ((oldch==' ') && (!in_quote) && (ch!=' ')) {
+	        if (fake_data_offset>0) fake_data[fake_data_offset]='\0';
+	        fake_data_offset++;
+	        fake_argc++;
+             }
           
-             /* The shell strips quotes and excess whitespace */
-             /* thought for now we just strip spaces outside of quotations */
-          if ((ch!='\"') && ((ch!=' ') || ((ch==' ') && (in_quote)))) {
-             fake_data[fake_data_offset]=ch;
-             fake_data_offset++;
+                /* The shell strips quotes and excess whitespace */
+                /* thought for now we just strip spaces outside of quotations */
+             if ((ch!='\"') && ((ch!=' ') || ((ch==' ') && (in_quote)))) {
+                fake_data[fake_data_offset]=ch;
+                fake_data_offset++;
+             }
+   
+                /* start/end a quotation */
+             if (ch=='\"') in_quote= !in_quote;
+
           }
+       
+          fclose(config_file);
    
-             /* start/end a quotation */
-          if (ch=='\"') in_quote= !in_quote;
-       }
-   
-       fclose(config_file);
-   
-       fake_argc+=1; /*  plus the last one */
+          fake_argc+=1; /*  plus the last one */
    
           /* Allocate room for the fake argv[] list of pointers */
           /* +1 cause NULL at the end */
-       fake_argv=calloc(fake_argc+1,sizeof(char *));
+          fake_argv=calloc(fake_argc+1,sizeof(char *));
    
-       fake_argv[0]=fake_data;
-       counter=1;
+          fake_argv[0]=fake_data;
+          counter=1;
           /* Actually find the tokens based on the NULLs put before */
-       for(i=0;i<fake_data_offset;i++) {
-          if (fake_data[i]=='\0') {
-	     if (counter<fake_argc) {
-	        fake_argv[counter]=fake_data+i+1;
-	     }
-	     counter++;
+          for(i=0;i<fake_data_offset;i++) {
+             if (fake_data[i]=='\0') {
+	        if (counter<fake_argc) {
+	           fake_argv[counter]=fake_data+i+1;
+	        }
+	        counter++;
+             }
           }
+
        }
+       else {
+	  read_from_file=0;
+       }
+
     }
-   
        /* Hack! Hack! Hack!  Oh, why do I abuse getopt() so */
     SAVE_GETOPT;
    
@@ -794,6 +832,9 @@ int main(int argc,char **argv)
 	               break;
 	     case 'l': settings.display_logo_only=1; break;
 	     case 'L': 
+	     	       /* Reset values in case we get this after
+			* reading the file */
+		       logo_num = 1; logo_override = 0; random_logo = 0;
 	               logo_num=strtol(optarg,&endptr,10);
 	               if ( endptr == optarg ) {
 		          temp_st=strdup(optarg);
