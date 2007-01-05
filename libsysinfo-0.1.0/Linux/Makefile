@@ -43,7 +43,13 @@ mips:	cpuinfo_mips.c
 parisc:	cpuinfo_parisc.c
 	$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_parisc.c
 	
+parisc64:	cpuinfo_parisc.c
+	$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_parisc.c	
+	
 ppc:	cpuinfo_ppc.c
+	$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ppc.c
+
+ppc64:	cpuinfo_ppc.c
 	$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ppc.c
 
 s390:	cpuinfo_s390.c
@@ -53,6 +59,9 @@ sh3:	cpuinfo_sh3.c
 	$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_sh3.c
 
 sparc:	cpuinfo_sparc.c
+	$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_sparc.c
+
+sparc64:	cpuinfo_sparc.c
 	$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_sparc.c
 
 vax:	cpuinfo_vax.c

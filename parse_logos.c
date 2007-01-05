@@ -126,7 +126,9 @@ int main(int argc, char **argv) {
    
     int logo_number = 0;
 
-#ifdef __sgi__
+#ifdef sun
+    fff=fopen("logo_config.Solaris","r");   
+#elif __sgi__
     fff=fopen("logo_config.Irix","r");
 #elif __FreeBSD__
     fff=fopen("logo_config.BSD","r");

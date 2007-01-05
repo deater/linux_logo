@@ -1,0 +1,93 @@
+# Swedish translation of linuxlogo.
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# Daniel Nylander <po@danielnylander.se>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: linuxlogo 4.14\n"
+"POT-Creation-Date: 2001-03-16 17:23-0500\n"
+"PO-Revision-Date: 2006-09-05 16:05+0100\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../linux_logo.c:38
+msgid "Zero"
+msgstr "Ingen"
+
+#: ../linux_logo.c:39
+msgid "One"
+msgstr "En"
+
+#: ../linux_logo.c:40
+msgid "Two"
+msgstr "Två"
+
+#: ../linux_logo.c:41
+msgid "Three"
+msgstr "Tre"
+
+#: ../linux_logo.c:42
+msgid "Four"
+msgstr "Fyra"
+
+#: ../linux_logo.c:43
+msgid "Five"
+msgstr "Fem"
+
+#: ../linux_logo.c:44
+msgid "Six"
+msgstr "Sex"
+
+#: ../linux_logo.c:45
+msgid "Seven"
+msgstr "Sju"
+
+#: ../linux_logo.c:46
+msgid "Eight"
+msgstr "Åtta"
+
+#: ../linux_logo.c:47
+msgid "Nine"
+msgstr "Nio"
+
+#: ../linux_logo.c:48
+msgid "Many"
+msgstr "Många"
+
+#. This is the default format of the output file.  See the README for more *\
+#. \* information on how to configure this option.
+#: ../defaults.h:7
+msgid ""
+"#O Version #V, Compiled #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Version #V, Byggd #C\n"
+"#N #M #X #T #P, #R RAM, #B bogomips totalt\n"
+"#H\n"
+
+#: ../defaults.h:8
+msgid ""
+"#O Version #V\n"
+"Compiled #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Version #V\n"
+"Byggd #C\n"
+"#N #M #X #T #P, #R RAM-minne\n"
+"#B bogomips totalt\n"
+"#H\n"
+
+#: ../defaults.h:9
+msgid "Processor"
+msgstr "processor"
+
+#: ../defaults.h:10
+msgid "Processors"
+msgstr "processorer"
+

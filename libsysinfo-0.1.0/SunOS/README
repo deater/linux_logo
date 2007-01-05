@@ -1,6 +1,2 @@
-Barebones.
-This reports the version number and host name, does software bogomips, and
-poorly attempts load average.
-
 Todo:
-  figure out how to do mem/cpu/uptime on solaris?
+  figure out how to do uptime on solaris?

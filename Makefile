@@ -1,5 +1,5 @@
 ##############################################################
-#  Makefile for Linux Logo 4.14 -- by Vince Weaver           #
+#  Makefile for Linux Logo 4.15 -- by Vince Weaver           #
 #                                                            #
 #  To modify for your configuration, add or remove the #     #
 #                                                            #
@@ -30,6 +30,11 @@ ifeq ($(OS),FreeBSD)
    OS_SUPPORTED = 1
 endif
 
+ifeq ($(OS),SunOS)
+   C_OPTS = -O2 -Wall -I./$(LIBSYSINFO)
+   L_OPTS = -L./$(LIBSYSINFO)
+   OS_SUPPORTED = 1
+endif
 
 #
 # Installation location

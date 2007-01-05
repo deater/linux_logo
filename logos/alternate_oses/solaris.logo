@@ -1,0 +1,23 @@
+SYSINFO_POSITION bottom
+  
+DESCRIPTION_STRING The Default Banner Logos
+
+BEGIN_LOGO
+                SSSSS  OOOO  L        AA   RRRRR   III  SSSSS
+               S      O    O L       A  A  R    R   I  S
+               S      O    O L      A    A R    R   I  S
+                SSSS  O    O L      AAAAAA RRRRR    I   SSSS
+                    S O    O L      A    A R R      I       S
+                    S O    O L      A    A R  R     I       S
+               SSSSS   OOOO  LLLLLL A    A R   R   III SSSSS
+END_LOGO
+
+BEGIN_ASCII_LOGO
+                SSSSS  OOOO  L        AA   RRRRR   III  SSSSS
+               S      O    O L       A  A  R    R   I  S
+               S      O    O L      A    A R    R   I  S
+                SSSS  O    O L      AAAAAA RRRRR    I   SSSS
+                    S O    O L      A    A R R      I       S
+                    S O    O L      A    A R  R     I       S
+               SSSSS   OOOO  LLLLLL A    A R   R   III SSSSS
+END_ASCII_LOGO

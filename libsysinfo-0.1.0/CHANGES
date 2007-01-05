@@ -103,3 +103,9 @@
 
 21 July 2006
 + Reintroduced IRIX support.
+
+4 January 2007
++ Improve Solaris support.  Now can do CPU type and memory size.
++ Have the makefile handle ppc64 and parisc64
+  (bug report forwarded by debian maintainer).
+  

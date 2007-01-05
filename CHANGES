@@ -745,3 +745,8 @@
   of configuration.  (from debian via maintainer Khalid El Fathi
   <invent _at_ edena-fr.org> ).
 + Fix off by one error in allocation of the size of string ~/linux_logo.c
+
+4 January 2007
++ Support sparc64 on Linux (we obtained some Niagara systems ;) )
++ Add CPU and Memory support for Solaris.
++ Added a swedish translation forwarded along by the debian maintainer.
