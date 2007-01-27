@@ -750,3 +750,8 @@
 + Support sparc64 on Linux (we obtained some Niagara systems ;) )
 + Add CPU and Memory support for Solaris.
 + Added a swedish translation forwarded along by the debian maintainer.
+
+27 January 2007
++ Realized I had forgotten to add the swedish translation to the makefile.
+  Fixed.
++ Updated slackware logo from Gabor Bak <baboka _at_ slackware.hu>

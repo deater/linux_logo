@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 4.15 - Creates Nifty Logo With System Info - 4 January 2007
+  LINUX LOGO 4.16 - Creates Nifty Logo With System Info - 27 January 2007
  
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 		     
@@ -22,7 +22,7 @@
 #include "i18n.h"
 
 #define ESCAPE '\033'
-#define VERSION "4.15"
+#define VERSION "4.16"
 
 #include "sysinfo.h"
 #include "linux_logo.h"

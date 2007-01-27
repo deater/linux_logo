@@ -109,3 +109,8 @@
 + Have the makefile handle ppc64 and parisc64
   (bug report forwarded by debian maintainer).
   
+27 January 2007
++ Patch from  Kolbjørn Barmen" <kolbjorn.barmen _at_ uninett.no> to improve
+  the Makefile for detecting ARM and x86 properly
++ Re-write the iomem memory detection.  It seems to work better on
+  all machines I tested it on...

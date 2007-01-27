@@ -49,10 +49,11 @@ char *get_host_name(char hostname[65],char domain[65]) {
 
     /* This is a newer method to obtain memory info from /proc/iomem memory
      * map under 2.4.x. It should work with ACPI systems too. */
-    /* Contributed by Sitsofe Wheeler <sits@sucs.swan.ac.uk> */
+    /* Originally Contributed by Sitsofe Wheeler <sits@sucs.swan.ac.uk> */
+    /* Improved a bit (in theory) to handle 64-bit machines -vmw */
 long int get_mem_size_iomem(void) {
     
-    unsigned long int mem_size=0;
+    unsigned long long mem_size=0,begin,end;
     char *pos;
     char temp_string[BUFSIZ];
     FILE *info;
@@ -63,11 +64,16 @@ long int get_mem_size_iomem(void) {
 	  /* It's safe to +1 to pos because in the worst case we will be on the
 	   * end of string marker. I just hope strncmp does bounds checking */
 	  if (pos && (strncmp(pos+1, " System RAM", 10)==0 ||
-	     strncmp(pos+1, " ACPI", 4)==0)) {
+	     strncmp(pos+1, " ACPI", 5)==0)) {
 	     /* Extract the upper memory position */
+	     /*printf("Adding %s region ",pos);*/
 	     pos = strchr(temp_string, '-');
 	     if (pos) {
-		mem_size=strtoul(pos+1, NULL, 16);
+		*pos=0;
+		end=strtoull(pos+1, NULL, 16);
+		begin=strtoull(temp_string,NULL,16);
+		mem_size+=(end-begin);
+		/*printf("%lld bytes\n",(end-begin));*/
 	     }
 	  }
        }
@@ -75,13 +81,15 @@ long int get_mem_size_iomem(void) {
     }
        
     if (mem_size > 0) {
-       /* Up the size by 1 because the value we got was counting from 0 and
-	* convert the value from bytes to Megabytes */
-       mem_size = (mem_size+1) / (1024*1024);
-       if (mem_size==0) {
-	  /* we overflowed over 4gb */
-	  mem_size=4096;
+
+          /* if over, round up */
+       if (mem_size%(1024*1024)) {
+          mem_size = (mem_size/(1024*1024))+1;
        }
+       else {
+	  mem_size = (mem_size/(1024*1024));
+       }
+
        return mem_size;
     }
     else return -1;
@@ -165,12 +173,9 @@ long int get_mem_size(void) {
        mem_size = -1;
        goto meminfo_jump;  /* hack! */
     }
-    
-#if defined(__x86_64__)
-#else
-       /* Next try the 2.4.x method of iomem */
+   
+       /* Next try the 2.4.x+ method of iomem */
     if (mem_size == -1) mem_size = get_mem_size_iomem();
-#endif
 
        /* Try stat-ing /proc/kcore */
     if (mem_size == -1) mem_size = get_mem_size_stat();   

@@ -2,17 +2,11 @@ include ../Makefile.defaults
 
 ARCH = $(shell uname -m)
 
-ifeq ($(ARCH),i686)
+ifneq (,$(findstring 86,$(ARCH)))
    ARCH := x86
 endif
-ifeq ($(ARCH),i586)
-   ARCH := x86
-endif
-ifeq ($(ARCH),i486)
-   ARCH := x86
-endif
-ifeq ($(ARCH),3486)
-   ARCH := x86
+ifneq (,$(findstring arm,$(ARCH)))
+   ARCH := arm
 endif
 
 

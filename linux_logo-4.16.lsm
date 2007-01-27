@@ -1,17 +1,17 @@
 Begin3
 Title: linux_logo
-Version: 4.15
-Entered-date: 04JAN2007
+Version: 4.16
+Entered-date: 27JAN2007
 Description: An ANSI Color Penguin Logo that can be run at bootup,
              at login, and many other interesting times.
 	     Supports: Linux (most architectures) and Solaris, Irix, AIX,etc.
 	     Version 4.0 is major rewrite over 3.0x
-	     Versions 4.01-4.15 are minor bugfixes
+	     Versions 4.01-4.16 are minor bugfixes
 Keywords: logo penguin boot system info ansi      
 Author: vince@deater.net (Vince Weaver)
 Maintained-by: vince@deater.net (Vince Weaver)
 Primary-site: metalab.unc.edu /pub/Linux/logos/penguins
-              91kB linux_logo-4.15.tar.gz
+              93kB linux_logo-4.16.tar.gz
 Alternate-site: http://www.deater.net/~weave/vmwprod/linux_logo/
 Original-site:  
 Platforms: Linux, Irix, AIX, Solaris, FreeBSD, other Unixes
