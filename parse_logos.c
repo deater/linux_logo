@@ -7,79 +7,9 @@
 #include <sys/utsname.h>
 
 #include "logo_types.h"
-#include "vmw_string.h"
+#include "load_logo.h"
 
 
-struct logo_info *load_logo_from_disk(char *filename) {
-
-   struct logo_info *new_logo;
-   int logo_start=0,ascii_logo_start=0;
-   int ascii_size=0,size=0;
-   char temp_st[BUFSIZ];
-   FILE *fff;
-      
-   new_logo=calloc(1,sizeof(struct logo_info));
-   
-   fff=fopen(filename,"r");
-   
-   if (fff==NULL) {
-      printf("\nError!  File %s doesn't exist!\n\n",filename);
-      return NULL;
-   }
-   
-   new_logo->logo=NULL;
-   new_logo->ascii_logo=NULL;
-   
-   while (!feof(fff)) {
-      read_string_from_disk_exact(fff,temp_st);
-      if (!strncmp(temp_st,"END_LOGO",8)) logo_start=0;
-      if (!strncmp(temp_st,"END_ASCII_LOGO",14)) ascii_logo_start=0;
-      if (logo_start) {
-	 size+=strlen(temp_st);
-	 if (new_logo->logo==NULL) {
-	    new_logo->logo=strdup(temp_st);
-	 }
-	 else {
-	    new_logo->logo=realloc(new_logo->logo,size+1);
-	    strncat( new_logo->logo,temp_st,strlen(temp_st));
-	 }
-	 new_logo->ysize++;
-      }
-      if (ascii_logo_start) {
-         ascii_size+=strlen(temp_st);
-	 if (new_logo->ascii_logo==NULL) {
-	    new_logo->ascii_logo=strdup(temp_st);
-	 }
-	 else {
-	    new_logo->ascii_logo=realloc(new_logo->ascii_logo,ascii_size+1);
-	    strncat( new_logo->ascii_logo,temp_st,strlen(temp_st));
-	 }
-	 new_logo->ascii_ysize++;
-      }
-      if (!strncmp(temp_st,"BEGIN_ASCII_LOGO",16)) ascii_logo_start=1;
-      if (!strncmp(temp_st,"BEGIN_LOGO",10)) logo_start=1;
-      if ( (!ascii_logo_start) && (!logo_start) ) {
-	 if (!strncmp(temp_st,"SYSINFO_POSITION",16)) {
-	    if (!strncmp(temp_st+17,"bottom",6)) {
-	       new_logo->sysinfo_position=SYSINFO_BOTTOM;
-	    }
-	    if (!strncmp(temp_st+17,"right",5)) {
-	       new_logo->sysinfo_position=SYSINFO_RIGHT;
-	    }
-	 }
-	 if (!strncmp(temp_st,"DESCRIPTION_STRING",18)) {
-	    new_logo->description=strdup(temp_st+19);	   
-	    new_logo->description[strlen(new_logo->description)-1]='\0';
-	 }
-      }
-   }
-   
-   new_logo->next_logo=NULL;
-   
-   fclose(fff);
-   
-   return new_logo;   
-}
 
     /* People can put all kind of strange and wonderful ascii */
     /* characters in a logo that would royally confuse printf */

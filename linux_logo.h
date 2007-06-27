@@ -16,6 +16,6 @@ struct linux_logo_info_type {
        int custom_format;
        int pretty_output;
        int center_sysinfo;
-       char *user_text;
-       char *format;
+       char user_text[BUFSIZ];
+       char format[BUFSIZ];
 };

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#  This is not a real autoconf configure script.
+#  I could not abide by a configure script that is larger than
+#    the generated linux_logo executable.
+#  This is a simple shell script that gathers the info linux_logo
+#    needs, and should be compatible enough.
+#  - vmw
+
+echo "Looking for C compiler..."
+echo "Looking for install..."
+echo "Looking for xgettext.."
+echo "Detecting ARCH and OS..."
+
+echo
+echo "linux_logo will be built with the following configuration:"
+echo "\tArchitecture"
+echo "\tExecutable will be installed in: /usr/local/bin"
+echo "\tMan-page will be installed in: /usr/man/"
+echo "\t"
+echo
+echo "If this is correct, run make and then make install"
+echo

@@ -1,7 +1,4 @@
-INSTALL= /usr/bin/install -c
-INSTALL_CMD= ${INSTALL} -m 644
-INSTALLDIR=/usr/lib/locale
-PACKAGE = linux_logo
+include ../Makefile.default
 
 CATALOGS = da.mo de.mo es.mo fr.mo nb.mo nl.mo it.mo pl.mo pt_BR.mo ru.mo sv.mo ua.mo zh_TW.mo
 
@@ -23,9 +20,9 @@ clean:
 install: $(CATALOGS)
 	for n in $(CATALOGS); do \
 	l=`basename $$n .mo`; \
-	$(INSTALL) -m 755 -d $(INSTALLDIR)/$$l; \
-	$(INSTALL) -m 755 -d $(INSTALLDIR)/$$l/LC_MESSAGES; \
-	$(INSTALL) -m 644 $$n $(INSTALLDIR)/$$l/LC_MESSAGES/$(PACKAGE).mo; \
+	$(INSTALL) -m 755 -d $(INSTALL_LOCALEPATH)/$$l; \
+	$(INSTALL) -m 755 -d $(INSTALL_LOCALEPATH)/$$l/LC_MESSAGES; \
+	$(INSTALL) -m 644 $$n $(INSTALL_LOCALEPATH)/$$l/LC_MESSAGES/$(PACKAGE).mo; \
 	done
 
 %.mo: %.po

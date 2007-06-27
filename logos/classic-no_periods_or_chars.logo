@@ -1,0 +1,48 @@
+# Original Linux_Logo logo
+# Drawn by Vince Weaver, from a pbm2ansi of Larry Ewing's original Tux
+# Modified for no periods by Marc D. Williams <marcdw@charter.net>
+# Modified for no letters in Linux by Sitsofe Wheeler <sits@sucs.org>
+
+SYSINFO_POSITION right
+  
+DESCRIPTION_STRING The Classic No Periods Or Characters Logos
+
+BEGIN_LOGO
+[0;1;30;44m         [40m      [44m       [40m
+[1;44m        [40m        [44m      [2C[47m  [5C      [1C  [3C  [1C  [2C  [1C  [2C  [40m
+[1;30;44m        [40m [47m  [40m [47m  [40m  [44m      [2C[47m  [7C  [3C   [2C  [1C  [2C  [2C    [40m
+[1;30;44m        [40m [47m [40m   [47m [40m   [44m     [2C[47m  [7C  [3C    [1C  [1C  [2C  [3C  [40m
+[1;30;44m        [40m  [43m    [40m   [44m     [2C[47m  [7C  [3C  [1C    [1C  [2C  [2C    [40m
+[1;30;44m        [40m [0;30;43m`----'[40m  [1;44m     [2C[47m      [1C      [1C  [3C  [2C    [2C  [2C  [40m
+[1;30;44m        [40m [47m [37m    [30m [40m   [44m    [40m
+[1;30;44m       [40m [47m        [40m    [44m  [40m
+[1;30;44m       [40m [47m         [40m    [44m [40m
+[1;30;44m       [40m [47m         [40m    [30;44m [40m
+[1;30;44m      [40m [47m          [40m     
+[1;30;44m     [40m  [47m          [40m     
+[1;30;44m     [43m   [30;47m        [43m   [40m   
+[1;30;44m   [43m     [47m        [43m    [40m  
+[1;30;44m [43m       [47m        [43m      [40m
+[1;30;44m [43m       [40m [47m      [40m [43m      [40m
+
+END_LOGO
+
+BEGIN_ASCII_LOGO
+         $$$$$$        ####     ##
+        $$$$$$$$        ##         ## ###   ### ###  ###  ###
+        $  $  $$        ##      ##  ##   ##  ##  ##    #### 
+        $/o$o\$$        ##     ##   ##   ##  ##  ##     ## 
+        $////$$$$       ##   # ##   ##   ##  ##  ##    #### 
+        <<<<<$$$$      #######  ## #### ####  ### ## ###  ###
+        $......$$$    
+       $........$$$$  
+       $.........$$$$ 
+       $.........$$$$ 
+      $..........$$$$$
+     $$..........$$$$$
+     ###........###$$$
+   #####........####$$
+ #######........######
+ #######$......$######
+
+END_ASCII_LOGO

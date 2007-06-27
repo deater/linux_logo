@@ -755,3 +755,29 @@
 + Realized I had forgotten to add the swedish translation to the makefile.
   Fixed.
 + Updated slackware logo from Gabor Bak <baboka _at_ slackware.hu>
+
+linux_logo-4.16 release
+
+28 January 2007
++ Update to install locale info in /usr/share/locale, not /usr/lib/locale
+  for FHS compliance.(  from Per ÿyvind Karlsen <pkarlsen _at_ mandriva.com> )
++ Add mandriva logo (from Per ÿyvind Karlsen <pkarlsen _at_ mandriva.com> )
++ Took a look at the linux_logo code and realized it is in sorry shape,
+  started re-writing a lot, we're going to have a 5.0 release... -vmw
++ Audit the source code, removing a bunch of potential buffer overflows -vmw
++ Remove extraneous and dead code -vmw
++ Got rid of the horrific vmw_string.c file, an artifact from a much
+  earlier and naive stage of my programming career... -vmw
+  
+26 June 2007
++ I was busy, neglected linux_logo for a while.  Some e-mails came in
+  so back to work.
++ Re-wrote some of the helper functions to be thread safe.
+  General cleanups.  I've learned a lot in 10 years ;)
++ Include ubuntu logo by Damian OiDnus Slimak <oidnus _at_ gmail.com>
++ Fix so the Playstation 3 reports right number of CPUs from 
+  Kolbj√∏rn Barmen" <epost _at_ kolla.no>
++ Need to fix Core Duo handling (urgh Intel, could you make the
+  cpuinfo even uglier?).  Thanks to Matthias Saou <matthias _at_ rpmforge.net>
+  for sending me a few cpuinfo files to work with.
+  

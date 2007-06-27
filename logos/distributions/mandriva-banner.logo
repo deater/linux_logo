@@ -1,0 +1,36 @@
+# Mandriva(TM) Linux Banner
+# Drawn by Sitsofe Wheeler <sits@sucs.org>; updated by Stefan Siegel <siegel@mandrakesoft.com>; yet again updated by Per Øyvind Karlsen <pkarlsen@mandriva.com> 
+
+SYSINFO_POSITION bottom
+
+DESCRIPTION_STRING Mandriva(TM) Linux Banner
+
+BEGIN_LOGO
+[0;30;40m                                 [44m [40m     [44m [40m             [44m  [40m     [44m [40m        [34m(TM)[37m 
+[40m                 [43m [40m               [44m  [40m   [44m  [40m              [44m [40m                       
+[40m                 [43m  [40m              [44m [40m [44m [40m [44m [40m [44m [40m  [44m   [40m [44m   [40m   [44m   [40m [44m [40m [44m [40m [44m [40m [44m   [40m [44m   [40m  [44m   [40m     
+[40m                [43m   [40m              [44m [40m  [44m [40m  [44m [40m [44m [40m  [44m [40m [44m [40m  [44m [40m [44m [40m  [44m [40m [44m  [40m  [44m [40m  [44m [40m   [44m [40m  [44m [40m  [44m [40m  
+[40m  [44m [40m    [43m             [40m             [44m [40m     [44m [40m [44m [40m  [44m [40m [44m [40m  [44m [40m [44m [40m  [44m [40m [44m [40m   [44m [40m   [44m [40m [44m [40m   [44m [40m  [44m [40m      
+[40m [44m  [40m      [43m               [40m  [33m\|/[37m    [44m [40m     [44m [40m  [44m   [40m [44m [40m  [44m [40m  [44m   [40m [44m [40m   [44m [40m    [44m [40m     [44m   [40m  [40m    
+[40m [44m [40m        [43m                 [40m [33m-[37m                                                  
+[40m [44m [40m         [43m            [40m   [33m/|\[37m      [44m  [40m   [44m  [40m                                     
+[40m [44m  [40m       [43m          [40m              [44m  [40m                                           
+[40m [44m   [40m    [43m      [40m [43m     [40m              [44m  [40m    [44m  [40m  [44m    [40m  [44m  [40m [44m  [40m [44m  [40m [44m  [40m                  
+[40m  [44m    [40m   [44m    [40m     [43m   [40m            [44m  [40m     [44m  [40m  [44m  [40m [44m  [40m [44m  [40m [44m  [40m  [44m   [40m                   
+[40m    [44m     [40m          [43m  [40m            [44m     [40m  [44m  [40m  [44m  [40m [44m  [40m  [44m    [40m [44m  [40m [44m  [40m                  
+END_LOGO
+
+BEGIN_ASCII_LOGO
+                     Mi             #     #             ##     #           (TM)
+                   oMMM             ##   ##              #                     
+                  oMMMM             # # # #  ### ###   ### # # # ### ###  ###  
+  M     "MMMoooooMMMMMM             #  #  # #  # #  # #  # ##  #  #   #  #  #  
+ M        MMMMMMMMMMMMMMooo     \|/ #     # #  # #  # #  # #   #   # #   #  #  
+oM         "MMMMMMMMMMMMMMMMMMM"  - #     #  ### #  #  ### #   #    #     ###  
+MM           MMMMMMMMMMMMMM""   /|\                                            
+MM          oMMMMMMMMMMM"              ##   ##                                 
+MM         oMMMMMMMMMMMM              ##                                       
+ MM       oMM"""  "MMMMM              ##    ##  ####   ## ##  ## ##            
+ "MMo    ""  oo"    "MMM             ##     ##  ## ##  ## ##   ###             
+   "MMMooo"""         "MM            #####  ##  ## ##   ####  ## ##            
+END_ASCII_LOGO

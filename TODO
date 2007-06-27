@@ -1,3 +1,15 @@
++ strncat the N value is src, not destination!
++ get locale path from LOCALEPATH
++ Fix -i option
++ Better config script
++ Specify logos by name, not by number
++ Error to stderr if logo not found, but still print default logo.
++ Compress logos for smaller executable?
+
++40k=size to beat
+
+
+
 - script to make a "before" and "after" list of linux_logo results
   based on the cpuinfo collection, then diff after to make sure no
   regressions happened.

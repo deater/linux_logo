@@ -1,4 +1,11 @@
 check for gcc
+--prefix=
+look for install
+host
+
+
+
+check for gcc
 check for ranlib
 detect OS and architecture
 
