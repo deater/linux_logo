@@ -137,6 +137,8 @@ long int get_arch_specific_mem_size(void) {
        /* We have no special way of detecting RAM */
    
        /* sysinfo is the only way that works on cell? */
-       /* does it work for all PPC arches?            */
-       return -2;
+       /* can we detect that somehow and force it? */
+   
+       /* For mac the meminfo way is definitely better */     
+       return -1;
 }

@@ -1,12 +1,5 @@
 include Makefile.default
 
-AR = ar
-
-ifeq ($(OS),SunOS)
-   AR = /usr/ccs/bin/ar
-endif
-
-
 all:   libsysinfo.a
 
 clean:
@@ -19,7 +12,8 @@ clean:
 	cd SunOS && $(MAKE) clean
 	cd w32 && $(MAKE) clean
 	cd all && $(MAKE) clean
-	rm -f os
+	rm -f Makefile.default
+	
 
 install:	
 
@@ -27,7 +21,7 @@ install:
 libsysinfo.a:	
 	cd all && $(MAKE)
 	cd $(OS) && $(MAKE)
-	$(AR) crus libsysinfo.a ./$(OS)/*.o ./all/*.o
+	$(CROSS)$(AR) crus libsysinfo.a ./$(OS)/*.o ./all/*.o
 
 shared:	libsysinfo.a
 	ld -shared -o libsysinfo.so ./$(OS)/*.o ./all/*.o

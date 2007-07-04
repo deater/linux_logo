@@ -4,8 +4,7 @@
 
 include Makefile.default
 
-CPPFLAGS = -I./$(LIBSYSINFO) 
-LDFLAGS = -L./$(LIBSYSINFO)
+PROGNAME = linux_logo
 
 ifeq ($(OS),IRIX64) 
    LDFLAGS += -lintl
@@ -18,6 +17,11 @@ INSTALL_BINPATH = $(PREFIX)/bin
 INSTALL_MANPATH = $(PREFIX)/share/man
 INSTALL_DOCPATH = $(PREFIX)/share/doc
 
+#
+# Libsysinfo location
+#
+LIBSYSINFO_INCLUDE = -I$(LIBSYSINFO)
+LIBSYSINFO_LIBRARY = -L$(LIBSYSINFO)
 
 all:	parse_logos linux_logo translations
 
@@ -41,41 +45,44 @@ clean:
 	cd po && $(MAKE) clean
 
 linux_logo:	linux_logo.o load_logo.o ./$(LIBSYSINFO)/libsysinfo.a
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o linux_logo linux_logo.o load_logo.o  ./$(LIBSYSINFO)/libsysinfo.a $(LDFLAGS)
+	$(CROSS)$(CC) $(LDFLAGS) -o linux_logo linux_logo.o load_logo.o $(LIBSYSINFO_LIBRARY) ./$(LIBSYSINFO)/libsysinfo.a 
 
 linux_logo_shared:	linux_logo.o load_logo.o ./$(LIBSYSINFO)/libsysinfo.a
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o linux_logo-dyn linux_logo.o load_logo.o  -L./$(LIBSYSINFO) -lsysinfo
+	$(CROSS)$(CC) $(CFLAGS) -o linux_logo-dyn linux_logo.o load_logo.o $(LIBSYSINFO_LIBRARY) -lsysinfo
 
 
 ./$(LIBSYSINFO)/libsysinfo.a:
 	cd $(LIBSYSINFO) && $(MAKE)
 
-parse_logos:	parse_logos.o load_logo.o
-	$(CC) -o parse_logos parse_logos.o load_logo.o $(LDFLAGS)
+parse_logos:	parse_logos.o load_logo_native.o
+	$(CC) $(LDFLAGS) -o parse_logos parse_logos.o load_logo_native.o
 
 parse_logos.o:	parse_logos.c logo_config
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c parse_logos.c
+	$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -c parse_logos.c
 
 load_logos.h:	logo_config parse_logos
 	./parse_logos
 
 load_logo.o:	load_logo.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c load_logo.c
+	$(CROSS)$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -c load_logo.c
+	
+load_logo_native.o:	load_logo.c
+	$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -o load_logo_native.o -c load_logo.c	
 
 linux_logo.o:	linux_logo.c defaults.h load_logos.h
 	@echo Compiling for $(OS)
 	@echo Edit defaults.h to change Default Values
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c linux_logo.c
+	$(CROSS)$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -c linux_logo.c
 
 install:	linux_logo
-	/usr/bin/install -m755 $(PROGNAME) -D $(INSTALL_BINPATH)/$(PROGNAME)
-	/usr/bin/install -m644 $(PROGNAME).1 $(INSTALL_MANPATH)/man1/$(PROGNAME).1
+	$(INSTALL) -c -m755 $(PROGNAME) -D $(INSTALL_BINPATH)/$(PROGNAME)
+	$(INSTALL) -c -D -m644 $(PROGNAME).1.gz $(INSTALL_MANPATH)/man1/$(PROGNAME).1.gz
 	cd po && $(MAKE) install
 
 install-doc:
-	/usr/bin/install -d -m 755 $(INSTALL_DOCPATH)/$(PROGNAME)
-	/usr/bin/install -p -m 644 *[A-Z] $(INSTALL_DOCPATH)/$(PROGNAME)
+	$(INSTALL) -c -d -m 755 $(INSTALL_DOCPATH)/$(PROGNAME)
+	$(INSTALL) -c -p -m 644 *[A-Z] $(INSTALL_DOCPATH)/$(PROGNAME)
 
 # The old way of installing
 install-by-copying:
-	cp linux_logo /usr/local/bin
+	cp linux_logo $(PREFIX)/bin

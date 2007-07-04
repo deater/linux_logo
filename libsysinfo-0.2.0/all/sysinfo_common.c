@@ -4,13 +4,13 @@
 #include <string.h>
 #include <stdio.h>
 
-typedef struct {
+struct our_state {
     int pretty_printing;
     int custom_cpuinfo;  
     char cpuinfo_file[256];   
-} our_state;
+};
 
-our_state internal_state={1,0,"/proc/cpuinfo"};
+struct our_state internal_state={1,0,"/proc/cpuinfo"};
 
 char *get_sysinfo_version(char *version) {
     sprintf(version,"%i.%i.%i",VERSION_MAJOR,VERSION_MINOR,VERSION_SUBMINOR);

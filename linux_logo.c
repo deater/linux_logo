@@ -39,15 +39,6 @@
 #define _(string) string
 #endif
 
-
-#define SAVE_GETOPT  {old_optind=optind; old_opterr=opterr; old_optopt=optopt;}
-#define RESET_GETOPT {optind=old_optind; opterr=old_opterr; optopt=old_optopt;}
-
-#define FILE_OPTIONS_PASS          0
-#define COMMAND_OPTIONS_PASS       1
-#define WANT_DEFAULT_OPTIONS_PASS  2
-
-
 /* Some global variables.  Possibly bad in practice, but it saves a lot *\
 \* of paramater passing, which has caused bugs to develop before.       */
 
@@ -407,10 +398,9 @@ static int generate_sysinfo(
     return line;
 }
 
-// VMW AUDIT up to here
 
     /* The Main Drawing Routine */
-void draw_logo(struct logo_info *logo_override,
+static void draw_logo(struct logo_info *logo_override,
 	       struct linux_logo_info_type *settings) {
    
     struct logo_info *our_logo_info;
@@ -553,40 +543,193 @@ void draw_logo(struct logo_info *logo_override,
 }
 
 
-int main(int argc,char **argv) {
+static char *get_arg(int *index,int argc,char **argv) {
+
+   char *argument;
    
-    char *endptr,*temp_st;
-    int c,i,x,logo_num=1,random_logo=0,do_listing=0,logo_override=0;
-    int logo_found;
-    char temp_string[BUFSIZ],*temp_pointer,random_type='e',random_type2='e';
-    struct linux_logo_info_type settings;
-    struct logo_info *temp_logo,*custom_logo=NULL;
-    struct timeval time_time;
-    FILE *config_file=NULL;
-    char *fake_data;
-    char **fake_argv=NULL;
-    int file_size=0,ch=0,in_quote=0,fake_data_offset=0,fake_argc=0,counter=0; 
-    int oldch=0,arguments_pass=0,read_from_file=0;
-    int *custom_argc=NULL;
-    char **custom_argv=NULL;
-    int ignore_config_file=0;
-    int old_optind,old_opterr,old_optopt,string_size;
-    char *tempst;
-    char config_string[BUFSIZ];
-    int valid_string=0;
+   if (argv[*index][2]=='\0') {
+      (*index)++;
+      if (*index>=argc) {
+	 argument=NULL;
+	 printf("Missing parameter to option -%c\n\n",argv[(*index)-1][1]);
+	 exit(1);
+      }
+      else {
+         argument=argv[*index];
+      }
+   }
+   else {
+      argument=&(argv[*index][2]);
+   }
    
-#ifdef USE_I18N
-       /* i18n */
-    setlocale(LC_ALL, "");
-    textdomain("linux_logo");
-    bindtextdomain("linux_logo", "/usr/share/locale");
-#endif   
-       /* Set some defaults */
-    setup_info(&settings); 
-    
-       /* ****************************************************** */
+   return argument;
+   
+}
+
+
+    /*******************************************************/
+    /* Parse options (from file or command line arguments) */
+    /*******************************************************/
+static void parse_command_line(struct linux_logo_info_type *settings,
+			int argc, char **argv) {
+
+    int i,x,string_size;
+    char *endptr,*argument;
+    int index=1,option;
+
+    if (argc<2) return;
+   
+    while (1) {
+       
+       if (argv[index][0]!='-') {
+	  printf("Unknown parameter %s\n",argv[index]);
+	  exit(1);
+       }
+       option=argv[index][1];
+
+       
+       switch (option) {
+	  case 'a': settings->plain_ascii=1; 
+	            break;
+	  case 'b': settings->banner_mode=1; 
+	            break;
+	  case 'c': settings->banner_mode=0; 
+	            break;
+	  case 'd': settings->pretty_output=0; 
+	            set_pretty_printing(0);
+	            break; 
+	            /* FIXME */
+	  case 'D': argument=get_arg(&index,argc,argv);
+	            logo_info_tail=load_logo_from_disk(argument);
+	            break;
+	  case 'e': argument=get_arg(&index,argc,argv);
+	            set_cpuinfo_file(argument); 
+	            break;
+	  case 'f': settings->wipe_screen=1; 
+	            break;
+	  case 'F': argument=get_arg(&index,argc,argv);
+	            string_size=strlen(argument);
+	            if (string_size==0) break;
+	     
+	            settings->custom_format=1;
+	            strncpy(settings->format,argument,BUFSIZ);
+	              	  
+	            /* Decode the \n's. */
+	            /* Should I decode other \ codes? */
+	            /* also, \ codes are always smaller, hence why */
+	            /* we can overwrite our own buffer */
+	     
+	            i=0; x=0;
+	            while(i<strlen(settings->format)) {
+		       if (settings->format[i]=='\\') {  
+			  switch(settings->format[i+1]) {
+			     case 'n': settings->format[x]='\n'; i++; break;
+			     default:  settings->format[x]='\\'; break; 
+			  }
+		       }
+		       else {
+			  settings->format[x]=settings->format[i];
+		       }
+		       i++; x++;
+		    }
+	            settings->format[x]='\0';
+	            break;
+	  case 'g': settings->display_sysinfo_only=1; 
+	            break;
+	  case 'h': 
+	  case '?': help_message(argv[0], 1); 
+	            exit(0);
+	            break;
+	            /* FIXME */
+	  case 'i': /* is it even possible to do this right? */
+	            /* we'd have to do two passes, possibly  */
+	            /* resetting to defaults in between      */
+	            //ignore_config_file=1; 
+	            break;
+	  case 'k': settings->center_sysinfo=0;
+	            break;
+	  case 'l': settings->display_logo_only=1; 
+	            break;
+
+	            /* FIXME */
+
+	  case 'L': argument=get_arg(&index,argc,argv);
+	            
+#if 0
+	     	       /* Reset values in case we get this after
+			* reading the file */
+		    logo_num = 1; logo_override = 0; random_logo = 0;
+	            logo_num=strtol(argument,&endptr,10);
+	            if ( endptr == argument ) {
+		       temp_st=strdup(argument);
+		       if (!strncmp(temp_st,"list",4)) {
+			  do_listing=1;
+		       }
+		       else if (!strncmp(temp_st,"random",6)) {
+			  random_logo=1;
+			  random_type=temp_st[7];
+			  random_type2=temp_st[8];
+		       }
+		       else {
+			  printf("\nUnknown -L directive!\n\n");
+			  return 4;
+		       }
+		    }
+	            else { /* It's a number */
+		       logo_override=1;
+		    }
+#endif	  	  
+	            break;
+
+	  case 'n': settings->no_periods=1; 
+	            break;
+	  case 'o': argument=get_arg(&index,argc,argv);
+	            settings->offset=strtol(argument,&endptr,10);
+	            if ( endptr == argument ) {
+		       printf("Invalid offset length %s\n\n",argument);
+		       exit(1);
+		    }
+	            break;
+	  case 'p': settings->preserve_xy=1; 
+	            break;
+	  case 's': settings->skip_bogomips=1; 
+	            break;
+	  case 't': argument=get_arg(&index,argc,argv);
+	            settings->display_usertext=1;
+	            strncpy(settings->user_text,argument,BUFSIZ);
+	            break;
+	  case 'u': settings->show_uptime=1; 
+	            break;
+	  case 'v': help_message(argv[0], 0);
+	            exit(0);
+	            break;
+	  case 'w': argument=get_arg(&index,argc,argv);
+	            settings->width=strtol(argument,&endptr,10);
+	            if ( endptr == argument ) {
+		       printf("Invalid width %s\n\n",argument);
+		       exit(1);
+		    }
+	            break;
+	  case 'y': settings->show_load=1; 
+	            break;
+	  default:  printf("Unknown option -%c\n",option);
+	            exit(1);
+       }
+
+       index++;
+       if (index>=argc) break;
+    }
+}
+
+
        /* Look for ~/.linux_logo or /etc/linux_logo config files */
-       /* ****************************************************** */
+void read_config_file(struct linux_logo_info_type *settings) {   
+
+    int string_size,valid_string=0,i,size=0,counter=0;
+    int fake_data_offset=0,ch,oldch,in_quote=0,fake_argc=0;
+    char *tempst,*fake_data,**fake_argv;
+    FILE *config_file=NULL;
+    char config_string[BUFSIZ];
    
        /* Check for the files */
    
@@ -609,15 +752,9 @@ int main(int argc,char **argv) {
        /* Note to Vince of 2000.. this is the most horrible     */
        /* atrocity of code ever.  -- Vince of 2006              */
    
-    if (config_file==NULL) {
-       read_from_file=0;
-    } 
-    else {
+    if (config_file!=NULL) {
 
-       
-          /* Create "fake" argc and argv */
-       read_from_file=1;
-       
+       /* skip over whitespace and comments */       
        while(!valid_string) {
           fgets(config_string,BUFSIZ,config_file);
 	  for(i=0;i<strlen(config_string);i++) {
@@ -634,20 +771,20 @@ int main(int argc,char **argv) {
        
        
        if (valid_string) {
-          file_size=strlen(config_string);
+	  
+          size=strlen(config_string);
 
-
-	  config_string[file_size-1]='\0';  /* get rid of trailing \n */
+	  config_string[size-1]='\0';  /* get rid of trailing \n */
 
              /* create room for the fake command-line */
-          fake_data=calloc(file_size+12,sizeof(char));
+          fake_data=calloc(size+12,sizeof(char));
              /* stick "linux_logo" as argv[0] */
           strncpy(fake_data,"linux_logo ",11);
 	  fake_data_offset=11;
-          strncat(fake_data,config_string,file_size);
+          strncat(fake_data,config_string,size);
 	  	  
 	  ch=' ';
-	  for(i=0;i<file_size;i++) {
+	  for(i=0;i<size;i++) {
 	     
 	     oldch=ch;
 	     ch=config_string[i]; /* start after linux_logo */
@@ -691,156 +828,38 @@ int main(int argc,char **argv) {
              }
           }
 
-       }
-       else {
-	  read_from_file=0;
+	  parse_command_line(settings,fake_argc,fake_argv);
        }
 
     }
-       /* Hack! Hack! Hack!  Oh, why do I abuse getopt() so */
-    SAVE_GETOPT;
+}
+
+
+
+
+
+int main(int argc,char **argv) {
    
-    while (arguments_pass<3) {
-          /* Pass 0 read from file, if there */
-       if (arguments_pass==0) {
-	  if (!read_from_file) {
-	     arguments_pass++;
-	  }
-	  else {
-             custom_argc=&fake_argc;
-             custom_argv=fake_argv;
-	  }
-       }
-          /* Pass 1 is command-line and overrides file */
-       if (arguments_pass==1) {
-             /* reset getopt()  *HACK HACK HACK* */
-	  RESET_GETOPT;
-	  custom_argc=&argc;
-	  custom_argv=argv;
-	  optarg=NULL;
-       }
-          /* -i passed, so reset everything and just go through command */
-          /* line again */
-       if (arguments_pass==2) {
-	  setup_info(&settings);
-	  custom_logo=NULL;
-	  RESET_GETOPT;
-	  custom_argc=&argc;
-	  custom_argv=argv;
-	  optarg=NULL;
-       }
-       
-             /*******************************************************/
-             /* Parse options (from file or command line arguments) */
-             /*******************************************************/
-       
-       while ((c = getopt (*custom_argc, custom_argv,"D:F:L:"
-			           "a::b::c::de:fghiklno:pst:uvw:y"))!=-1) {
-          switch (c) {
-	     case 'a': settings.plain_ascii=1; break;
-	     case 'b': settings.banner_mode=1; break;
-	     case 'c': settings.banner_mode=0; break;
-	     case 'd': settings.pretty_output=0; 
-	               set_pretty_printing(0);
-	               break; 
-	     case 'D': custom_logo=load_logo_from_disk(optarg);
-	               logo_info_tail=custom_logo;
-	               break;
-	     case 'e': set_cpuinfo_file(optarg); break;
-	     case 'f': settings.wipe_screen=1; break;
-	     case 'F': string_size=strlen(optarg);
-	               if (string_size==0) break;
-	     
-	               settings.custom_format=1;
-	               strncpy(settings.format,optarg,BUFSIZ);
-	              	  
-	               /* Decode the \n's. */
-	               /* Should I decode other \ codes? */
-	               /* also, \ codes are always smaller, hence why */
-	               /* we can overwrite our own buffer */
-	     
-	               i=0; x=0;
-	               while(i<strlen(settings.format)) {
-		          if (settings.format[i]=='\\') {  
-			     switch(settings.format[i+1]) {
-			        case 'n': settings.format[x]='\n'; i++; break;
-			        default:  settings.format[x]='\\'; break; 
-			     }
-		          }
-		          else settings.format[x]=settings.format[i];
-		          i++; x++;
-		       }
-	               settings.format[x]='\0';
-	               break;
-	     case 'g': settings.display_sysinfo_only=1; break;
-	     case 'h': help_message(argv[0], 1); 
-	               exit(0);
-	               break;
-	     case 'i': ignore_config_file=1; 
-	               break;
-	     case 'k': settings.center_sysinfo=0;
-	               break;
-	     case 'l': settings.display_logo_only=1; break;
-	     case 'L': 
-	     	       /* Reset values in case we get this after
-			* reading the file */
-		       logo_num = 1; logo_override = 0; random_logo = 0;
-	               logo_num=strtol(optarg,&endptr,10);
-	               if ( endptr == optarg ) {
-		          temp_st=strdup(optarg);
-		          if (!strncmp(temp_st,"list",4)) {
-			     do_listing=1;
-		          }
-		          else 
-		          if (!strncmp(temp_st,"random",6)) {
-			     random_logo=1;
-			     random_type=temp_st[7];
-			     random_type2=temp_st[8];
-		          }
-		          else {
-			     printf("\nUnknown -L directive!\n\n");
-			     return 4;
-		          }
-		       }
-	               else { /* It's a number */
-		          logo_override=1;
-		       }
-	               break;
-	     case 'n': settings.no_periods=1; break;
-	     case 'o': 
-	               settings.offset=strtol(optarg,&endptr,10);
-	               if ( endptr == optarg ) help_message(argv[0], 1);
-	               break;
-	     case 'p': settings.preserve_xy=1; break;
-	     case 's': settings.skip_bogomips=1; break;
-	     case 't': 
-	               settings.display_usertext=1;
-	               strncpy(settings.user_text,optarg,BUFSIZ);
-	               break;
-	     case 'u': settings.show_uptime=1; break;
-	     case 'v': help_message(argv[0], 0);
-	               exit(0);
-	               break;
-	     case 'w':
-	               settings.width=strtol(optarg,&endptr,10);
-	               if ( endptr == optarg ) help_message(argv[0], 1);
-	               break;
-	     case 'y': settings.show_load=1; break;
-	     case '?': printf("Try \"%s -h\" to show help\n\n",argv[0]);
-	               exit(0); 
-	               break;
-          }
-       }
+
+    int i,logo_num=1,random_logo=0,do_listing=0,logo_override=0;
+    int logo_found;
+    char temp_string[BUFSIZ],*temp_pointer,random_type='e',random_type2='e';
+    struct linux_logo_info_type settings;
+    struct logo_info *temp_logo,*custom_logo=NULL;
+    struct timeval time_time;
    
-          /* If unkown arguments, print the help */
-       if ( custom_argv[optind] != NULL ) {
-          printf("Unkown option %i: \"%s\"\n",optind,custom_argv[optind]);
-	  exit(1);
-	  
-       }
-       arguments_pass++;   
-       if ((!ignore_config_file) && (arguments_pass==2)) arguments_pass++;
-    }
+#ifdef USE_I18N
+       /* i18n */
+    setlocale(LC_ALL, "");
+    textdomain("linux_logo");
+    bindtextdomain("linux_logo", "/usr/share/locale");
+#endif   
+       /* Set some defaults */
+    setup_info(&settings); 
+
+    read_config_file(&settings);
+    
+    parse_command_line(&settings,argc,argv);
     
        /*******************************************************/
        /* DONE WITH ALL THE STUPID OPTION PARSING             */

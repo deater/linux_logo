@@ -781,3 +781,12 @@ linux_logo-4.16 release
   cpuinfo even uglier?).  Thanks to Matthias Saou <matthias _at_ rpmforge.net>
   for sending me a few cpuinfo files to work with.
   
+28 June 2007
++ Re-wrote command-line and option handling to not use getopt().
+  getopt() is handy, but it was a hack to use it for file-based
+  option handling as well.
+
+3 July 2007
++ Added avr32 support
++ Made some fake "configure" files that make an attempt at auto-configuring
++ Ensured cross-compiler support works.

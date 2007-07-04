@@ -1,29 +1,13 @@
-##############################################################
-#  Makefile for libsysinfo-0.0.1  -- by Vince Weaver         #
-#                                                            #
-#  To modify for your configuration, add or remove the #     #
-#                                                            #
-##############################################################
+include ../Makefile.default
 
-#Your compiler.  If gcc doesn't work, try CC
-CC = gcc
-
-C_FLAGS = -O2 -Wall -I.. -I. -I../include
-
-all:	../libsysinfo.a
-
-../libsysinfo.a:	cpuinfo.o sysinfo_bsd.o
-	ar crus ../libsysinfo.a cpuinfo.o sysinfo_bsd.o
-	ranlib ../libsysinfo.a
-
-#include *.inc
+all:	cpuinfo.o sysinfo_bsd.o
 
 cpuinfo.o:	cpuinfo_bsd.c
-	$(CC) $(C_FLAGS) -o cpuinfo.o -c cpuinfo_bsd.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_bsd.c
 		
 sysinfo_bsd.o:	sysinfo_bsd.c
-	$(CC) $(C_FLAGS) -c sysinfo_bsd.c
+	$(CROSS)$(CC) $(CFLAGS) -c sysinfo_bsd.c
 
 clean:	
-	rm -f *~ *.o ../libsysinfo.a libsysinfo_arch.a
+	rm -f *~ *.o
  

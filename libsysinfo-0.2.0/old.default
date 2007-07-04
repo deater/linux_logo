@@ -1,12 +1,18 @@
-CC = gcc
+CC = avr32-linux-gcc
 CFLAGS = -Wall -O2
 CPPFLAGS = -I..
-LFLAGS =
+LFLAGS = -static
 
+AR = avr32-linux-ar
+ifeq ($(OS),SunOS)
+   AR = /usr/ccs/bin/ar
+endif
+   
 
 OS = $(shell uname)
 
-ARCH = $(shell uname -m)
+#ARCH = $(shell uname -m)
+ARCH=avr32
 
 LIBSYSINFO = libsysinfo-0.2.0
 

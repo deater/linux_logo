@@ -7,31 +7,10 @@
 #    needs, and should be compatible enough.
 #  - vmw
 
-
-usage() {
-   echo "Usage: $0 [ --prefix=PATH ]"
-   exit 1
-}
-
-while [ $# -gt 0 ]
-
-do
-   case "${1%=*}" in
-      -h|--help) usage;;
-      --prefix) PREFIX="${1#*=}"; shift;;
-      *) break;; # terminate while loop
-   esac
-   shift
-done
-				       
-
 ARCH=`uname -m`
 OS=`uname`
+PREFIX=/usr/local
 INSTALL=`which install`
-
-if [ -z $PREFIX ]; then
-   PREFIX=/usr/local
-fi
 
 if [ -z $CC ]; then
    CC=`which gcc`
@@ -39,45 +18,46 @@ if [ -z $CC ]; then
       CC=gcc
    fi
    else if [ -z $CC ]; then
-      CC=which `cc`      
+      CC=`which cc`
       if [ -n $CC ]; then
-	 CC=cc
+         CC=cc 
       fi
    fi
 fi
 
-LIBSYSINFO=libsysinfo-0.2.0
+if [ -z $AR ]; then
+   AR=`which ar`
+   if [ -n $AR ]; then
+      AR=ar
+   fi
+fi
 
-XGETTEXT=`which xgettext`
+if [ $OS = SunOS ]; then
+   AR=/usr/ccs/bin/ar
+fi
+   
 CFLAGS="-Wall -O2"
-LDFLAGS=""
+LIBSYSINFO_INCLUDE="-I.."
+LFLAGS=""
 
 
 echo
-echo "CONFIGURING LINUX_LOGO"
+echo "CONFIGURING LIBSYSINFO"
 echo "  Detected Architecture:     "$ARCH
 echo "  Detected Operating System: "$OS
-echo "  Install prefix:  "$PREFIX
-echo "  Install program: "$INSTALL
-echo "  xgettext:   "$XGETTEXT
-echo "  libsysinfo: "$LIBSYSINFO
+#echo "  Install prefix:  "$PREFIX
+#echo "  Install program: "$INSTALL
 echo "  C Compiler : "$CC
+echo "  AR         : "$AR
 echo "  CFLAGS     : "$CFLAGS
+echo
 
 echo "CC=$CC" > Makefile.default
+echo "AR=$AR" >> Makefile.default
 echo "ARCH=$ARCH" >> Makefile.default
 echo "OS=$OS" >> Makefile.default
 echo "PREFIX=$PREFIX" >> Makefile.default
 echo "INSTALL=$INSTALL" >> Makefile.default
 echo "CFLAGS=$CFLAGS" >> Makefile.default
-echo "LIBSYSINFO=$LIBSYSINFO" >> Makefile.default
-echo "LDFLAGS=$LDFLAGS" >> Makefile.default
-echo "XGETTEXT=$XGETTEXT" >> Makefile.default
-
-echo
-cd libsysinfo-0.2.0 && ./configure
-echo
-echo "If cross compiling set the CROSS variable"
-echo 
-echo "Done configuring, run 'make'"
-echo
+echo "LIBSYSINFO_INCLUDE=$LIBSYSINFO_INCLUDE" >> Makefile.default
+echo "LFLAGS=$LFLAGS" >> Makefile.default

@@ -1,0 +1,6 @@
++ The build system has changed. 
+  You now need to run ./configure before running make
++ Cross-compiling is now possible (see the README)  
++ The custom logo handling has changed.
++ getopt() is no longer used to parse command line options.
+  Please report any bugs that might be caused by this.

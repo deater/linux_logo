@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 5.0 -- Shows a Logo With some System Info - 27 January 2007
-    by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
+    LINUX_LOGO 5.0 -- Shows a Logo With some System Info - 7 July 2007
+    by Vince Weaver ( vince _at_ deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OS's
 \*--------------------------------------------------------------------------*/
 
@@ -62,20 +62,33 @@ POTENTIAL USES FOR linux_logo
     enter the directory
         cd linux_logo-5.0
 	
-    edit the Makefile and be sure everything is set up the way you want.
-    [on stock Linux systems it should work without any changes]
-    
+    run "configure"
+        ./configure
+	
     compile the program
         make
 	
     install (you'll probably want to do this as root) with
         make install
 	
-	
+-------------------------------------------------------------------------->
+CROSS COMPILING
+-------------------------------------------------------------------------->
+
+   If you are using linux_logo on an embedded system you might
+   want to cross compile.  I tried to make this as easy as possible.
+   
+   For example, to cross-compile for avr32 on x86 (assuming you
+   have all of the avr32 cross-compile tools installed) I do this:
+   
+       ./configure
+       make CROSS=avr32-linux- LDFLAGS=-static ARCH=avr32
+       
+   And the result is a working avr32 version of linux_logo
+
 -------------------------------------------------------------------------->
 ADVANCED LINUX_LOGO Installation
 -------------------------------------------------------------------------->
-
 
    Picking logos:
 
@@ -374,5 +387,5 @@ THANKS
    
 -----------------
 Vince
-vince@deater.net
+vince _at_ deater.net
 

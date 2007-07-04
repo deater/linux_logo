@@ -1,5 +1,8 @@
 include ../Makefile.default
 
+PACKAGE=linux_logo
+INSTALL_LOCALEPATH=$(PREFIX)/lib/locale
+
 CATALOGS = da.mo de.mo es.mo fr.mo nb.mo nl.mo it.mo pl.mo pt_BR.mo ru.mo sv.mo ua.mo zh_TW.mo
 
 POTFILES= ../*.c ../*.h
@@ -7,7 +10,7 @@ POTFILES= ../*.c ../*.h
 all: $(PACKAGE).pot update $(CATALOGS)
 
 $(PACKAGE).pot: $(POTFILES)
-	xgettext --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES); 
+	$(XGETTEXT) --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES); 
 	if cmp -s $(PACKAGE).po $(PACKAGE).pot; then \
 	rm -f $(PACKAGE).po; \
 	else \
@@ -20,9 +23,9 @@ clean:
 install: $(CATALOGS)
 	for n in $(CATALOGS); do \
 	l=`basename $$n .mo`; \
-	$(INSTALL) -m 755 -d $(INSTALL_LOCALEPATH)/$$l; \
-	$(INSTALL) -m 755 -d $(INSTALL_LOCALEPATH)/$$l/LC_MESSAGES; \
-	$(INSTALL) -m 644 $$n $(INSTALL_LOCALEPATH)/$$l/LC_MESSAGES/$(PACKAGE).mo; \
+	$(INSTALL) -c -m 755 -d $(INSTALL_LOCALEPATH)/$$l; \
+	$(INSTALL) -c -m 755 -d $(INSTALL_LOCALEPATH)/$$l/LC_MESSAGES; \
+	$(INSTALL) -c -m 644 $$n $(INSTALL_LOCALEPATH)/$$l/LC_MESSAGES/$(PACKAGE).mo; \
 	done
 
 %.mo: %.po
