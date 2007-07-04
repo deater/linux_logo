@@ -1,9 +1,0 @@
-CC=gcc
-ARCH=i686
-OS=Linux
-PREFIX=/usr/local
-INSTALL=/usr/bin/install
-CFLAGS=-Wall -O2
-LIBSYSINFO=libsysinfo-0.2.0
-LDFLAGS=
-XGETTEXT=/usr/bin/xgettext

@@ -13,7 +13,7 @@
 #include "../include/generic.h"
 
 
-int get_os_info(os_info_type *os_info) {
+int get_os_info(struct os_info_type *os_info) {
    return uname_get_os_info(os_info);
 }
 
@@ -49,7 +49,7 @@ long int get_mem_size(void) {
    return size;
 }
 
-int get_cpu_info(cpu_info_type *cpu_info) {
+int get_cpu_info(struct cpu_info_type *cpu_info) {
 
    FILE *fff;
    

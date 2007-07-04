@@ -81,7 +81,7 @@ CROSS COMPILING
    For example, to cross-compile for avr32 on x86 (assuming you
    have all of the avr32 cross-compile tools installed) I do this:
    
-       ./configure
+       env CROSS=avr32-linux- ./configure
        make CROSS=avr32-linux- LDFLAGS=-static ARCH=avr32
        
    And the result is a working avr32 version of linux_logo

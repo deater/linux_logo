@@ -1,7 +1,7 @@
 include ../Makefile.default
 
 PACKAGE=linux_logo
-INSTALL_LOCALEPATH=$(PREFIX)/lib/locale
+INSTALL_LOCALEPATH=$(PREFIX)/share/locale
 
 CATALOGS = da.mo de.mo es.mo fr.mo nb.mo nl.mo it.mo pl.mo pt_BR.mo ru.mo sv.mo ua.mo zh_TW.mo
 

@@ -8,13 +8,13 @@
 #include <string.h>
 
 #include "sysinfo.h"
-#include "generic.h"
+#include "include/generic.h"
 
 #define SIZE(x) sizeof(x)/sizeof(x[0])
 
 extern float external_bogomips(void);
 
-int get_cpu_info(cpu_info_type *cpu_info) {
+int get_cpu_info(struct cpu_info_type *cpu_info) {
 
    int val_int;
    int val_len;

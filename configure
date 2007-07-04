@@ -5,6 +5,7 @@
 #    the generated linux_logo executable.
 #  This is a simple shell script that gathers the info linux_logo
 #    needs, and should be compatible enough.
+#  Tested on Linux, Irix, Solaris and FreeBSD
 #  - vmw
 
 
@@ -13,7 +14,7 @@ usage() {
    exit 1
 }
 
-while [ $# -gt 0 ]
+while [ $# -gt 0  ]
 
 do
    case "${1%=*}" in
@@ -29,28 +30,45 @@ ARCH=`uname -m`
 OS=`uname`
 INSTALL=`which install`
 
-if [ -z $PREFIX ]; then
+if [ -z "$PREFIX" ]; then
    PREFIX=/usr/local
 fi
 
-if [ -z $CC ]; then
-   CC=`which gcc`
-   if [ -n $CC ]; then
-      CC=gcc
+which xgettext
+XGETTEXT_MISSING=$?
+
+if [ $XGETTEXT_MISSING -eq 0 ]; then
+   XGETTEXT=xgettext
+fi
+
+which gcc
+GCC_MISSING=$?
+
+if [ $GCC_MISSING -eq 1 ]; then
+   which cc
+   CC_MISSING=$?
+   if [ $CC_MISSING -eq 1 ]; then
+      echo "C compiler not found!"
+   else
+      CC=cc   
    fi
-   else if [ -z $CC ]; then
-      CC=which `cc`      
-      if [ -n $CC ]; then
-	 CC=cc
-      fi
-   fi
+else
+   CC=gcc
 fi
 
 LIBSYSINFO=libsysinfo-0.2.0
 
-XGETTEXT=`which xgettext`
-CFLAGS="-Wall -O2"
 LDFLAGS=""
+
+if [ $CC = gcc ]; then
+   CFLAGS="-Wall -O2"
+else
+   CFLAGS="-O2"
+fi   
+
+$CROSS$CC $CFLAGS -c intl_test.c 
+INTL_MISSING=$?
+
 
 
 echo
@@ -60,6 +78,13 @@ echo "  Detected Operating System: "$OS
 echo "  Install prefix:  "$PREFIX
 echo "  Install program: "$INSTALL
 echo "  xgettext:   "$XGETTEXT
+if [ $INTL_MISSING -ne 0 ]; then
+   echo "  libintl.h not found, disabling i18n support"
+   USE_I18N=0
+else
+   USE_I18N=1
+fi
+
 echo "  libsysinfo: "$LIBSYSINFO
 echo "  C Compiler : "$CC
 echo "  CFLAGS     : "$CFLAGS
@@ -73,6 +98,8 @@ echo "CFLAGS=$CFLAGS" >> Makefile.default
 echo "LIBSYSINFO=$LIBSYSINFO" >> Makefile.default
 echo "LDFLAGS=$LDFLAGS" >> Makefile.default
 echo "XGETTEXT=$XGETTEXT" >> Makefile.default
+echo "USE_I18N=$USE_I18N" >> Makefile.default
+echo "CONFIGURE_RAN=1" >> Makefile.default
 
 echo
 cd libsysinfo-0.2.0 && ./configure

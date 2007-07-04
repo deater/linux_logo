@@ -790,3 +790,7 @@ linux_logo-4.16 release
 + Added avr32 support
 + Made some fake "configure" files that make an attempt at auto-configuring
 + Ensured cross-compiler support works.
+
+4 July 2007
++ More testing of the build scripts.  It works on Irix, Solaris, FreeBSD and
+  Linux.

@@ -12,31 +12,39 @@ OS=`uname`
 PREFIX=/usr/local
 INSTALL=`which install`
 
-if [ -z $CC ]; then
-   CC=`which gcc`
-   if [ -n $CC ]; then
-      CC=gcc
+which gcc
+GCC_MISSING=$?
+
+if [ $GCC_MISSING -eq 1 ]; then
+   which cc
+   CC_MISSING=$?
+   if [ $CC_MISSING -eq 1 ]; then
+      echo "C compiler not found!"
+   else
+      CC=cc   
    fi
-   else if [ -z $CC ]; then
-      CC=`which cc`
-      if [ -n $CC ]; then
-         CC=cc 
-      fi
-   fi
+else
+   CC=gcc
 fi
 
-if [ -z $AR ]; then
-   AR=`which ar`
-   if [ -n $AR ]; then
-      AR=ar
-   fi
+which ar
+AR_MISSING=$?
+
+if [ $AR_MISSING -eq 0 ]; then
+   AR=ar
 fi
+
 
 if [ $OS = SunOS ]; then
    AR=/usr/ccs/bin/ar
 fi
    
-CFLAGS="-Wall -O2"
+if [ $CC = gcc ]; then
+   CFLAGS="-Wall -O2"
+else
+   CFLAGS="-O2"
+fi   
+
 LIBSYSINFO_INCLUDE="-I.."
 LFLAGS=""
 

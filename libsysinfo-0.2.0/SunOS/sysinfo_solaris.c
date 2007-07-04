@@ -6,7 +6,7 @@
 #include <unistd.h>  /* stat */
 
 #include "sysinfo.h"
-#include "uname.h"
+#include "include/uname.h"
 
     /* Not supported under solaris yet */
 int get_uptime (void) {            
@@ -33,7 +33,7 @@ void get_load_average(float *load_1,float *load_5,float *load_15) {
     }
 }
 
-int get_os_info(os_info_type *os_info) {
+int get_os_info(struct os_info_type *os_info) {
     int result,i,after_point=0,j=0;
     char temp_version[33];
    
@@ -84,7 +84,7 @@ long int get_mem_size(void) {
 extern float external_bogomips(void);
 
     
-int get_cpu_info(cpu_info_type *cpu_info) {
+int get_cpu_info(struct cpu_info_type *cpu_info) {
    
     FILE *pipe;
     char string[BUFSIZ];

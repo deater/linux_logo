@@ -2,13 +2,13 @@
 #  Makefile for Linux Logo -- by Vince Weaver                #
 ##############################################################
 
-include Makefile.default
+-include Makefile.default
 
 PROGNAME = linux_logo
 
-ifeq ($(OS),IRIX64) 
-   LDFLAGS += -lintl
-endif
+#ifeq ($(OS),IRIX64) 
+#   LDFLAGS += -lintl
+#endif
 
 #
 # Installation location
@@ -23,8 +23,17 @@ INSTALL_DOCPATH = $(PREFIX)/share/doc
 LIBSYSINFO_INCLUDE = -I$(LIBSYSINFO)
 LIBSYSINFO_LIBRARY = -L$(LIBSYSINFO)
 
-all:	parse_logos linux_logo translations
+ifneq ($(XGETTEXT),)
+    TRANSLATIONS = translations
+endif
 
+all:	Makefile.default parse_logos linux_logo $(TRANSLATIONS)
+
+Makefile.default:	 
+	ifneq($(CONFIGURE_RAN),1)
+	$(error Please run configure first)
+	endif
+   
 translations:
 	cd po && $(MAKE)
 
@@ -37,12 +46,13 @@ logos-default:
 	echo "./logos/classic.logo" >> logo_config
 	$(MAKE) all
 
-clean:
+clean:	Makefile.default
 	rm -f *.o
 	rm -f linux_logo linux_logo-dyn parse_logos load_logos.h
 	rm -f *~
 	cd $(LIBSYSINFO) && $(MAKE) clean
 	cd po && $(MAKE) clean
+	rm -f Makefile.default
 
 linux_logo:	linux_logo.o load_logo.o ./$(LIBSYSINFO)/libsysinfo.a
 	$(CROSS)$(CC) $(LDFLAGS) -o linux_logo linux_logo.o load_logo.o $(LIBSYSINFO_LIBRARY) ./$(LIBSYSINFO)/libsysinfo.a 
@@ -72,7 +82,9 @@ load_logo_native.o:	load_logo.c
 linux_logo.o:	linux_logo.c defaults.h load_logos.h
 	@echo Compiling for $(OS)
 	@echo Edit defaults.h to change Default Values
-	$(CROSS)$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -c linux_logo.c
+	$(CROSS)$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) \
+		      -DLOCALE_DIR=\"$(PREFIX)/share/locale\" -DUSE_I18N=$(USE_I18N) \
+		      -c linux_logo.c
 
 install:	linux_logo
 	$(INSTALL) -c -m755 $(PROGNAME) -D $(INSTALL_BINPATH)/$(PROGNAME)

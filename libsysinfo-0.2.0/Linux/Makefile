@@ -33,6 +33,9 @@ m68k:	cpuinfo_m68k.c
 
 mips:	cpuinfo_mips.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_mips.c
+	
+mips64:	cpuinfo_mips.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_mips.c	
 
 parisc:	cpuinfo_parisc.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_parisc.c

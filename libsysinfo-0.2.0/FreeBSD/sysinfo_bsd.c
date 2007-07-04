@@ -16,6 +16,7 @@
  ******************************************************************/
 
 #include <stdio.h>
+#include <stdlib.h> /* getloadavg() */
 #include <ctype.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -24,13 +25,13 @@
 #include <string.h>
 
 #include "sysinfo.h"
-#include "generic.h"
-#include "uname.h"
+#include "include/generic.h"
+#include "include/uname.h"
 
 #define SIZE(x) sizeof(x)/sizeof(x[0])
 
 
-int get_os_info(os_info_type *os_info) {
+int get_os_info(struct os_info_type *os_info) {
     return uname_get_os_info(os_info);
 }
 
@@ -39,7 +40,7 @@ int get_os_info(os_info_type *os_info) {
 int get_uptime (void) {
 
      struct timeval boottime;
-     time_t uptime, now;
+     time_t uptime=0, now;
      size_t size;
      int mib[2];
 
@@ -65,15 +66,13 @@ int get_uptime (void) {
 void get_load_average(float *load_1,float *load_5,float *load_15) {
    
    double avenrun[3];
-   int i;
    
    getloadavg(avenrun, sizeof(avenrun) / sizeof(avenrun[0]));
    
    *load_1=avenrun[0];
    *load_5=avenrun[1];
    *load_15=avenrun[2];
-   
-   
+      
    return;
 }
 
