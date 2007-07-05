@@ -5,6 +5,7 @@
 SYSINFO_POSITION right
   
 DESCRIPTION_STRING AIX Logo
+NAME aix
 
 BEGIN_LOGO
 [40m                         [3C[47;30mAAAA[2CIIIIII[1CXX[2CXX[40m

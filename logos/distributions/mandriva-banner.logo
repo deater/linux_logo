@@ -4,6 +4,7 @@
 SYSINFO_POSITION bottom
 
 DESCRIPTION_STRING Mandriva(TM) Linux Banner
+NAME mandriva
 
 BEGIN_LOGO
 [0;30;40m                                 [44m [40m     [44m [40m             [44m  [40m     [44m [40m        [34m(TM)[37m 

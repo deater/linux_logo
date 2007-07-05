@@ -18,6 +18,8 @@ Usage Issues
 
 Other
  Q7. Did you invent the Linux "Tux" logo?
+ Q8. Why aren't you using the GPL3 license?
+ Q9. Why don't you use "real" automake config files?
 
 -------------------------------------------------------------------------
 
@@ -31,9 +33,14 @@ A1. First check your version of linux_logo (with "linux_logo -v") and
     If it still doesn't quite look right, e-mail me a copy of your 
     /proc/cpuinfo file and I'll do my best to fix things up.
     
+    
+    
 Q2. Linux_logo reports I have 1 megabyte less RAM than I actually do.
 
 A2. If you have ACPI power management enabled, it uses some of your RAM.
+    Also, if you have a built-in video card it will use some of the system
+    RAM for video, which keeps Linux from seeing it.
+    
     The "/proc/kcore" method of RAM detection I use doesn't count this
     RAM, thus misreporting it.
     
@@ -77,7 +84,7 @@ A4. This is a common question.  The best thing to do is use cron.
 Q5. Can I have linux_logo stay on top of the screen while things scroll
     in a window beneath it?
     
-A5. Bill Anderson <bill@tb.dynip.com> did some research and came up with this: 
+A5. Bill Anderson <bill _at_ tb.dynip.com> did some research and came up with this: 
     
     I did successfully use:
        clear; /bin/echo -e '\033[018;25r' ; linux_logo
@@ -107,3 +114,23 @@ A7. No.  Sometimes there seems to be some confusion about this.  I am only
     Tux the Linux penguin was invented by Larry Ewing.  See his page here
     for more info: http://www.isc.tamu.edu/~lewing/linux/
     
+
+
+Q8. Why don't you use the GPL3 license?
+
+A8. I have been using the GPL2 for 10 years, and trust it, and feel no
+    need to change that now.  It's my software, I get to pick the
+    license.
+
+
+Q9. Why don't you use "real" automake config files?
+
+A9. I *hate* automake based config files.  Sure, when they work it's
+    all happiness and fun, but when something goes wrong good luck
+    figuring out what if you don't have a PhD in the m4 language.
+    
+    I also refuse to ship a "configure" file that's larger than all
+    of the rest of my project put together.
+    
+    So for now you'll have to use my hacked up fake configure
+    program.

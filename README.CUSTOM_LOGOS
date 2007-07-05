@@ -9,7 +9,10 @@ Quick Summary of The -L command line option:
 
     "linux_logo -L list" 
         will list all of the logos available
-		                 
+
+    "linux_logo -L NAME" will display the logo with name NAME,
+        which you can see with the "-L list" command
+
     "linux_logo -L num" will display logo number num, where the number is
         obtained using the "-L list" command
      
@@ -81,7 +84,12 @@ Creating custom logo files:
       
           the characters following the space until the new-line are taken
 	  as a description of the logos.
-	  
+
+      NAME
+          the name used when searching for logos by name.
+	  Please keep it short, without any spaces, and not conflicting with
+	    any other logo names.
+
       BEGIN_LOGO
       END_LOGO
       

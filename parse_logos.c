@@ -106,6 +106,7 @@ int main(int argc, char **argv) {
 	  
 	  fprintf(ggg,"\tnew_logo->description=strdup(\"%s\");\n",
 		      logo_info_temp->description);
+	  fprintf(ggg,"\tnew_logo->name=strdup(\"%s\");\n",logo_info_temp->name);
 	  fprintf(ggg,"\tnew_logo->logo=strdup(\"");
 	  sanitize_print_string(logo_info_temp->logo,ggg);
 	  fprintf(ggg,"\");\n");

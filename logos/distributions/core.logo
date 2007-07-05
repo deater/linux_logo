@@ -8,6 +8,7 @@
 SYSINFO_POSITION right
 
 DESCRIPTION_STRING Core Linux Logo
+NAME core
 
 BEGIN_LOGO
 [0m[2J[1;1H[0;25;37;47m                      [0m

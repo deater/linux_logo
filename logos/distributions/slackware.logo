@@ -5,6 +5,7 @@
 SYSINFO_POSITION bottom
   
 DESCRIPTION_STRING Slackware Logo
+NAME slackware
 
 BEGIN_LOGO
 

@@ -4,6 +4,7 @@
 SYSINFO_POSITION bottom
 
 DESCRIPTION_STRING Mandrake(TM) Linux Banner
+NAME mandrake_banner
 
 BEGIN_LOGO
 [0;30;40m                                 [44m [40m     [44m [40m             [44m  [40m         [44m  [40m        [34m(TM)[37m 

@@ -165,7 +165,7 @@ B3). FOR REDHAT
   Fancier Redhat options:	
 	
       You can have it report Redhat version using the -t option
-        (thanks to Aleksey Makarov <makarov@iitam.omsk.net.ru>
+        (thanks to Aleksey Makarov <makarov _at_ iitam.omsk.net.ru>
 	for this tip).
 	     
       If you have redhat installed already, change
@@ -190,7 +190,7 @@ B3). FOR REDHAT
 
 B4): FOR DEBIAN: 
 
-        [thanks to <rlovison@simons-rock.edu> ]
+        [thanks to <rlovison _at_ simons-rock.edu> ]
         Nice program!  Just wanted to let you know how I used it within a 
 	Debian system.  I have the logo appear above any text in the message 
 	of the day and as long as the day's message remains under a few lines, 
@@ -226,7 +226,7 @@ B4): FOR DEBIAN:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 B5): FOR SUSE:
 
-      For version 7.3: [thanks to itzit <itzit@atari.net>]
+      For version 7.3: [thanks to itzit <itzit _at_ atari.net>]
 
       Edit /etc/rc.d/boot.local file and add the
       following lines before "exit 0" line:

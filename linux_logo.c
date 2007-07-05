@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\ 
-  LINUX LOGO 5.0-beta3 - Creates Nifty Logo With System Info - 4 July 2007 
+  LINUX LOGO 5.0-beta4 - Creates Nifty Logo With System Info - 5 July 2007 
   
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave ) 
 		      
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/  
   
   
-#define VERSION "5.0-beta3"
+#define VERSION "5.0-beta4"
   
 #include <stdio.h>
 #include <stdlib.h>
@@ -201,7 +201,7 @@ static void help_message(char *binname, char full) {
 	   "                    [-h] [-i] [-k] [-l] [-n] [-o num] [-p] [-s] [-t str] "  
 	   "[-u] [-v]\n"  
            "                    [-w Num] [-x] [-y] [-F format] "  
-	   "[-L num | list | random_xy]\n",binname);  
+	   "[-L num | NAME | list | random_xy]\n",binname);  
     printf("         [-a]     -- Display an ascii-only Logo\n");  
     printf("         [-b]     -- Display a Banner Logo!\n");  
     printf("         [-c]     -- Display a \"Classic\" type logo\n");  
@@ -225,7 +225,7 @@ static void help_message(char *binname, char full) {
     printf("         [-v]     -- version information\n");  
     printf("         [-w Num] -- set width of screen to Num [default 80]\n");  
     printf("      *  [-y]     -- show load average\n");  
-    printf("         [-L num | list | random_xy] -- multiple Logo options.  See README\n\n");  
+    printf("         [-L num | NAME | list | random_xy] -- multiple Logo options.  See README\n\n");  
     printf(" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux"  
 	   "\n\n");  
 }  
@@ -565,8 +565,151 @@ static char *get_arg(int *index,int argc,char **argv) {
    return argument;  
      
 }  
+
+    /**************************/
+    /* logo support functions */
+    /**************************/
+
+
+    /* global variables, a bit of a hack, should find a better way */
+int logo_num=0,logo_override=0,random_logo=0,want_list_logos=0;
+char random_type='e',random_type2='e',*logo_name=NULL,*logo_disk=NULL;
+
+
+    /* Find a logo by name */
+static struct logo_info *get_logo_by_name(char *logo_name) {
+
+   static struct logo_info *custom_logo;
+   
+   custom_logo=logo_info_head;
+   while(custom_logo!=NULL) {
+      
+      if (!strcmp(custom_logo->name,logo_name)) {
+         return custom_logo;	 
+      }
+      custom_logo=custom_logo->next_logo;
+   }
+   fprintf(stderr,"Error!  No logo with the name %s is available!\n",logo_name);
+   return NULL;
+}
+
+   /* Find a logo by number */
+static struct logo_info *get_logo_by_number(int logo_num) {
+   
+    int i;
+    static struct logo_info *custom_logo;
+
+    custom_logo=logo_info_head;
+    i=1;
+    while (i<logo_num) {
+       if (custom_logo->next_logo==NULL) {
+	  fprintf(stderr,"\nError!  Logo %d is invalid!  \"linux_logo -L list\""
+		         " lists valid logo numbers.\n\n",logo_num);
+	  custom_logo=logo_info_head;
+	  break;
+       }
+       custom_logo=custom_logo->next_logo;
+       i++;
+    }
+    return custom_logo;
+}
+
+   /* find a random logo */
+static struct logo_info *get_random_logo(int random_type, int random_type2,
+		       struct linux_logo_info_type *settings) {
+       
+    struct timeval time_time;
+    int i,logo_found;
+    static struct logo_info *custom_logo;
+   
+    gettimeofday(&time_time,NULL);  
+    srand(time_time.tv_usec);   /* Not really random, but... */  
+    i=rand()%1024;  /* Hopefully we have less than 1024 logos FIXME */
+   
+    custom_logo=logo_info_head;  
+    while(i) {  
+       if (custom_logo->next_logo==NULL) custom_logo=logo_info_head;  
+       else custom_logo=custom_logo->next_logo;  
+       i--;    
+    }
+   
+    i=0;  
+    while (i<2) {  
+       logo_found=1;  
+       if (random_type=='b') { /* Want banner mode */  
+	  if (!custom_logo->sysinfo_position) logo_found=0;  
+	  else settings->banner_mode=1;  
+       }    
+       if (random_type=='c') { /* Want classic mode */  
+	  if (custom_logo->sysinfo_position) logo_found=0;  
+	  else settings->banner_mode=0;  
+       }  
+       if (random_type=='e') { /* Want either */  
+	  /* we should be OK */  
+       }    
   
-  
+       if (random_type2=='e') { /* Any logo at all */  
+	  settings->plain_ascii=rand()%2;  
+	  if (custom_logo->ascii_logo==NULL) {
+	     settings->plain_ascii=!settings->plain_ascii;  
+	  }    
+       }
+       if (random_type2=='a') { /* Want Ascii */  
+	  if (custom_logo->ascii_logo==NULL) logo_found=0;  
+	  else settings->plain_ascii=1;  
+       }  
+	    
+       if (random_type2=='n') { /* Want non-ascii */  
+	  if (custom_logo->logo==NULL) logo_found=0;  
+	  else settings->plain_ascii=0;  
+	  break;  
+       }  
+	    
+       if (logo_found) break;  
+	    
+       if (custom_logo->next_logo==NULL) {  
+	  custom_logo=logo_info_head;  
+	  i++;  
+       }  
+       else custom_logo=custom_logo->next_logo;  
+    }  
+    if (i>1) {  
+       printf("\nSorry, can't generate random logo of that type.\n\n");  
+       exit(1);
+    }  
+    return custom_logo;
+}  
+
+   /* list the logos */
+static void list_logos() {
+
+    int i;
+    struct logo_info *temp_logo;
+   
+    printf("\nAvailable Built-in Logos:\n");
+    printf("\tNum\tType\tAscii\tName\t\tDescription\n");
+
+    temp_logo=logo_info_head;
+    i=1;
+    while (temp_logo!=NULL) {
+       printf("\t%d",i);
+       if (temp_logo->sysinfo_position) printf("\tBanner");
+       else printf("\tClassic");
+       if (temp_logo->ascii_logo!=NULL) printf("\tYes");
+       else printf("\tNo");
+       printf("\t%s",temp_logo->name);
+       if (strlen(temp_logo->name)<8) printf("\t");       
+       printf("\t%s\n",temp_logo->description);
+       temp_logo=temp_logo->next_logo;
+       i++;
+    }
+    printf("\nDo \"linux_logo -L num\" where num is from "
+	      "above to get the appropriate logo.\n");
+    printf("Remember to also use -a to get ascii version.\n\n");
+    exit(0);
+}
+
+
     /*******************************************************/  
     /* Parse options (from file or command line arguments) */  
     /*******************************************************/  
@@ -575,7 +718,8 @@ static void parse_command_line(struct linux_logo_info_type *settings,
   
     int i,x,string_size;  
     char *endptr,*argument;  
-    int index=1,option;  
+    int index=1,option;
+    char *temp_st;
   
     if (argc<2) return;  
      
@@ -597,10 +741,9 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	            break;  
 	  case 'd': settings->pretty_output=0;   
 	            set_pretty_printing(0);  
-	            break;   
-	            /* FIXME */  
-	  case 'D': argument=get_arg(&index,argc,argv);  
-	            logo_info_tail=load_logo_from_disk(argument);  
+	            break;
+	  case 'D': argument=get_arg(&index,argc,argv);
+	            logo_disk=strdup(argument);
 	            break;  
 	  case 'e': argument=get_arg(&index,argc,argv);  
 	            set_cpuinfo_file(argument);   
@@ -651,34 +794,31 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	  case 'l': settings->display_logo_only=1;   
 	            break;  
   
-	            /* FIXME */  
-  
 	  case 'L': argument=get_arg(&index,argc,argv);  
 	              
-#if 0  
 	     	       /* Reset values in case we get this after  
 			* reading the file */  
 		    logo_num = 1; logo_override = 0; random_logo = 0;  
 	            logo_num=strtol(argument,&endptr,10);  
 	            if ( endptr == argument ) {  
+		          /* we leak temp_st, need to fix */
 		       temp_st=strdup(argument);  
 		       if (!strncmp(temp_st,"list",4)) {  
-			  do_listing=1;  
+			  want_list_logos=1;
 		       }  
 		       else if (!strncmp(temp_st,"random",6)) {  
 			  random_logo=1;  
 			  random_type=temp_st[7];  
 			  random_type2=temp_st[8];  
 		       }  
-		       else {  
-			  printf("\nUnknown -L directive!\n\n");  
-			  return 4;  
+		       else {
+			  logo_name=strdup(temp_st);
 		       }  
 		    }  
 	            else { /* It's a number */  
 		       logo_override=1;  
 		    }  
-#endif	  	    
+
 	            break;  
   
 	  case 'n': settings->no_periods=1;   
@@ -749,9 +889,10 @@ void read_config_file(struct linux_logo_info_type *settings) {
     }  
      
        /* If no config files, just make do with command-line arguments */  
-       /* Note to Vince of 2000.. this is the most horrible     */  
-       /* atrocity of code ever.  -- Vince of 2006              */  
-     
+       /* Note to Vince of 2000.. this was the most horrible           */  
+       /* atrocity of code ever.  -- Vince of 2006                     */  
+       /* It should be a lot better now.  -- Vince of 2007             */  
+   
     if (config_file!=NULL) {  
   
        /* skip over whitespace and comments */         
@@ -833,201 +974,118 @@ void read_config_file(struct linux_logo_info_type *settings) {
   
     }  
 }  
-  
-  
-  
-  
-  
-int main(int argc,char **argv) {  
-     
-  
-    int i,logo_num=1,random_logo=0,do_listing=0,logo_override=0;  
-    int logo_found;  
-    char temp_string[BUFSIZ],*temp_pointer,random_type='e',random_type2='e';  
-    struct linux_logo_info_type settings;  
-    struct logo_info *temp_logo,*custom_logo=NULL;  
-    struct timeval time_time;  
-     
-#if (USE_I18N==1)  
-       /* i18n */  
-    setlocale(LC_ALL, "");  
-    bindtextdomain("linux_logo", LOCALE_DIR);  
-    textdomain("linux_logo");  
-#endif     
+
+
+    /* The main program */
+int main(int argc,char **argv) {
+
+    char temp_string[BUFSIZ],*temp_pointer;
+    struct linux_logo_info_type settings;
+    struct logo_info *custom_logo=NULL;
+
+#if (USE_I18N==1)
+       /* i18n */
+    setlocale(LC_ALL, "");
+    bindtextdomain("linux_logo", LOCALE_DIR);
+    textdomain("linux_logo");
+#endif
        /* Set some defaults */  
-    setup_info(&settings);   
-  
-    read_config_file(&settings);  
-      
-    parse_command_line(&settings,argc,argv);  
-      
-       /*******************************************************/  
-       /* DONE WITH ALL THE STUPID OPTION PARSING             */  
-       /* now actually do things                              */  
-       /*******************************************************/  
-         
-    setup_default_logos();  
+    setup_info(&settings);
+
+    read_config_file(&settings);
+
+    parse_command_line(&settings,argc,argv);
+
+       /*******************************************************/
+       /* DONE WITH ALL THE STUPID OPTION PARSING             */
+       /* now actually do things                              */
+       /*******************************************************/
+
+       /* Setup all the logos */
+    setup_default_logos();
      
-    if (do_listing) {  
-       printf("\nAvailable Built-in Logos:\n");  
-       printf("\tNum\tType\tAscii\tDescription\n");  
-  
-       temp_logo=logo_info_head;  
-       i=1;  
-       while (temp_logo!=NULL) {  
-	   printf("\t%d",i);  
-	   if (temp_logo->sysinfo_position) printf("\tBanner");  
-	   else printf("\tClassic");  
-	   if (temp_logo->ascii_logo!=NULL) printf("\tYes");  
-	   else printf("\tNo");  
-	   printf("\t%s\n",temp_logo->description);  
-	   temp_logo=temp_logo->next_logo;  
-	   i++;  
-       }  
-       printf("\nDo \"linux_logo -L num\" where num is from "  
-	      "above to get the appropriate logo.\n");  
-       printf("Remember to also use -a to get ascii version.\n\n");  
-       return 0;    
-    }  
-     
-    if (random_logo) {  
-       gettimeofday(&time_time,NULL);  
-       srand(time_time.tv_usec);   /* Not really random, but... */  
-       i=rand()%1024;  /* Hopefully we have less than 1024 logos */  
-       custom_logo=logo_info_head;  
-       while(i) {  
-	  if (custom_logo->next_logo==NULL) custom_logo=logo_info_head;  
-	  else custom_logo=custom_logo->next_logo;  
-	  i--;    
-       }  
-       i=0;  
-       while (i<2) {  
-	  logo_found=1;  
-	  if (random_type=='b') { /* Want banner mode */  
-	     if (!custom_logo->sysinfo_position) logo_found=0;  
-	     else settings.banner_mode=1;  
-	  }    
-	  if (random_type=='c') { /* Want classic mode */  
-	     if (custom_logo->sysinfo_position) logo_found=0;  
-	     else settings.banner_mode=0;  
-	  }  
-	  if (random_type=='e') { /* Want either */  
-	     /* we should be OK */  
-	  }    
-  
-	  if (random_type2=='e') { /* Any logo at all */  
-	     settings.plain_ascii=rand()%2;  
-	     if (custom_logo->ascii_logo==NULL)   
-	        settings.plain_ascii=!settings.plain_ascii;  
-	  }    
-	  if (random_type2=='a') { /* Want Ascii */  
-	     if (custom_logo->ascii_logo==NULL) logo_found=0;  
-	     else settings.plain_ascii=1;  
-	  }  
-	    
-	  if (random_type2=='n') { /* Want non-ascii */  
-	     if (custom_logo->logo==NULL) logo_found=0;  
-	     else settings.plain_ascii=0;  
-	     break;  
-	  }  
-	    
-	  if (logo_found) break;  
-	    
-	  if (custom_logo->next_logo==NULL) {  
-	     custom_logo=logo_info_head;  
-	     i++;  
-	  }  
-	  else custom_logo=custom_logo->next_logo;  
-       }  
-       if (i>1) {  
-	  printf("\nSorry, can't generate random logo of that type.\n\n");  
-	  return 3;  
-       }  
-    }  
-     
-    if (logo_override) {  
-       custom_logo=logo_info_head;  
-       i=1;  
-       while (i<logo_num) {  
-	   if (custom_logo->next_logo==NULL) {  
-	      fprintf(stderr,"\nError!  Logo %d is invalid!  \"linux_logo -L list\""  
-		     " lists valid logo numbers.\n\n",logo_num);  
-	      custom_logo=logo_info_head;  
-	      break;  
-	   }  
-	   custom_logo=custom_logo->next_logo;  
-	   i++;  
-       }  
-    }  
-     
-       /* We have to keep these consistent or funny things happen */  
-    if (custom_logo!=NULL) {  
-       settings.banner_mode=custom_logo->sysinfo_position;  
-    }  
-     
-/* VMW - done audit below */     
-  
-       /* Prepare the sysinfo stuff if not done for us   */  
-       /* Handle "normal" output by basically faking the */  
-       /* appropriate "custom" output string             */  
-    if (!settings.custom_format) {  
-         
-          /* Set the format for banner or classic mode */  
-       if (settings.banner_mode) {  
-	  strncpy(settings.format,_(DEFAULT_BANNER_FORMAT),BUFSIZ);  
-       }  
-       else {  
-	  strncpy(settings.format,DEFAULT_CLASSIC_FORMAT,BUFSIZ);  
-       }  
-         
-          /* If usertext specified, add it at beginning */  
-       if (settings.display_usertext) {  
-	  strncpy(temp_string,settings.format,BUFSIZ);  
-          strncpy(settings.format,"#E\n",BUFSIZ);  
-	  strncat(settings.format,temp_string,BUFSIZ);  
-       }  
-         
-          /* If want system load, add it second-to-last */  
-       if (settings.show_load) {  
-	    
-	  /* put it before the hostname */  
-	  temp_pointer=strstr(settings.format,"#H");  
-	  /* If for some reason not found, put it at end */  
-	  if (temp_pointer==NULL) {	      
-	     strncat(settings.format,"#L\n",BUFSIZ);  
-	  }  
-	  else {  
-	     strncpy(temp_pointer,"#L\n#H\n",BUFSIZ);  
-	  }  
-       }  
-         
-          /* if want uptime, add it second_to_last */  
-       if (settings.show_uptime) {  
-  
-	  /* put it before the hostname */  
-	  temp_pointer=strstr(settings.format,"#H");  
-	  /* If for some reason not found, put it at end */  
-	  if (temp_pointer==NULL) {	      
-	     strncat(settings.format,"#U\n",BUFSIZ);  
-	  }  
-	  else {  
-	     strncpy(temp_pointer,"#U\n#H\n",BUFSIZ);  
-	  }	    
-       }  
-    }  
-     
-       /* Preserve xy if so desired */  
-    if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {  
-       printf(ESCAPE"7");  
-    }  
-     
-       /* Draw the logo */  
-    draw_logo(custom_logo,&settings);  
-           
-       /* Restore xy if we saved it */  
-    if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {  
-       printf(ESCAPE"8");  
-    }  
-     
-    return 0;  
-}  
+       /* If user requested a list, list them and exit */
+    if (want_list_logos) list_logos();
+   
+       /* If user requested random logo, get one */
+    if (random_logo) custom_logo=get_random_logo(random_type,random_type2,&settings);
+
+       /* If user requested logo by number, get it */
+    if (logo_num!=0) custom_logo=get_logo_by_number(logo_num);
+
+       /* If user requested logo by name, get it */
+    if (logo_name!=NULL) custom_logo=get_logo_by_name(logo_name);
+   
+       /* If user wants a logo from disk, get it */
+    if (logo_disk!=NULL) custom_logo=load_logo_from_disk(logo_disk);  
+
+       /* We have to keep these consistent or funny things happen */
+    if (custom_logo!=NULL) settings.banner_mode=custom_logo->sysinfo_position;
+
+       /**************************************************/
+       /* Prepare the sysinfo stuff if not done for us   */
+       /* Handle "normal" output by basically faking the */
+       /* appropriate "custom" output string             */
+       /**************************************************/
+
+    if (!settings.custom_format) {
+
+          /* Set the format for banner or classic mode */
+       if (settings.banner_mode) {
+	  strncpy(settings.format,_(DEFAULT_BANNER_FORMAT),BUFSIZ);
+       }
+       else {
+	  strncpy(settings.format,DEFAULT_CLASSIC_FORMAT,BUFSIZ);
+       }
+
+          /* If usertext specified, add it at beginning */
+       if (settings.display_usertext) {
+	  strncpy(temp_string,settings.format,BUFSIZ);
+          strncpy(settings.format,"#E\n",BUFSIZ);
+	  strncat(settings.format,temp_string,BUFSIZ);
+       }
+
+          /* If want system load, add it second-to-last */
+       if (settings.show_load) {
+
+	  /* put it before the hostname */
+	  temp_pointer=strstr(settings.format,"#H");
+	  /* If for some reason not found, put it at end */
+	  if (temp_pointer==NULL) {
+	     strncat(settings.format,"#L\n",BUFSIZ);
+	  }
+	  else {
+	     strncpy(temp_pointer,"#L\n#H\n",BUFSIZ);
+	  }
+       }
+
+          /* if want uptime, add it second_to_last */
+       if (settings.show_uptime) {
+
+	  /* put it before the hostname */
+	  temp_pointer=strstr(settings.format,"#H");
+	  /* If for some reason not found, put it at end */
+	  if (temp_pointer==NULL) {
+	     strncat(settings.format,"#U\n",BUFSIZ);
+	  }
+	  else {
+	     strncpy(temp_pointer,"#U\n#H\n",BUFSIZ);
+	  }
+       }
+    }
+
+       /* Preserve xy if so desired */
+    if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
+       printf(ESCAPE"7");
+    }
+
+       /* Draw the logo */
+    draw_logo(custom_logo,&settings);
+
+       /* Restore xy if we saved it */
+    if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
+       printf(ESCAPE"8");
+    }
+
+    return 0;
+}

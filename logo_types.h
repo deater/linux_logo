@@ -3,6 +3,7 @@
 
 struct logo_info {
       char *description;
+      char *name;
       int default_is_ascii;
       int sysinfo_position;
       char *logo;

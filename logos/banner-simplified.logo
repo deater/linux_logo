@@ -5,6 +5,7 @@
 SYSINFO_POSITION bottom
   
 DESCRIPTION_STRING Simplified Banner Logo
+NAME banner-simp
 
 BEGIN_LOGO
 [1;36;40m                                                                 [0;30;47moOOOo[40m

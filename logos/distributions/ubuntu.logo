@@ -7,6 +7,7 @@
 SYSINFO_POSITION bottom
 
 DESCRIPTION_STRING Ubuntu Logo
+NAME ubuntu
 
 BEGIN_LOGO
 [0m[2J[1;1H[0;25;37;47m[0m

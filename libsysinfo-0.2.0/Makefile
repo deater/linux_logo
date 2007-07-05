@@ -12,7 +12,9 @@ clean:
 	cd SunOS && $(MAKE) clean
 	cd w32 && $(MAKE) clean
 	cd all && $(MAKE) clean
-	rm -f Makefile.default
+	
+distclean: clean
+	rm -f Makefile.default	
 	
 
 install:	

@@ -77,6 +77,10 @@ struct logo_info *load_logo_from_disk(char *filename) {
 	    new_logo->description=strdup(temp_st+19);
 	    new_logo->description[strlen(new_logo->description)-1]=0;
 	 }
+	 if (!strncmp(temp_st,"NAME",4)) {
+	    new_logo->name=strdup(temp_st+5);
+	    new_logo->name[strlen(new_logo->name)-1]=0;
+	 }
       }
    }
    

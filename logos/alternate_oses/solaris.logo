@@ -1,6 +1,7 @@
 SYSINFO_POSITION bottom
   
 DESCRIPTION_STRING The Default Banner Logos
+NAME solaris
 
 BEGIN_LOGO
                 SSSSS  OOOO  L        AA   RRRRR   III  SSSSS

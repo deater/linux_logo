@@ -41,10 +41,9 @@ logos-all:
 	find ./logos -type f > logo_config
 	$(MAKE) all
 
-logos-default:
+logo_config:
 	echo "./logos/banner.logo" > logo_config
 	echo "./logos/classic.logo" >> logo_config
-	$(MAKE) all
 
 clean:	Makefile.default
 	rm -f *.o
@@ -52,7 +51,10 @@ clean:	Makefile.default
 	rm -f *~
 	cd $(LIBSYSINFO) && $(MAKE) clean
 	cd po && $(MAKE) clean
-	rm -f Makefile.default
+
+distclean: clean
+	cd $(LIBSYSINFO) && $(MAKE) distclean
+	rm -f Makefile.default logo_config
 
 linux_logo:	linux_logo.o load_logo.o ./$(LIBSYSINFO)/libsysinfo.a
 	$(CROSS)$(CC) $(LDFLAGS) -o linux_logo linux_logo.o load_logo.o $(LIBSYSINFO_LIBRARY) ./$(LIBSYSINFO)/libsysinfo.a 

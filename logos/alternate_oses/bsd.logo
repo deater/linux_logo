@@ -4,6 +4,7 @@
 SYSINFO_POSITION right
 
 DESCRIPTION_STRING FreeBSD Logo
+NAME bsd
 
 BEGIN_LOGO
 [40;31m             ,        ,

@@ -3,6 +3,7 @@
 SYSINFO_POSITION right
   
 DESCRIPTION_STRING Debian Swirl Logos
+NAME debian
 
 BEGIN_LOGO
 [0m[37m[40m                               [0;37;40m

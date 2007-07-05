@@ -4,7 +4,8 @@
 
 SYSINFO_POSITION right
   
-DESCRIPTION_STRING The Classic No Periods Logos
+DESCRIPTION_STRING The Classic Logo, No Periods
+NAME classic-nodots
 
 BEGIN_LOGO
 [0;1;30;44m         [40m      [44m       [40m

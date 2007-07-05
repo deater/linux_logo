@@ -4,7 +4,8 @@
 
 SYSINFO_POSITION bottom
 
-DESCRIPTION_STRING Source Mage GNU/Linux large logo
+DESCRIPTION_STRING Source Mage GNU/Linux large
+NAME sourcemage
 
 BEGIN_LOGO
 

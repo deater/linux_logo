@@ -5,7 +5,8 @@
 
 SYSINFO_POSITION right
   
-DESCRIPTION_STRING The Classic No Periods Or Characters Logos
+DESCRIPTION_STRING Classic No Dots Or Letters
+NAME classic-simp
 
 BEGIN_LOGO
 [0;1;30;44m         [40m      [44m       [40m

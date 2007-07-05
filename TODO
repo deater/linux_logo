@@ -1,48 +1,37 @@
-+ strncat the N value is src, not destination!
-+ get locale path from LOCALEPATH
-+ Fix -i option
-+ Better config script
-+ Specify logos by name, not by number
-+ Error to stderr if logo not found, but still print default logo.
-+ Compress logos for smaller executable?
+- make the "-i" option work
 
-+40k=size to beat
+- handle the case if two logos have the same name...
 
+- allow specifying a directory full of logos, so you don't
+  have to build them all into linux_logo
 
+- make sure no buffer-overflows.  strncat is no help here.
+
+- get locale path from LOCALEPATH [is this still needed?  I am not
+  an i18n expert ]
+
+- Fix -i option
+
+- Compress logos for smaller executable [might not be worth the trouble]
 
 - script to make a "before" and "after" list of linux_logo results
   based on the cpuinfo collection, then diff after to make sure no
   regressions happened.
-
-- make own version of getopt
-
-- configure scripts?  I tried this, but it just bloated the sourcecode
-    just to detect gcc/cc and architecture stuff.  For now I think the
-    makefiles are working ok.
   
 - Have architecture-specific default sysinfo output?
   That way archs like m68k that have extra info [like Amiga, Atari, Mac]
   can display this w/o adding hacks to make it look proper on archs
   w/o such info [ix86]
   
-- fix the Banner/Classic mode options to not be specific to one or the other.
-
-- suggested by Edward Betts <edward@hairnet.demon.co.uk>
-> One of the monitors on my linux box is an old ibm monochrome display. I
-> always run linux-logo as linux_logo -ascii, because the colour version
-> really does not work very well. I wonder could you check the value of TERM
-> and if it is linux-m, run in mono mode (print linux_logo -ascii) by default,
-> as some other programs do like mc, lynx, mutt and slrn do.
-
-  [this is possible.  Don't have time to code it right now however.. would
-   want some-sort of override switch to overcome it too]
-
 - see the ./libsysinfo directory for sysinfo stuff
 
 
-from: Eugene Paskevich
+Suggestions from others:
 
-1) Why not include #I in Format string to indicate time in HH:MM format?
+- Check the TERM value and use the ASCII logo if we don't have
+  color support.
 
-2) All text in output is printed in ESC[1;37;40m. It would be nice to
-have an option for that. For example: linux_logo -z 0-37-40 ...
+- Why not include #I in Format string to indicate time in HH:MM format?
+
+- All text in output is printed in ESC[1;37;40m. It would be nice to
+  have an option for that. For example: linux_logo -z 0-37-40 ...

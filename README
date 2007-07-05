@@ -1,26 +1,29 @@
 /*--------------------------------------------------------------------------*\
     LINUX_LOGO 5.0 -- Shows a Logo With some System Info - 7 July 2007
     by Vince Weaver ( vince _at_ deater.net, http://www.deater.net/weave )
-    SUPPORTS Linux (most architectures) and some non-Linux OS's
+    SUPPORTS Linux (most architectures) and some non-Linux OSes
 \*--------------------------------------------------------------------------*/
 
 HISTORY: 
   
    Back in the summer of 1997 there was a recurring topic on the linux-kernel
-   list about having a "boot-up" penguin in the kernel.  There were many 
-   arguments back and forth, but eventually the primary consensus was that
-   this would be better done in user-space.  [though with the advent
-   of GGI, etc, a graphical approach may become standard.  Patches did
-   float around of a Vga-font hack to get a penguin...]
+   list about having a "boot-up" penguin on all architectures. There 
+   were many arguments back and forth, but eventually the primary consensus 
+   was that this would be better done in user-space.  [Eventually the fbcon 
+   people snuck it in anyway].  In any case, those of us running on text
+   consoles wanted a penguin too, and barring some attempts to use a vga-font 
+   hack to get one displayed, the best way to get this was a user-space
+   text-mode program.
    
-   So using a ppm to ansi converter from Rasterman [www.rasterman.com],
-   a trial version of THEDRAW under DosEmu, and just some talents left
-   over from my Ansi-art BBS days I hacked together a rough likeness
-   of Ewing's Linux Penguin.  I added some system info from /proc, and
-   linux_logo was born.
+   I used a ppm of the Linux penguin and a ppm2ansi converter from 
+   Rasterman [www.rasterman.com], and then touched it up with a trial 
+   version of THEDRAW under DosEmu.  Dredging up some talents left
+   over from my Ansi-art BBS days I eventually hacked together a rough 
+   likeness of Ewing's Linux Penguin.  I added some system info from 
+   /proc, and linux_logo was born.
    
    The program itself has grown more "feature-full" as people around the
-   world sent in their patches.  The newer versions are primarily minor
+   world send in their patches.  The newer versions are primarily minor
    cosmetic fixes.  But I get a lot of positive feedback from this tiny
    little program I created one summer day........
 
@@ -32,9 +35,9 @@ CONFIG FILES
      hidden file .linux_logo in your home directory] and
      /etc/linux_logo.conf before parsing the command line options.
      
-  The format of the config files is a bit of a "hack".  Basically,
-  just stick in the files the command line options you want to run.
-  
+  The format of the config files is a bit of a hack.  Just put in the
+  file the command line options you want passed to linux_logo.
+    
   Thus if you put in ~/.linux_logo
   
 -a -c -F "Linux Logo on a #M Mhz Machine"
@@ -57,10 +60,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-5.0.tar.gz
+        tar -xzvf linux_logo-5.00.tar.gz
 	
     enter the directory
-        cd linux_logo-5.0
+        cd linux_logo-5.00
 	
     run "configure"
         ./configure
@@ -71,24 +74,18 @@ POTENTIAL USES FOR linux_logo
     install (you'll probably want to do this as root) with
         make install
 	
--------------------------------------------------------------------------->
-CROSS COMPILING
--------------------------------------------------------------------------->
-
-   If you are using linux_logo on an embedded system you might
-   want to cross compile.  I tried to make this as easy as possible.
-   
-   For example, to cross-compile for avr32 on x86 (assuming you
-   have all of the avr32 cross-compile tools installed) I do this:
-   
-       env CROSS=avr32-linux- ./configure
-       make CROSS=avr32-linux- LDFLAGS=-static ARCH=avr32
-       
-   And the result is a working avr32 version of linux_logo
 
 -------------------------------------------------------------------------->
 ADVANCED LINUX_LOGO Installation
 -------------------------------------------------------------------------->
+
+   Destination directory:
+     
+      By default linux_logo is installed under /usr/local/
+      
+      To change this, run configure with
+         "./configure --prefix=/usr"
+      Where you can replace /usr with any location you want.
 
    Picking logos:
 
@@ -120,6 +117,19 @@ ADVANCED LINUX_LOGO Installation
       
       This can be turned off by changing the USE_I18N option at the top
       of the defaults.h file.
+
+   Cross compiling:
+
+      If you are using linux_logo on an embedded system you might
+      want to cross compile.  I tried to make this as easy as possible.
+   
+      For example, to cross-compile for avr32 on x86 (assuming you
+      have all of the avr32 cross-compile tools installed) I do this:
+   
+         env CROSS=avr32-linux- ./configure
+         make CROSS=avr32-linux- LDFLAGS=-static ARCH=avr32
+       
+      And the result is a working avr32 version of linux_logo
 
 
 --------------------------------------------------------------------------->
@@ -216,12 +226,14 @@ More detailed explanations:
            This is useful if for whatever reason you don't want to see the
 	   system info.
 
-[-L num | list | random_xy]:  This option is used to manipulate compiled-in
+[-L num | NAME | list | random_xy]:  This option is used to manipulate compiled-in
            custom logos.  As of linux_logo 3.9 you can compile in an
 	   arbitrary amount of logos, although the default is to just have
 	   the original and banner logos.
 	   
 	   "-L list" will list all of the logos available
+	   "-L NAME" will display the logo with name NAME.
+	       the names available can be seen with the "-L list" command
 	   "-L num" will display logo number num, where the number is
 	       obtained using the "-L list" command
 	   "-L random_xy" will pick a logo at random, with criteria xy.

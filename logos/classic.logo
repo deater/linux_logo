@@ -2,8 +2,9 @@
 # Drawn by Vince Weaver, from a pbm2ansi of Larry Ewing's original Tux
   
 SYSINFO_POSITION right
-  
-DESCRIPTION_STRING The Classic Logos
+NAME classic
+
+DESCRIPTION_STRING The Default Classic Logo
 
 BEGIN_LOGO
 [0;1;30;44m.........[40m      [44m.......[40m
