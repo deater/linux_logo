@@ -60,10 +60,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-5.00.tar.gz
+        tar -xzvf linux_logo-5.0.tar.gz
 	
     enter the directory
-        cd linux_logo-5.00
+        cd linux_logo-5.0
 	
     run "configure"
         ./configure
@@ -130,6 +130,11 @@ ADVANCED LINUX_LOGO Installation
          make CROSS=avr32-linux- LDFLAGS=-static ARCH=avr32
        
       And the result is a working avr32 version of linux_logo
+
+   On non-Linux architectures:
+    
+      You'll have to use GNU make.  This is often called "gmake".
+
 
 
 --------------------------------------------------------------------------->

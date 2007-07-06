@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\ 
-  LINUX LOGO 5.0-beta4 - Creates Nifty Logo With System Info - 5 July 2007 
+  LINUX LOGO 5.0 - Creates Nifty Logo With System Info - 7 July 2007 
   
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave ) 
 		      
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/  
   
   
-#define VERSION "5.0-beta4"
+#define VERSION "5.0"
   
 #include <stdio.h>
 #include <stdlib.h>
