@@ -1,14 +1,11 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <unistd.h>
 #include <string.h>
-#include <sys/utsname.h>
 
 #include "logo_types.h"
 #include "load_logo.h"
-
 
 
     /* People can put all kind of strange and wonderful ascii */

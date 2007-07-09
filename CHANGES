@@ -802,3 +802,16 @@ linux_logo-4.16 release
 + Ran ispell on the documentation.
 + Added support for choosing logo by names.  Updated all the logos
   to have names.
+
+RELEASE 5.0
+
+9 July 2007
++ Clean up all the trailing whitespace in linux_logo.c
++ Another security pass.  Removed all of the potential buffer
+  overruns I could find.  *NOTE* on a properly configured system
+  these overruns should not be a security threat, though they
+  could lead to segfaults in linux_logo if you pass strings > 8192
+  bytes in size to the program.
+  Thanks to Secunia Research for bugging me on this issue.
+
+RELEASE 5.01
