@@ -1,0 +1,24 @@
+It should not be possible to use bugs in linux_logo to compromise a system.
+Despite this, I make all attempts to fix buffer overflow and similar problems.
+
+I've done code audits, as well as using fuzzing tools.
+
+To use zzuf (an example.  Vary the options as you want)
+   zzuf -s 1:100000 -C 1 ./linux_logo
+   
+If an error is reported, note the "s" and "r" values of the failure.
+
+Assuming a fuzzed /proc/cpuinfo was the cause, with s=5 and r=0.04 do this:
+   zzuf -s5 -r0.04 < /proc/cpuinfo > out
+   
+And then use gdb or other tool o track down the problem when running
+   linux_logo -e ./out
+   
+
+For some harsher fuzzing:
+   zzuf -s 1:100000 -r 0.04:1.00 -C 1 ./linux_logo
+   
+Fuzz the logo reading code as well:
+   zzuf -s 1:100000 -r 0.04:1.00 -C 1 -q ./linux_logo -- -D ./logos/classic.logo
+   
+   

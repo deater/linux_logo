@@ -120,3 +120,8 @@
   checked for length.
 + The above should not have altered anything, but in case it did
   upped the minor versoin number by one.
+
+30 July 2007
++ A minor change to how the error value of parse_string() is handled.
+  This could cause potential segfaults with invalid /proc/cpuinfo
+  input files.  Found with the zzuf fuzz tool.

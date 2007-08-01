@@ -1,10 +1,16 @@
 #include <string.h>
 
+char empty_string[]="";
+
     /* take line, give back part after colon */
 char *parse_line(char *string) {
     char *temp_ptr; 
     temp_ptr=strstr(string,":");
-    if (temp_ptr==NULL) return NULL;
+    if (temp_ptr==NULL) {
+       /* special handling... atoi, aof, strcmp, etc can't handle NULL */
+       /* Found via zzuf fuzz checking */
+       return empty_string;
+    }
        /* skip past the colon */
     temp_ptr++;
        /* skip any white-space */

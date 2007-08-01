@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 5.01 - Creates Nifty Logo With System Info - 9 July 2007
+  LINUX LOGO 5.02 - Creates Nifty Logo With System Info - 31 July 2007
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.01"
+#define VERSION "5.02"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */
@@ -128,6 +128,8 @@ static void shift_right(int shift,int plain_ascii) {
 static char *print_line(char *string) {
 
     char *temp_st=string;
+   
+    if (temp_st==NULL) return NULL;
 
     while ((*temp_st!='\n') && (*temp_st!='\0')) {
        putchar(*temp_st);

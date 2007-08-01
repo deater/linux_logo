@@ -50,7 +50,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	     
 	        /* We use this for cpu's w/o cpuinfo (386s and 486s) */
 	     if ( !(strncmp(temp_string,"cpu family",10))) {
-		family=atoi(parse_line(temp_string));
+		   family=atoi(parse_line(temp_string));
 	     }
 	        /* Old legacy stuff (2.0.x kernels and earlier) */
 	     if ( !(strncmp(temp_string,"cpu   ",5))) {
