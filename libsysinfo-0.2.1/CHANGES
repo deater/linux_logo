@@ -125,3 +125,6 @@
 + A minor change to how the error value of parse_string() is handled.
   This could cause potential segfaults with invalid /proc/cpuinfo
   input files.  Found with the zzuf fuzz tool.
+
+3 January 2007
++ Minor change so AMD Phenom prints properly.

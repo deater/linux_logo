@@ -916,3 +916,8 @@ RELEASE 5.01
   string if we have a really invalid logo.
 
 RELEASE 5.02
+
+3 January 2008
++ Minor fix so AMD Phenom displays properly.
+
+RELEASE 5.03

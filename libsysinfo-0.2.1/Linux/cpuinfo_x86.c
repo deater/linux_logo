@@ -164,6 +164,11 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	  strncpy(cpu_info->chip_type,"Opteron",8);
        }
        
+          /* Phenom */
+       if (strstr(model_string,"Phenom")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Phenom",7);
+       }       
+       
        
           /* Work around old kernels */
        if (model_string[0]==0) {
