@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 5.03 - Creates Nifty Logo With System Info - 3 January 2008
+  LINUX LOGO 5.04 - Creates Nifty Logo With System Info - 12 December 2008
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.03"
+#define VERSION "5.04"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */

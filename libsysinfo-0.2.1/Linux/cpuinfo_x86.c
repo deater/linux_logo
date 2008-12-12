@@ -1,5 +1,5 @@
 /* Re-written from scratch 3 March 2001      */
-/* Handles intel chips on Linux architecture */
+/* Handles x86 and x86_64 chips on Linux     */
 /* by Vince Weaver <vince@deater.net>        */
 
 #include <stdio.h>
@@ -98,10 +98,6 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
     if (!strncmp(vendor_string,"AuthenticAMD",12)) {
        strncpy(cpu_info->chip_vendor,"AMD",4);
 
-       if (!(strncmp(model_string,"AMD Sempron",11))) {
-	 strncpy(cpu_info->chip_type,"Sempron",8);
-       }
-
           /* Clean-up K6 model info */
        if (strstr(model_string,"K6")!=NULL) {
 	     /* Default to K6 */
@@ -134,6 +130,9 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        }
 
           /* Athlons */
+       if (strstr(model_string,"Athlon(tm) 64 X2")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Athlon 64 X2",13);
+       } else
        if (strstr(model_string,"Athlon(tm) 64")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Athlon 64",10);
        } else
@@ -154,11 +153,22 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        if (strstr(model_string,"Duron")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Duron",6);
        }
-       
+          
+          /* Unknown */
        if (strstr(model_string,"Unknown")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Unknown",8);
        }
        
+          /* Sempron */
+       if (strstr(model_string,"Sempron")!=NULL) {
+	 strncpy(cpu_info->chip_type,"Sempron",8);
+       }
+       
+          /* Turion */
+       if (strstr(model_string,"Turion")!=NULL) {
+	 strncpy(cpu_info->chip_type,"Turion",8);
+       }       
+              
           /* Opterons */
        if (strstr(model_string,"Opteron")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Opteron",8);
@@ -169,6 +179,10 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	  strncpy(cpu_info->chip_type,"Phenom",7);
        }       
        
+          /* Geode */
+       if ( strstr(model_string,"Geode")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Geode",6);
+       }
        
           /* Work around old kernels */
        if (model_string[0]==0) {
@@ -193,6 +207,12 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	  strncpy(cpu_info->chip_vendor,"VIA",4);	  
 	  strncpy(cpu_info->chip_type,model_string+4,SYSINFO_CHIP_TYPE_SIZE);
        }
+       
+          /* Esther */
+       if (strstr(model_string,"Esther")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Esther",7);
+       }       
+
     }
 
        /* *************** */
@@ -222,7 +242,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        /* *************** */
     if (!strncmp(vendor_string,"GenuineIntel",12)) {
        strncpy(cpu_info->chip_vendor,"Intel",6);
-       
+
+          /* Handle the various Pentium types */
        if (!(strncmp(model_string,"Pentium",7))) {
 	  if (strstr(model_string,"75")!=NULL) {
 	     strncpy(cpu_info->chip_type,"Pentium",8);
@@ -243,45 +264,91 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	     strncpy(cpu_info->chip_type,"Pentium IV",11);
 	  }
        }
-       if (!(strncmp(model_string,"Intel(R) Pentium(R) 4",21))) {
-	  strncpy(cpu_info->chip_type,"Pentium 4",10);
-       }
        
+          /* Now handle the ones with annoying (R) and (TM) */
        if (strstr(model_string,"Pentium(R) M")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Pentium M",10);
        }
        if (strstr(model_string,"Pentium(R) III")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Pentium III",12);
        }
+       
        if (strstr(model_string,"Xeon(TM) MP")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Xeon MP",8);
        }
-       if (strstr(model_string,"Pentium(R) 4 - M")!=NULL) {
-	  strncpy(cpu_info->chip_type,"Pentium 4 M",12);
-       }
+              
+          /* Atom */
+       if (strstr(model_string,"Atom")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Atom",5);
+       }       
        
-	           
-       if ( !(strncmp(model_string,"Intel(R) Xeon(TM) CPU",21)) ||
-	    !(strncmp(model_string,"Intel(R) Xeon(R) CPU",20)) || 
-	    !(strncmp(model_string,"Intel(R) Genuine CPU",19)) || 
-	    !(strncmp(model_string,"Intel(R) XEON(TM)",17))) {
-	  strncpy(cpu_info->chip_type,"Pentium Xeon",16);
-       }
 
-       if (strstr(model_string,"T2300")!=NULL) {
-	 strncpy(cpu_info->chip_type,"Core Duo",9);
-       }
-       
-       
-      	    
-       
           /* Should we handle all the various Celeron */
           /* types separately??                       */
-       if (strstr(model_string,"Celeron")!=NULL) {
+       if (strstr(model_string,"Celeron(R) M")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Celeron M",10);
+       }
+       else if (strstr(model_string,"Celeron")!=NULL) {
 	  strncpy(cpu_info->chip_type,"Celeron",8);
        }
        
+          /* Handle values with annoying "Intel(R)" */
+       if (strstr(model_string,"Intel(R)")!=NULL) {
        
+	     /* Pentium 4 */
+	  if (strstr(model_string,"Pentium(R) 4")) {
+	     strncpy(cpu_info->chip_type,"Pentium 4",10);
+          }
+	  
+	     /* Pentium D */
+	  if (strstr(model_string,"Pentium(R) D")) {
+	     strncpy(cpu_info->chip_type,"Pentium D",10);
+          }	  
+	     /* Mobile P4 */
+	  if (strstr(model_string,"Mobile Intel(R) Pentium(R) 4")!=NULL) {
+             if (strstr(model_string,"Pentium(R) 4 - M")!=NULL) {
+	        strncpy(cpu_info->chip_type,"Pentium 4 M",12);
+	     }
+	     else {
+	        strncpy(cpu_info->chip_type,"Mobile Pentium 4",17);
+	     }
+	  }
+
+	     /* Xeons */
+             /* TODO - determine base type based on model id? */
+          if ( !(strncmp(model_string,"Intel(R) Xeon(TM) CPU",21)) ||
+	       !(strncmp(model_string,"Intel(R) Xeon(R) CPU",20)) || 
+	       !(strncmp(model_string,"Intel(R) Genuine CPU",19)) || 
+	       !(strncmp(model_string,"Intel(R) XEON(TM)",17)) ||
+	       !(strncmp(model_string,"Intel(R) Xeon(TM)",17))
+	      ) {
+	     strncpy(cpu_info->chip_type,"Pentium Xeon",16);
+          }
+
+	     /* Core and Core2 */
+	  if (strstr(model_string,"Core(TM)2 Duo")!=NULL) {
+	     strncpy(cpu_info->chip_type,"Core2 Duo",10);
+	  }
+	  else if (strstr(model_string,"Core(TM)2 Quad")!=NULL) {
+	     strncpy(cpu_info->chip_type,"Core2 Quad",11);
+	  }
+	  else if (strstr(model_string,"Core(TM)2")!=NULL) {
+	     strncpy(cpu_info->chip_type,"Core2",6);
+	  }	 /* UGH!  I hate this stupid TXXX naming */
+	  else if ( (strstr(model_string,"T2300")!=NULL) ||
+		    (strstr(model_string,"T2400")!=NULL) ||
+		    (strstr(model_string,"T2500")!=NULL) ||
+		    (strstr(model_string,"T2600")!=NULL)) {
+	     strncpy(cpu_info->chip_type,"Core Duo",9);
+          }
+	  else if (strstr(model_string,"E2180")!=NULL) {
+	    strncpy(cpu_info->chip_type,"Core2 Duo",10);
+	  }
+	  else if (strstr(model_string,"2140")!=NULL) {
+	    strncpy(cpu_info->chip_type,"Core2 Duo",10);
+	  }
+       }
+    
           /* Fix up some older kernels */
        if (model_string[0]==0) {
 	  if (plain_model[0]=='5') {  

@@ -921,3 +921,9 @@ RELEASE 5.02
 + Minor fix so AMD Phenom displays properly.
 
 RELEASE 5.03
+
+12 December 2008
++ Go through the test_proc files I have, re-test and fix
+  all of x86 and x86_64.
+  
+RELEASE 5.04

@@ -20,7 +20,22 @@ distclean: clean
 install:	
 
 
-libsysinfo.a:	
+libsysinfo.a:	Linux/cpuinfo_alpha.c \
+		Linux/cpuinfo_ia64.c \
+		Linux/cpuinfo_ppc.c \
+		Linux/cpuinfo_vax.c \
+		Linux/cpuinfo_arm.c \
+		Linux/cpuinfo_m68k.c \
+		Linux/cpuinfo_s390.c \
+		Linux/cpuinfo_x86_64.c \
+		Linux/cpuinfo_avr32.c \
+		Linux/cpuinfo_mips.c \
+		Linux/cpuinfo_sh3.c \
+		Linux/cpuinfo_x86.c \
+		Linux/cpuinfo_cris.c \
+		Linux/cpuinfo_parisc.c \
+	       	Linux/cpuinfo_sparc.c \
+		Linux/sysinfo_linux.c 
 	cd all && $(MAKE)
 	cd $(OS) && $(MAKE)
 	$(CROSS)$(AR) crus libsysinfo.a ./$(OS)/*.o ./all/*.o
