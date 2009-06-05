@@ -24,12 +24,21 @@ avr32:	cpuinfo_avr32.c
 
 cris:	cpuinfo_cris.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_cris.c
-	
+
+frv:	cpuinfo_frv.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_frv.c
+
 ia64:	cpuinfo_ia64.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ia64.c
 
+m32r:	cpuinfo_m32r.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_m32r.c
+
 m68k:	cpuinfo_m68k.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_m68k.c
+
+microblaze:	cpuinfo_microblaze.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_microblaze.c
 
 mips:	cpuinfo_mips.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_mips.c
@@ -51,6 +60,9 @@ ppc64:	cpuinfo_ppc.c
 
 s390:	cpuinfo_s390.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390.c
+	
+s390x:	cpuinfo_s390x.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390x.c	
 
 sh3:	cpuinfo_sh3.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_sh3.c

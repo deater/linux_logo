@@ -26,7 +26,10 @@ do
 done
 				       
 
-ARCH=`uname -m`
+if [ -z "$ARCH" ]; then
+   ARCH=`uname -m`
+fi
+
 OS=`uname`
 INSTALL=`which install`
 
@@ -104,7 +107,7 @@ echo "CONFIGURE_RAN=1" >> Makefile.default
 echo
 cd $LIBSYSINFO && ./configure
 echo
-echo "If cross compiling set the CROSS variable"
+echo "If cross compiling set the CROSS and ARCH variables"
 echo 
 echo "Done configuring, run 'make'"
 echo

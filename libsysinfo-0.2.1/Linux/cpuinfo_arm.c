@@ -1,4 +1,3 @@
-/* Re-written from scratch 3 March 2001      */
 /* Handles arm chips on Linux architecture   */
 /* by Vince Weaver <vince@deater.net>        */
 
@@ -54,6 +53,9 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	  if (strstr(model_string,"940")!=NULL) {
 	     strncpy(model_string,"940",4);
 	  } 
+	  if (strstr(model_string,"Feroceon")!=NULL) {
+	     strncpy(model_string,"Feroceon",9);
+	  } 	  
 	    
 	     /* Ugh why must people play with capitalization */
 	  if ( !(strncmp(temp_string,"bogomips",8)) ||

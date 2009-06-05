@@ -927,3 +927,11 @@ RELEASE 5.03
   all of x86 and x86_64.
   
 RELEASE 5.04
+
+5 June 2009
++ Some libsysinfo changes.  Quick summary:
+  Add frv, microblaze and m32r support.
+  Fix some old Cyric chips.
+  Fix Sheeva Plug/ARM.
+  
+RELEASE 5.05

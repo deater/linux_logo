@@ -184,6 +184,11 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	  strncpy(cpu_info->chip_type,"Geode",6);
        }
        
+          /* Handle BIOS/kernel too old issue */
+       if ( strstr(model_string,"unknown")!=NULL) {
+	  strncpy(cpu_info->chip_type,"Unknown",8);
+       }
+       
           /* Work around old kernels */
        if (model_string[0]==0) {
 	  if (plain_model[0]=='9') {
@@ -227,10 +232,11 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        if ( strstr(model_string,"Geode")!=NULL)
 	  strncpy(cpu_info->chip_type,"Geode",6);
        
-       if ( !(strncmp(model_string,"6x86L",5)))
+       if ( !(strncmp(model_string,"6x86",4)))
 	  strncpy(cpu_info->chip_type,"6x86",5);
        if ( !(strncmp(model_string,"6x86M",5)))
-	  strncpy(cpu_info->chip_type,"6x86MMX",8); 
+	  strncpy(cpu_info->chip_type,"6x86MMX",8);
+       
        if ( !(strncmp(model_string,"M III",5))) 
 	  strncpy(cpu_info->chip_type,"MIII",5);
        else if ( !(strncmp(model_string,"M II",4))) 

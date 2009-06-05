@@ -128,3 +128,9 @@
 
 3 January 2007
 + Minor change so AMD Phenom prints properly.
+
+5 June 2009
++ Add frv, microblaze and m32r support.
+  Fix some old Cyric chips.
+  Fix Sheeva Plug/ARM.
+  
