@@ -935,3 +935,26 @@ RELEASE 5.04
   Fix Sheeva Plug/ARM.
   
 RELEASE 5.05
+
+12 June 2009
++ Fixed Ukranian translation to be uk.mo instead of ua.mo
+  (from pld-linux patches)
++ Update translations a bit, this is mainly fixes to the Polish.
+  (from pld-linux patches)
++ Add pld-linux logo (from pld-linux patches)
++ Added sme linux logo (from sme linux patches)
+
+1 July 2009
++ Fix ./configure to not have issues if /bin/sh is dash.
+  This was debian bug #483851.  I wish they would report
+  things like this upstream.
++ Fix bugs where you couldn't override the /etc/linux_logo.conf
+  file with -D or -L # or -L random_xy options.  Also fixed
+  really minor read-past-end-of-buffer issue with random_xy
+  handling.
+  This should fix debian bugs #510813 and #504717 so hopefully
+  they can re-add "-L debian" to their /etc/linux_logo.conf
+  and thus debian systems will stop showing the BSD daemon
+  by default.
+
+RELEASE 5.06

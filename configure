@@ -15,16 +15,13 @@ usage() {
 }
 
 while [ $# -gt 0  ]
-
 do
    case "${1%=*}" in
       -h|--help) usage;;
-      --prefix) PREFIX="${1#*=}"; shift;;
-      *) break;; # terminate while loop
+      --prefix) PREFIX="${1#*=}";;
    esac
    shift
 done
-				       
 
 if [ -z "$ARCH" ]; then
    ARCH=`uname -m`

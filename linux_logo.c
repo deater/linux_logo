@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 5.05 - Creates Nifty Logo With System Info - 5 June 2009
+  LINUX LOGO 5.06 - Creates Nifty Logo With System Info - 1 July 2009
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.05"
+#define VERSION "5.06"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */
@@ -609,8 +609,8 @@ static char *get_arg(int *index,int argc,char **argv) {
 
 
     /* global variables, a bit of a hack, should find a better way */
-int logo_num=0,logo_override=0,random_logo=0,want_list_logos=0;
-char random_type='e',random_type2='e',*logo_name=NULL,*logo_disk=NULL;
+int logo_num=0,random_logo=0,want_list_logos=0;
+char random_banner='e',random_ascii='e',*logo_name=NULL,*logo_disk=NULL;
 
 
     /* Find a logo by name */
@@ -652,7 +652,8 @@ static struct logo_info *get_logo_by_number(int logo_num) {
 }
 
    /* find a random logo */
-static struct logo_info *get_random_logo(int random_type, int random_type2,
+static struct logo_info *get_random_logo(int random_banner, 
+					 int random_ascii,
 		       struct linux_logo_info_type *settings) {
 
     struct timeval time_time;
@@ -673,30 +674,30 @@ static struct logo_info *get_random_logo(int random_type, int random_type2,
     i=0;
     while (i<2) {
        logo_found=1;
-       if (random_type=='b') { /* Want banner mode */
+       if (random_banner=='b') { /* Want banner mode */
 	  if (!custom_logo->sysinfo_position) logo_found=0;
 	  else settings->banner_mode=1;
        }
-       if (random_type=='c') { /* Want classic mode */
+       if (random_banner=='c') { /* Want classic mode */
 	  if (custom_logo->sysinfo_position) logo_found=0;
 	  else settings->banner_mode=0;
        }
-       if (random_type=='e') { /* Want either */
+       if (random_banner=='e') { /* Want either */
 	  /* we should be OK */
        }
 
-       if (random_type2=='e') { /* Any logo at all */
+       if (random_ascii=='e') { /* Any logo at all */
 	  settings->plain_ascii=rand()%2;
 	  if (custom_logo->ascii_logo==NULL) {
 	     settings->plain_ascii=!settings->plain_ascii;
 	  }
        }
-       if (random_type2=='a') { /* Want Ascii */
+       if (random_ascii=='a') { /* Want Ascii */
 	  if (custom_logo->ascii_logo==NULL) logo_found=0;
 	  else settings->plain_ascii=1;
        }
 
-       if (random_type2=='n') { /* Want non-ascii */
+       if (random_ascii=='n') { /* Want non-ascii */
 	  if (custom_logo->logo==NULL) logo_found=0;
 	  else settings->plain_ascii=0;
 	  break;
@@ -780,6 +781,7 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	            break;
 	  case 'D': argument=get_arg(&index,argc,argv);
 	            logo_disk=strdup(argument);
+	            logo_name=NULL;
 	            break;
 	  case 'e': argument=get_arg(&index,argc,argv);
 	            set_cpuinfo_file(argument);
@@ -830,8 +832,9 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	  case 'l': settings->display_logo_only=1;
 	            break;  
 	  case 'L': argument=get_arg(&index,argc,argv);
-	               /* Reset values in case we get this after reading the file */
-		    logo_num = 1; logo_override = 0; random_logo = 0;
+	               /* Reset values in case we get this after reading */
+	               /* the file */
+		    logo_num = 1; random_logo = 0;
 	            logo_num=strtol(argument,&endptr,10);
 	            if ( endptr == argument ) {
 		          /* we leak temp_st, need to fix */
@@ -841,15 +844,19 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 		       }
 		       else if (!strncmp(temp_st,"random",6)) {
 			  random_logo=1;
-			  random_type=temp_st[7];
-			  random_type2=temp_st[8];
+			  if (strlen(temp_st)>7) {
+			     random_banner=temp_st[7];
+			  }
+			  if (strlen(temp_st)>8) {
+			     random_ascii=temp_st[8];
+			  }
 		       }
 		       else {
 			  logo_name=strdup(temp_st);
 		       }
 		    }
-	            else { /* It's a number */
-		       logo_override=1;
+	            else { /* It's a number.  Override any name */
+		       logo_name=NULL;
 		    }
 	            break;  
 
@@ -1039,17 +1046,23 @@ int main(int argc,char **argv) {
     if (want_list_logos) list_logos();
 
        /* If user requested random logo, get one */
-    if (random_logo) custom_logo=get_random_logo(random_type,random_type2,&settings);
-
+    if (random_logo) {
+       custom_logo=get_random_logo(random_banner,
+				   random_ascii,
+				   &settings);
+    }
        /* If user requested logo by number, get it */
-    if (logo_num!=0) custom_logo=get_logo_by_number(logo_num);
-
+    else if (logo_num!=0) {
+       custom_logo=get_logo_by_number(logo_num);
+    }
        /* If user requested logo by name, get it */
-    if (logo_name!=NULL) custom_logo=get_logo_by_name(logo_name);
-
+    else if (logo_name!=NULL) {
+       custom_logo=get_logo_by_name(logo_name);
+    }
        /* If user wants a logo from disk, get it */
-    if (logo_disk!=NULL) custom_logo=load_logo_from_disk(logo_disk);
-
+    else if (logo_disk!=NULL) {
+       custom_logo=load_logo_from_disk(logo_disk);
+    }
        /* We have to keep these consistent or funny things happen */
     if (custom_logo!=NULL) settings.banner_mode=custom_logo->sysinfo_position;
 
