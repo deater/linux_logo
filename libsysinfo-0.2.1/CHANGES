@@ -131,6 +131,10 @@
 
 5 June 2009
 + Add frv, microblaze and m32r support.
-  Fix some old Cyric chips.
-  Fix Sheeva Plug/ARM.
++ Fix some old Cyrix chips.
++ Fix Sheeva Plug/ARM.
   
+5 January 2010
++ Add Phenom II support, thanks to
+  Mark Rosenstand <rosenstand _at_ gmail.com>
++ Add support for Qemu HVM cases, thanks to Matthias Saou

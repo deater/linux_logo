@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 5.06 -- Shows a Logo With some System Info - 1 July 2009
+    LINUX_LOGO 5.07 -- Shows a Logo With some System Info - 10 January 2010
     by Vince Weaver ( vince _at_ deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OSes
 \*--------------------------------------------------------------------------*/
@@ -60,10 +60,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-5.06.tar.gz
+        tar -xzvf linux_logo-5.07.tar.gz
 	
     enter the directory
-        cd linux_logo-5.06
+        cd linux_logo-5.07
 	
     run "configure"
         ./configure

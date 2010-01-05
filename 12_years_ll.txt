@@ -1,0 +1,61 @@
+
+12 years of Linux_Logo development
+
+Origin story
+
+boring, ubt everyone wants to hear
+
+I got my start typing in BASIC games for Apple IIe.  I migrated to GWBASIC
+then QBASIC then Turbo Pascal/assembly on a 386/33 My family got.
+
+My first intro to UNIX was a summer job I had in high school, in 1995.
+I got to use SGI Irix on a 36MHz Personal Irix with a Mips R3000-class chip
+in it.
+
+I always distrusted GUIs, though in the end it really meant is I liked the
+command line.  Never used Windows significantly.
+
+The job was making an X frontend to an ancient Fortran 77 program.
+Not a good way to learn C or Fortran.  Took me a while to figure out
+F77 is column-sensitive, and to figure out how double-pointer indirection
+worked.  This was 1995 so the web was new (netscape 1.x for Irix!).  You had
+to shock, get references books for the librabry, and when downloading from
+the internet had to make sure you weren't leaving the continent (downloading
+Samba from australia could take days).
+
+I found Linux that summer, my friend and co-worker John had liked Unix so
+much (he got to use the SGI Indigo2... OpenGL graphics, 100MHz 64-bit
+processor, 128MB of RAM, 16-bit sound... it was nearly 5 years before I had
+a computer that was as good).  SO he had heard about Linux.  He slowly
+downloaded over a 14.4 connection slackware disk sets to a big box of disks,
+and then installed it floppy by floppy to a 386/25 machine he had.  I came
+over and was impressed.  Even more so when he recompiled the kernel!
+The 1.2.13 kernel didn't support his CD-ROM drive, so he compiled up a late
+1.3.xx devel kernel and had to patch the driver to have the proper settings.
+It took a long time to compile, but then we rebooted... and the drive went
+crazy, continuously ejecting and unejecting.  Despite the setback, I was
+impressed.  Despite the fact that the interface was just twm and some
+X-terminals.
+
+The next year when I went to college, I made sure to request an ethernet
+equipped dorm room (They didn't all have it yet) and convinced my family to
+buy me a used 486/66.  A Linux box all of my own!
+
+Linux Logo
+
+the linux_logo story starts in 1997.  Part of it has roots in the GGI
+project, a project way ahead of its timed, blocked by Linus, but finally
+being realized today with KMS, etc.
+
+Flame war ont he kernel.  Text Linux penguin.
+
+Make my own program.
+
+Rewrites at 2, 3, 4, 5.
+
+Add-on in Linux distros.  Default on Mandrake, love/hate.
+
+Still maintain.
+
+
+

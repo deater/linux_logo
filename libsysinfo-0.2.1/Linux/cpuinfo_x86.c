@@ -176,8 +176,13 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        
           /* Phenom */
        if (strstr(model_string,"Phenom")!=NULL) {
-	  strncpy(cpu_info->chip_type,"Phenom",7);
-       }       
+	  if (strstr(model_string,"II")!=NULL) {
+	     strncpy(cpu_info->chip_type,"Phenom II",10);
+	  }
+	  else {
+	     strncpy(cpu_info->chip_type,"Phenom",7);
+	  }
+       }
        
           /* Geode */
        if ( strstr(model_string,"Geode")!=NULL) {
@@ -363,6 +368,11 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        }
        if (!strncmp(model_string,"00/07",5)) {
 	  strncpy(cpu_info->chip_type,"Pentium III",12);
+       }
+          
+          /* Virtual Machines simulated by QEMU */
+       if (strstr(model_string,"QEMU")!=NULL) {
+	  strncpy(cpu_info->chip_type,"QEMU Virtual",13);
        }
     }
    
