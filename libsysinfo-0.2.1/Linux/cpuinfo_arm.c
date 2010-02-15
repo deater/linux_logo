@@ -52,10 +52,13 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	  } else
 	  if (strstr(model_string,"940")!=NULL) {
 	     strncpy(model_string,"940",4);
-	  } 
+	  } else
 	  if (strstr(model_string,"Feroceon")!=NULL) {
 	     strncpy(model_string,"Feroceon",9);
 	  } 	  
+	  if (!strncmp(model_string,"ARMv",4)) {
+	     sscanf(model_string,"%s",model_string);
+	  } 	  	  
 	    
 	     /* Ugh why must people play with capitalization */
 	  if ( !(strncmp(temp_string,"bogomips",8)) ||

@@ -211,6 +211,17 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
                   /* should catch the common case                  */
        strncpy(cpu_info->chip_vendor,"Centaur",8);
        
+       /* Should this be generic?  We should never print processor twice */
+       {
+	  char *processor_begin;
+          processor_begin=strstr(model_string," Processor");
+	  if (processor_begin!=NULL) {
+	     /* I hate to use pointer math */
+	    model_string[(processor_begin-model_string)]='\0';
+	  }
+       }
+
+   
           /* Is this the proper thing to do?  It looks silly */
           /* calling them "Centaur VIA" chips                */
        if (strstr(model_string,"VIA")!=NULL) {
@@ -335,7 +346,16 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	      ) {
 	     strncpy(cpu_info->chip_type,"Pentium Xeon",16);
           }
-
+	     /* Nehalem */
+          if (strstr(model_string,"Core(TM) i7")!=NULL) {
+	     strncpy(cpu_info->chip_type,"i7",3);
+	  }
+          if (strstr(model_string,"Core(TM) i5")!=NULL) {
+	     strncpy(cpu_info->chip_type,"i5",3);
+	  }
+          if (strstr(model_string,"Core(TM) i3")!=NULL) {
+	     strncpy(cpu_info->chip_type,"i3",3);
+	  }
 	     /* Core and Core2 */
 	  if (strstr(model_string,"Core(TM)2 Duo")!=NULL) {
 	     strncpy(cpu_info->chip_type,"Core2 Duo",10);
@@ -397,6 +417,18 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
     if ( !(strncmp(vendor_string,"RiseRiseRise",12))) {
        strncpy(cpu_info->chip_vendor,"Rise",5);
     }
+
+       /* ************** */
+       /* SiS            */
+       /* ************** */
+    if ( !(strncmp(vendor_string,"SiS SiS SiS",11))) {
+       strncpy(cpu_info->chip_vendor,"SiS",4);
+       if (family!=0) {
+	  sprintf(temp_string,"%i86",family);
+          strncpy(cpu_info->chip_type,temp_string,4);
+       }
+    }
+
    
        /* ************* */
        /* Transmeta     */
@@ -418,6 +450,17 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        
        if (!(strncmp(model_string,"SX",2))) {
 	  strncpy(cpu_info->chip_type,"486SX",6);
+       }
+    }
+
+       /* ************** */
+       /* Vortex         */
+       /* ************** */
+    if ( !(strncmp(vendor_string,"Vortex86 SoC",11))) {
+       strncpy(cpu_info->chip_vendor,"Vortex",7);
+       if (family!=0) {
+	  sprintf(temp_string,"%i86",family);
+          strncpy(cpu_info->chip_type,temp_string,4);
        }
     }
    

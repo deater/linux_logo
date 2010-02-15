@@ -963,3 +963,12 @@ RELEASE 5.06
 + Some changes to CPU detection
 
 RELEASE 5.07
+
+15 February 2010
++ Update to handle ARM beagleboard cpuinfo
++ Merge sh fix from downstream debian
++ Fix C7-M support
++ Add support for Vortex and SiS x86 chips
++ Add support for Nehalem processors
+
+RELEASE 5.08

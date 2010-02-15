@@ -1,0 +1,112 @@
+13 years of Linux_Logo development
+
+Excruciating detail that no one really wanted to know.
+
+Boring Backstory on the Author's Computer Skills
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+My father was a computer teacher at the local high school, so I had access
+to computers at an early age.  While I did get to do some obscure things
+because of that, such as use an IBM keypunch machine before I was in 
+elementary school, I didn't start actual programming until a bit later.
+I started out typing BASIC games out of books into our Apple IIe,
+and gradually picked up enough to make kilobytes of very inane programs.
+I also did some LOGO programming in elementary school.  By middle school I 
+had moved on to GWBASIC and then QBASIC, and then finally onto Turbo Pascal
+and assembly language on the 386/33 my family acquired in 1991.
+
+My first intro to UNIX was a summer job I had in high school, in 1995.
+I got to use SGI Irix on a 36MHz Personal Iris with a MIPS R3000-class chip.
+I always distrusted GUIs, I always preferred the command line.  I liked
+UNIX pretty much from the start.
+
+My first job on the IRIX machine was making an X11 frontend to an ancient 
+Fortran 77 program.  This was not a good way to learn C or Fortran.  
+It took me a while to figure out F77 is column-sensitive, and X programming
+gave you a brutal introduction to pointers (puzzling out how double-pointer 
+indirection worked took a while).  This was 1995 so the web was still young
+(netscape 1.x for Irix!).  It was a different experience; when downloading 
+from the internet one had to make sure you weren't leaving the continent 
+(downloading Samba from Australia could take days).
+
+My friend and co-worker John had discovered Linux that summer, and he
+showed me it running on his 386/25.  It was a far cry from the
+SGI Indigo2 at work ( OpenGL graphics, 100MHz 64-bit processor, 128MB of RAM, 
+16-bit sound... it was nearly 5 years before I had a computer that could
+match those specs).  Anyway, he had slowly downloaded Slackware over a
+14.4 modem connection onto a big pile of 3 1/2" floppies.  I was excited when
+he showed me that he could recompile the Linux kernel locally!
+The 1.2.13 kernel didn't support his CD-ROM drive, so he compiled up a late
+1.3.xx devel kernel and had to patch the driver to have the proper settings.
+It took a long time to compile, but then we rebooted... and the drive went
+crazy, continuously ejecting and unejecting.  Despite the setback, I was
+impressed.  The interface was just twm and some X-terminals, but that was
+enough for me.  I skipped straight from DOS to Linux, never using Windows
+in any significant manner.
+
+The next year I went off to college, and made sure to request an ethernet
+equipped dorm room (that wasn't a given yet).  I convinced my family I
+needed my own computer, so they bought me a second-hand 486/66.  
+Finally, a Linux box all of my own!
+
+Linux Logo
+~~~~~~~~~~
+
+The linux_logo story starts up now, in 1997.  I had been following the GGI
+project, which was trying to get graphics drivers for Linux into the kernel
+(Linus strongly rejected the idea, it took over 10 years before he would
+change his mind).
+
+There was a big flame war on the linux-kernel list.  Somehow the topic
+came up on whether the kernel should put a Linux penguin on text consoles,
+as the fb drivers did on graphics consoles.  Despite being pro-GGI, I felt
+that something like that belonged in user space, not in the kernel (though
+in the end I did post a patch that did it in the kernel).
+
+I had experience with ANSI/ASCII art from my days using BBSs.  So
+I converted the official logo.xpm file to ANSI using Rasterman's ppm2ansi
+tool, and touched up the image using THEDRAW under Dosemu 0.66.7.
+This is the current "classic" logo.  It was barely more than a hack, but I 
+released version 0.1 on 9 July 1997.
+
+There was more interest than I expected, so I cleaned up the code and
+released a 1.0 version on 18 July 1997.
+
+Version 2.0 had some code cleanups but was mostly a separation of the
+cpuinfo code into a library-like structure.  Released 13 March 1998.
+
+Version 3.0 was released 2 April 1999 after a long string of beta versions.
+This was a large re-write of the codebase.
+
+Version 4.0 was released 13 February 2002 after a long string of betas.
+It was a complete overhaul of the code, to sort out a lot of issues
+where my C coding had gotten better, and to also fix a lot of stupid
+decisions made earlier.
+
+linux_logo was in maintenence mode for a long time, but eventually
+made some changes to fix logo selection, and to make it easier
+to configure from the command line (that is, make it a more UNIX-like
+tool).  I initially wasn't planning on a new major number, but in the
+end the changes were large enough that I did.  5 July 2007 (10 year
+anniversary pretty much).
+
+
+Popularity
+~~~~~~~~~~
+
+linux_logo is probably my most widely used tool, which still surprises me
+after all of these years.  It is available for most distributions, though
+it almost never is in the default install of a mainstream distro
+(the exception was Mandrake Linux which for a while showed the output
+on every boot).  The utility is very polarizing, some people love it, others
+hate it.  The same with the logos available.  Some want nothing but
+classic style, others like the "new" banner style.  I prefer the latter
+but am outnumbered by the former.
+
+
+The Future
+~~~~~~~~~~
+
+I plan on maintaining linux_logo for as long as I continue to use Linux,
+which hopefully is pretty much indefinitely.
+

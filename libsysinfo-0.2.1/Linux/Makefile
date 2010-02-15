@@ -6,6 +6,9 @@ endif
 ifneq (,$(findstring arm,$(ARCH)))
    ARCH := arm
 endif
+ifneq (,$(findstring sh,$(ARCH)))
+   ARCH := sh
+endif
 
 
 all:	cpuinfo.o sysinfo_linux.o
@@ -64,7 +67,7 @@ s390:	cpuinfo_s390.c
 s390x:	cpuinfo_s390x.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390x.c	
 
-sh3:	cpuinfo_sh3.c
+sh:	cpuinfo_sh3.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_sh3.c
 
 sparc:	cpuinfo_sparc.c
