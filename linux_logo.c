@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 5.08 - Creates Nifty Logo With System Info - 15 February 2010
+  LINUX LOGO 5.09 - Creates Nifty Logo With System Info - 16 February 2010
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.08"
+#define VERSION "5.09"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */
@@ -371,11 +371,11 @@ static int generate_sysinfo(
 	                  break;
 	           /* #R prints the amount of memory */
 	      case 'R': if (get_mem_size()>1023*1024) {
-	                   snprintf(temp_string,BUFSIZ,"%.2gTB",
+	                   snprintf(temp_string,BUFSIZ,"%.4gTB",
 				   ((double)get_mem_size())/(1024.0*1024.0));
 	                }
 	                else if (get_mem_size()>1023) {
-	                   snprintf(temp_string,BUFSIZ,"%.2gGB",
+	                   snprintf(temp_string,BUFSIZ,"%.4gGB",
 				 ((double)get_mem_size()/1024.0));
 	                } else {
 			   snprintf(temp_string,BUFSIZ,"%ldM",get_mem_size());

@@ -972,3 +972,9 @@ RELEASE 5.07
 + Add support for Nehalem processors
 
 RELEASE 5.08
+
+16 February 2010
++ Fix problem where exponential notation appeared on a machine
+  with more than 100GB of RAM (yes, I have access to such a machine)
+
+RELEASE 5.09
