@@ -1,0 +1,42 @@
+x86:
+                 actual    iomem   kcore   sysinfo   meminfo
+ppro    ancient	   256      256     256       249       249
+p4      cacao	   256      256     255       249       249  (2.4.18)
+athlon  torc14     256      256     255       249       249
+pIII    spruengli  512      512     511       502       502
+pIII    torc0      512      512     511       503       503
+p4      sampaka	  2048     2048     896      2026      2026
+p4      cluizel	  2048     2048     896      2026      2026
+opteron hal-01    8192     3583     896      4021      8117  (2.6.9-67.EL)
+
+x86_64:
+
+phenom  venchi   2048     2047   2046       2010      2010
+core2   tasse	 2048     2047   2046       2011      2011
+core2   cl320    2048     2046   2046       1984      1984
+pD      domori	 4096	  4096	 4864	    3947      3947
+core2   cluster	 8192     3324   8960       7969      7969 (2.6.9-67.EL)
+nehalem gonzo            18423  19456      18092     18092
+istanb  ig     131068   131068  128TB     129193    129193
+
+alpha:
+
+21264   bmul      512        0   511         495       495
+
+sparc:
+
+niag1   valor    8192        0     0        4007      8103   
+
+arm:
+arm7    beagle    256     256      0         233       233
+
+ppc:
+power6 bluegrass 15680      0   214        3142     15430
+
+ia64:
+
+itanium         1024     1010    1024       915       915
+
+
+solaris/sparc
+niag1            16G   16G

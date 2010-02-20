@@ -56,7 +56,7 @@ else
    CC=gcc
 fi
 
-LIBSYSINFO=libsysinfo-0.2.1
+LIBSYSINFO=libsysinfo-0.2.2
 
 LDFLAGS=""
 

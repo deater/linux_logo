@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 5.09 - Creates Nifty Logo With System Info - 16 February 2010
+  LINUX LOGO 5.10 - Creates Nifty Logo With System Info - 19 February 2010
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.09"
+#define VERSION "5.10"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */
@@ -258,6 +258,7 @@ static int generate_sysinfo(
     char **temp_sysinfo;
     char char_string[2]={0,0};
     int allocated_lines=10;
+    long long mem_size=0;
 
        /* Get the system info */
     get_os_info(&os_info);
@@ -370,18 +371,33 @@ static int generate_sysinfo(
 			  }
 	                  break;
 	           /* #R prints the amount of memory */
-	      case 'R': if (get_mem_size()>1023*1024) {
-	                   snprintf(temp_string,BUFSIZ,"%.4gTB",
-				   ((double)get_mem_size())/(1024.0*1024.0));
-	                }
-	                else if (get_mem_size()>1023) {
-	                   snprintf(temp_string,BUFSIZ,"%.4gGB",
-				 ((double)get_mem_size()/1024.0));
-	                } else {
-			   snprintf(temp_string,BUFSIZ,"%ldM",get_mem_size());
-		        }
-	                vmw_strcat(temp_line,temp_string,BUFSIZ-strlen(temp_line));
-                        break;
+	        case 'R': mem_size=get_mem_size();
+
+		          if (mem_size>1023*1024*1024) {
+			     snprintf(temp_string,BUFSIZ,"%.2gPB",
+			              ((double)mem_size)/(1024.0*1024.0*1024.0));
+			  }
+		          else if (mem_size>1023*1024*10) {
+			     snprintf(temp_string,BUFSIZ,"%.3gTB",
+			             ((double)mem_size)/(1024.0*1024.0));
+			  }
+		          else if (mem_size>1023*1024) {
+			     snprintf(temp_string,BUFSIZ,"%.2gTB",
+			             ((double)mem_size)/(1024.0*1024.0));
+			  }
+		          else if (mem_size>1023*10) {
+			     snprintf(temp_string,BUFSIZ,"%.3gGB",
+			             ((double)mem_size/1024.0));
+			  }
+		          else if (mem_size>1023) {
+			     snprintf(temp_string,BUFSIZ,"%.2gGB",
+			             ((double)mem_size/1024.0));
+			  } else {
+			     snprintf(temp_string,BUFSIZ,"%lldM",mem_size);
+			  }
+	                  vmw_strcat(temp_line,temp_string,
+                                     BUFSIZ-strlen(temp_line));
+                          break;
 	           /* #S prints "s" if CPU's are more than 1.  DEPRECATED */
 	        case 'S': if (cpu_info.num_cpus!=1) {
 	                     vmw_strcat(temp_line,"s",BUFSIZ-strlen(temp_line));

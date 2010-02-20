@@ -978,3 +978,11 @@ RELEASE 5.08
   with more than 100GB of RAM (yes, I have access to such a machine)
 
 RELEASE 5.09
+
+19 February 2010
++ Enable Power6 support
++ Clean up memory detection, bump libsysinfo number.  I hope
+  this doesn't break anything.
++ Re-fix the memory printing code.
+
+RELEASE 5.10
