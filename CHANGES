@@ -986,3 +986,13 @@ RELEASE 5.09
 + Re-fix the memory printing code.
 
 RELEASE 5.10
+
+14 November 2010
++ Fix for the po Makefile to work with gmake 2.82.
+  Patch provided by Edward Sheldrake <ejsheldrake _at_ gmail.com>
++ Fix some warnings from newer gcc.  Obvious fixes, hopefully
+  didn't break anything.
++ Test against some new cpuinfo files.
++ Some very minor libsysinfo changes for Xeon cpus.
+
+RELEASE 5.11

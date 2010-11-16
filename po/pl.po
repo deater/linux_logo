@@ -1,12 +1,12 @@
 # Polish translation for linux_logo.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # ?
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: linux_logo 5.01\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-11 22:11+0200\n"
+"POT-Creation-Date: 2010-11-15 16:22-0500\n"
 "PO-Revision-Date: 2006-02-05 21:30+0100\n"
 "Last-Translator: Patryk ¦ciborek <scibi@inetia.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -61,31 +61,31 @@ msgstr "Dziewiêæ"
 msgid "Many"
 msgstr "Wiele"
 
-#: ../linux_logo.c:179
+#: ../linux_logo.c:178
 msgid "Uptime "
 msgstr "Dzia³a "
 
-#: ../linux_logo.c:183
+#: ../linux_logo.c:182
 msgid "day"
 msgstr "dzieñ"
 
-#: ../linux_logo.c:183
+#: ../linux_logo.c:182
 msgid "days"
 msgstr "dni"
 
-#: ../linux_logo.c:189
+#: ../linux_logo.c:188
 msgid "hour"
 msgstr "godzinê"
 
-#: ../linux_logo.c:189
+#: ../linux_logo.c:188
 msgid "hours"
 msgstr "godziny"
 
-#: ../linux_logo.c:194
+#: ../linux_logo.c:193
 msgid "minute"
 msgstr "minutê"
 
-#: ../linux_logo.c:194
+#: ../linux_logo.c:193
 msgid "minutes"
 msgstr "minut"
 
@@ -93,8 +93,7 @@ msgstr "minut"
 msgid "Load Average"
 msgstr "¦rednie obci±¿enie"
 
-#. This is the default format of the output file.  See the README for more *
-#. \* information on how to configure this option.
+#. This is the default format of the output file.  See the README for more *#. \* information on how to configure this option.
 #: ../defaults.h:8
 msgid ""
 "#O Version #V, Compiled #C\n"

@@ -22,7 +22,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxlogo 4.09\n"
-"POT-Creation-Date: 2001-03-16 15:12-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-15 16:22-0500\n"
 "PO-Revision-Date: 2005-02-15 19:09+0000\n"
 "Last-Translator: Marco Colombo <m.colombo@ed.ac.uk>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -31,54 +32,88 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplulars=2; plural=n != 1;\n"
 
-#: ../linux_logo.c:34 
+#: ../linux_logo.c:59
 msgid "Zero"
 msgstr "Zero"
 
 # NdT: viene sostituito per #N #P: un processore
-#: ../linux_logo.c:34 
+#: ../linux_logo.c:60
 msgid "One"
 msgstr "Un"
 
-#: ../linux_logo.c:34 
+#: ../linux_logo.c:61
 msgid "Two"
 msgstr "Due"
 
-#: ../linux_logo.c:34 
+#: ../linux_logo.c:62
 msgid "Three"
 msgstr "Tre"
 
-#: ../linux_logo.c:35 
+#: ../linux_logo.c:63
 msgid "Four"
 msgstr "Quattro"
 
-#: ../linux_logo.c:35 
+#: ../linux_logo.c:64
 msgid "Five"
 msgstr "Cinque"
 
-#: ../linux_logo.c:35 
+#: ../linux_logo.c:65
 msgid "Six"
 msgstr "Sei"
 
-#: ../linux_logo.c:35 
+#: ../linux_logo.c:66
 msgid "Seven"
 msgstr "Sette"
 
-#: ../linux_logo.c:36 
+#: ../linux_logo.c:67
 msgid "Eight"
 msgstr "Otto"
 
-#: ../linux_logo.c:36 
+#: ../linux_logo.c:68
 msgid "Nine"
 msgstr "Nove"
 
-#: ../linux_logo.c:36 
+#: ../linux_logo.c:69
 msgid "Many"
 msgstr "Tanti"
 
-#. This is the default format of the output file.  See the README for more *\
-#. \* information on how to configure this option.
-#: ../defaults.h:7 
+#: ../linux_logo.c:178
+msgid "Uptime "
+msgstr ""
+
+#: ../linux_logo.c:182
+msgid "day"
+msgstr ""
+
+#: ../linux_logo.c:182
+msgid "days"
+msgstr ""
+
+#: ../linux_logo.c:188
+#, fuzzy
+msgid "hour"
+msgstr "Quattro"
+
+#: ../linux_logo.c:188
+#, fuzzy
+msgid "hours"
+msgstr "Quattro"
+
+#: ../linux_logo.c:193
+#, fuzzy
+msgid "minute"
+msgstr "Nove"
+
+#: ../linux_logo.c:193
+msgid "minutes"
+msgstr ""
+
+#: ../linux_logo.c:316
+msgid "Load Average"
+msgstr ""
+
+#. This is the default format of the output file.  See the README for more *#. \* information on how to configure this option.
+#: ../defaults.h:8
 msgid ""
 "#O Version #V, Compiled #C\n"
 "#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
@@ -88,7 +123,7 @@ msgstr ""
 "#N #P #M #X #T, #R RAM, #B Bogomips totali\n"
 "#H\n"
 
-#: ../defaults.h:8 
+#: ../defaults.h:9
 msgid ""
 "#O Version #V\n"
 "Compiled #C\n"
@@ -102,10 +137,14 @@ msgstr ""
 "#B Bogomips totali\n"
 "#H\n"
 
-#: ../defaults.h:9 
+#. Plural.  With the coming of i18n you really can't assume plurals can
+#. be made by adding a string to the end.  Hopefully this can fix it for
+#. most languages.  If they require significant word-order changes then
+#. we'll have even more problems
+#: ../defaults.h:14
 msgid "Processor"
 msgstr "Processore"
 
-#: ../defaults.h:10 
+#: ../defaults.h:15
 msgid "Processors"
 msgstr "Processori"

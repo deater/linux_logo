@@ -340,7 +340,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
              /* TODO - determine base type based on model id? */
           if ( !(strncmp(model_string,"Intel(R) Xeon(TM) CPU",21)) ||
 	       !(strncmp(model_string,"Intel(R) Xeon(R) CPU",20)) || 
-	       !(strncmp(model_string,"Intel(R) Genuine CPU",19)) || 
+	       !(strncmp(model_string,"Intel(R) Genuine CPU",20)) || 
+	       !(strncmp(model_string,"Genuine Intel(R) CPU",20)) || 
 	       !(strncmp(model_string,"Intel(R) XEON(TM)",17)) ||
 	       !(strncmp(model_string,"Intel(R) Xeon(TM)",17))
 	      ) {

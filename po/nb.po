@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linux_logo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-16 02:00+0100\n"
+"POT-Creation-Date: 2010-11-15 16:22-0500\n"
 "PO-Revision-Date: 2004-03-16 02:02+0100\n"
 "Last-Translator: Per Øyvind Karlsen <peroyvind@sintrax.net>\n"
 "Language-Team: Norwegian Bokmål <nb@li.org>\n"
@@ -16,52 +16,87 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3\n"
 
-#: ../linux_logo.c:53
+#: ../linux_logo.c:59
 msgid "Zero"
 msgstr "Null"
 
-#: ../linux_logo.c:54
+#: ../linux_logo.c:60
 msgid "One"
 msgstr "En"
 
-#: ../linux_logo.c:55
+#: ../linux_logo.c:61
 msgid "Two"
 msgstr "To"
 
-#: ../linux_logo.c:56
+#: ../linux_logo.c:62
 msgid "Three"
 msgstr "Tre"
 
-#: ../linux_logo.c:57
+#: ../linux_logo.c:63
 msgid "Four"
 msgstr "Fire"
 
-#: ../linux_logo.c:58
+#: ../linux_logo.c:64
 msgid "Five"
 msgstr "Fem"
 
-#: ../linux_logo.c:59
+#: ../linux_logo.c:65
 msgid "Six"
 msgstr "Seks"
 
-#: ../linux_logo.c:60
+#: ../linux_logo.c:66
 msgid "Seven"
 msgstr "Sju"
 
-#: ../linux_logo.c:61
+#: ../linux_logo.c:67
 msgid "Eight"
 msgstr "Åtte"
 
-#: ../linux_logo.c:62
+#: ../linux_logo.c:68
 msgid "Nine"
 msgstr "Ni"
 
-#: ../linux_logo.c:63
+#: ../linux_logo.c:69
 msgid "Many"
 msgstr "Mange"
 
-#. This is the default format of the output file.  See the README for more *\* information on how to configure this option.
-#: ../defaults.h:13
+#: ../linux_logo.c:178
+msgid "Uptime "
+msgstr ""
+
+#: ../linux_logo.c:182
+msgid "day"
+msgstr ""
+
+#: ../linux_logo.c:182
+msgid "days"
+msgstr ""
+
+#: ../linux_logo.c:188
+#, fuzzy
+msgid "hour"
+msgstr "Fire"
+
+#: ../linux_logo.c:188
+#, fuzzy
+msgid "hours"
+msgstr "Fire"
+
+#: ../linux_logo.c:193
+#, fuzzy
+msgid "minute"
+msgstr "Ni"
+
+#: ../linux_logo.c:193
+msgid "minutes"
+msgstr ""
+
+#: ../linux_logo.c:316
+msgid "Load Average"
+msgstr ""
+
+#. This is the default format of the output file.  See the README for more *#. \* information on how to configure this option.
+#: ../defaults.h:8
 msgid ""
 "#O Version #V, Compiled #C\n"
 "#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
@@ -71,7 +106,7 @@ msgstr ""
 "#N #M #X #T #P, #R RAM, #B Bogomips Totalt\n"
 "#H\n"
 
-#: ../defaults.h:14
+#: ../defaults.h:9
 msgid ""
 "#O Version #V\n"
 "Compiled #C\n"
@@ -89,11 +124,10 @@ msgstr ""
 #. be made by adding a string to the end.  Hopefully this can fix it for
 #. most languages.  If they require significant word-order changes then
 #. we'll have even more problems
-#: ../defaults.h:19
+#: ../defaults.h:14
 msgid "Processor"
 msgstr "Prosessor"
 
-#: ../defaults.h:20
+#: ../defaults.h:15
 msgid "Processors"
 msgstr "Prosessorer"
-

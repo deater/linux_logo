@@ -32,9 +32,9 @@ install: $(CATALOGS)
 	msgfmt -o $@ $< 
 
 update: $(PACKAGE).pot
-       for n in $(CATALOGS); do \
-       l=basename $$n .mo; \
-       l=$$l".po";\
-       mv -f $$l $$l".bac";\
-       msgmerge -o $$l $$l".bac" $(PACKAGE).pot; \
-       done
+	for n in $(CATALOGS); do \
+	l=`basename $$n .mo`; \
+	l=$$l".po"; \
+	mv -f $$l $$l".bac"; \
+	msgmerge -o $$l $$l".bac" $(PACKAGE).pot; \
+	done

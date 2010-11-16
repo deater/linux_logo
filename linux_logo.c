@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 5.10 - Creates Nifty Logo With System Info - 19 February 2010
+  LINUX LOGO 5.11 - Creates Nifty Logo With System Info - 15 November 2010
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.10"
+#define VERSION "5.11"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */
@@ -953,14 +953,15 @@ void read_config_file(struct linux_logo_info_type *settings) {
        
        /* skip over whitespace and comments */         
        while(!valid_string) {
-          fgets(config_string,BUFSIZ,config_file);
-	  for(i=0;i<strlen(config_string);i++) {
-	     if (config_string[i]=='#') break;  /* a comment */
-	     else if (config_string[i]=='\n') break; /* empty line */
-	     else if (config_string[i]==' ' || config_string[i]=='\t'); /* whitespace */
-	     else {
-		valid_string=1;
-		break;
+	  if (fgets(config_string,BUFSIZ,config_file)) {
+	     for(i=0;i<strlen(config_string);i++) {
+	        if (config_string[i]=='#') break;  /* a comment */
+	        else if (config_string[i]=='\n') break; /* empty line */
+	        else if (config_string[i]==' ' || config_string[i]=='\t'); /* whitespace */
+	        else {
+		   valid_string=1;
+		   break;
+	        }
 	     }
 	  }
 	  if (feof(config_file)) break;

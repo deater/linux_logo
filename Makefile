@@ -33,7 +33,7 @@ Makefile.default:
 	ifneq($(CONFIGURE_RAN),1)
 	$(error Please run configure first)
 	endif
-   
+
 translations:
 	cd po && $(MAKE)
 
@@ -77,7 +77,7 @@ load_logos.h:	logo_config parse_logos
 
 load_logo.o:	load_logo.c
 	$(CROSS)$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -c load_logo.c
-	
+
 load_logo_native.o:	load_logo.c
 	$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -o load_logo_native.o -c load_logo.c	
 

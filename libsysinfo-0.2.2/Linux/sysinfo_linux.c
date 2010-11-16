@@ -16,10 +16,11 @@ int get_uptime (void) {
    
     FILE *fff;
     float uptime_seconds;
+    int result;
    
     fff=fopen("/proc/uptime","r");
     if (fff!=NULL) {
-       fscanf(fff,"%f",&uptime_seconds);
+       result=fscanf(fff,"%f",&uptime_seconds);
        fclose (fff);
     }
    
@@ -30,10 +31,11 @@ int get_uptime (void) {
 void get_load_average(float *load_1,float *load_5,float *load_15) {
    
     FILE *fff;
+    int result;
    
     fff=fopen("/proc/loadavg","r");
     if (fff!=NULL) {
-       fscanf(fff,"%f" "%f" "%f", load_1, load_5, load_15);
+       result=fscanf(fff,"%f" "%f" "%f", load_1, load_5, load_15);
        fclose (fff);
     }
 }
