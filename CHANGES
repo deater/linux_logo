@@ -99,11 +99,15 @@ RELEASE 1.05
   escaped... ugh] so released 1.06
 + UGH! Uploaded 1.06 as ASCII instead of BIN at sunsite by mistake.  Changed
   version of package to 1.07 but leave everything as 1.06 ;)  yes I'm lazy
-  
+
+RELEASE 1.06
+
 19 FEBRUARY 1998
 + Added Cyrix 6x86 support [thanks to <adam _at_ princeton.edu>]
 + Changed to read the vendor_id to report vendor.  Idea also thanks to 
   <adam _at_ princeton.edu>
+  
+RELEASE 1.07
   
 13 MARCH 1998
 + Added minimal AIX port [thanks to Thomas Grewe]
@@ -260,7 +264,9 @@ RELEASE 2.07
   for the report.
 + Added information to the README for adding linux_logo to SUSE linux systems.
   Thanks to Rodolfo Pilas <rodolfo _at_ linux.org.uy>.
-  
+
+RELEASE 2.08
+
 1 September 1998
 + Back at school.  Trying to merge stuff up the best I can.
 + Integrated [with some changes] a patch sent by Aleksey Makarov
@@ -279,7 +285,9 @@ RELEASE 2.07
   has its own maintainer, Steve Kostecke <steve _at_ kostecke.net>.
   Anyway he sent in some patches, including a man page and some ppc
   fixes, so I merged them in as well.
-  
+
+RELEASE 2.09
+
 5 September 1998
 + Fixed it so the -f and -g options work together [thanks to Gabriel Grundin 
   <gabbe _at_ linux.nu> for this one.
@@ -315,6 +323,8 @@ RELEASE 2.10
 + Realized using '@' as the character above screwed up the ascii output.
   Changed it to `
 + Found another mistake where I forgot to add ` s to ascii_banner.h
+
+RELEASE 2.11
 
 30 October 1998
 + Have been busy busy busy busy doing other stuff.  Finally had time to
@@ -352,7 +362,9 @@ RELEASE 2.12
 + Also added sample scripts from him to contrib directory.
 + Pending re-write of entire sub-system, to break compatibility?
   Linux_logo 3.0?
-  
+
+RELEASE 2.13
+
 9 January 1999
 + Ugly snowy and icy weather has trapped me at home, giving me time for the
   re-write.
@@ -376,6 +388,8 @@ RELEASE 2.12
 + Tried to fix things up for a beta release to freshmeat tomorrow
 + Went through bringing up all non-intel targets to code.
 + Added Megahertz printing for Alpha chips
+
+RELEASE 3.0b1
 
 25 March 1999
 + Finally had time to work on linux_logo again.  School has just been tough.
@@ -401,6 +415,12 @@ RELEASE 2.12
 + Pack it up and release to freshmeat.... here comes 3.0b2
 
 RELEASE 3.0b2
+
+27 March 1999
++ Added rudimentary autoconf support.  Used the tutorial by Mark Galassi
+  at http://nis-www.lanl.gov/~rosalia/mydocs/autoconf_tutorial_toc.html
+  
+RELEASE 3.0b3
 
 2 April 1999
 + Not many bug reports at all.. gearing up for a 3.0 release later today.
@@ -489,6 +509,8 @@ RELEASE 3.01
 + I am sure once I release this on freshmeat my mailbox will fill with more
   bugs, so stay tuned....
 
+RELEASE 3.02
+
 7 January 2000
 + Well, finally have some time for linux_logo again.  The semester of school
   was crazy, but after finals and a trip to Mont Tremblant, Canada, things
@@ -506,6 +528,8 @@ RELEASE 3.01
   for people to browse and pick which ones they want compiled in.
 + Upload and release
 
+RELEASE 3.03
+
 12 January 2000
 + Of course I manage to spell Athlon wrong.  Thanks to alp _at_ unistat.com
 
@@ -514,10 +538,10 @@ RELEASE 3.01
 + One month left till my birthday.... plenty of time left to send me 
   a present ;)
 
-RELEASE 3.04
-
 31 January 2000
 + Fix y2k bug with the LSM and hope metalab accepts it...
+
+RELEASE 3.04
 
 29 February 2000
 + Added a slackware logo
@@ -587,7 +611,7 @@ RELEASE 3.9b1
 + Finished x86 support to work on my machine
 
 3 March 2001
-+ Finished x86 support to work on all cpuinfo's in my collection
++ Finished x86 support to work on all cpuinfos in my collection
 + Changed so reports GHz if over 1000Mhz.
 + Finished updating Alpha.
 + Finished updating ARM.
@@ -605,10 +629,10 @@ RELEASE 3.9b1
 + Looked into merging in i18n patch.  Sill a bit wary of it.
 
 5 March 2001
-+ Release 3.9b2 to servers.  Hoepfully can release 4.0
++ Release 3.9b2 to servers.  Hopefully can release 4.0
   after a normal bugfixing period.
 
-RELEASE 3.9b2
+RELEASE 3.9b2  /  LIBSYSINFO 0.0.1
 
 16 March 2001
 + Fix GHz output to show 2 decimal points at least.  This is because
@@ -626,10 +650,10 @@ RELEASE 3.9b2
   changes:  new "make install", compressed man-page.
 + Split off a "USAGE" file to make the README a bit less cluttered.
 
+RELEASE 3.9b3  /  LIBSYSINFO 0.0.2
+
 24 April 2001
 + Finally got around to releasing 3.9b3 on freshmeat.  600 downloads
-
-RELEASE 3.9b3
 
 30 April 2001
 + Touch up the redhat and debian banner logos, from
@@ -648,7 +672,7 @@ RELEASE 3.9b3
   that will give either a singular or plural form of the word "Processor"
 + Released 3.9b4
   
-RELEASE 3.9b4
+RELEASE 3.9b4   /  LIBSYSINFO 0.0.3
   
 16 October 2001
 + Fix GHz printing for fast chips
@@ -688,13 +712,13 @@ RELEASE 3.9b5
 + Cleaning up the documentation.  After 2 years 4.0 will finally be ready.
   Shooting for a 13 February special "birthday" release.
 
-RELEASE 4.0
+RELEASE 4.0   /   LIBSYSINFO 0.0.4
 
 14 February 2002
 + Release quick 4.01 version to fix machines with more than 2 GB of RAM
   on intel (although, still anything more than 4GB will need special code).
 
-RELEASE 4.01
+RELEASE 4.01   /  LIBSYSINFO 0.0.5
 
 11 March 2002
 + Some i18n fixes, and Polish translation, thanks to Patryk ciborek
@@ -716,13 +740,13 @@ RELEASE 4.02
   Thanks to Steve Kostecke <steve _at_ debian.org>
 + Added "-k" option that disables centering of system info
 
-RELEASE 4.03
+RELEASE 4.03   /  LIBSYSINFO 0.0.6
 
 19 July 2002
 + Had released 4.03
 + Update USAGE to reflect redhat 7.x series
 
-RELEASE 4.04
+RELEASE 4.04   /  LIBSYSINFO 0.0.7
 
 27 August 2002
 + Have to release version 4.05 because of a segfault when
@@ -822,14 +846,14 @@ RELEASE 4.13
   <inkerman42 _at_ gmail.com>
 + Fix spelling problems in CHANGES file (from debian via maintainer
   Khalid El Fathi <invent _at_ edena-fr.org> ).
-+ Inspires by a patch from debian, make it so the configuration file can
++ Inspired by a patch from debian, make it so the configuration file can
   handle empty lines, comments, and empty files.
 + Apply patch to make the -L command line argument override the other types
   of configuration.  (from debian via maintainer Khalid El Fathi
   <invent _at_ edena-fr.org> ).
 + Fix off by one error in allocation of the size of string ~/linux_logo.c
 
-RELEASE 4.14
+RELEASE 4.14   / LIBSYSINFO 0.1.0
 
 4 January 2007
 + Support sparc64 on Linux (we obtained some Niagara systems ;) )
@@ -867,6 +891,8 @@ RELEASE 4.16
 + Need to fix Core Duo handling (urgh Intel, could you make the
   cpuinfo even uglier?).  Thanks to Matthias Saou <matthias _at_ rpmforge.net>
   for sending me a few cpuinfo files to work with.
+
+RELEASE 5.0-beta1 / libsysinfo 0.2.0
   
 28 June 2007
 + Re-wrote command-line and option handling to not use getopt().
@@ -878,10 +904,14 @@ RELEASE 4.16
 + Made some fake "configure" files that make an attempt at auto-configuring
 + Ensured cross-compiler support works.
 
+RELEASE 5.0-beta2
+
 4 July 2007
 + Work on i18n support.  It seems to work tolerably well again.
 + More testing of the build scripts.  It works on Irix, Solaris, FreeBSD and
   Linux.
+
+RELEASE 5.0-beta3
 
 5 July 2007
 + Turn back on logo-selection support.  Make sure all the logos
@@ -889,6 +919,8 @@ RELEASE 4.16
 + Ran ispell on the documentation.
 + Added support for choosing logo by names.  Updated all the logos
   to have names.
+
+RELEASE 5.0-beta4
 
 RELEASE 5.0
 
@@ -901,7 +933,7 @@ RELEASE 5.0
   bytes in size to the program.
   Thanks to Secunia Research for bugging me on this issue.
 
-RELEASE 5.01
+RELEASE 5.01 / libsysinfo 0.2.1
 
 30 July 2007
 + Minor bugfix in libsysinfo with how errors in parse_string() were
@@ -931,7 +963,7 @@ RELEASE 5.04
 5 June 2009
 + Some libsysinfo changes.  Quick summary:
   Add frv, microblaze and m32r support.
-  Fix some old Cyric chips.
+  Fix some old Cyrix chips.
   Fix Sheeva Plug/ARM.
   
 RELEASE 5.05
