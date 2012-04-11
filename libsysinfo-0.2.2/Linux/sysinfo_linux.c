@@ -23,6 +23,8 @@ int get_uptime (void) {
        result=fscanf(fff,"%f",&uptime_seconds);
        fclose (fff);
     }
+
+    (void)result;
    
     return uptime_seconds;
 }
@@ -38,6 +40,8 @@ void get_load_average(float *load_1,float *load_5,float *load_15) {
        result=fscanf(fff,"%f" "%f" "%f", load_1, load_5, load_15);
        fclose (fff);
     }
+   
+    (void)result;
 }
 
 int get_os_info(struct os_info_type *os_info) {
