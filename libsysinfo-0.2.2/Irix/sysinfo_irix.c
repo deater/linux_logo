@@ -67,3 +67,13 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
    
    return 0;
 }
+
+double get_cpu_mhz(void) {
+   
+      struct cpu_info_type cpu_info;
+   
+      get_cpu_info(&cpu_info);
+   
+      return (double)cpu_info.megahertz;
+   
+}

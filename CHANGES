@@ -1028,3 +1028,8 @@ RELEASE 5.10
 + Some very minor libsysinfo changes for Xeon cpus.
 
 RELEASE 5.11
+
+10 April 2012
++ Read MHZ from /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq
+  if possible, falling back to /proc/cpuinfo
+

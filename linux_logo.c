@@ -259,6 +259,7 @@ static int generate_sysinfo(
     char char_string[2]={0,0};
     int allocated_lines=10;
     long long mem_size=0;
+    double megahertz=0.0;
 
        /* Get the system info */
     get_os_info(&os_info);
@@ -317,14 +318,15 @@ static int generate_sysinfo(
 	                  vmw_strcat(temp_line,temp_string,BUFSIZ-strlen(temp_line));
 	                  break;
 	           /* #M prints Megahertz */
-	        case 'M': if (cpu_info.megahertz>0.0) {
-	                     if (cpu_info.megahertz>999.0) {
+	        case 'M': megahertz=get_cpu_mhz();
+		          if (megahertz>0.0) {
+	                     if (megahertz>999.0) {
 			        snprintf(temp_string,BUFSIZ,"%.3gGHz",
-					 cpu_info.megahertz/1000.0);  
+					 megahertz/1000.0);  
 			     }
 	                     else {
 			        snprintf(temp_string,BUFSIZ,"%.3gMHz",
-					 cpu_info.megahertz);  
+					 megahertz);  
 			     }
 	                     vmw_strcat(temp_line,temp_string,
 					BUFSIZ-strlen(temp_line));

@@ -101,3 +101,12 @@ long long get_mem_size(void) {
     return mem_size;     
 }
 
+double get_cpu_mhz(void) {
+   
+      struct cpu_info_type cpu_info;
+   
+      get_cpu_info(&cpu_info);
+   
+      return (double)cpu_info.megahertz;
+   
+}

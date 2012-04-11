@@ -55,6 +55,8 @@ long long get_mem_size_meminfo(void);
 long long get_mem_size_iomem(void);
 long long get_mem_size_stat(void);
 
+double get_cpu_mhz(void);
+
 /* Debugging */
 int set_cpuinfo_file(char *filename);
 void set_pretty_printing(int value);

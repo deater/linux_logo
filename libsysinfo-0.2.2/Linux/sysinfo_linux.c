@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>  /* atol, strtol   */
-#include <string.h>  /* strncmp, strstr,strchr */
-#include <ctype.h>   /* isdigit */
-#include <sys/stat.h> /* stat */
-#include <unistd.h>  /* stat */
+#include <stdlib.h>      /* atol, strtol   */
+#include <string.h>      /* strncmp, strstr,strchr */
+#include <ctype.h>       /* isdigit */
+#include <sys/stat.h>    /* stat */
+#include <unistd.h>      /* stat */
 
 #include <sys/sysinfo.h> /* sysinfo() */
 
@@ -197,4 +197,31 @@ use_meminfo:
     if (mem_size == 0) mem_size = get_mem_size_meminfo();
    
     return mem_size;     
+}
+
+double get_cpu_mhz(void) {
+ 
+   struct cpu_info_type cpu_info;
+   double megahertz=0.0;
+   long long temp;
+   FILE *fff;
+   
+   fff=fopen("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq","r");
+   if (fff!=NULL) {
+      fscanf(fff,"%lld",&temp);
+      megahertz=(double)temp;
+      megahertz/=1000.0;
+      fclose(fff);
+   }
+   
+   
+   if(megahertz==0.0) {
+      /* Couldn't read from cpufreq, instead use /proc/cpuinfo */
+   
+      get_cpu_info(&cpu_info);
+   
+      megahertz=(double)cpu_info.megahertz;
+   }
+   
+   return megahertz;
 }

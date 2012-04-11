@@ -99,3 +99,13 @@ type  POWER2 Processor type  False
    
       hw_info->cpu_type=strdup(chip);
 }
+
+double get_cpu_mhz(void) {
+   
+      struct cpu_info_type cpu_info;
+   
+      get_cpu_info(&cpu_info);
+   
+      return (double)cpu_info.megahertz;
+   
+}
