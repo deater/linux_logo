@@ -35,3 +35,13 @@ Suggestions from others:
 
 - All text in output is printed in ESC[1;37;40m. It would be nice to
   have an option for that. For example: linux_logo -z 0-37-40 ...
+
+
+New suggestions:
+
+- Lookup table for x86 processors
+
+- #8C type options, with number specifying max width
+
+- #R option, print "raw" returned CPU name
+
