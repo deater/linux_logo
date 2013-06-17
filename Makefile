@@ -5,6 +5,7 @@
 -include Makefile.default
 
 PROGNAME = linux_logo
+CC = gcc
 
 #ifeq ($(OS),IRIX64) 
 #   LDFLAGS += -lintl
@@ -13,9 +14,9 @@ PROGNAME = linux_logo
 #
 # Installation location
 #
-INSTALL_BINPATH = $(PREFIX)/bin
-INSTALL_MANPATH = $(PREFIX)/share/man
-INSTALL_DOCPATH = $(PREFIX)/share/doc
+INSTALL_BINPATH = $(DESTDIR)$(PREFIX)/bin
+INSTALL_MANPATH = $(DESTDIR)$(PREFIX)/share/man
+INSTALL_DOCPATH = $(DESTDIR)$(PREFIX)/share/doc
 
 #
 # Libsysinfo location
@@ -54,7 +55,7 @@ clean:	Makefile.default
 
 distclean: clean
 	cd $(LIBSYSINFO) && $(MAKE) distclean
-	rm -f Makefile.default logo_config
+#	rm -f Makefile.default logo_config
 
 linux_logo:	linux_logo.o load_logo.o ./$(LIBSYSINFO)/libsysinfo.a
 	$(CROSS)$(CC) $(LDFLAGS) -o linux_logo linux_logo.o load_logo.o $(LIBSYSINFO_LIBRARY) ./$(LIBSYSINFO)/libsysinfo.a 
@@ -67,7 +68,7 @@ linux_logo_shared:	linux_logo.o load_logo.o ./$(LIBSYSINFO)/libsysinfo.a
 	cd $(LIBSYSINFO) && $(MAKE)
 
 parse_logos:	parse_logos.o load_logo_native.o
-	$(CC) $(LDFLAGS) -o parse_logos parse_logos.o load_logo_native.o
+	$(CC) -o parse_logos parse_logos.o load_logo_native.o
 
 parse_logos.o:	parse_logos.c logo_config
 	$(CC) $(CFLAGS) $(LIBSYSINFO_INCLUDE) -c parse_logos.c

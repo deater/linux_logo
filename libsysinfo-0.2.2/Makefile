@@ -14,7 +14,7 @@ clean:
 	cd all && $(MAKE) clean
 	
 distclean: clean
-	rm -f Makefile.default	
+#	rm -f Makefile.default	
 	
 
 install:	
