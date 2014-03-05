@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linux_logo 5.01\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-15 16:22-0500\n"
+"POT-Creation-Date: 2014-03-04 23:01-0500\n"
 "PO-Revision-Date: 2006-02-05 21:30+0100\n"
 "Last-Translator: Patryk ¦ciborek <scibi@inetia.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,7 +90,7 @@ msgstr "minutê"
 msgid "minutes"
 msgstr "minut"
 
-#: ../linux_logo.c:316
+#: ../linux_logo.c:317
 msgid "Load Average"
 msgstr "¦rednie obci±¿enie"
 

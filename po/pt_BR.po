@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linux_logo 4.06\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-15 16:22-0500\n"
+"POT-Creation-Date: 2014-03-04 23:01-0500\n"
 "PO-Revision-Date: 2002-12-01 12:00-0200\n"
 "Last-Translator: Anderson Rocha <xcommanderx@bol.com.br>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -90,7 +91,7 @@ msgstr "Nove"
 msgid "minutes"
 msgstr ""
 
-#: ../linux_logo.c:316
+#: ../linux_logo.c:317
 msgid "Load Average"
 msgstr ""
 

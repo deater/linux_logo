@@ -7,7 +7,7 @@ CATALOGS = da.mo de.mo es.mo fr.mo nb.mo nl.mo it.mo pl.mo pt_BR.mo ru.mo sv.mo 
 
 POTFILES= ../*.c ../*.h
 
-all: $(PACKAGE).pot update $(CATALOGS)
+all: $(PACKAGE).pot $(CATALOGS)
 
 $(PACKAGE).pot: $(POTFILES)
 	$(XGETTEXT) --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES); 
@@ -18,7 +18,7 @@ $(PACKAGE).pot: $(POTFILES)
 	fi 
 
 clean:
-	rm -f *mo $(PACKAGE).pot *~ *.bac
+	rm -f *mo *~ *.bac
 
 install: $(CATALOGS)
 	for n in $(CATALOGS); do \
