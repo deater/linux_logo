@@ -13,9 +13,9 @@ PROGNAME = linux_logo
 #
 # Installation location
 #
-INSTALL_BINPATH = $(PREFIX)/bin
-INSTALL_MANPATH = $(PREFIX)/share/man
-INSTALL_DOCPATH = $(PREFIX)/share/doc
+INSTALL_BINPATH = $(DESTDIR)$(PREFIX)/bin
+INSTALL_MANPATH = $(DESTDIR)$(PREFIX)/share/man
+INSTALL_DOCPATH = $(DESTDIR)$(PREFIX)/share/doc
 
 #
 # Libsysinfo location
