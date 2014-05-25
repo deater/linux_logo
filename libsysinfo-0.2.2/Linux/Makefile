@@ -61,6 +61,9 @@ ppc:	cpuinfo_ppc.c
 ppc64:	cpuinfo_ppc.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ppc.c
 
+ppc64le:  cpuinfo_ppc.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ppc.c
+
 s390:	cpuinfo_s390.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390.c
 	
