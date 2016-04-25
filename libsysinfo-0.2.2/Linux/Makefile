@@ -6,6 +6,9 @@ endif
 ifneq (,$(findstring arm,$(ARCH)))
    ARCH := arm
 endif
+ifneq (,$(findstring aarch64,$(ARCH)))
+   ARCH := arm
+endif
 ifneq (,$(findstring sh,$(ARCH)))
    ARCH := sh
 endif
