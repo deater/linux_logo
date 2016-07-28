@@ -1,0 +1,131 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-04 23:01-0500\n"
+"PO-Revision-Date: 2016-07-28 23:50+0700\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Izharul Haq <atoz.chevara@yahoo.com>\n"
+"Language-Team: Debian Indonesia Translator <debian-l10n-indonesian@lists.debian.org>\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#: ../linux_logo.c:59
+msgid "Zero"
+msgstr "Nol"
+
+#: ../linux_logo.c:60
+msgid "One"
+msgstr "Satu"
+
+#: ../linux_logo.c:61
+msgid "Two"
+msgstr "Dua"
+
+#: ../linux_logo.c:62
+msgid "Three"
+msgstr "Tiga"
+
+#: ../linux_logo.c:63
+msgid "Four"
+msgstr "Empat"
+
+#: ../linux_logo.c:64
+msgid "Five"
+msgstr "Lima"
+
+#: ../linux_logo.c:65
+msgid "Six"
+msgstr "Enam"
+
+#: ../linux_logo.c:66
+msgid "Seven"
+msgstr "Tujuh"
+
+#: ../linux_logo.c:67
+msgid "Eight"
+msgstr "Delapan"
+
+#: ../linux_logo.c:68
+msgid "Nine"
+msgstr "Sembilan"
+
+#: ../linux_logo.c:69
+msgid "Many"
+msgstr "Many"
+
+#: ../linux_logo.c:178
+msgid "Uptime "
+msgstr "Uptime "
+
+#: ../linux_logo.c:182
+msgid "day"
+msgstr "hari"
+
+#: ../linux_logo.c:182
+msgid "days"
+msgstr "hari"
+
+#: ../linux_logo.c:188
+msgid "hour"
+msgstr "jam"
+
+#: ../linux_logo.c:188
+msgid "hours"
+msgstr "jam"
+
+#: ../linux_logo.c:193
+msgid "minute"
+msgstr "menit"
+
+#: ../linux_logo.c:193
+msgid "minutes"
+msgstr "menit"
+
+#: ../linux_logo.c:317
+msgid "Load Average"
+msgstr "Beban Rata-Rata"
+
+#. This is the default format of the output file.  See the README for more *#. \* information on how to configure this option.
+#: ../defaults.h:8
+msgid ""
+"#O Version #V, Compiled #C\n"
+"#N #M #X #T #P, #R RAM, #B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Versi #V, Dikompilasi #C\n"
+"#N #M #X #T #P, #R RAM, #B Total Bogomips\n"
+"#H\n"
+
+#: ../defaults.h:9
+msgid ""
+"#O Version #V\n"
+"Compiled #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Bogomips Total\n"
+"#H\n"
+msgstr ""
+"#O Versi #V\n"
+"Dikompilasi #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B Total Bogomips\n"
+"#H\n"
+
+#. Plural.  With the coming of i18n you really can't assume plurals can
+#. be made by adding a string to the end.  Hopefully this can fix it for
+#. most languages.  If they require significant word-order changes then
+#. we'll have even more problems
+#: ../defaults.h:14
+msgid "Processor"
+msgstr "Prosessor"
+
+#: ../defaults.h:15
+msgid "Processors"
+msgstr "Prosessor"
