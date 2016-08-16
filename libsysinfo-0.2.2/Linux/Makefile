@@ -19,6 +19,9 @@ cpuinfo.o:	  $(ARCH)
 alpha:	cpuinfo_alpha.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_alpha.c
 
+aarch64:	cpuinfo_arm.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_aarch64.c
+
 arm:	cpuinfo_arm.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_arm.c
 
