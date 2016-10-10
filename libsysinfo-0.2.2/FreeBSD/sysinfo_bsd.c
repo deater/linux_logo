@@ -88,8 +88,8 @@ long long get_mem_size(void) {
     int ctl_ram[] = { CTL_HW, HW_PHYSMEM };
     long long mem_size=0;
 
-    int val_int;
-    int val_len;
+    size_t val_int;
+    size_t val_len;
    
     val_len = sizeof(val_int);
     if (sysctl(ctl_ram, SIZE(ctl_ram), &val_int, &val_len,0,0))
