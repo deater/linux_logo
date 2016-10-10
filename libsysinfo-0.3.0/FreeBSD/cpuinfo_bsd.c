@@ -16,8 +16,8 @@ extern float external_bogomips(void);
 
 int get_cpu_info(struct cpu_info_type *cpu_info) {
 
-   int val_int;
-   int val_len;
+   size_t val_int = 0;
+   size_t val_len = 0;
 
    char val_str[BUFSIZ];
 
