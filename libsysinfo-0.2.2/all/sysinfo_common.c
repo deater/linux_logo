@@ -24,7 +24,7 @@ int get_numeric_sysinfo_version(void) {
 
 int set_cpuinfo_file(char *filename) {
 	internal_state.custom_cpuinfo=1;
-	strncpy(internal_state.cpuinfo_file,filename,BUFSIZ);
+	strncpy(internal_state.cpuinfo_file,filename,BUFSIZ-1);
 	return 0;
 }
 
