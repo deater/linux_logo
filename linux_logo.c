@@ -933,114 +933,121 @@ static void parse_command_line(struct linux_logo_info_type *settings,
        /* Look for ~/.linux_logo or /etc/linux_logo config files */
 void read_config_file(struct linux_logo_info_type *settings) {
 
-    int string_size,valid_string=0,i,size=0,counter=0;
-    int fake_data_offset=0,ch,oldch,in_quote=0,fake_argc=0;
-    char *tempst,*fake_data,**fake_argv;
-    FILE *config_file=NULL;
-    char config_string[BUFSIZ];
-    char config_filename[]="/.linux_logo";
+	int string_size,valid_string=0,i,size=0,counter=0;
+	int fake_data_offset=0,ch,oldch,in_quote=0,fake_argc=0;
+	char *tempst,*fake_data,**fake_argv;
+	FILE *config_file=NULL;
+	char config_string[BUFSIZ];
+	char config_filename[]="/.linux_logo";
 
-       /* Check for the files */
+	/* Check for the files */
 
-       /* look for ~/.linux_logo */
-    if (getenv("HOME")) {
-       string_size=strlen(getenv("HOME"));
-       tempst=calloc(strlen(config_filename)+string_size+1,sizeof(char));
-       strncpy(tempst,getenv("HOME"),string_size);
-       strncat(tempst,config_filename,strlen(config_filename));
-       config_file=fopen(tempst,"r");
-       free(tempst);  /* free the calloc's! */
-    }
+	/* look for ~/.linux_logo */
+	if (getenv("HOME")) {
+		string_size=strlen(getenv("HOME"));
+		tempst=calloc(strlen(config_filename)+string_size+1,
+								sizeof(char));
+		strncpy(tempst,getenv("HOME"),string_size);
+		strncat(tempst,config_filename,strlen(config_filename));
+		config_file=fopen(tempst,"r");
+		free(tempst);  /* free the callocs! */
+	}
 
-       /* if no ~/.linux_logo, check for /etc/linux_logo.conf */
-    if (config_file==NULL) {
-       config_file=fopen("/etc/linux_logo.conf","r");
-    }
+	/* if no ~/.linux_logo, check for /etc/linux_logo.conf */
+	if (config_file==NULL) {
+		config_file=fopen("/etc/linux_logo.conf","r");
+	}
 
-       /* If no config files, just make do with command-line arguments */
-       /* Note to Vince of 2000.. this was the most horrible           */
-       /* atrocity of code ever.  -- Vince of 2006                     */
-       /* It should be a lot better now.  -- Vince of 2007             */
+	/* If no config files, just make do with command-line arguments */
+	/* Note to Vince of 2000.. this was the most horrible           */
+	/* atrocity of code ever.  -- Vince of 2006                     */
+	/* It should be a lot better now.  -- Vince of 2007             */
 
-    if (config_file!=NULL) {
+	if (config_file!=NULL) {
 
-       /* skip over whitespace and comments */
-       while(!valid_string) {
-	  if (fgets(config_string,BUFSIZ,config_file)) {
-	     for(i=0;i<strlen(config_string);i++) {
-	        if (config_string[i]=='#') break;  /* a comment */
-	        else if (config_string[i]=='\n') break; /* empty line */
-	        else if (config_string[i]==' ' || config_string[i]=='\t'); /* whitespace */
-	        else {
-		   valid_string=1;
-		   break;
-	        }
-	     }
-	  }
-	  if (feof(config_file)) break;
-       }
+		/* skip over whitespace and comments */
+		while(!valid_string) {
+			if (fgets(config_string,BUFSIZ,config_file)) {
+				for(i=0;i<strlen(config_string);i++) {
+					/* a comment */
+					if (config_string[i]=='#') break;
+					/* empty line */
+					else if (config_string[i]=='\n') break;
+					/* whitespace */
+					else if (config_string[i]==' ' ||
+						config_string[i]=='\t');
+					else {
+						valid_string=1;
+						break;
+					}
+				}
+			}
+			if (feof(config_file)) break;
+		}
 
-       if (valid_string) {
+		if (valid_string) {
 
-          size=strlen(config_string);
+			size=strlen(config_string);
 
-	  config_string[size-1]='\0';  /* get rid of trailing \n */
+			/* get rid of trailing \n */
+			config_string[size-1]='\0';
 
-             /* create room for the fake command-line */
-          fake_data=calloc(size+12,sizeof(char));
-             /* stick "linux_logo" as argv[0] */
-          strncpy(fake_data,"linux_logo ",11);
-	  fake_data_offset=11;
-          vmw_strcat(fake_data,config_string,size);
+			/* create room for the fake command-line */
+			fake_data=calloc(size+12,sizeof(char));
+			/* stick "linux_logo" as argv[0] */
+			strncpy(fake_data,"linux_logo ",11);
+			fake_data_offset=11;
+			vmw_strcat(fake_data,config_string,size);
 
-	  ch=' ';
-	  for(i=0;i<size;i++) {
+			ch=' ';
+			for(i=0;i<size;i++) {
 
-	     oldch=ch;
-	     ch=config_string[i]; /* start after linux_logo */
+				oldch=ch;
+				/* start after linux_logo */
+				ch=config_string[i];
 
-                /* if after a space, and not in a quote, begin a new token */
-             if ((oldch==' ') && (!in_quote) && (ch!=' ')) {
-	        if (fake_data_offset>0) fake_data[fake_data_offset]='\0';
-	        fake_data_offset++;
-	        fake_argc++;
-             }
+				/* if after a space, and not in a quote, begin a new token */
+				if ((oldch==' ') && (!in_quote) && (ch!=' ')) {
+					if (fake_data_offset>0) fake_data[fake_data_offset]='\0';
+					fake_data_offset++;
+					fake_argc++;
+				}
 
-                /* The shell strips quotes and excess whitespace */
-                /* thought for now we just strip spaces outside of quotations */
-             if ((ch!='\"') && ((ch!=' ') || ((ch==' ') && (in_quote)))) {
-                fake_data[fake_data_offset]=ch;
-                fake_data_offset++;
-             }
+				/* The shell strips quotes and excess whitespace */
+				/* thought for now we just strip spaces outside of quotations */
+				if ((ch!='\"') && ((ch!=' ') || ((ch==' ') && (in_quote)))) {
+					fake_data[fake_data_offset]=ch;
+					fake_data_offset++;
+				}
 
-                /* start/end a quotation */
-             if (ch=='\"') in_quote= !in_quote;
+				/* start/end a quotation */
+				if (ch=='\"') in_quote= !in_quote;
 
-          }
+			}
 
-          fclose(config_file);
+			fclose(config_file);
 
-          fake_argc+=1; /*  plus the last one */
+			fake_argc+=1; /*  plus the last one */
 
-          /* Allocate room for the fake argv[] list of pointers */
-          /* +1 cause NULL at the end */
-          fake_argv=calloc(fake_argc+1,sizeof(char *));
+			/* Allocate room for the fake argv[] list of pointers */
+			/* +1 cause NULL at the end */
+			fake_argv=calloc(fake_argc+1,sizeof(char *));
 
-          fake_argv[0]=fake_data;
-          counter=1;
-          /* Actually find the tokens based on the NULLs put before */
-          for(i=0;i<fake_data_offset;i++) {
-             if (fake_data[i]=='\0') {
-	        if (counter<fake_argc) {
-	           fake_argv[counter]=fake_data+i+1;
-	        }
-	        counter++;
-             }
-          }
+			fake_argv[0]=fake_data;
+			counter=1;
+			/* Actually find the tokens based on the NULLs put before */
+			for(i=0;i<fake_data_offset;i++) {
+				if (fake_data[i]=='\0') {
+					if (counter<fake_argc) {
+						fake_argv[counter]=fake_data+i+1;
+					}
+					counter++;
+				}
+			}
 
-	  parse_command_line(settings,fake_argc,fake_argv);
-       }
-    }
+			parse_command_line(settings,fake_argc,fake_argv);
+		}
+	}
 }
 
 
