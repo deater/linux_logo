@@ -43,250 +43,259 @@ struct logo_info    *logo_info_head = NULL;
 struct logo_info    *logo_info_tail = NULL;
 
 
-char *vmw_strcat(char *dest, char *src, int space_remaining) {
- 
-   if (strlen(src) >= space_remaining) {
-      fprintf(stderr,"Error!  Not enough room in string!\n\n");
-      exit(1);
-   }
-   return strcat(dest,src);   
+static char *vmw_strcat(char *dest, char *src, int space_remaining) {
+
+	if (strlen(src) >= space_remaining) {
+		fprintf(stderr,"Error!  Not enough room in string!\n\n");
+		exit(1);
+	}
+	return strcat(dest,src);
 }
 
    /* Convert a number into an ordinal string */
 static void strcat_ordinal(int value,char *string, int space) {
 
-     switch(value) {
-       case 0:  vmw_strcat(string,_("Zero"),space);  break;
-       case 1:  vmw_strcat(string,_("One"),space);   break;
-       case 2:  vmw_strcat(string,_("Two"),space);   break;
-       case 3:  vmw_strcat(string,_("Three"),space); break;
-       case 4:  vmw_strcat(string,_("Four"),space);  break;
-       case 5:  vmw_strcat(string,_("Five"),space);  break;
-       case 6:  vmw_strcat(string,_("Six"),space);   break;
-       case 7:  vmw_strcat(string,_("Seven"),space); break;
-       case 8:  vmw_strcat(string,_("Eight"),space); break;
-       case 9:  vmw_strcat(string,_("Nine"),space);  break;
-       default: vmw_strcat(string,_("Many"),space);  break;
-   }
+	switch(value) {
+		case 0:  vmw_strcat(string,_("Zero"),space);  break;
+		case 1:  vmw_strcat(string,_("One"),space);   break;
+		case 2:  vmw_strcat(string,_("Two"),space);   break;
+		case 3:  vmw_strcat(string,_("Three"),space); break;
+		case 4:  vmw_strcat(string,_("Four"),space);  break;
+		case 5:  vmw_strcat(string,_("Five"),space);  break;
+		case 6:  vmw_strcat(string,_("Six"),space);   break;
+		case 7:  vmw_strcat(string,_("Seven"),space); break;
+		case 8:  vmw_strcat(string,_("Eight"),space); break;
+		case 9:  vmw_strcat(string,_("Nine"),space);  break;
+		default: vmw_strcat(string,_("Many"),space);  break;
+	}
 }
 
 
-  /* setup the default logos, which are always present */
+	/* setup the default logos, which are always present */
 static void setup_default_logos() {
 
-   struct logo_info *new_logo;
+	struct logo_info *new_logo;
 
 #include "load_logos.h"
-   
+
 }
 
 
-    /* Setup the "settings" structure to some defaults */
-    /* Edit the "defaults.h" file to change these      */
+	/* Setup the "settings" structure to some defaults */
+	/* Edit the "defaults.h" file to change these      */
 static void setup_info(struct linux_logo_info_type *settings) {
 
-    settings->width=DEFAULT_WIDTH;                  /* Defaults to 80   */
-    settings->no_periods=DEFAULT_NO_PERIODS;        /* Defaults to None */ 
-    settings->preserve_xy=DEFAULT_PRESERVE_XY;      /* Defaults to Off  */
-    settings->skip_bogomips=DEFAULT_SKIP_BOGOMIPS;  /* Defaults to No   */
-    settings->offset=DEFAULT_OFFSET;                /* Defaults to 0    */
-    settings->plain_ascii=DEFAULT_PLAIN_ASCII;      /* Defaults to No   */
-    settings->banner_mode=DEFAULT_BANNER_MODE;      /* Defualts to Yes  */
-    settings->wipe_screen=DEFAULT_WIPE_SCREEN;      /* Defaults to No   */
-    settings->show_uptime=DEFAULT_SHOW_UPTIME;      /* Defaults to No   */
-    settings->show_load=DEFAULT_SHOW_LOAD;          /* Defaults to No   */
-    settings->narrow_logo=DEFAULT_NARROW_LOGO;      /* Defaults to No   */
-    settings->pretty_output=DEFAULT_PRETTY_OUTPUT;  /* Defaults to Yes  */
-    set_pretty_printing(DEFAULT_PRETTY_OUTPUT);
-    settings->display_logo_only=0;
-    settings->display_sysinfo_only=0;
-    settings->display_usertext=0;
-    settings->custom_format=0;
-    settings->center_sysinfo=1;
-    settings->user_text[0]=0;
-    settings->format[0]=0;
+	settings->width=DEFAULT_WIDTH;			/* Defaults to 80   */
+	settings->no_periods=DEFAULT_NO_PERIODS;	/* Defaults to None */
+	settings->preserve_xy=DEFAULT_PRESERVE_XY;	/* Defaults to Off  */
+	settings->skip_bogomips=DEFAULT_SKIP_BOGOMIPS;	/* Defaults to No   */
+	settings->offset=DEFAULT_OFFSET;		/* Defaults to 0    */
+	settings->plain_ascii=DEFAULT_PLAIN_ASCII;	/* Defaults to No   */
+	settings->banner_mode=DEFAULT_BANNER_MODE;	/* Defualts to Yes  */
+	settings->wipe_screen=DEFAULT_WIPE_SCREEN;	/* Defaults to No   */
+	settings->show_uptime=DEFAULT_SHOW_UPTIME;	/* Defaults to No   */
+	settings->show_load=DEFAULT_SHOW_LOAD;		/* Defaults to No   */
+	settings->narrow_logo=DEFAULT_NARROW_LOGO;	/* Defaults to No   */
+	settings->pretty_output=DEFAULT_PRETTY_OUTPUT;	/* Defaults to Yes  */
+	set_pretty_printing(DEFAULT_PRETTY_OUTPUT);
+	settings->display_logo_only=0;
+	settings->display_sysinfo_only=0;
+	settings->display_usertext=0;
+	settings->custom_format=0;
+	settings->center_sysinfo=1;
+	settings->user_text[0]=0;
+	settings->format[0]=0;
 }
 
     /* Use ansi codes or spaces to shift the cursor to the right */
 static void shift_right(int shift,int plain_ascii) {
 
-    int i;
+	int i;
 
-    if (shift<=0) return;
+	if (shift<=0) return;
 
-    if (plain_ascii) {
-       for(i=0;i<shift;i++) {
-	  putchar(' ');
-       }
-    }
-    else {
-       printf("\033[%iC",shift);
-    }
+	if (plain_ascii) {
+		for(i=0;i<shift;i++) {
+			putchar(' ');
+		}
+	}
+	else {
+		printf("\033[%iC",shift);
+	}
 }
 
-   /* Prints a string, but stops at a newline or end of string */
+	/* Prints a string, but stops at a newline or end of string */
 static char *print_line(char *string) {
 
-    char *temp_st=string;
-   
-    if (temp_st==NULL) return NULL;
+	char *temp_st=string;
 
-    while ((*temp_st!='\n') && (*temp_st!='\0')) {
-       putchar(*temp_st);
-       temp_st++;
-    }
-    if ((*temp_st)=='\n') {
-       return temp_st+1;
-    }
-    else return NULL;
+	if (temp_st==NULL) return NULL;
+
+	while ((*temp_st!='\n') && (*temp_st!='\0')) {
+		putchar(*temp_st);
+		temp_st++;
+	}
+	if ((*temp_st)=='\n') {
+		return temp_st+1;
+	}
+	else return NULL;
 }
 
 
-    /* print enough chars to center text of given size */
+	/* print enough chars to center text of given size */
 static void center(int size,int width,int plain_ascii) {
 
-   int i;
+	int i;
 
-   i=((width-size)/2);
-   shift_right(i,plain_ascii);
+	i=((width-size)/2);
+	shift_right(i,plain_ascii);
 
 }
 
 
-    /* Uses escape codes to clear the screen */
+	/* Uses escape codes to clear the screen */
 static void clear_screen(int plain_ascii) {
 
-   if (!plain_ascii) {
-      printf("\033[2J\033[0;0H\n");
-   }
-   else {
-      /* clear the screen some other way? */
-   }
+	if (!plain_ascii) {
+		printf("\033[2J\033[0;0H\n");
+	}
+	else {
+		/* clear the screen some other way? */
+	}
 }
 
-    /* Change uptime seconds into time string */
+	/* Change uptime seconds into time string */
 static void strcat_uptime(int seconds,char *string, int space) {
 
-    int up_days,up_hrs,up_mins;
-    char temp_string[BUFSIZ],final_string[BUFSIZ];
+	int up_days,up_hrs,up_mins;
+	char temp_string[BUFSIZ],final_string[BUFSIZ];
 
-    up_days=seconds/86400;
-    up_hrs=(seconds-(up_days*86400))/3600;
-    up_mins=(seconds-(up_days*86400)-(up_hrs*3600))/60;
+	up_days=seconds/86400;
+	up_hrs=(seconds-(up_days*86400))/3600;
+	up_mins=(seconds-(up_days*86400)-(up_hrs*3600))/60;
 
-    final_string[0]=0;
-    vmw_strcat(final_string,_("Uptime "),BUFSIZ);
+	final_string[0]=0;
+	vmw_strcat(final_string,_("Uptime "),BUFSIZ);
 
-    if (up_days>0) {
-       snprintf(temp_string,BUFSIZ,"%d %s ",
-	       up_days,(up_days==1 ? _("day"):_("days")));
-       vmw_strcat(final_string,temp_string,BUFSIZ-strlen(final_string));
-    }
+	if (up_days>0) {
+		snprintf(temp_string,BUFSIZ,"%d %s ",
+			up_days,(up_days==1 ? _("day"):_("days")));
+		vmw_strcat(final_string,temp_string,
+			BUFSIZ-strlen(final_string));
+	}
 
-    if (up_hrs>0) {
-       snprintf(temp_string,BUFSIZ,"%d %s ",
-	       up_hrs,(up_hrs==1 ? _("hour"):_("hours")));
-       vmw_strcat(final_string,temp_string,BUFSIZ-strlen(final_string));
-    }
-    if (up_mins>0) {
-       snprintf(temp_string,BUFSIZ,"%d %s",
-	       up_mins,(up_mins==1 ? _("minute"):_("minutes")));
-       vmw_strcat(final_string,temp_string,BUFSIZ-strlen(final_string));
-    }
-    vmw_strcat(string,final_string,space);
+	if (up_hrs>0) {
+		snprintf(temp_string,BUFSIZ,"%d %s ",
+			up_hrs,(up_hrs==1 ? _("hour"):_("hours")));
+		vmw_strcat(final_string,temp_string,
+			BUFSIZ-strlen(final_string));
+	}
+
+	if (up_mins>0) {
+		snprintf(temp_string,BUFSIZ,"%d %s",
+			up_mins,(up_mins==1 ? _("minute"):_("minutes")));
+		vmw_strcat(final_string,temp_string,
+			BUFSIZ-strlen(final_string));
+	}
+	vmw_strcat(string,final_string,space);
 }
 
-    /* Prints the help */
+	/* Prints the help */
 static void help_message(char *binname, char full) {
 
-    char temp_version[BUFSIZ];
-   
-    printf("\nLinux Logo Version %s using libsysinfo %s\n",VERSION,
-	   get_sysinfo_version(temp_version));
-    printf("\tby Vince Weaver <vince@deater.net>\n");
-    printf("   Newest Versions at:\n");
-    printf("      http://www.deater.net/weave/vmwprod/linux_logo\n");
-    printf("      http://metalab.unc.edu/pub/Linux/logos/penguins\n\n");
-    if (!full) exit(0);
-    printf("Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] "
-	   "[-g]\n"
-	   "                    [-h] [-i] [-k] [-l] [-n] [-o num] [-p] [-s] [-t str] "
-	   "[-u] [-v]\n"
-           "                    [-w Num] [-x] [-y] [-F format] "
-	   "[-L num | NAME | list | random_xy]\n",binname);
-    printf("         [-a]     -- Display an ascii-only Logo\n");
-    printf("         [-b]     -- Display a Banner Logo!\n");
-    printf("         [-c]     -- Display a \"Classic\" type logo\n");
-    printf("         [-d]     -- disable \"prettying\" of output\n");
-    printf("         [-D file]-- use custom logo from \"file\"\n");
-    printf("         [-e file]-- Use \"file\" instead of /proc/cpuinfo [for "
-	   "debugging]\n");
-    printf("         [-f]     -- force the screen clear before drawing\n");
-    printf("         [-F format] Format output.  See README.\n");
-    printf("      B  [-g]     -- give system info only\n");
-    printf("         [-h]     -- this help screen\n");
-    printf("         [-i]     -- ignore ~/.linux_logo and /etc/linux_logo.conf\n");
-    printf("         [-k]     -- keep sysinfo flushed-left (non-centered)\n");
-    printf("      B  [-l]     -- display logo only\n");
-    printf("      C  [-o Num] -- offset output Num spaces to the right\n");
-    printf("         [-p]     -- preserve cursor location\n");
-    printf("         [-s]     -- skip Bogomips [speeds up on non-Linux "
-           "platforms]\n");
-    printf("         [-t str] -- display user-supplied string\n");
-    printf("      *  [-u]     -- show uptime\n");
-    printf("         [-v]     -- version information\n");
-    printf("         [-w Num] -- set width of screen to Num [default 80]\n");
-    printf("      *  [-y]     -- show load average\n");
-    printf("         [-L num | NAME | list | random_xy] -- multiple Logo options.  See README\n\n");
-    printf(" B=Banner mode only, C=Classic Mode Only  *=Works Only in Linux"
-	   "\n\n");
+	char temp_version[BUFSIZ];
+
+	printf("\nLinux Logo Version %s using libsysinfo %s\n",VERSION,
+		get_sysinfo_version(temp_version));
+	printf("\tby Vince Weaver <vince@deater.net>\n");
+	printf("   Newest Versions at:\n");
+	printf("      http://www.deater.net/weave/vmwprod/linux_logo\n");
+	printf("      http://metalab.unc.edu/pub/Linux/logos/penguins\n\n");
+	if (!full) exit(0);
+	printf("Usage:   %s [-a] [-b] [-c] [-d] [-D file] [-e file] [-f] "
+		"[-g]\n"
+		"                    [-h] [-i] [-k] [-l] [-n] [-o num] [-p] "
+		"[-s] [-t str] [-u] [-v]\n"
+		"                    [-w Num] [-x] [-y] [-F format] "
+		"[-L num | NAME | list | random_xy]\n",binname);
+	printf("         [-a]     -- Display an ascii-only Logo\n");
+	printf("         [-b]     -- Display a Banner Logo!\n");
+	printf("         [-c]     -- Display a \"Classic\" type logo\n");
+	printf("         [-d]     -- disable \"prettying\" of output\n");
+	printf("         [-D file]-- use custom logo from \"file\"\n");
+	printf("         [-e file]-- Use \"file\" instead of "
+		"/proc/cpuinfo [for debugging]\n");
+	printf("         [-f]     -- force the screen clear before drawing\n");
+	printf("         [-F format] Format output.  See README.\n");
+	printf("      B  [-g]     -- give system info only\n");
+	printf("         [-h]     -- this help screen\n");
+	printf("         [-i]     -- ignore ~/.linux_logo and "
+		"/etc/linux_logo.conf\n");
+	printf("         [-k]     -- keep sysinfo flushed-left "
+		"(non-centered)\n");
+	printf("      B  [-l]     -- display logo only\n");
+	printf("      C  [-o Num] -- offset output Num spaces to the right\n");
+	printf("         [-p]     -- preserve cursor location\n");
+	printf("         [-s]     -- skip Bogomips [speeds up on non-Linux "
+		"platforms]\n");
+	printf("         [-t str] -- display user-supplied string\n");
+	printf("      *  [-u]     -- show uptime\n");
+	printf("         [-v]     -- version information\n");
+	printf("         [-w Num] -- set width of screen to Num "
+		"[default 80]\n");
+	printf("      *  [-y]     -- show load average\n");
+	printf("         [-L num | NAME | list | random_xy] -- "
+		"multiple Logo options.  See README\n\n");
+	printf(" B=Banner mode only, C=Classic Mode Only  "
+		"*=Works Only in Linux\n\n");
 }
 
-  
-    /* The nifty customizable sysinfo parser */
+
+	/* The nifty customizable sysinfo parser */
 static int generate_sysinfo(
-		  char ***string,
-		  struct linux_logo_info_type *settings) {
+		char ***string,
+		struct linux_logo_info_type *settings) {
 
-    struct os_info_type os_info;
-    struct cpu_info_type cpu_info;
+	struct os_info_type os_info;
+	struct cpu_info_type cpu_info;
 
-    int x=0,len,line=0;
-    char temp_string[BUFSIZ],hostname[BUFSIZ],domain[BUFSIZ];
-    char temp_line[BUFSIZ];
-    float load_1,load_5,load_15;
-    char **temp_sysinfo;
-    char char_string[2]={0,0};
-    int allocated_lines=10;
-    long long mem_size=0;
-    double megahertz=0.0;
+	int x=0,len,line=0;
+	char temp_string[BUFSIZ],hostname[BUFSIZ],domain[BUFSIZ];
+	char temp_line[BUFSIZ];
+	float load_1,load_5,load_15;
+	char **temp_sysinfo;
+	char char_string[2]={0,0};
+	int allocated_lines=10;
+	long long mem_size=0;
+	double megahertz=0.0;
 
-       /* Get the system info */
-    get_os_info(&os_info);
-    get_cpu_info(&cpu_info);
+	/* Get the system info */
+	get_os_info(&os_info);
+	get_cpu_info(&cpu_info);
 
-    len=strlen(settings->format);
+	len=strlen(settings->format);
 
-       /* allocate 10 lines to start with */
-    temp_sysinfo=calloc(allocated_lines,sizeof(char *));
+	/* allocate 10 lines to start with */
+	temp_sysinfo=calloc(allocated_lines,sizeof(char *));
 
-    while (x<len) {
+	while (x<len) {
 
-          /* clear out our line */
-       temp_line[0]=0;
+		/* clear out our line */
+		temp_line[0]=0;
 
-          /* handle a line */
-       while (settings->format[x]!='\n') {
+		/* handle a line */
+		while (settings->format[x]!='\n') {
 
-             /* If not a #, then just print the character */
-          if (settings->format[x]!='#') {
-	     char_string[0]=*((settings->format)+x);
-	     vmw_strcat(temp_line,char_string,BUFSIZ-strlen(temp_line));
-          }
-          else {
-	     x++;
-	     if (x>len) break;
-	     switch(settings->format[x]) {
+			/* If not a #, then just print the character */
+			if (settings->format[x]!='#') {
+				char_string[0]=*((settings->format)+x);
+				vmw_strcat(temp_line,char_string,
+					BUFSIZ-strlen(temp_line));
+			}
+			else {
+				x++;
+				if (x>len) break;
+					switch(settings->format[x]) {
 	           /* double # just prints a # */
 	        case '#': vmw_strcat(temp_line,"#",BUFSIZ-strlen(temp_line)); break;
 	           /* #B prints the bogomips */
@@ -302,11 +311,11 @@ static int generate_sysinfo(
 	           /* #C prints OS revision */
 	        case 'C': vmw_strcat(temp_line,os_info.os_revision,
 				     BUFSIZ-strlen(temp_line));
-		                     break;  
+		                     break;
 	           /* #E prints user text */
 	        case 'E': vmw_strcat(temp_line,settings->user_text,
 				     BUFSIZ-strlen(temp_line));
-		                     break;  
+		                     break;
 	           /* #H prints hostname */
 	        case 'H': vmw_strcat(temp_line,get_host_name(hostname,domain),
 				     BUFSIZ-strlen(temp_line));
@@ -322,11 +331,11 @@ static int generate_sysinfo(
 		          if (megahertz>0.0) {
 	                     if (megahertz>999.0) {
 			        snprintf(temp_string,BUFSIZ,"%.3gGHz",
-					 megahertz/1000.0);  
+					 megahertz/1000.0);
 			     }
 	                     else {
 			        snprintf(temp_string,BUFSIZ,"%.3gMHz",
-					 megahertz);  
+					 megahertz);
 			     }
 	                     vmw_strcat(temp_line,temp_string,
 					BUFSIZ-strlen(temp_line));
@@ -411,13 +420,13 @@ static int generate_sysinfo(
 		          break;
 	           /* #U prints the uptime */
 	        case 'U': strcat_uptime(get_uptime(),temp_line,
-					BUFSIZ-strlen(temp_line)); 
+					BUFSIZ-strlen(temp_line));
 		          break;
 	           /* #V prints the OS version */
 	        case 'V': vmw_strcat(temp_line,os_info.os_version,
-				     BUFSIZ-strlen(temp_line)); 
-		          break;  
-	           /* #X Prints the CPU vendor */  
+				     BUFSIZ-strlen(temp_line));
+		          break;
+	           /* #X Prints the CPU vendor */
 	        case 'X': if (!strncmp(cpu_info.chip_vendor,"Unknown",7)) {
 		   	     if (strlen(temp_line)>0) {
 				temp_line[strlen(temp_line)-1]=0;
@@ -432,55 +441,57 @@ static int generate_sysinfo(
 				 settings->format[x]);
 	     }
 	  }
-       	  x++;
-          if (x>=len) break;
-       }
-       temp_sysinfo[line]=strdup(temp_line);  
-       line++;
-         
-          /* If we are using more than the pre-allocated amount */
-          /* allocate more lines                                */
-       if (line>=allocated_lines) {
-	  temp_sysinfo=realloc(temp_sysinfo,sizeof(char *)*(line+1));
-	  allocated_lines=line;
-       }
 
-       /* skip the newline */
-       x++;
-    }
-    *string=temp_sysinfo;
-    return line;
+		x++;
+		if (x>=len) break;
+	}
+	temp_sysinfo[line]=strdup(temp_line);
+	line++;
+
+	/* If we are using more than the pre-allocated amount */
+	/* allocate more lines                                */
+	if (line>=allocated_lines) {
+			temp_sysinfo=realloc(temp_sysinfo,
+				sizeof(char *)*(line+1));
+			allocated_lines=line;
+		}
+
+		/* skip the newline */
+		x++;
+	}
+	*string=temp_sysinfo;
+	return line;
 }
 
 
-    /* The Main Drawing Routine */  
+	/* The Main Drawing Routine */
 static void draw_logo(struct logo_info *logo_override,
-	       struct linux_logo_info_type *settings) {
+			struct linux_logo_info_type *settings) {
 
-    struct logo_info *our_logo_info;
-    char *string_point;
-    int i,ysize,sysinfo_length=0;
-    char **sysinfo_string;
+	struct logo_info *our_logo_info;
+	char *string_point;
+	int i,ysize,sysinfo_length=0;
+	char **sysinfo_string;
 
-    sysinfo_length=generate_sysinfo(&sysinfo_string,settings);
+	sysinfo_length=generate_sysinfo(&sysinfo_string,settings);
 
-    if (logo_info_head==NULL) {
-       printf("\n\nNo logos available!!\n");
-       return;
-    }
+	if (logo_info_head==NULL) {
+		printf("\n\nNo logos available!!\n");
+		return;
+	}
 
-    if (logo_override!=NULL) {
-       our_logo_info=logo_override;
-    }
-    else { /* Search for a proper logo! */
-       our_logo_info=logo_info_head;
-       while (1) {
-          if (our_logo_info==NULL) {
-	     printf("\nAppropriate logo not found!\n\n");
-	     return;
-          }
-          if ((settings->banner_mode) && 
-	      (our_logo_info->sysinfo_position==SYSINFO_BOTTOM)) {
+	if (logo_override!=NULL) {
+		our_logo_info=logo_override;
+	}
+	else { /* Search for a proper logo! */
+		our_logo_info=logo_info_head;
+		while (1) {
+			if (our_logo_info==NULL) {
+				printf("\nAppropriate logo not found!\n\n");
+				return;
+			}
+			if ((settings->banner_mode) &&
+				(our_logo_info->sysinfo_position==SYSINFO_BOTTOM)) {
 	     if (settings->plain_ascii) {
 	        if (our_logo_info->ascii_logo!=NULL) {
 	           break;
@@ -492,7 +503,7 @@ static void draw_logo(struct logo_info *logo_override,
 		}
 	     }
           }
-          if ((!settings->banner_mode) && 
+          if ((!settings->banner_mode) &&
 	      (our_logo_info->sysinfo_position==SYSINFO_RIGHT)) { /* Classic mode */
              if (settings->plain_ascii) {
 		if (our_logo_info->ascii_logo!=NULL) {
@@ -510,7 +521,7 @@ static void draw_logo(struct logo_info *logo_override,
 
     if (settings->width<80) settings->width=80;  /* Right now we don't */
                                                  /* handle width < 80  */
-  
+
     if (settings->wipe_screen) clear_screen(settings->plain_ascii);
 
        /* Select the proper logo */
@@ -601,7 +612,7 @@ static void draw_logo(struct logo_info *logo_override,
 static char *get_arg(int *index,int argc,char **argv) {
 
    char *argument;
- 
+
    if (argv[*index][2]=='\0') {
       (*index)++;
       if (*index>=argc) {
@@ -635,12 +646,12 @@ char random_banner='e',random_ascii='e',*logo_name=NULL,*logo_disk=NULL;
 static struct logo_info *get_logo_by_name(char *logo_name) {
 
    static struct logo_info *custom_logo;
-   
+
    custom_logo=logo_info_head;
    while(custom_logo!=NULL) {
-      
+
       if (!strcmp(custom_logo->name,logo_name)) {
-         return custom_logo;	 
+         return custom_logo;
       }
       custom_logo=custom_logo->next_logo;
    }
@@ -670,14 +681,14 @@ static struct logo_info *get_logo_by_number(int logo_num) {
 }
 
    /* find a random logo */
-static struct logo_info *get_random_logo(int random_banner, 
+static struct logo_info *get_random_logo(int random_banner,
 					 int random_ascii,
 		       struct linux_logo_info_type *settings) {
 
     struct timeval time_time;
     int i,logo_found;
     static struct logo_info *custom_logo;
-   
+
     gettimeofday(&time_time,NULL);
     srand(time_time.tv_usec);   /* Not really random, but... */
     i=rand()%1024;  /* Hopefully we have less than 1024 logos FIXME */
@@ -722,7 +733,7 @@ static struct logo_info *get_random_logo(int random_banner,
        }
 
        if (logo_found) break;
-       
+
        if (custom_logo->next_logo==NULL) {
 	  custom_logo=logo_info_head;
 	  i++;
@@ -771,7 +782,7 @@ static void list_logos() {
     /*******************************************************/
 static void parse_command_line(struct linux_logo_info_type *settings,
 			int argc, char **argv) {
-  
+
     int i,x,string_size;
     char *endptr,*argument;
     int index=1,option;
@@ -839,7 +850,7 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	  case '?': help_message(argv[0], 1);
 	            exit(0);
 	            break;
-	            /* FIXME */  
+	            /* FIXME */
 	  case 'i': /* is it even possible to do this right? */
 	            /* we'd have to do two passes, possibly  */
 	            /* resetting to defaults in between      */
@@ -848,7 +859,7 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	  case 'k': settings->center_sysinfo=0;
 	            break;
 	  case 'l': settings->display_logo_only=1;
-	            break;  
+	            break;
 	  case 'L': argument=get_arg(&index,argc,argv);
 	               /* Reset values in case we get this after reading */
 	               /* the file */
@@ -876,7 +887,7 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	            else { /* It's a number.  Override any name */
 		       logo_name=NULL;
 		    }
-	            break;  
+	            break;
 
 	  case 'n': settings->no_periods=1;
 	            break;
@@ -952,8 +963,8 @@ void read_config_file(struct linux_logo_info_type *settings) {
        /* It should be a lot better now.  -- Vince of 2007             */
 
     if (config_file!=NULL) {
-       
-       /* skip over whitespace and comments */         
+
+       /* skip over whitespace and comments */
        while(!valid_string) {
 	  if (fgets(config_string,BUFSIZ,config_file)) {
 	     for(i=0;i<strlen(config_string);i++) {
@@ -1139,20 +1150,20 @@ int main(int argc,char **argv) {
 	     }
 	  }
        }
-    }
+	}
 
-       /* Preserve xy if so desired */
-    if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
-       printf(ESCAPE"7");
-    }
+	/* Preserve xy if so desired */
+	if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
+		printf(ESCAPE"7");
+	}
 
-       /* Draw the logo */
-    draw_logo(custom_logo,&settings);
+	/* Draw the logo */
+	draw_logo(custom_logo,&settings);
 
-       /* Restore xy if we saved it */
-    if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
-       printf(ESCAPE"8");
-    }
+	/* Restore xy if we saved it */
+	if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
+		printf(ESCAPE"8");
+	}
 
-    return 0;
+	return 0;
 }
