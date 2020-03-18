@@ -42,7 +42,8 @@ struct logo_info *load_logo_from_disk(char *filename) {
 			}
 			else {
 				new_logo->logo=realloc(new_logo->logo,size+1);
-				strncat(new_logo->logo,temp_st,strlen(temp_st));
+				memcpy(new_logo->logo+strlen(new_logo->logo),
+						temp_st,strlen(temp_st));
 			}
 			new_logo->ysize++;
 		}
@@ -56,7 +57,8 @@ struct logo_info *load_logo_from_disk(char *filename) {
 			else {
 				new_logo->ascii_logo=realloc(
 					new_logo->ascii_logo,ascii_size+1);
-				strncat( new_logo->ascii_logo,
+				memcpy( new_logo->ascii_logo
+						+strlen(new_logo->ascii_logo),
 						temp_st,strlen(temp_st));
 			}
 			new_logo->ascii_ysize++;
