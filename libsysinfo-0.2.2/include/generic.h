@@ -5,3 +5,5 @@ int get_pretty_printing(void);
 
 float fix_megahertz(int factor,float megahertz);
 float external_bogomips();
+
+char *strncpy_truncate(char *dest, const char *src, size_t n);
