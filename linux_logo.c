@@ -904,7 +904,7 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 	            break;
 	  case 't': argument=get_arg(&index,argc,argv);
 	            settings->display_usertext=1;
-	            strncpy(settings->user_text,argument,BUFSIZ);
+	            strncpy(settings->user_text,argument,BUFSIZ-1);
 	            break;
 	  case 'u': settings->show_uptime=1;
 	            break;
@@ -933,7 +933,7 @@ static void parse_command_line(struct linux_logo_info_type *settings,
        /* Look for ~/.linux_logo or /etc/linux_logo config files */
 void read_config_file(struct linux_logo_info_type *settings) {
 
-	int string_size,valid_string=0,i,size=0,counter=0;
+	int string_size,total_size,valid_string=0,i,size=0,counter=0;
 	int fake_data_offset=0,ch,oldch,in_quote=0,fake_argc=0;
 	char *tempst,*fake_data,**fake_argv;
 	FILE *config_file=NULL;
@@ -945,10 +945,10 @@ void read_config_file(struct linux_logo_info_type *settings) {
 	/* look for ~/.linux_logo */
 	if (getenv("HOME")) {
 		string_size=strlen(getenv("HOME"));
-		tempst=calloc(strlen(config_filename)+string_size+1,
-								sizeof(char));
+		total_size=strlen(config_filename)+string_size;
+		tempst=calloc(total_size+1,sizeof(char));
 		strncpy(tempst,getenv("HOME"),string_size);
-		strncat(tempst,config_filename,strlen(config_filename));
+		memcpy(tempst+string_size,config_filename,strlen(config_filename));
 		config_file=fopen(tempst,"r");
 		free(tempst);  /* free the callocs! */
 	}
@@ -995,7 +995,7 @@ void read_config_file(struct linux_logo_info_type *settings) {
 			/* create room for the fake command-line */
 			fake_data=calloc(size+12,sizeof(char));
 			/* stick "linux_logo" as argv[0] */
-			strncpy(fake_data,"linux_logo ",11);
+			strncpy(fake_data,"linux_logo ",12);
 			fake_data_offset=11;
 			vmw_strcat(fake_data,config_string,size);
 
@@ -1117,7 +1117,7 @@ int main(int argc,char **argv) {
 		/* Set the format for banner or classic mode */
 		if (settings.banner_mode) {
 			strncpy(settings.format,_(DEFAULT_BANNER_FORMAT),
-				BUFSIZ);
+				BUFSIZ-1);
 		}
 		else {
 			strncpy(settings.format,DEFAULT_CLASSIC_FORMAT,BUFSIZ);
