@@ -1044,112 +1044,120 @@ void read_config_file(struct linux_logo_info_type *settings) {
 }
 
 
-    /* The main program */
+	/* The main program */
 int main(int argc,char **argv) {
 
-    char temp_string[BUFSIZ],*temp_pointer;
-    struct linux_logo_info_type settings;
-    struct logo_info *custom_logo=NULL;
+	char temp_string[BUFSIZ],*temp_pointer;
+	struct linux_logo_info_type settings;
+	struct logo_info *custom_logo=NULL;
 
 #if (USE_I18N==1)
-       /* i18n */
-    setlocale(LC_ALL, "");
-    bindtextdomain("linux_logo", LOCALE_DIR);
-    textdomain("linux_logo");
+	/* i18n */
+	setlocale(LC_ALL, "");
+	bindtextdomain("linux_logo", LOCALE_DIR);
+	textdomain("linux_logo");
 #endif
-       /* Set some defaults */
-    setup_info(&settings);
+	/* Set some defaults */
+	setup_info(&settings);
 
-    read_config_file(&settings);
+	read_config_file(&settings);
 
-    parse_command_line(&settings,argc,argv);
+	parse_command_line(&settings,argc,argv);
 
-       /*******************************************************/
-       /* DONE WITH ALL THE STUPID OPTION PARSING             */
-       /* now actually do things                              */
-       /*******************************************************/
+	/*******************************************************/
+	/* DONE WITH ALL THE STUPID OPTION PARSING             */
+	/* now actually do things                              */
+	/*******************************************************/
 
-       /* Setup all the logos */
-    setup_default_logos();
+	/* Setup all the logos */
+	setup_default_logos();
 
-       /* If user requested a list, list them and exit */
-    if (want_list_logos) list_logos();
+	/* If user requested a list, list them and exit */
+	if (want_list_logos) list_logos();
 
-       /* If user requested random logo, get one */
-    if (random_logo) {
-       custom_logo=get_random_logo(random_banner,
-				   random_ascii,
-				   &settings);
-    }
-       /* If user requested logo by number, get it */
-    else if (logo_num!=0) {
-       custom_logo=get_logo_by_number(logo_num);
-    }
-       /* If user requested logo by name, get it */
-    else if (logo_name!=NULL) {
-       custom_logo=get_logo_by_name(logo_name);
-    }
-       /* If user wants a logo from disk, get it */
-    else if (logo_disk!=NULL) {
-       custom_logo=load_logo_from_disk(logo_disk);
-    }
-       /* We have to keep these consistent or funny things happen */
-    if (custom_logo!=NULL) settings.banner_mode=custom_logo->sysinfo_position;
+	/* If user requested random logo, get one */
+	if (random_logo) {
+		custom_logo=get_random_logo(random_banner,
+						random_ascii,
+						&settings);
+	}
+	/* If user requested logo by number, get it */
+	else if (logo_num!=0) {
+		custom_logo=get_logo_by_number(logo_num);
+	}
+	/* If user requested logo by name, get it */
+	else if (logo_name!=NULL) {
+		custom_logo=get_logo_by_name(logo_name);
+	}
+	/* If user wants a logo from disk, get it */
+	else if (logo_disk!=NULL) {
+		custom_logo=load_logo_from_disk(logo_disk);
+	}
 
-       /**************************************************/
-       /* Prepare the sysinfo stuff if not done for us   */
-       /* Handle "normal" output by basically faking the */
-       /* appropriate "custom" output string             */
-       /**************************************************/
+	/* We have to keep these consistent or funny things happen */
+	if (custom_logo!=NULL) {
+		settings.banner_mode=custom_logo->sysinfo_position;
+	}
 
-    if (!settings.custom_format) {
+	/**************************************************/
+	/* Prepare the sysinfo stuff if not done for us   */
+	/* Handle "normal" output by basically faking the */
+	/* appropriate "custom" output string             */
+	/**************************************************/
 
-          /* Set the format for banner or classic mode */
-       if (settings.banner_mode) {
-	  strncpy(settings.format,_(DEFAULT_BANNER_FORMAT),BUFSIZ);
-       }
-       else {
-	  strncpy(settings.format,DEFAULT_CLASSIC_FORMAT,BUFSIZ);
-       }
+	if (!settings.custom_format) {
 
-          /* If usertext specified, add it at beginning */
-       if (settings.display_usertext) {
-	  strncpy(temp_string,settings.format,BUFSIZ);
-          strncpy(settings.format,"#E\n",BUFSIZ);
-	  vmw_strcat(settings.format,temp_string,BUFSIZ-strlen(settings.format));
-       }
+		/* Set the format for banner or classic mode */
+		if (settings.banner_mode) {
+			strncpy(settings.format,_(DEFAULT_BANNER_FORMAT),
+				BUFSIZ);
+		}
+		else {
+			strncpy(settings.format,DEFAULT_CLASSIC_FORMAT,BUFSIZ);
+		}
 
-          /* If want system load, add it second-to-last */
-       if (settings.show_load) {
+		/* If usertext specified, add it at beginning */
+		if (settings.display_usertext) {
+			strncpy(temp_string,settings.format,BUFSIZ);
+			strncpy(settings.format,"#E\n",BUFSIZ);
+			vmw_strcat(settings.format,temp_string,
+				BUFSIZ-strlen(settings.format));
+		}
 
-	  /* put it before the hostname */
-	  temp_pointer=strstr(settings.format,"#H");
-	  /* If for some reason not found, put it at end */
-	  if (temp_pointer==NULL) {
-	     vmw_strcat(settings.format,"#L\n",BUFSIZ-strlen(settings.format));
-	  }
-	  else {
-	     if (strlen(settings.format)+3<BUFSIZ) {
-	        strcpy(temp_pointer,"#L\n#H\n");
-	     }
-	  }
-       }
+		/* If want system load, add it second-to-last */
+		if (settings.show_load) {
 
-          /* if want uptime, add it second_to_last */
-       if (settings.show_uptime) {
+			/* put it before the hostname */
+			temp_pointer=strstr(settings.format,"#H");
+			/* If for some reason not found, put it at end */
+			if (temp_pointer==NULL) {
+				vmw_strcat(settings.format,"#L\n",
+					BUFSIZ-strlen(settings.format));
+			}
+			else {
+				if (strlen(settings.format)+3<BUFSIZ) {
+					strcpy(temp_pointer,"#L\n#H\n");
+				}
+			}
+		}
 
-	  /* put it before the hostname */
-	  temp_pointer=strstr(settings.format,"#H");
-	  /* If for some reason not found, put it at end */
-	  if (temp_pointer==NULL) {
-	     vmw_strcat(settings.format,"#U\n",BUFSIZ-strlen(settings.format));
-	  }
-	  else {
-	     if (strlen(settings.format)+3<BUFSIZ) {
-	        strcpy(temp_pointer,"#U\n#H\n");
-	     }
-	  }
-       }
+		/* if want uptime, add it second_to_last */
+		if (settings.show_uptime) {
+
+			/* put it before the hostname */
+			temp_pointer=strstr(settings.format,"#H");
+
+			/* If for some reason not found, put it at end */
+			if (temp_pointer==NULL) {
+				vmw_strcat(settings.format,"#U\n",
+					BUFSIZ-strlen(settings.format));
+			}
+			else {
+				if (strlen(settings.format)+3<BUFSIZ) {
+					strcpy(temp_pointer,"#U\n#H\n");
+				}
+			}
+		}
 	}
 
 	/* Preserve xy if so desired */
