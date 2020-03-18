@@ -12,12 +12,12 @@ clean:
 	cd SunOS && $(MAKE) clean
 	cd w32 && $(MAKE) clean
 	cd all && $(MAKE) clean
-	
-distclean: clean
-	rm -f Makefile.default	
-	
 
-install:	
+distclean: clean
+	rm -f Makefile.default
+
+
+install:
 
 
 libsysinfo.a:	Linux/cpuinfo_alpha.c \
@@ -35,7 +35,8 @@ libsysinfo.a:	Linux/cpuinfo_alpha.c \
 		Linux/cpuinfo_cris.c \
 		Linux/cpuinfo_parisc.c \
 	       	Linux/cpuinfo_sparc.c \
-		Linux/sysinfo_linux.c 
+		Linux/cpuinfo_aarch64.c \
+		Linux/sysinfo_linux.c
 	cd all && $(MAKE)
 	cd $(OS) && $(MAKE)
 	$(CROSS)$(AR) crus libsysinfo.a ./$(OS)/*.o ./all/*.o

@@ -15,6 +15,8 @@ all:	cpuinfo.o sysinfo_linux.o
 
 cpuinfo.o:	  $(ARCH)
 
+aarch64:	cpuinfo_aarch64.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_aarch64.c
 
 alpha:	cpuinfo_alpha.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_alpha.c
