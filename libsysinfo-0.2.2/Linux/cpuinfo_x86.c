@@ -34,18 +34,18 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 			if ( !(strncmp(temp_string,"vendor_id",9)) ||
 			     !(strncmp(temp_string,"vid",3)) ) { /* 1.2.13 kernels */
 				strncpy(vendor_string,parse_line(temp_string),
-					BUFSIZ);
+					BUFSIZ-1);
 			}
 
 			if ( !(strncmp(temp_string,"model name",9)) ) {
 				strncpy(model_string,parse_line(temp_string),
-					BUFSIZ);
+					BUFSIZ-1);
 				clip_lf(model_string,BUFSIZ);
 			}
 			else {  /* for older (pre 2.2.x) kernels */
 				if (!(strncmp(temp_string,"model",5))) {
 					if (strncmp(parse_line(temp_string),"unknown",7)) {
-						strncpy(plain_model,parse_line(temp_string),BUFSIZ);
+						strncpy(plain_model,parse_line(temp_string),BUFSIZ-1);
 						clip_lf(plain_model,BUFSIZ);
 					}
 				}
@@ -62,7 +62,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 
 			/* Old legacy stuff (2.0.x kernels and earlier) */
 			if ( !(strncmp(temp_string,"cpu   ",5))) {
-				strncpy(plain_model,parse_line(temp_string),BUFSIZ);
+				strncpy(plain_model,parse_line(temp_string),BUFSIZ-1);
 				clip_lf(plain_model,255);
 			}
 		}
@@ -91,7 +91,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		strncpy(cpu_info->chip_type,"Unknown",9);
 	}
 	else {
-		strncpy(cpu_info->chip_type,model_string,SYSINFO_CHIP_TYPE_SIZE);
+		strncpy_truncate(cpu_info->chip_type,model_string,SYSINFO_CHIP_TYPE_SIZE);
 	}
 
 	strncpy(cpu_info->chip_vendor,"Unknown",9);
@@ -447,7 +447,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		strncpy(cpu_info->chip_vendor,"SiS",4);
 		if (family!=0) {
 			sprintf(temp_string,"%i86",family);
-			strncpy(cpu_info->chip_type,temp_string,4);
+			strncpy_truncate(cpu_info->chip_type,temp_string,4);
 		}
 	}
 
@@ -483,7 +483,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		strncpy(cpu_info->chip_vendor,"Vortex",7);
 		if (family!=0) {
 			sprintf(temp_string,"%i86",family);
-			strncpy(cpu_info->chip_type,temp_string,4);
+			strncpy_truncate(cpu_info->chip_type,temp_string,4);
 		}
 	}
 
@@ -493,11 +493,11 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	if ( !(strncmp(cpu_info->chip_vendor,"Unknown",7))) {
 		if (family!=0) {
 			sprintf(temp_string,"%i86",family);
-			strncpy(cpu_info->chip_type,temp_string,4);
+			strncpy_truncate(cpu_info->chip_type,temp_string,4);
 		}
 		else {
 			if (plain_model!=NULL) {
-				strncpy(cpu_info->chip_type,plain_model,SYSINFO_CHIP_TYPE_SIZE);
+				strncpy_truncate(cpu_info->chip_type,plain_model,SYSINFO_CHIP_TYPE_SIZE);
 			}
 		}
 	}
@@ -513,7 +513,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	}
 	else {
 		/* restore RAW vendor string.  Do we want this? */
-		strncpy(cpu_info->chip_type,model_string,64);
+		strncpy_truncate(cpu_info->chip_type,model_string,64);
 		cpu_info->megahertz=megahertz;
  	}
 
