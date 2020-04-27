@@ -35,18 +35,21 @@ int get_uptime (void) {
 
 	/* Based on code contributed by */
 	/* Anders Rundegren <anders@rundegren.com> */
-void get_load_average(float *load_1,float *load_5,float *load_15) {
+int get_load_average(float *load_1,float *load_5,float *load_15) {
 
 	FILE *fff;
-	int result;
+	int result=-1;
 
 	fff=fopen("/proc/loadavg","r");
 	if (fff!=NULL) {
 		result=fscanf(fff,"%f" "%f" "%f", load_1, load_5, load_15);
 		fclose (fff);
+		if (result!=3) {
+			result=-1;
+		}
 	}
 
-	(void)result;
+	return result;
 }
 
 int get_os_info(struct os_info_type *os_info) {
