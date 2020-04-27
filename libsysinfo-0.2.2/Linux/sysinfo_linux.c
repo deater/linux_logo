@@ -65,6 +65,10 @@ char *get_host_name(char *hostname,char *domain) {
 	 * map under 2.4.x. It should work with ACPI systems too. */
 	/* Originally Contributed by Sitsofe Wheeler <sits@sucs.swan.ac.uk> */
 	/* Improved a bit (in theory) to handle 64-bit machines -vmw */
+
+	/* Modern systems are zeroing out the addresses in */
+	/* /proc/iomem for security reasons, which makes this useless */
+
 long long get_mem_size_iomem(void) {
 
 	unsigned long long mem_size=0,begin,end;
@@ -81,18 +85,19 @@ long long get_mem_size_iomem(void) {
 			if (pos && (strncmp(pos+1, " System RAM", 10)==0 ||
 				strncmp(pos+1, " ACPI", 5)==0)) {
 					/* Extract the upper memory position */
-					/*printf("Adding %s region ",pos);*/
+					/* printf("Adding %s region ",pos); */
 				pos = strchr(temp_string, '-');
 				if (pos) {
 					*pos=0;
 					end=strtoull(pos+1, NULL, 16);
 					begin=strtoull(temp_string,NULL,16);
 					mem_size+=(end-begin);
-					/*printf("%lld bytes\n",(end-begin));*/
+					/* printf("%lld bytes\n",(end-begin)); */
 				}
 			}
 		}
 		fclose(info);
+		/* printf("Final size=%lld\n",mem_size); */
 	}
 
 	if (mem_size > 0) {
@@ -173,9 +178,11 @@ long long get_mem_size_meminfo(void) {
 	return mem_size/1024ULL;
 }
 
-	/* Try the new 2.4 method of looking in /proc/iomem for memory */
-	/* and if it fails fall back to the default method of stating  */
-	/* /proc/kmem or filtering /proc/meminfo                       */
+
+	/* Try to intelligently figure out which memory method is best */
+	/* /proc/iomem used to give the closest to the "expected" */
+	/* value but is mostly useless now due to security reasons */
+
 long long get_mem_size(void) {
 
 	long long mem_size=0;
@@ -194,20 +201,32 @@ long long get_mem_size(void) {
 	}
 
 	/* Next try the 2.4.x+ method of iomem */
-	if (mem_size == 0) mem_size = get_mem_size_iomem();
+	/* This breaks on moden (5.x?) systems */
+	if (mem_size == 0) {
+		mem_size = get_mem_size_iomem();
+	}
 
+#if 0
 	/* Try stat-ing /proc/kcore */
-	if (mem_size == 0) mem_size = get_mem_size_stat();
+	/* On modern 64-bit kernels this is 128TB in size? */
+	if (mem_size == 0) {
+		mem_size = get_mem_size_stat();
+	}
+#endif
 
 use_sysinfo:
 
 	/* sysinfo should return same as /proc/meminfo */
 	/* which, sadly, is often from 1MB-20MB off    */
-	if (mem_size == 0) mem_size = get_mem_size_sysinfo();
+	if (mem_size == 0) {
+		mem_size = get_mem_size_sysinfo();
+	}
 
 use_meminfo:
 	/* If all else fails, try using /proc/meminfo */
-	if (mem_size == 0) mem_size = get_mem_size_meminfo();
+	if (mem_size == 0) {
+		mem_size = get_mem_size_meminfo();
+	}
 
 	return mem_size;
 }
