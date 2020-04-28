@@ -24,15 +24,15 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		while ( (fgets(temp_string,BUFSIZ,fff)!=NULL) ) {
 
 			if ( !(strncmp(temp_string,"Processor",9))) {
-				strncpy(vendor_string,parse_line(temp_string),BUFSIZ);
+				strncpy(vendor_string,parse_line(temp_string),BUFSIZ-1);
 				clip_lf(vendor_string,BUFSIZ);
 			}
 			if ( !(strncmp(temp_string,"Processor",9))) {
-				strncpy(model_string,parse_line(temp_string),BUFSIZ);
+				strncpy(model_string,parse_line(temp_string),BUFSIZ-1);
 				clip_lf(model_string,BUFSIZ);
 			}
 			if ( !(strncmp(temp_string,"cpu",3))) {
-				strncpy(model_string,parse_line(temp_string),BUFSIZ);
+				strncpy(model_string,parse_line(temp_string),BUFSIZ-1);
 				clip_lf(model_string,BUFSIZ);
 			}
 
@@ -72,8 +72,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		}
 	}
 
-	strncpy(cpu_info->chip_vendor,vendor_string,SYSINFO_CHIP_VENDOR_SIZE);
-	strncpy(cpu_info->chip_type,model_string,SYSINFO_CHIP_TYPE_SIZE);
+	strncpy_truncate(cpu_info->chip_vendor,vendor_string,SYSINFO_CHIP_VENDOR_SIZE);
+	strncpy_truncate(cpu_info->chip_type,model_string,SYSINFO_CHIP_TYPE_SIZE);
 
 	/* This done off of only 2 cpuinfos, so probably not the best */
 	if (!strncmp(vendor_string,"ARM",3)) {
