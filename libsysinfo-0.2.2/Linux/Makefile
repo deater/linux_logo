@@ -102,9 +102,6 @@ vax:	cpuinfo_vax.c
 x86:	cpuinfo_x86.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_x86.c
 
-x86_64:	cpuinfo_x86_64.c
-	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_x86_64.c
-
 sysinfo_linux.o:	sysinfo_linux.c
 	$(CROSS)$(CC) $(CFLAGS) -c sysinfo_linux.c
 
