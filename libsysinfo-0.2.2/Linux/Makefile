@@ -3,13 +3,18 @@ include ../Makefile.default
 ifneq (,$(findstring 86,$(ARCH)))
    ARCH := x86
 endif
+
 ifneq (,$(findstring arm,$(ARCH)))
    ARCH := arm
 endif
+
 ifneq (,$(findstring sh,$(ARCH)))
    ARCH := sh
 endif
 
+ifneq (,$(findstring riscv,$(ARCH)))
+   ARCH := riscv
+endif
 
 all:	cpuinfo.o sysinfo_linux.o
 
@@ -47,27 +52,30 @@ microblaze:	cpuinfo_microblaze.c
 
 mips:	cpuinfo_mips.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_mips.c
-	
+
 mips64:	cpuinfo_mips.c
-	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_mips.c	
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_mips.c
 
 parisc:	cpuinfo_parisc.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_parisc.c
-	
+
 parisc64:	cpuinfo_parisc.c
-	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_parisc.c	
-	
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_parisc.c
+
 ppc:	cpuinfo_ppc.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ppc.c
 
 ppc64:	cpuinfo_ppc.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ppc.c
 
+riscv:	cpuinfo_riscv.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_riscv.c
+
 s390:	cpuinfo_s390.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390.c
-	
+
 s390x:	cpuinfo_s390x.c
-	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390x.c	
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390x.c
 
 sh:	cpuinfo_sh3.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_sh3.c
@@ -83,13 +91,13 @@ vax:	cpuinfo_vax.c
 
 x86:	cpuinfo_x86.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_x86.c
-	
+
 x86_64:	cpuinfo_x86_64.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_x86_64.c
-		
+
 sysinfo_linux.o:	sysinfo_linux.c
 	$(CROSS)$(CC) $(CFLAGS) -c sysinfo_linux.c
 
 clean:	
 	rm -f *~ *.o
- 
+
