@@ -16,6 +16,19 @@ ifneq (,$(findstring riscv,$(ARCH)))
    ARCH := riscv
 endif
 
+ifneq (,$(findstring s390,$(ARCH)))
+   ARCH := s390
+endif
+
+ifneq (,$(findstring ppc,$(ARCH)))
+   ARCH := ppc
+endif
+
+ifneq (,$(findstring mips,$(ARCH)))
+   ARCH := mips
+endif
+
+
 all:	cpuinfo.o sysinfo_linux.o
 
 cpuinfo.o:	  $(ARCH)
@@ -73,9 +86,6 @@ riscv:	cpuinfo_riscv.c
 
 s390:	cpuinfo_s390.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390.c
-
-s390x:	cpuinfo_s390x.c
-	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_s390x.c
 
 sh:	cpuinfo_sh3.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_sh3.c
