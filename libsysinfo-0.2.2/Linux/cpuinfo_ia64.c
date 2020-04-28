@@ -28,7 +28,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
   if ((fff = fopen(get_cpuinfo_file(), "r")) != NULL) {
      
       while ((fgets(temp_string, BUFSIZ, fff) != NULL)) {
-	     /* Assume all CPU's in SMP system are the same */
+	     /* Assume all CPUs in SMP system are the same */
 	  if (cpu_count == 0) {
 	      if (!(strncmp(temp_string, "vendor", 6)))
 		 strncpy(vendor_string, parse_line(temp_string), BUFSIZ);
@@ -51,7 +51,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	       !(strncmp(temp_string, "BogoMIPS", 8))) 
 	    {
 	      bogomips += atof(parse_line(temp_string));
-	      cpu_count++;  /* Cheating way to detect number of intel CPU's */
+	      cpu_count++;  /* Cheating way to detect number of intel CPUs */
 	    }
 	}
     }

@@ -47,7 +47,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	       !(strncmp(temp_string,"BogoMips",8)) ||
 	       !(strncmp(temp_string,"BogoMIPS",8))) {
 	     bogomips+=atof(parse_line(temp_string));
-	     cpu_count++;  /* Cheating way to detect number of CPU's */
+	     cpu_count++;  /* Cheating way to detect number of CPUs */
 	  }
        }
     }

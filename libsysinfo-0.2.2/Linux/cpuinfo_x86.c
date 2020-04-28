@@ -28,7 +28,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 
 	while ( (fgets(temp_string,BUFSIZ,fff)!=NULL) ) {
 
-		/* Assume all CPU's in SMP system are the same */
+		/* Assume all CPUs in SMP system are the same */
 		if (cpu_count==0) {
 
 			if ( !(strncmp(temp_string,"vendor_id",9)) ||
@@ -72,7 +72,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		     !(strncmp(temp_string,"BogoMips",8)) ||
 		     !(strncmp(temp_string,"BogoMIPS",8))) {
 			bogomips+=atof(parse_line(temp_string));
-			/* Cheating way to detect number of intel CPU's */
+			/* Cheating way to detect number of intel CPUs */
 			cpu_count++;
 		}
 	}
@@ -140,7 +140,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 			strncpy(cpu_info->chip_type,"K5",3);
 		}
 
-		/* Some old K7's were reported as such */
+		/* Some old K7s were reported as such */
 		if (strstr(model_string,"K7")!=NULL) {
 			strncpy(cpu_info->chip_type,"Athlon",7);
 		}
