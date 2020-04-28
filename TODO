@@ -1,4 +1,17 @@
-- make the "-i" option work
+NEWER:
+~~~~~~
+
+- Make x86 base CPU type on the model number
+
+- Fix all the github issues
+
+- Truncate width if wider than 80 columns
+
+- Auto-calculate width of screen and adjust accordingly?
+
+
+OLDER:
+~~~~~~
 
 - handle the case if two logos have the same name...
 
@@ -11,6 +24,7 @@
   an i18n expert ]
 
 - Fix -i option
+- make the "-i" option work
 
 - Compress logos for smaller executable [might not be worth the trouble]
 
