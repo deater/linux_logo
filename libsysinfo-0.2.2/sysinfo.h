@@ -31,6 +31,7 @@ int get_load_average(float *load_1,float *load_5,float *load_15);
 
 struct cpu_info_type {
 	int num_cpus;
+	int family,model,stepping;
 	float megahertz;
 	float bogomips;
 	char chip_vendor[SYSINFO_CHIP_VENDOR_SIZE+1];
