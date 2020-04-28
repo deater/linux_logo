@@ -27,7 +27,6 @@ libsysinfo.a:	Linux/cpuinfo_alpha.c \
 		Linux/cpuinfo_arm.c \
 		Linux/cpuinfo_m68k.c \
 		Linux/cpuinfo_s390.c \
-		Linux/cpuinfo_x86_64.c \
 		Linux/cpuinfo_avr32.c \
 		Linux/cpuinfo_mips.c \
 		Linux/cpuinfo_sh3.c \
