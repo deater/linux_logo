@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.11"
+#define VERSION "5.9b1"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */
@@ -300,14 +300,18 @@ static int generate_sysinfo(
 	        case '#': vmw_strcat(temp_line,"#",BUFSIZ-strlen(temp_line)); break;
 	           /* #B prints the bogomips */
 	           /* If really high, don't print fractional part */
-	        case 'B': if (cpu_info.bogomips<10000.0) {
-	                     snprintf(temp_string,BUFSIZ,"%.2f",cpu_info.bogomips);
-	                  }
-	                  else {
-			     snprintf(temp_string,BUFSIZ,"%.0f",cpu_info.bogomips);
-		          }
-	                  vmw_strcat(temp_line,temp_string,BUFSIZ-strlen(temp_line));
-	                  break;
+	        case 'B':
+			if (cpu_info.bogomips<100.0) {
+				snprintf(temp_string,BUFSIZ,"%.2f",cpu_info.bogomips);
+			}
+			else if (cpu_info.bogomips>1000.0) {
+				snprintf(temp_string,BUFSIZ,"%.0fk",cpu_info.bogomips/1000);
+			}
+			else {
+				snprintf(temp_string,BUFSIZ,"%.0f",cpu_info.bogomips);
+			}
+			vmw_strcat(temp_line,temp_string,BUFSIZ-strlen(temp_line));
+			break;
 	           /* #C prints OS revision */
 	        case 'C': vmw_strcat(temp_line,os_info.os_revision,
 				     BUFSIZ-strlen(temp_line));
