@@ -220,8 +220,6 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 
 	/* New, family/model/stepping version */
 
-	printf("Family=%d\n",cpu_info->family);
-
 	if (cpu_info->family==3) {
 		strncpy(base_type,"386",4);
 	}
@@ -302,12 +300,13 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			case 7: /* Katmai */
 			case 8: /* Coppermine */
 			case 10:/* Cascades */
-			case 11:/* Celeron */
+			case 11:/* Tualatin / Celeron */
 				strncpy(base_type,"Pentium III",12);
 				break;
 			/* Pentium M */
-			case 9:
-			case 13:
+			case 9: /* Banias */
+			case 13:/* Dothan */
+			case 21:/* Tolapai */
 				strncpy(base_type,"Pentium M",10);
 				break;
 			/* Core Duo */
@@ -317,7 +316,7 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			/* Core2 */
 			case 15: /* Merom */
 			case 22: /* Merom L */
-			case 23: /* Penryn */
+			case 23: /* Penryn, Wolfdale, Yorkfield */
 			case 29: /* Dunnington */
 				strncpy(base_type,"Core2",6);
 				break;
@@ -325,18 +324,18 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			case 28: /* Bonnell: Diamondville, Pineview */
 			case 38: /* Bonnell Mid: Silverthorne, Lincroft */
 			case 54: /* Saltwell: Cedarview */
-			case 39: /* Saltwell Mid: Cedarview */
+			case 39: /* Saltwell Mid: Penwell */
 			case 53: /* Saltwell Tabled: Cloverview */
 				strncpy(base_type,"Atom",5);
 				break;
 			case 55: /* Silvermont: Bay Trail, Valleyview */
 			case 77: /* Silvermont D: Avaton, Rangely */
-			case 74: /* Silvermont Mid: Merriefield */
-			case 93: /* 0x5D ?????? */
+			case 74: /* Silvermont Mid: Merriefield, Tangier */
+			case 93: /* SoFIA */
 				strncpy(base_type,"Atom Silvermont",16);
 				break;
 			case 76: /* Airmont: Cherry Trail, Braswell */
-			case 90: /* Airmont Mid: Moorefield */
+			case 90: /* Airmont Mid: Moorefield, Anniedale */
 			case 117:/* Airmont NP: Lightning Mountain */
 				strncpy(base_type,"Atom Airmont",13);
 				break;
@@ -347,8 +346,19 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			case 122: /* Goldmont Plus: Gemini Lake */
 				strncpy(base_type,"Atom Goldmont+",18);
 				break;
-			case 87:strncpy(base_type,"Knights Landing",16); break;
-			case 133:strncpy(base_type,"Knights Mill",13); break;
+			case 134: /* Tremont: Elkhart Lake */
+				strncpy(base_type,"Atom Tremont",13);
+				break;
+
+			/* Knights Landing */
+			case 87:
+				strncpy(base_type,"Knights Landing",16);
+				break;
+			/* Knights Mill */
+			case 133:
+				strncpy(base_type,"Knights Mill",13);
+				break;
+
 			/* Nehalem */
 			case 30: /* Nehalem */
 			case 31: /* G: Auburndale / Havendale */
