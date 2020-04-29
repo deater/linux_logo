@@ -9,6 +9,8 @@
 #include "../sysinfo.h"
 #include "../include/generic.h"
 
+//#define USE_LEGACY_PARSING	1
+
 
 /******************/
 /* AMD chips      */
@@ -200,8 +202,248 @@ static void fixup_model_cyrix(struct cpu_info_type *cpu_info,
 static void fixup_model_intel(struct cpu_info_type *cpu_info,
 				char *model_string) {
 
+#ifndef USE_LEGACY_PARSING
+	char base_type[BUFSIZ];
+	char prefix[BUFSIZ];
+
+	prefix[0]=0;
+
 	strncpy(cpu_info->chip_vendor,"Intel",6);
 
+	/* Old versions of Linux (before 1998?) */
+	/* the "model" field was a string not a number */
+	if ((cpu_info->family==6) && (cpu_info->model==0)) {
+		strncpy(base_type,model_string,BUFSIZ);
+		goto too_old;
+	}
+
+
+	/* New, family/model/stepping version */
+
+	printf("Family=%d\n",cpu_info->family);
+
+	if (cpu_info->family==3) {
+		strncpy(base_type,"386",4);
+	}
+	else if (cpu_info->family==4) {
+		/* https://en.wikichip.org/wiki/intel/cpuid#Family_4 */
+		switch(cpu_info->model) {
+			case 1:
+				strncpy(base_type,"486 DX",7);
+				break;
+			case 2:
+				strncpy(base_type,"486 SX",7);
+				break;
+			case 3:
+				strncpy(base_type,"486 DX/2",9);
+				break;
+			case 4:
+				strncpy(base_type,"486 SL",7);
+				break;
+			case 8:
+				strncpy(base_type,"486 DX/4",9);
+				break;
+			default:
+				strncpy(base_type,"486",4);
+				break;
+		}
+	}
+	else if (cpu_info->family==5) {
+		switch(cpu_info->model) {
+			case 1: /* P5, P54, P54CQS */
+			case 2: /* P54CS  */
+				strncpy(base_type,"Pentium",8);
+				break;
+			case 4: /* P55C -- MMX*/
+			case 7: /* P55C Mobile */
+			case 8: /* P55C Mobile */
+				strncpy(base_type,"Pentium MMX",12);
+				break;
+			case 9:
+			case 10:
+				strncpy(base_type,"Quark",6);
+				break;
+			default:
+				strncpy(base_type,"Pentium",8);
+				break;
+		}
+	}
+	else if (cpu_info->family==6) {
+
+		/* https://en.wikichip.org/wiki/intel/cpuid */
+
+		/* Thanks, Intel, for this rediculous mess */
+		/* Best source of this info is */
+		/* arch/x86/include/asm/intel-family.h */
+		/* but it's in Hex and uses a lot of silly */
+		/* internal Intel lingo */
+
+		/* _L      - mobile parts           */
+		/* _G      - with extra graphics    */
+		/* _X      - server parts           */
+		/* _D      - micro server parts     */
+		/* Historical:                      */
+		/* _EP     - 2 socket server parts  */
+		/* _EX     - 4+ socket server parts */
+
+
+		switch(cpu_info->model) {
+			/* Pentium Pro */
+			case 1:
+				strncpy(base_type,"Pentium Pro",12);
+				break;
+			/* Pentium II */
+			case 3: /* Klamath */
+			case 5: /* Deschutes */
+			case 6: /* Celeron Mendocino */
+				strncpy(base_type,"Pentium II",11);
+				break;
+			/* Pentium III */
+			case 7: /* Katmai */
+			case 8: /* Coppermine */
+			case 10:/* Cascades */
+			case 11:/* Celeron */
+				strncpy(base_type,"Pentium III",12);
+				break;
+			/* Pentium M */
+			case 9:
+			case 13:
+				strncpy(base_type,"Pentium M",10);
+				break;
+			/* Core Duo */
+			case 14: /* Yonah */
+				strncpy(base_type,"Core Duo",9);
+				break;
+			/* Core2 */
+			case 15: /* Merom */
+			case 22: /* Merom L */
+			case 23: /* Penryn */
+			case 29: /* Dunnington */
+				strncpy(base_type,"Core2",6);
+				break;
+			/* Atom */
+			case 28: /* Bonnell: Diamondville, Pineview */
+			case 38: /* Bonnell Mid: Silverthorne, Lincroft */
+			case 54: /* Saltwell: Cedarview */
+			case 39: /* Saltwell Mid: Cedarview */
+			case 53: /* Saltwell Tabled: Cloverview */
+				strncpy(base_type,"Atom",5);
+				break;
+			case 55: /* Silvermont: Bay Trail, Valleyview */
+			case 77: /* Silvermont D: Avaton, Rangely */
+			case 74: /* Silvermont Mid: Merriefield */
+			case 93: /* 0x5D ?????? */
+				strncpy(base_type,"Atom Silvermont",16);
+				break;
+			case 76: /* Airmont: Cherry Trail, Braswell */
+			case 90: /* Airmont Mid: Moorefield */
+			case 117:/* Airmont NP: Lightning Mountain */
+				strncpy(base_type,"Atom Airmont",13);
+				break;
+			case 92: /* Goldmont: Apollo Lake */
+			case 95: /* Goldmont: Denverton */
+				strncpy(base_type,"Atom Goldmont",17);
+				break;
+			case 122: /* Goldmont Plus: Gemini Lake */
+				strncpy(base_type,"Atom Goldmont+",18);
+				break;
+			case 87:strncpy(base_type,"Knights Landing",16); break;
+			case 133:strncpy(base_type,"Knights Mill",13); break;
+			/* Nehalem */
+			case 30: /* Nehalem */
+			case 31: /* G: Auburndale / Havendale */
+				strncpy(base_type,"Nehalem",8);
+				break;
+			case 26: /* EP */
+				strncpy(base_type,"Nehalem EP",11);
+				break;
+			case 46: /* EX */
+				strncpy(base_type,"Nehalem EX",11);
+				break;
+			case 37:
+			case 44:strncpy(base_type,"Westmere",9); break;
+			case 47:strncpy(base_type,"Westmere EX",12); break;
+			case 42:strncpy(base_type,"Sandybridge",12); break;
+			case 45:strncpy(base_type,"Sandybridge EP",15); break;
+			case 58:strncpy(base_type,"Ivybridge",10); break;
+			case 62:strncpy(base_type,"Ivybridge EP",13); break;
+			case 60:
+			case 70:strncpy(base_type,"Haswell",8); break;
+			case 69:strncpy(base_type,"Haswell ULT",12); break;
+			case 63:strncpy(base_type,"Haswell EP",11); break;
+			case 61:strncpy(base_type,"Broadwell",10); break;
+			case 71:strncpy(base_type,"Broadwell-H",12); break;
+			case 86:strncpy(base_type,"Broadwell-DE",13); break;
+			case 79:strncpy(base_type,"Broadwell EP",13); break;
+			case 78:strncpy(base_type,"Skylake Mobile",15); break;
+			case 94:strncpy(base_type,"Skylake",8); break;
+			case 142:
+			case 158:strncpy(base_type,"Kabylake",9); break;
+			case 85:
+				if (cpu_info->stepping < 5) {
+					strncpy(base_type,"Skylake X",10);
+				}
+				else {
+					strncpy(base_type,"Cascadelake X",14);
+				}
+				break;
+			default: strncpy(base_type,"Unknown",8); break;
+		}
+	}
+	else if (cpu_info->family==11) {
+		strncpy(base_type,"Knights Corner",15);
+	}
+	else if (cpu_info->family==15) {
+		switch(cpu_info->model) {
+			case 0:
+			case 1: /* Willamette */
+			case 2: /* Northwood */
+				strncpy(base_type,"Pentium 4",10);
+				break;
+			case 3: /* Prescott */
+			case 4: /* Prescott */
+			case 5:
+			case 6:
+				strncpy(base_type,"Pentium D",10);
+				break;
+			default:
+				strncpy(base_type,"Unknown",8);
+				break;
+
+		}
+	}
+	else {
+		strncpy(base_type,"Unknown",8);
+	}
+
+	/* Check for some prefixes */
+	if (strstr(model_string,"i3")!=NULL) {
+		strncpy(prefix,"i3",3);
+	}
+	if (strstr(model_string,"i5")!=NULL) {
+		strncpy(prefix,"i5",3);
+	}
+	if (strstr(model_string,"i7")!=NULL) {
+		strncpy(prefix,"i7",3);
+	}
+	if (strstr(model_string,"i9")!=NULL) {
+		strncpy(prefix,"i9",3);
+	}
+	if (strstr(model_string,"Xeon")!=NULL) {
+		strncpy(prefix,"Xeon",5);
+	}
+
+
+	/* Construct final */
+too_old:
+	if (prefix[0]==0) {
+		snprintf(cpu_info->chip_type,BUFSIZ,"%s",base_type);
+	}
+	else {
+		snprintf(cpu_info->chip_type,BUFSIZ*2,"%s %s",prefix,base_type);
+	}
+
+#else
 	/* Handle the various Pentium types */
 	if (!(strncmp(model_string,"Pentium",7))) {
 		if (strstr(model_string,"75")!=NULL) {
@@ -336,6 +578,7 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 	if (strstr(model_string,"QEMU")!=NULL) {
 		strncpy(cpu_info->chip_type,"QEMU Virtual",13);
 	}
+#endif
 }
 
 
@@ -545,9 +788,10 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	/**********************************/
 	/* Try to handle cpus w/o cpuinfo */
 	/**********************************/
-	if ( !(strncmp(cpu_info->chip_vendor,"Unknown",7))) {
-		if (family!=0) {
-			sprintf(temp_string,"%i86",family);
+	if ( ( !(strncmp(cpu_info->chip_vendor,"Unknown",7))) ||
+		( !(strncmp(cpu_info->chip_vendor,"unknown",7)))) {
+		if (cpu_info->family!=0) {
+			sprintf(temp_string,"%i86",cpu_info->family);
 			strncpy_truncate(cpu_info->chip_type,temp_string,4);
 		}
 		else {
