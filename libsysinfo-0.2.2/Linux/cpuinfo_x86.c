@@ -361,34 +361,84 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 
 			/* Nehalem */
 			case 30: /* Nehalem */
-			case 31: /* G: Auburndale / Havendale */
+			case 31: /* G: Auburndale / Havendale (cancelled?) */
 				strncpy(base_type,"Nehalem",8);
 				break;
-			case 26: /* EP */
+			case 26: /* EP: Bloomfield */
 				strncpy(base_type,"Nehalem EP",11);
 				break;
 			case 46: /* EX */
 				strncpy(base_type,"Nehalem EX",11);
 				break;
-			case 37:
-			case 44:strncpy(base_type,"Westmere",9); break;
-			case 47:strncpy(base_type,"Westmere EX",12); break;
-			case 42:strncpy(base_type,"Sandybridge",12); break;
-			case 45:strncpy(base_type,"Sandybridge EP",15); break;
-			case 58:strncpy(base_type,"Ivybridge",10); break;
-			case 62:strncpy(base_type,"Ivybridge EP",13); break;
-			case 60:
-			case 70:strncpy(base_type,"Haswell",8); break;
-			case 69:strncpy(base_type,"Haswell ULT",12); break;
-			case 63:strncpy(base_type,"Haswell EP",11); break;
-			case 61:strncpy(base_type,"Broadwell",10); break;
-			case 71:strncpy(base_type,"Broadwell-H",12); break;
-			case 86:strncpy(base_type,"Broadwell-DE",13); break;
-			case 79:strncpy(base_type,"Broadwell EP",13); break;
-			case 78:strncpy(base_type,"Skylake Mobile",15); break;
-			case 94:strncpy(base_type,"Skylake",8); break;
-			case 142:
-			case 158:strncpy(base_type,"Kabylake",9); break;
+
+			/* Westmere */
+			case 37: /* Arrandale */
+				strncpy(base_type,"Westmere",9);
+				break;
+			case 44: /* Gulftown, EP */
+				strncpy(base_type,"Westmere EP",12);
+				break;
+			case 47: /* EX */
+				strncpy(base_type,"Westmere EX",12);
+				break;
+
+			/* Sandybridge */
+			case 42:
+				strncpy(base_type,"Sandybridge",12);
+				break;
+			case 45: /* E, EN, EP */
+				strncpy(base_type,"Sandybridge EP",15);
+				break;
+
+			/* Ivybridge */
+			case 58: /* M, H, Gladden */
+				strncpy(base_type,"Ivybridge",10);
+				break;
+			case 62: /* E, EN, EP, EX */
+				strncpy(base_type,"Ivybridge EP",13);
+				break;
+
+			/* Haswell */
+			case 60: /* Haswell S */
+			case 70: /* Haswell G GT3E */
+				strncpy(base_type,"Haswell",8);
+				break;
+			case 69: /* Haswell L ULT*/
+				strncpy(base_type,"Haswell ULT",12);
+				break;
+			case 63: /* Haswell X */
+				strncpy(base_type,"Haswell EP",11);
+				break;
+
+			/* Broadwell */
+			case 61: /* U,Y,S */
+				strncpy(base_type,"Broadwell",10);
+				break;
+			case 71: /* G: H,C,W */
+				strncpy(base_type,"Broadwell-H",12);
+				break;
+			case 86: /* D: DE, Hewitt Lake */
+				strncpy(base_type,"Broadwell-DE",13);
+				break;
+			case 79: /* X: E, EP, EX */
+				strncpy(base_type,"Broadwell EP",13);
+				break;
+
+			/* Skylake */
+			case 78: /* Skylake L (mobile?) (Y,U) */
+			case 94: /* Skylake ( DT,H,S) */
+				strncpy(base_type,"Skylake",8);
+				break;
+
+			/* Also Coffee Lake??? */
+			/* Also Whiskeylake/Amberlake?? */
+			/* Kabylake */
+			case 142: /* Kabylake L: Y,U */
+			case 158: /* Kabylake: DT, H, S, X */
+				strncpy(base_type,"Kabylake",9);
+				break;
+
+			/* Skylake/Cascadelake/Cooperlake Server */
 			case 85:
 				if (cpu_info->stepping < 5) {
 					strncpy(base_type,"Skylake X",10);
@@ -397,6 +447,33 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 					strncpy(base_type,"Cascadelake X",14);
 				}
 				break;
+
+			/* Cannonlake */
+			case 102: /* Cannonlake U/L */
+				strncpy(base_type,"Cannonlake",11);
+				break;
+
+			/* Icelake */
+			case 106: /* Icelake X : Server */
+			case 108: /* Icelake D : Server */
+			case 125: /* Icelake : Y */
+			case 126: /* Icelake L : U */
+			case 157: /* Icelake NNPI */
+				strncpy(base_type,"Icelake",8);
+				break;
+
+			/* Tigerlake */
+			case 140: /* Tigerlake L : U */
+			case 141: /* Tigerlake */
+				strncpy(base_type,"Tigerlake",10);
+				break;
+
+			/* Cometlake */
+			case 165: /* Cometlake */
+			case 166: /* Cometlake L */
+				strncpy(base_type,"Cometlake",10);
+				break;
+
 			default: strncpy(base_type,"Unknown",8); break;
 		}
 	}
@@ -646,7 +723,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 			}
 
 			/* Sometimes needed to disambiguate */
-			if ( !(strncmp(temp_string,"stepping",10))) {
+			if ( !(strncmp(temp_string,"stepping",8))) {
 				cpu_info->stepping=atoi(parse_line(temp_string));
 			}
 
