@@ -16,9 +16,355 @@
 /* AMD chips      */
 /******************/
 
+void grab_amd_to_space(char *model_string,char *base_type,int max_len) {
+
+	char *result;
+	int i;
+
+	result=strstr(model_string,"AMD ");
+	if (result==NULL) {
+		strncpy(base_type,"Unknown",8);
+	}
+	else {
+		result+=4;
+		for(i=0;i<max_len;i++) {
+			if (result[i]==' ') break;
+			if (result[i]=='(') break; /* skip (TM) */
+			if (result[i]==0) break;
+			base_type[i]=result[i];
+		}
+		result[i]=0;
+	}
+
+}
+
 static void fixup_model_amd(struct cpu_info_type *cpu_info,
 				char *model_string) {
 
+
+#ifndef USE_LEGACY_PARSING
+	char base_type[BUFSIZ];
+	char prefix[BUFSIZ];
+
+	prefix[0]=0;
+
+	strncpy(cpu_info->chip_vendor,"AMD",4);
+
+	/* Old versions of Linux (before 1998?) */
+	/* the "model" field was a string not a number */
+	if ((cpu_info->family==4) && (cpu_info->model==0)) {
+		strncpy(base_type,model_string,BUFSIZ);
+		goto too_old;
+	}
+
+	/* New, family/model/stepping version */
+
+	/* http://www.paradicesoftware.com/specs/cpuid/ */
+
+	if (cpu_info->family==3) {
+		strncpy(base_type,"386",4);
+	}
+	else if (cpu_info->family==4) {
+
+		switch(cpu_info->model) {
+			case 3:
+				strncpy(base_type,"486 DX/2",9);
+				break;
+			case 7:
+				strncpy(base_type,"486 DX/2-WB",12);
+				break;
+			case 8:
+				strncpy(base_type,"486 DX/4",9);
+				break;
+			case 9:
+				strncpy(base_type,"486 DX/4-WB",12);
+				break;
+			case 14:
+				strncpy(base_type,"Am5x86-WT",10);
+				break;
+			case 15:
+				strncpy(base_type,"Am5x86-WB",10);
+				break;
+			default:
+				strncpy(base_type,"486",4);
+				break;
+		}
+	}
+	else if (cpu_info->family==5) {
+		switch(cpu_info->model) {
+			case 0: /* K5 SSA */
+			case 1: /* K5 PR120/PR133 */
+			case 2: /* K5 PR166 */
+			case 3: /* K5 PR200 */
+				strncpy(base_type,"K5",3);
+				break;
+			case 6: /* 0.30um */
+			case 7: /* 0.25um */
+				strncpy(base_type,"K6",3);
+				break;
+			case 8:
+				strncpy(base_type,"K6-2",5);
+				break;
+			case 9:
+				strncpy(base_type,"K6-3",5);
+				break;
+			case 10:
+				strncpy(base_type,"Geode",6);
+				break;
+			case 13: /* could also be K6-3+? */
+				strncpy(base_type,"K6-2+",6);
+				break;
+			default:
+				strncpy(base_type,"K6",3);
+				break;
+		}
+	}
+	else if (cpu_info->family==6) {
+
+		/* Athlon */
+
+		switch(cpu_info->model) {
+			case 0: /* Athlon (0.25um) */
+			case 1: /* Athlon (0.25um) */
+			case 2: /* Athlon (0.18um) */
+			case 4: /* Athlon (Thunderbird) */
+			case 6: /* Athlon (Palamino) */
+				strncpy(base_type,"Athlon",7);
+				break;
+			/* Duron */
+			case 3: /* Duron */
+			case 7: /* Duron (Morgan) */
+				strncpy(base_type,"Duron",6);
+				break;
+			case 8: /* Athlon (Thoroughbread) */
+				if (strstr(model_string,"XP")) {
+					strncpy(base_type,"Athlon XP",10);
+				}
+				else if (strstr(model_string,"MP")) {
+					strncpy(base_type,"Athlon MP",10);
+				}
+				else if (strstr(model_string,"Sempron")) {
+					strncpy(base_type,"Sempron",8);
+				}
+				else if (strstr(model_string,"Geode")) {
+					strncpy(base_type,"Geode",8);
+				}
+				else {
+					strncpy(base_type,"Athlon",8);
+				}
+				break;
+			case 10: /* Athlon (Barton) */
+				if (strstr(model_string,"XP")) {
+					strncpy(base_type,"Athlon XP",10);
+				}
+				else if (strstr(model_string,"MP")) {
+					strncpy(base_type,"Athlon MP",10);
+				}
+				else {
+					strncpy(base_type,"Athlon",8);
+				}
+				break;
+			default: strncpy(base_type,"Athlon",7);
+				break;
+		}
+	}
+	else if (cpu_info->family==15) {
+		/* Opteron */
+		/* How do model numbers map to names? */
+
+		if (strstr(model_string,"Opteron")) {
+			strncpy(base_type,"Opteron",8);
+		}
+		else if (strstr(model_string,"Turion")) {
+			strncpy(base_type,"Turion 64",10);
+		}
+		else if (strstr(model_string,"Sempron")) {
+			strncpy(base_type,"Sempron",8);
+		}
+		else if (strstr(model_string,"Athlon")) {
+			strncpy(base_type,"Athlon 64",10);
+		}
+		else {
+			strncpy(base_type,"Opteron",8);
+		}
+
+		if (strstr(model_string,"X2")) {
+			strncpy(prefix,"X2",3);
+		}
+	}
+	else if (cpu_info->family==16) {
+		/* Family 10h */
+		switch(cpu_info->model) {
+			case 1:
+			case 2: /* Phenom/Opteron */
+			case 3:
+				/* Fam10h Rev B Barcelona */
+				if (strstr(model_string,"Phenom")) {
+					strncpy(base_type,"Phenom",7);
+				}
+				else {
+					strncpy(base_type,"Opteron",8);
+				}
+				break;
+			case 4: /* 4: Phenom II, Opteron */
+			case 5: /* 5: Athlon II */
+			case 6: /* 6: Athlon II / V160? */
+				/* V Series like Sempron? */
+				/* Fam10h Rev C Shanghai */
+				if (strstr(model_string,"Phenom")) {
+					strncpy(base_type,"Phenom II",10);
+				}
+				else if (strstr(model_string,"Athlon")) {
+					strncpy(base_type,"Athlon II",10);
+				}
+				else if (strstr(model_string,"V")) {
+					strncpy(base_type,"V-Series",9);
+				}
+				else {
+					strncpy(base_type,"Opteron",8);
+				}
+
+				break;
+			case 8: /* 8: Opteron */
+				/* Fam10h Rev C Istanbul */
+				strncpy(base_type,"Opteron",8);
+				break;
+			case 9:
+			case 10: /* Opteron / Phemon II */
+				/* Fam10h Rev D Magny-Cours */
+				if (strstr(model_string,"Phenom")) {
+					strncpy(base_type,"Phenom II",10);
+				}
+				else {
+					strncpy(base_type,"Opteron",8);
+				}
+			default:
+				strncpy(base_type,"Opteron",8);
+				break;
+		}
+	}
+	else if (cpu_info->family==17) {
+		/* Family 11h -- Turion */
+		/* Turion, Athlon */
+
+		if (strstr(model_string,"Athlon")) {
+			strncpy(base_type,"Athlon",7);
+		}
+		else {
+			strncpy(base_type,"Turion",8);
+		}
+	}
+	else if (cpu_info->family==18) {
+		/* Family 12h -- Llano*/
+		/* A4, A6, A8 */
+
+		/* Grab from AMD to space */
+
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
+	}
+	else if (cpu_info->family==20) {
+		/* Family 14h -- Bobcat */
+
+		/* Grab from AMD to space */
+
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
+
+	}
+	else if (cpu_info->family==21) {
+		/* Family 15h -- Construction Equipment */
+
+		switch(cpu_info->model) {
+			case 1:	/* Bulldozer */
+			case 2:	/* Piledriver */
+			case 10:/* Piledriver */
+			case 13:/* Piledriver */
+			case 48:/* Steamroller */
+			case 96:/* Excavator */
+			case 112:/* ??? */
+			default:
+				break;
+		}
+
+		/* Grab from AMD to space */
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
+
+	}
+	else if (cpu_info->family==22) {
+		/* Family 16h -- Jaguar */
+
+		switch(cpu_info->model) {
+			case 0:		/* Jaguar */
+			case 48:	/* Mullins */
+			default: break;
+		}
+
+		/* Grab from AMD to space */
+
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
+
+	}
+	else if (cpu_info->family==23) {
+		/* Family 17h -- Zen */
+
+		switch(cpu_info->model) {
+			/* Zen */
+			case 1: /* Naples, Whitehaven, Summit Ridge, Snowy Owl */
+			case 17: /* Raven Ridge */
+			case 24: /* Branded Kestrel, Dali */
+			/* Zen+ */
+			case 8:	/* Pinnacle Ridge */
+			//case 24:/* Picasso */
+			/* Zen2 */
+			case 49:  /* Rome, Castle Peak */
+			case 113: /* Matisse */
+
+			default: break;
+		}
+
+		/* Grab from AMD to space */
+
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
+
+	}
+
+
+	else {
+		strncpy(base_type,"Unknown",8);
+	}
+
+	if (strstr(model_string,"X2")) {
+		strncpy(prefix,"X2",3);
+	}
+	if (strstr(model_string,"X3")) {
+		strncpy(prefix,"X3",3);
+	}
+	if (strstr(model_string,"X4")) {
+		strncpy(prefix,"X4",3);
+	}
+	if (strstr(model_string,"X6")) {
+		strncpy(prefix,"X6",3);
+	}
+
+
+#if 0
+	/* Check for some prefixes */
+	if (strstr(model_string,"MP")!=NULL) {
+		strncpy(prefix,"MP",3);
+	}
+	if (strstr(model_string,"XP")!=NULL) {
+		strncpy(prefix,"XP",3);
+	}
+#endif
+	/* Construct final */
+too_old:
+	if (prefix[0]==0) {
+		snprintf(cpu_info->chip_type,BUFSIZ,"%s",base_type);
+	}
+	else {
+		snprintf(cpu_info->chip_type,BUFSIZ*2,"%s %s",base_type,prefix);
+	}
+
+#else
 	strncpy(cpu_info->chip_vendor,"AMD",4);
 
 	/* Clean-up K6 model info */
@@ -125,7 +471,7 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 			strncpy(cpu_info->chip_type,"K6-III",7);
 		}
 	}
-
+#endif
 }
 
 
@@ -171,6 +517,20 @@ static void fixup_model_cyrix(struct cpu_info_type *cpu_info,
 				char *model_string) {
 
 	strncpy(cpu_info->chip_vendor,"Cyrix",6);
+
+	/* 4: */
+	/*   case 4: Media GX */
+	/*   case 9: 5x86 */
+	/* 5: */
+	/*  case 2: Cx6x86 / 6x86L */
+	/*  case 4: MediaGX GXm */
+	/* 6: */
+	/*  case 0: 6x86MX */
+	/*  case 5: VIA Cyrix M2 */
+	/*  case 6: WinChip C5A */
+	/*  case 7: Winchip C5B/C5C */
+	/*  case 8: Winchip C5N/C5C-T */
+	/*  case 9: Winchip C5XL/C5P */
 
 	if ( strstr(model_string,"MediaGX")!=NULL) {
 		strncpy(cpu_info->chip_type,"MediaGX",8);
@@ -226,20 +586,30 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 	else if (cpu_info->family==4) {
 		/* https://en.wikichip.org/wiki/intel/cpuid#Family_4 */
 		switch(cpu_info->model) {
-			case 1:
+			case 0: /* 486DX-25/33 */
+			case 1: /* 486DX-50 */
 				strncpy(base_type,"486 DX",7);
 				break;
-			case 2:
+			case 2: /* 486SX */
 				strncpy(base_type,"486 SX",7);
 				break;
-			case 3:
+			case 3: /* 486 DX/2 */
 				strncpy(base_type,"486 DX/2",9);
 				break;
-			case 4:
+			case 4: /* 486 SL */
 				strncpy(base_type,"486 SL",7);
 				break;
-			case 8:
+			case 5: /* 486SX2 */
+				strncpy(base_type,"486 SX2",8);
+				break;
+			case 7: /* 486 DX/2 WB */
+				strncpy(base_type,"486 DX/2 WB",12);
+				break;
+			case 8: /* 486 DX4 */
 				strncpy(base_type,"486 DX/4",9);
+				break;
+			case 9: /* 486 DX4 WB */
+				strncpy(base_type,"486 DX/4 WB",12);
 				break;
 			default:
 				strncpy(base_type,"486",4);
@@ -248,9 +618,13 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 	}
 	else if (cpu_info->family==5) {
 		switch(cpu_info->model) {
+			case 0: /* P5 A-step */
 			case 1: /* P5, P54, P54CQS */
 			case 2: /* P54CS  */
 				strncpy(base_type,"Pentium",8);
+				break;
+			case 3: /* P24T OverDrive */
+				strncpy(base_type,"Pentium Overdrive",20);
 				break;
 			case 4: /* P55C -- MMX*/
 			case 7: /* P55C Mobile */
@@ -531,6 +905,9 @@ too_old:
 	}
 
 #else
+
+	strncpy(cpu_info->chip_vendor,"Intel",6);
+
 	/* Handle the various Pentium types */
 	if (!(strncmp(model_string,"Pentium",7))) {
 		if (strstr(model_string,"75")!=NULL) {
@@ -808,6 +1185,9 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
        /*****************/
 	if ( !(strncmp(vendor_string,"NexGenDriven",12))) {
 		strncpy(cpu_info->chip_vendor,"NexGen",7);
+
+		/* 5: */
+		/* case 0: Nx586 */
 	}
 
 	/**************************************/
@@ -823,6 +1203,9 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	/*****************/
 	if ( !(strncmp(vendor_string,"RiseRiseRise",12))) {
 		strncpy(cpu_info->chip_vendor,"Rise",5);
+		/* Family 5 */
+		/* case 0: mP6 0.25 um */
+		/* case 1: mP6 0.18 um */
 	}
 
 	/******************/
@@ -856,6 +1239,9 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	if ( !(strncmp(vendor_string,"UMC UMC UMC",11))) {
 		strncpy(cpu_info->chip_vendor,"UMC",4);
 
+		/* Family 4 */
+		/* case 1: U5D */
+		/* case 2: U5S */
 		if (!(strncmp(model_string,"SX",2))) {
 			strncpy(cpu_info->chip_type,"486SX",6);
 		}
