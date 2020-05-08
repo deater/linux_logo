@@ -16,7 +16,7 @@
 /* AMD chips      */
 /******************/
 
-void grab_amd_to_space(char *model_string,char *base_type,int max_len) {
+static void grab_amd_to_space(char *model_string,char *base_type,int max_len) {
 
 	char *result;
 	int i;
@@ -327,9 +327,9 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 
 	}
 
-
 	else {
-		strncpy(base_type,"Unknown",8);
+		/* Unknown, try guessing */
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
 	}
 
 	if (strstr(model_string,"X2")) {
