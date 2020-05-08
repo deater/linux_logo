@@ -41,419 +41,419 @@ static struct vendor_list_type {
 	{ -1,	"Unknown"},
 };
 
-static void handle_arm(int part,char *model_string) {
+
+static void string_append(int which,char *new_part,char *string) {
+
+	if (which==0) {
+		strncpy(string,new_part,BUFSIZ);
+	}
+	else {
+		strncat(string,"/",2);
+		strncat(string,new_part,BUFSIZ);
+	}
+}
+
+static void handle_arm(int which,int part,char *model_string) {
 
 	switch(part) {
 		case 0x810:
-			strncpy(model_string,"ARM810",7);
+			string_append(which,"ARM810",model_string);
 			break;
 		case 0x920:
-			strncpy(model_string,"ARM920",7);
+			string_append(which,"ARM920",model_string);
 			break;
 		case 0x922:
-			strncpy(model_string,"ARM922",7);
+			string_append(which,"ARM922",model_string);
 			break;
 		case 0x926:
-			strncpy(model_string,"ARM926",7);
+			string_append(which,"ARM926",model_string);
 			break;
 		case 0x940:
-			strncpy(model_string,"ARM940",7);
+			string_append(which,"ARM940",model_string);
 			break;
 		case 0x946:
-			strncpy(model_string,"ARM946",7);
+			string_append(which,"ARM946",model_string);
 			break;
 		case 0x966:
-			strncpy(model_string,"ARM966",7);
+			string_append(which,"ARM966",model_string);
 			break;
 		case 0xa20:
-			strncpy(model_string,"ARM1020",8);
+			string_append(which,"ARM1020",model_string);
 			break;
 		case 0xa22:
-			strncpy(model_string,"ARM1022",8);
+			string_append(which,"ARM1022",model_string);
 			break;
 		case 0xa26:
-			strncpy(model_string,"ARM1026",8);
+			string_append(which,"ARM1026",model_string);
 			break;
 		case 0xb02:
-			strncpy(model_string,"ARM11 MPCore",13);
+			string_append(which,"ARM11 MPCore",model_string);
 			break;
 		case 0xb36:
-			strncpy(model_string,"ARM1136",8);
+			string_append(which,"ARM1136",model_string);
 			break;
 		case 0xb56:
-			strncpy(model_string,"ARM1156",8);
+			string_append(which,"ARM1156",model_string);
 			break;
 		case 0xb76:
-			strncpy(model_string,"ARM1176",8);
+			string_append(which,"ARM1176",model_string);
 			break;
 		case 0xc05:
-			strncpy(model_string,"Cortex-A5",10);
+			string_append(which,"Cortex-A5",model_string);
 			break;
 		case 0xc07:
-			strncpy(model_string,"Cortex-A7",10);
+			string_append(which,"Cortex-A7",model_string);
 			break;
 		case 0xc08:
-			strncpy(model_string,"Cortex-A8",10);
+			string_append(which,"Cortex-A8",model_string);
 			break;
 		case 0xc09:
-			strncpy(model_string,"Cortex-A9",10);
+			string_append(which,"Cortex-A9",model_string);
 			break;
 		case 0xc0d:	/* Originally A12 */
-			strncpy(model_string,"Cortex-A17",11);
+			string_append(which,"Cortex-A17",model_string);
 			break;
 		case 0xc0e:
-			strncpy(model_string,"Cortex-A17",11);
+			string_append(which,"Cortex-A17",model_string);
 			break;
 		case 0xc0f:
-			strncpy(model_string,"Cortex-A15",11);
+			string_append(which,"Cortex-A15",model_string);
 			break;
 		case 0xc14:
-			strncpy(model_string,"Cortex-R4",10);
+			string_append(which,"Cortex-R4",model_string);
 			break;
 		case 0xc15:
-			strncpy(model_string,"Cortex-R5",10);
+			string_append(which,"Cortex-R5",model_string);
 			break;
 		case 0xc17:
-			strncpy(model_string,"Cortex-R7",10);
+			string_append(which,"Cortex-R7",model_string);
 			break;
 		case 0xc18:
-			strncpy(model_string,"Cortex-R8",10);
+			string_append(which,"Cortex-R8",model_string);
 			break;
 		case 0xc20:
-			strncpy(model_string,"Cortex-M0",10);
+			string_append(which,"Cortex-M0",model_string);
 			break;
 		case 0xc21:
-			strncpy(model_string,"Cortex-M1",10);
+			string_append(which,"Cortex-M1",model_string);
 			break;
 		case 0xc23:
-			strncpy(model_string,"Cortex-M3",10);
+			string_append(which,"Cortex-M3",model_string);
 			break;
 		case 0xc24:
-			strncpy(model_string,"Cortex-M4",10);
+			string_append(which,"Cortex-M4",model_string);
 			break;
 		case 0xc27:
-			strncpy(model_string,"Cortex-M7",10);
+			string_append(which,"Cortex-M7",model_string);
 			break;
 		case 0xc60:
-			strncpy(model_string,"Cortex-M0+",11);
+			string_append(which,"Cortex-M0+",model_string);
 			break;
 		case 0xd00:
-			strncpy(model_string,"Foundation",11);
+			string_append(which,"Foundation",model_string);
 			break;
 		case 0xd01:
-			strncpy(model_string,"Cortex-A32",11);
+			string_append(which,"Cortex-A32",model_string);
 			break;
 		case 0xd03:
-			strncpy(model_string,"Cortex-A53",11);
+			string_append(which,"Cortex-A53",model_string);
 			break;
 		case 0xd04:
-			strncpy(model_string,"Cortex-A35",11);
+			string_append(which,"Cortex-A35",model_string);
 			break;
 		case 0xd05:
-			strncpy(model_string,"Cortex-A55",11);
+			string_append(which,"Cortex-A55",model_string);
 			break;
 		case 0xd07:
-			strncpy(model_string,"Cortex-A57",11);
+			string_append(which,"Cortex-A57",model_string);
 			break;
 		case 0xd08:
-			strncpy(model_string,"Cortex-A72",11);
+			string_append(which,"Cortex-A72",model_string);
 			break;
 		case 0xd09:
-			strncpy(model_string,"Cortex-A73",11);
+			string_append(which,"Cortex-A73",model_string);
 			break;
 		case 0xd0a:
-			strncpy(model_string,"Cortex-A75",11);
+			string_append(which,"Cortex-A75",model_string);
 			break;
 		case 0xd0b:
-			strncpy(model_string,"Cortex-A76",11);
+			string_append(which,"Cortex-A76",model_string);
 			break;
 		case 0xd0c:
-			strncpy(model_string,"Neoverse-N1",12);
+			string_append(which,"Neoverse-N1",model_string);
 			break;
 		case 0xd13:
-			strncpy(model_string,"Cortex-R52",11);
+			string_append(which,"Cortex-R52",model_string);
 			break;
 		case 0xd20:
-			strncpy(model_string,"Cortex-M23",11);
+			string_append(which,"Cortex-M23",model_string);
 			break;
 		case 0xd21:
-			strncpy(model_string,"Cortex-M33",11);
+			string_append(which,"Cortex-M33",model_string);
 			break;
 		case 0xd4a:
-			strncpy(model_string,"Neoverse-E1",12);
+			string_append(which,"Neoverse-E1",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_broadcom(int part,char *model_string) {
+static void handle_broadcom(int which, int part,char *model_string) {
 
 	switch(part) {
 
 		case 0x0f:
-			strncpy(model_string,"Brahma B15",11);
+			string_append(which,"Brahma B15",model_string);
 			break;
 		case 0x100:
-			strncpy(model_string,"Brahma B53",11);
+			string_append(which,"Brahma B53",model_string);
 			break;
 		case 0x516:
-			strncpy(model_string,"ThunderX2",11);
+			string_append(which,"ThunderX2",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_cavium(int part,char *model_string) {
+static void handle_cavium(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x0a0:
-			strncpy(model_string,"ThunderX",9);
+			string_append(which,"ThunderX",model_string);
 			break;
 		case 0x0a1:
-			strncpy(model_string,"ThunderX 88XX",14);
+			string_append(which,"ThunderX 88XX",model_string);
 			break;
 		case 0x0a2:
-			strncpy(model_string,"ThunderX 81XX",14);
+			string_append(which,"ThunderX 81XX",model_string);
 			break;
 		case 0x0a3:
-			strncpy(model_string,"ThunderX 83XX",14);
+			string_append(which,"ThunderX 83XX",model_string);
 			break;
 		case 0x0af:
-			strncpy(model_string,"ThunderX2 99XX",15);
+			string_append(which,"ThunderX2 99XX",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
 
-static void handle_dec(int part,char *model_string) {
+static void handle_dec(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0xa10:
-			strncpy(model_string,"SA110",6);
+			string_append(which,"SA110",model_string);
 			break;
 		case 0xa11:
-			strncpy(model_string,"SA1100",7);
+			string_append(which,"SA1100",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_hisilicon(int part,char *model_string) {
+static void handle_hisilicon(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0xd01:
-			strncpy(model_string,"Kunpeng-920",12);
+			string_append(which,"Kunpeng-920",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_nvidia(int part,char *model_string) {
+static void handle_nvidia(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x000:
-			strncpy(model_string,"Denver",7);
+			string_append(which,"Denver",model_string);
 			break;
 		case 0x003:
-			strncpy(model_string,"Denver 2",9);
+			string_append(which,"Denver 2",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_apm(int part,char *model_string) {
+static void handle_apm(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x000:
-			strncpy(model_string,"X-Gene",7);
+			string_append(which,"X-Gene",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_qualcomm(int part,char *model_string) {
+static void handle_qualcomm(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x00f:
-			strncpy(model_string,"Scorpion",9);
+			string_append(which,"Scorpion",model_string);
 			break;
 		case 0x02d:
-			strncpy(model_string,"Scorpion",9);
+			string_append(which,"Scorpion",model_string);
 			break;
 		case 0x04d:
-			strncpy(model_string,"Krait",6);
+			string_append(which,"Krait",model_string);
 			break;
 		case 0x06f:
-			strncpy(model_string,"Krait",6);
+			string_append(which,"Krait",model_string);
 			break;
 		case 0x201:
-			strncpy(model_string,"Kryo",5);
+			string_append(which,"Kryo",model_string);
 			break;
 		case 0x205:
-			strncpy(model_string,"Kryo",5);
+			string_append(which,"Kryo",model_string);
 			break;
 		case 0x211:
-			strncpy(model_string,"Kryo",5);
+			string_append(which,"Kryo",model_string);
 			break;
 		case 0x800:
-			strncpy(model_string,"Falkor V1/Kryo",15);
+			string_append(which,"Falkor V1/Kryo",model_string);
 			break;
 		case 0x801:
-			strncpy(model_string,"Kryo V2",8);
+			string_append(which,"Kryo V2",model_string);
 			break;
 		case 0xc00:
-			strncpy(model_string,"Falkor",7);
+			string_append(which,"Falkor",model_string);
 			break;
 		case 0xc01:
-			strncpy(model_string,"Saphira",8);
+			string_append(which,"Saphira",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_samsung(int part,char *model_string) {
+static void handle_samsung(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x001:
-			strncpy(model_string,"Exynos-M1",10);
+			string_append(which,"Exynos-M1",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_marvell(int part,char *model_string) {
+static void handle_marvell(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x0131:
-			strncpy(model_string,"Feroceon 88FR131",17);
+			string_append(which,"Feroceon 88FR131",model_string);
 			break;
 		case 0x0581:
-			strncpy(model_string,"PJ4/PJ4b",9);
+			string_append(which,"PJ4/PJ4b",model_string);
 			break;
 		case 0x0584:
-			strncpy(model_string,"PJ4B-MP",8);
+			string_append(which,"PJ4B-MP",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_faraday(int part,char *model_string) {
+static void handle_faraday(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x0526:
-			strncpy(model_string,"FA526",6);
+			string_append(which,"FA526",model_string);
 			break;
 		case 0x0626:
-			strncpy(model_string,"FA626",6);
+			string_append(which,"FA626",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
 	}
 }
 
-static void handle_intel(int part,char *model_string) {
+static void handle_intel(int which, int part,char *model_string) {
 
 	switch(part) {
 		case 0x200:
-			strncpy(model_string,"i80200",7);
+			string_append(which,"i80200",model_string);
 			break;
 		case 0x210:
-			strncpy(model_string,"PXA250A",8);
+			string_append(which,"PXA250A",model_string);
 			break;
 		case 0x212:
-			strncpy(model_string,"PXA210A",8);
+			string_append(which,"PXA210A",model_string);
 			break;
 		case 0x242:
-			strncpy(model_string,"i80321-400",11);
+			string_append(which,"i80321-400",model_string);
 			break;
 		case 0x243:
-			strncpy(model_string,"i80321-600",11);
+			string_append(which,"i80321-600",model_string);
 			break;
 		case 0x290:
-			strncpy(model_string,"PXA250B/PXA26x",15);
+			string_append(which,"PXA250B/PXA26x",model_string);
 			break;
 		case 0x292:
-			strncpy(model_string,"PXA210B",8);
+			string_append(which,"PXA210B",model_string);
 			break;
 		case 0x2c2:
-			strncpy(model_string,"i80321-400-B0",14);
+			string_append(which,"i80321-400-B0",model_string);
 			break;
 		case 0x2c3:
-			strncpy(model_string,"i80321-600-B0",14);
+			string_append(which,"i80321-600-B0",model_string);
 			break;
 		case 0x2d0:
-			strncpy(model_string,"PXA250C/PXA255/PXA26x",22);
+			string_append(which,"PXA250C/PXA255/PXA26x",model_string);
 			break;
 		case 0x2d2:
-			strncpy(model_string,"PXA210C",8);
+			string_append(which,"PXA210C",model_string);
 			break;
 		case 0x411:
-			strncpy(model_string,"PXA27x",7);
+			string_append(which,"PXA27x",model_string);
 			break;
 		case 0x41c:
-			strncpy(model_string,"IPX425-533",11);
+			string_append(which,"IPX425-533",model_string);
 			break;
 		case 0x41d:
-			strncpy(model_string,"IPX425-400",11);
+			string_append(which,"IPX425-400",model_string);
 			break;
 		case 0x41f:
-			strncpy(model_string,"IPX425-266",11);
+			string_append(which,"IPX425-266",model_string);
 			break;
 		case 0x682:
-			strncpy(model_string,"PXA32x",7);
+			string_append(which,"PXA32x",model_string);
 			break;
 		case 0x683:
-			strncpy(model_string,"PXA930/PXA935",14);
+			string_append(which,"PXA930/PXA935",model_string);
 			break;
 		case 0x688:
-			strncpy(model_string,"PXA30x",7);
+			string_append(which,"PXA30x",model_string);
 			break;
 		case 0x689:
-			strncpy(model_string,"PXA31x",7);
+			string_append(which,"PXA31x",model_string);
 			break;
 		case 0xb11:
-			strncpy(model_string,"SA1110",7);
+			string_append(which,"SA1110",model_string);
 			break;
 		case 0xc12:
-			strncpy(model_string,"IPX1200",8);
+			string_append(which,"IPX1200",model_string);
 			break;
 		default:
-			strncpy(model_string,"Unknown",8);
+			string_append(which,"Unknown",model_string);
 			break;
-	}
-}
-
-
-static void implementer_append(int which,char *vendor,char *string) {
-
-	if (which==0) {
-		strncpy(string,vendor,BUFSIZ);
-	}
-	else {
-		strncat(string,"/",2);
-		strncat(string,vendor,BUFSIZ);
 	}
 }
 
@@ -561,14 +561,14 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		v=0;
 		while(vendor_list[v].id!=-1) {
 			if (implementers[i]==vendor_list[v].id) {
-				implementer_append(i,vendor_list[v].name,
+				string_append(i,vendor_list[v].name,
 							vendor_string);
 				break;
 			}
 			v++;
 		}
 		if (vendor_list[v].id==-1) {
-			implementer_append(i,"Unknown",vendor_string);
+			string_append(i,"Unknown",vendor_string);
 		}
 	}
 	strncpy_truncate(cpu_info->chip_vendor,vendor_string,
@@ -579,51 +579,51 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	for(i=0;i<num_parts;i++) {
 		switch(parts_vendor[i]) {
 			case 0x41: /* ARM */
-				handle_arm(parts[i],model_string);
+				handle_arm(i,parts[i],model_string);
 				break;
 
 			case 0x42: /* Broadcom */
-				handle_broadcom(parts[i],model_string);
+				handle_broadcom(i,parts[i],model_string);
 				break;
 
 			case 0x43: /* Cavium */
-				handle_cavium(parts[i],model_string);
+				handle_cavium(i,parts[i],model_string);
 				break;
 
 			case 0x44: /* DEC */
-				handle_dec(parts[i],model_string);
+				handle_dec(i,parts[i],model_string);
 				break;
 
 			case 0x48: /* HiSilicon */
-				handle_hisilicon(parts[i],model_string);
+				handle_hisilicon(i,parts[i],model_string);
 				break;
 
 			case 0x4e: /* Nvidia */
-				handle_nvidia(parts[i],model_string);
+				handle_nvidia(i,parts[i],model_string);
 				break;
 
 			case 0x50: /* APM */
-				handle_apm(parts[i],model_string);
+				handle_apm(i,parts[i],model_string);
 				break;
 
 			case 0x51: /* Qualcomm */
-				handle_qualcomm(parts[i],model_string);
+				handle_qualcomm(i,parts[i],model_string);
 				break;
 
 			case 0x53: /* Samsung */
-				handle_samsung(parts[i],model_string);
+				handle_samsung(i,parts[i],model_string);
 				break;
 
 			case 0x56: /* Marvell */
-				handle_marvell(parts[i],model_string);
+				handle_marvell(i,parts[i],model_string);
 				break;
 
 			case 0x66: /* Faraday */
-				handle_faraday(parts[i],model_string);
+				handle_faraday(i,parts[i],model_string);
 				break;
 
 			case 0x69: /* Intel */
-				handle_intel(parts[i],model_string);
+				handle_intel(i,parts[i],model_string);
 				break;
 
 			default:
