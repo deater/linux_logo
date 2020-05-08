@@ -1,7 +1,12 @@
 /* Handles arm64 (aarch64)  chips on Linux architecture   */
 /* by Vince Weaver <vince@deater.net>        */
 
-/* see sys-utils/lscpu-arm.h */
+/* Heavily based on the util-linux code by Riku Voipio */
+/* see sys-utils/lscpu-arm.c */
+
+/* FIXME: */
+/* Processor and processor are different */
+/* big/little systems might list both? */
 
 #include <stdio.h>
 #include <string.h>
@@ -10,6 +15,22 @@
 #include "../sysinfo.h"
 #include "../include/generic.h"
 
+/* Currently maxes out at 2 for Big/Little setups? */
+#define MAX_IMPLEMENTERS	2
+#define MAX_PARTS		2
+
+
+static void implementer_append(int which,char *vendor,char *string) {
+
+	if (which==0) {
+		strncpy(string,vendor,BUFSIZ);
+	}
+	else {
+		strncat(string,"/",2);
+		strncat(string,vendor,BUFSIZ);
+	}
+}
+
 int get_cpu_info(struct cpu_info_type *cpu_info) {
 
 	FILE *fff;
@@ -17,7 +38,10 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	char vendor_string[BUFSIZ],model_string[BUFSIZ],hardware_string[BUFSIZ];
 	int cpu_count=0;
 	float bogomips=0.0;
-	int implementer=-1,part;
+	int implementers[MAX_IMPLEMENTERS]={-1};
+	int parts[MAX_PARTS]={-1};
+	int num_implementers=0,num_parts=0;
+	int i,v,temp_value;
 
 	vendor_string[0]=model_string[0]=hardware_string[0]=0;
 
@@ -32,7 +56,14 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					BUFSIZ-1);
 				clip_lf(vendor_string,BUFSIZ);
 
-				implementer=strtol(vendor_string,NULL,16);
+				temp_value=strtol(vendor_string,NULL,16);
+				for(i=0;i<num_implementers;i++) {
+					if (temp_value==implementers[i]) break;
+				}
+				if (i==num_implementers) {
+					implementers[num_implementers]=temp_value;
+					num_implementers++;
+				}
 			}
 
 			if ( !(strncmp(temp_string,"CPU part",8))) {
@@ -41,7 +72,12 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					BUFSIZ-1);
 				clip_lf(vendor_string,BUFSIZ);
 
-				part=strtol(vendor_string,NULL,16);
+				temp_value=strtol(vendor_string,NULL,16);
+				/* FIXME: search all */
+				if (temp_value!=parts[0]) {
+					parts[num_parts]=temp_value;
+					num_parts++;
+				}
 			}
 
 
@@ -67,7 +103,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 				bogomips+=atof(parse_line(temp_string));
 			}
 
-			if ( !(strncmp(temp_string,"processor",9))) {
+			if ( !(strncmp(temp_string,"processor",9)) ||
+				!(strncmp(temp_string,"Processor",9))) {
 			  	/* Cheating way to detect number of intel CPUs */
 
 				cpu_count++;
@@ -79,10 +116,43 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	/* Attempt to Pretty-print as Linux doesn't do this for us */
 	/* Based on sys-utils/lscpu-arm.c from the util-linux package */
 
-	switch(implementer) {
-		case 0x41:
-			strncpy(vendor_string,"ARM",4);
-			switch(part) {
+struct vendor_list_type {
+	int id;
+	char name[20];
+} vendor_list[] = {
+	{ 0x41,	"ARM"},
+	{ 0x42,	"Broadcom"},
+	{ 0x43,	"Cavium"},
+	{ 0x44,	"DEC"},
+	{ 0x48,	"HiSilicon"},
+	{ 0x4e,	"Nvidia"},
+	{ 0x50,	"APM"},
+	{ 0x51,	"Qualcomm"},
+	{ 0x53,	"Samsung"},
+	{ 0x56,	"Marvell"},
+	{ 0x66,	"Faraday"},
+	{ 0x69,	"Intel"},
+	{ -1,	"Unknown"},
+};
+
+	for(i=0;i<num_implementers;i++) {
+		v=0;
+		while(vendor_list[v].id!=-1) {
+			if (implementers[i]==vendor_list[v].id) {
+				implementer_append(i,vendor_list[v].name,
+							vendor_string);
+				break;
+			}
+			v++;
+		}
+		if (vendor_list[v].id==-1) {
+			implementer_append(i,"Unknown",vendor_string);
+		}
+	}
+
+	switch(implementers[0]) {
+		case 0x41: /* ARM */
+			switch(parts[0]) {
 				case 0x810:
 					strncpy(model_string,"ARM810",7);
 					break;
@@ -140,11 +210,11 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 				case 0xc0d:	/* Originally A12 */
 					strncpy(model_string,"Cortex-A17",11);
 					break;
-				case 0xc0f:
-					strncpy(model_string,"Cortex-A15",11);
-					break;
 				case 0xc0e:
 					strncpy(model_string,"Cortex-A17",11);
+					break;
+				case 0xc0f:
+					strncpy(model_string,"Cortex-A15",11);
 					break;
 				case 0xc14:
 					strncpy(model_string,"Cortex-R4",10);
@@ -226,9 +296,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					break;
 			}
 			break;
-		case 0x42:
-			strncpy(vendor_string,"Broadcom",9);
-			switch(part) {
+		case 0x42: /* Broadcom */
+			switch(parts[0]) {
 				case 0x0f:
 					strncpy(model_string,"Brahma B15",11);
 					break;
@@ -240,9 +309,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					break;
 				}
 			break;
-		case 0x43:
-			strncpy(vendor_string,"Cavium",7);
-			switch(part) {
+		case 0x43: /* Cavium */
+			switch(parts[0]) {
 				case 0x0a0:
 					strncpy(model_string,"ThunderX",9);
 					break;
@@ -261,9 +329,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 
 				}
 			break;
-		case 0x44:
-			strncpy(vendor_string,"DEC",4);
-			switch(part) {
+		case 0x44: /* DEC */
+			switch(parts[0]) {
 				case 0xa10:
 					strncpy(model_string,"SA110",6);
 					break;
@@ -272,17 +339,15 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					break;
 				}
 			break;
-		case 0x48:
-			strncpy(vendor_string,"HiSilicon",10);
-			switch(part) {
+		case 0x48: /* HiSilicon */
+			switch(parts[0]) {
 				case 0xd01:
 					strncpy(model_string,"Kunpeng-920",12);
 					break;
 			}
 			break;
-		case 0x4e:
-			strncpy(vendor_string,"Nvidia",7);
-			switch(part) {
+		case 0x4e: /* Nvidia */
+			switch(parts[0]) {
 				case 0x000:
 					strncpy(model_string,"Denver",7);
 					break;
@@ -291,17 +356,15 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					break;
 			}
 			break;
-		case 0x50:
-			strncpy(vendor_string,"APM",4);
-			switch(part) {
+		case 0x50: /* APM */
+			switch(parts[0]) {
 				case 0x000:
 					strncpy(model_string,"X-Gene",7);
 					break;
 			}
 			break;
-		case 0x51:
-			strncpy(vendor_string,"Qualcomm",9);
-			switch(part) {
+		case 0x51: /* Qualcomm */
+			switch(parts[0]) {
 				case 0x00f:
 					strncpy(model_string,"Scorpion",9);
 					break;
@@ -337,17 +400,15 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					break;
 			}
 			break;
-		case 0x53:
-			strncpy(vendor_string,"Samsung",8);
-			switch(part) {
+		case 0x53: /* Samsung */
+			switch(parts[0]) {
 				case 0x001:
 					strncpy(model_string,"Exynos-M1",10);
 					break;
 			}
 			break;
-		case 0x56:
-			strncpy(vendor_string,"Marvell",8);
-			switch(part) {
+		case 0x56: /* Marvell */
+			switch(parts[0]) {
 				case 0x0131:
 					strncpy(model_string,"Feroceon 88FR131",17);
 					break;
@@ -359,9 +420,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					break;
 			}
 			break;
-		case 0x66:
-			strncpy(vendor_string,"Faraday",8);
-			switch(part) {
+		case 0x66: /* Faraday */
+			switch(parts[0]) {
 				case 0x0526:
 					strncpy(model_string,"FA526",6);
 					break;
@@ -370,9 +430,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 					break;
 			}
 			break;
-		case 0x69:
-			strncpy(vendor_string,"Intel",6);
-			switch(part) {
+		case 0x69: /* Intel */
+			switch(parts[0]) {
 				case 0x200:
 					strncpy(model_string,"i80200",7);
 					break;
@@ -440,7 +499,6 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 
 			break;
 		default:
-			strncpy(vendor_string,"Unknown",8);
 			break;
 	}
 
