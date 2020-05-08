@@ -194,3 +194,11 @@ LIBSYSINFO 0.2.1   / 5.01
 		   / 5.09
 
 LIBSYSINFO 0.2.2   / 5.10
+
+8 May 2020
++ Complete re-write of x86/x86_64
++ Complete re-write of ARM
++ Add arm64
++ Add risc-v
+
+LIBSYSINFO 0.3.0   / 6.0
