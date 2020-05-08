@@ -4,9 +4,20 @@
 /* Heavily based on the util-linux code by Riku Voipio */
 /* see sys-utils/lscpu-arm.c */
 
-/* FIXME: */
-/* Processor and processor are different */
-/* big/little systems might list both? */
+
+/* ARM is lots of fun!  Possibly even worse than x86 */
+/* + There isn't consistent vendor/model strings so we contain */
+/*   a full list ourselves (thanks, kernel) */
+/* + big/LITTLE means there can be multiple processor types */
+/*   and even multiple vendors in a machine.  And some vendors */
+/*   report this weird (both on one line rather than separate? */
+/* + There is a Processor field and a processor field, which means */
+/*   different things */
+/* + The ARM devels got so annoyed with questions about BOGOMIPS */
+/*   that they removed the field altogether, which messes with the parsing */
+
+
+
 
 #include <stdio.h>
 #include <string.h>
@@ -543,9 +554,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 				bogomips+=atof(parse_line(temp_string));
 			}
 
-			if ( !(strncmp(temp_string,"processor",9)) ||
-				!(strncmp(temp_string,"Processor",9))) {
-			  	/* Cheating way to detect number of intel CPUs */
+			if ( !(strncmp(temp_string,"processor",9))) {
+			  	/* Cheating way to detect number of CPUs */
 
 				cpu_count++;
 			}
