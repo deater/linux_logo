@@ -16,9 +16,6 @@
 /* + The ARM devels got so annoyed with questions about BOGOMIPS */
 /*   that they removed the field altogether, which messes with the parsing */
 
-
-
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>  /* atof */
@@ -27,8 +24,9 @@
 #include "../include/generic.h"
 
 /* Currently maxes out at 2 for Big/Little setups? */
-#define MAX_IMPLEMENTERS	2
-#define MAX_PARTS		2
+/* I have one cpuinfo with 3?  Is it real? */
+#define MAX_IMPLEMENTERS	3
+#define MAX_PARTS		3
 
 /* Known Vendors */
 static struct vendor_list_type {
@@ -45,6 +43,7 @@ static struct vendor_list_type {
 	{ 0x50,	"APM"},
 	{ 0x51,	"Qualcomm"},
 	{ 0x53,	"Samsung"},
+	{ 0x54,	"TI"},	/* Texas Instruments */
 	{ 0x56,	"Marvell"},
 	{ 0x61,	"Apple"},
 	{ 0x66,	"Faraday"},
@@ -363,6 +362,18 @@ static void handle_samsung(int which, int part,char *model_string) {
 	}
 }
 
+static void handle_ti(int which, int part,char *model_string) {
+
+	switch(part) {
+		case 0x915:
+			string_append(which,"OMAP",model_string);
+			break;
+		default:
+			string_append(which,"Unknown",model_string);
+			break;
+	}
+}
+
 static void handle_marvell(int which, int part,char *model_string) {
 
 	switch(part) {
@@ -432,6 +443,10 @@ static void handle_intel(int which, int part,char *model_string) {
 		case 0x2d2:
 			string_append(which,"PXA210C",model_string);
 			break;
+		case 0x2e2:
+		case 0x2e3:
+			string_append(which,"XScale",model_string);
+			break;
 		case 0x411:
 			string_append(which,"PXA27x",model_string);
 			break;
@@ -443,6 +458,9 @@ static void handle_intel(int which, int part,char *model_string) {
 			break;
 		case 0x41f:
 			string_append(which,"IPX425-266",model_string);
+			break;
+		case 0x660:
+			string_append(which,"XScale",model_string);
 			break;
 		case 0x682:
 			string_append(which,"PXA32x",model_string);
@@ -487,7 +505,8 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 
 		while ( (fgets(temp_string,BUFSIZ,fff)!=NULL) ) {
 
-			if ( !(strncmp(temp_string,"CPU implementer",15))) {
+			if (( !(strncmp(temp_string,"CPU implementer",15))) ||
+			   ( !(strncmp(temp_string,"CPU implementor",15)))) {
 				strncpy(vendor_string,
 					parse_line(temp_string),
 					BUFSIZ-1);
@@ -581,6 +600,12 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 			string_append(i,"Unknown",vendor_string);
 		}
 	}
+
+	/* Probably an old chip, guess ARM */
+	if (num_implementers==0) {
+		string_append(i,"ARM",vendor_string);
+	}
+
 	strncpy_truncate(cpu_info->chip_vendor,vendor_string,
 				SYSINFO_CHIP_VENDOR_SIZE);
 
@@ -624,6 +649,10 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 				handle_samsung(i,parts[i],model_string);
 				break;
 
+			case 0x54: /* TI */
+				handle_ti(i,parts[i],model_string);
+				break;
+
 			case 0x56: /* Marvell */
 				handle_marvell(i,parts[i],model_string);
 				break;
@@ -645,9 +674,14 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 	strncpy_truncate(cpu_info->chip_type,model_string,
 				SYSINFO_CHIP_TYPE_SIZE);
 
+	/* Older cpuinfo don't always do this right */
+	if (cpu_count==0) cpu_count=1;
+
 	cpu_info->num_cpus=cpu_count;
 	cpu_info->megahertz=0.0;
 	cpu_info->bogomips=bogomips;
+
+
 
 	return 0;
 }
