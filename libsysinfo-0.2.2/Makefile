@@ -34,7 +34,6 @@ libsysinfo.a:	Linux/cpuinfo_alpha.c \
 		Linux/cpuinfo_cris.c \
 		Linux/cpuinfo_parisc.c \
 	       	Linux/cpuinfo_sparc.c \
-		Linux/cpuinfo_aarch64.c \
 		Linux/sysinfo_linux.c
 	cd all && $(MAKE)
 	cd $(OS) && $(MAKE)
