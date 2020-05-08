@@ -301,14 +301,17 @@ static int generate_sysinfo(
 	           /* #B prints the bogomips */
 	           /* If really high, don't print fractional part */
 	        case 'B':
-			if (cpu_info.bogomips<100.0) {
-				snprintf(temp_string,BUFSIZ,"%.2f",cpu_info.bogomips);
+			if ((cpu_info.bogomips==0) || (settings->skip_bogomips)) {
+				temp_string[0]=0;
+			}
+			else if (cpu_info.bogomips<100.0) {
+				snprintf(temp_string,BUFSIZ,"%.2f Bogomips",cpu_info.bogomips);
 			}
 			else if (cpu_info.bogomips>1000.0) {
-				snprintf(temp_string,BUFSIZ,"%.0fk",cpu_info.bogomips/1000);
+				snprintf(temp_string,BUFSIZ,"%.0fk Bogomips",cpu_info.bogomips/1000);
 			}
 			else {
-				snprintf(temp_string,BUFSIZ,"%.0f",cpu_info.bogomips);
+				snprintf(temp_string,BUFSIZ,"%.0f Bogomips",cpu_info.bogomips);
 			}
 			vmw_strcat(temp_line,temp_string,BUFSIZ-strlen(temp_line));
 			break;
