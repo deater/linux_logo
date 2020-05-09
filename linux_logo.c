@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 5.11 - Creates Nifty Logo With System Info - 15 November 2010
+  LINUX LOGO 6.0 - Creates Nifty Logo With System Info - 9 May 2020
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "5.9b1"
+#define VERSION "6.0"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */
@@ -1214,8 +1214,8 @@ int main(int argc,char **argv) {
 	if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
 		printf(ESCAPE"8");
 	}
-  
-  free_logo_memory();
-  
+
+	free_logo_memory();
+
 	return 0;
 }

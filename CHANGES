@@ -1036,15 +1036,18 @@ RELEASE 5.11
 8 July 2012
 + 15 years of linux_logo, crazy!
 
-?? April 2020
+9 May 2020
 + Add RISC-V support
 + Add ARM64/AARCH64 support
++ Revamp x86 support to use lookup table for cpu type
++ Revamp arm/arm64 support to use Implementer/Part to get name
++ Adjust bogomips and compiler info to make it less likely to wrap
+	on an 80-column screen
 + Fix a large number of compiler warnings
 + Fix memory detection on modern machines.  The more accurate
 	/proc/iomem detection no longer works due to all the values
 	being zero for security reasons
++ Clear out all issues on github, including some new logos and  FreeBSD fixes
++ Add support for 1930 Model 15 Teletype
 
 RELEASE 6.0
-
-
-

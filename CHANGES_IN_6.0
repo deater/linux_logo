@@ -12,6 +12,10 @@ Changes in 6.0
 + properly fallback to meminfo memory detection, as iomem is useless on
 	modern systems and stat /proc/kcore gives crazy results on
 	64-bit systems
++ new logos:
+	+ 1930 Model 15 Teletype
+	+ Devuan
+	+ Blankon
 
 ==============
 Changes in 5.0
