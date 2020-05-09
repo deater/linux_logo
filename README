@@ -1,5 +1,21 @@
+                                                                 #####         
+                                                                #######        
+                   @                                            ##O#O##        
+  ######          @@#                                           #VVVVV#
+    ##             #                                          ##  VVV  ##      
+    ##         @@@   ### ####   ###    ###  ##### ######     #          ##     
+    ##        @  @#   ###    ##  ##     ##    ###  ##       #            ##    
+    ##       @   @#   ##     ##  ##     ##      ###         #            ###   
+    ##          @@#   ##     ##  ##     ##      ###        QQ#           ##Q   
+    ##       # @@#    ##     ##  ##     ##     ## ##     QQQQQQ#       #QQQQQQ 
+    ##      ## @@# #  ##     ##  ###   ###    ##   ##    QQQQQQQ#     #QQQQQQQ 
+  ############  ###  ####   ####   #### ### ##### ######   QQQQQ#######QQQQQ   
+
+   Linux Version 5.5.0-1-amd64, Compiled #1 SMP Debian 5.5.13-2 (2020-03-30)
+        Four 2.7GHz Intel i5 Processors, 3.8GB RAM, 12800 Bogomips Total
+                                   orvavista
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 5.11 -- Shows a Logo With some System Info - 15 November 2010
+    LINUX_LOGO 5.9b1 -- Shows a Logo With some System Info - 25 April 2020
     by Vince Weaver ( vince _at_ deater.net, http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OSes
 \*--------------------------------------------------------------------------*/
@@ -60,10 +76,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-5.11.tar.gz
+        tar -xzvf linux_logo-6.0.tar.gz
 	
     enter the directory
-        cd linux_logo-5.11
+        cd linux_logo-6.0
 	
     run "configure"
         ./configure
@@ -226,7 +242,6 @@ More detailed explanations:
 	   looked, I apologize for re-using the command-line option,
 	   but there are only so many letters of the alphabet.
 
-	   	   
 [-l]     : This option displays the logo only [Only works in banner mode].
            This is useful if for whatever reason you don't want to see the
 	   system info.
@@ -405,4 +420,3 @@ THANKS
 -----------------
 Vince
 vince _at_ deater.net
-

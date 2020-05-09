@@ -1035,3 +1035,16 @@ RELEASE 5.11
 
 8 July 2012
 + 15 years of linux_logo, crazy!
+
+?? April 2020
++ Add RISC-V support
++ Add ARM64/AARCH64 support
++ Fix a large number of compiler warnings
++ Fix memory detection on modern machines.  The more accurate
+	/proc/iomem detection no longer works due to all the values
+	being zero for security reasons
+
+RELEASE 6.0
+
+
+

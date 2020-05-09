@@ -1,0 +1,28 @@
+Changes in 6.0
++ bumped to libsysinfo 0.3.0
+	-> redone x86/x86_64 detection
+	-> redone arm detection
+	-> add arm64/aarch64 support
+	-> add riscv support
++ various minor tweaks to try to fit sysinfo on screen better
++ try to more gracefully handle lack of Bogomips (most notably removed on ARM)
++ properly fallback to meminfo memory detection, as iomem is useless on
+	modern systems and stat /proc/kcore gives crazy results on
+	64-bit systems
+
+Changes in 5.0
+
++ The build system has changed. 
+  You now need to run ./configure before running make
++ Cross-compiling is now possible (see the README)  
++ getopt() is no longer used to parse command line options.
+  Please report any bugs that might be caused by this.
++ The i18n support was re-worked.  Please try it out.
++ A large amount of code was re-written from scratch.
+  Let me know of any regressions.
++ The loadaverage options now don't print times
+  with 0 in them (i.e., it will print "2 days 1 minute"
+  instead of "2 days 0 hours 1 minute")
++ You can now specify logos by name, rather than number.
+  Maintainers please take note, this is now the preferred
+    way of specifying logos.
