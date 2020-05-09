@@ -11,6 +11,7 @@ struct logo_info *load_logo_from_disk(char *filename) {
 	int ascii_size=0,size=0;
 	char temp_st[BUFSIZ];
 	FILE *fff;
+	char *result;
 
 	new_logo=calloc(1,sizeof(struct logo_info));
 
@@ -29,7 +30,10 @@ struct logo_info *load_logo_from_disk(char *filename) {
 	new_logo->ascii_logo=NULL;
 
 	while (!feof(fff)) {
-		fgets(temp_st,BUFSIZ,fff);
+		result=fgets(temp_st,BUFSIZ,fff);
+		if (result==NULL) {
+			break;
+		}
 
 		if (!strncmp(temp_st,"END_LOGO",8)) logo_start=0;
 		if (!strncmp(temp_st,"END_ASCII_LOGO",14)) ascii_logo_start=0;
@@ -42,8 +46,12 @@ struct logo_info *load_logo_from_disk(char *filename) {
 			}
 			else {
 				new_logo->logo=realloc(new_logo->logo,size+1);
+				if (new_logo->logo==NULL) {
+					printf("realloc of size %d failed!\n",size+1);
+					return NULL;
+				}
 				memcpy(new_logo->logo+strlen(new_logo->logo),
-						temp_st,strlen(temp_st));
+						temp_st,strlen(temp_st)+1);
 			}
 			new_logo->ysize++;
 		}
@@ -59,7 +67,7 @@ struct logo_info *load_logo_from_disk(char *filename) {
 					new_logo->ascii_logo,ascii_size+1);
 				memcpy( new_logo->ascii_logo
 						+strlen(new_logo->ascii_logo),
-						temp_st,strlen(temp_st));
+						temp_st,strlen(temp_st)+1);
 			}
 			new_logo->ascii_ysize++;
 		}

@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
 #endif
 	ggg=fopen("load_logos.h","w");
 
-	printf("\nParsing logos from file \"logo_config\"...\n"); 
+	printf("\nParsing logos from file \"logo_config\"...\n");
 
 	if (ggg==NULL) {
 		printf("\nError!  Cannot create load_logos.h!!!!\n\n");
