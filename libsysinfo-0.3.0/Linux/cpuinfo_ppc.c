@@ -84,6 +84,10 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		strncpy(cpu_info->chip_type,"POWER8",7);
 	}
 
+	if (strstr(model_string,"POWER9")!=NULL) {
+		strncpy(cpu_info->chip_type,"POWER9",7);
+	}
+
 	/* I Have an iBook now ;) */
 	if (strstr(model_string,"745/755")!=NULL) {
 		strncpy(cpu_info->chip_type,"G3",3);
