@@ -604,12 +604,15 @@ static void draw_logo(struct logo_info *logo_override,
              printf("%s",sysinfo_string[i]);
              if (!settings->plain_ascii) printf("\033[0m");
              printf("\n");
+             free(sysinfo_string[i]);
 	  }
 	  printf("\n");
        }
     }
 
-       /* Restore cursor color to normal */
+    free(sysinfo_string);
+
+    /* Restore cursor color to normal */
     if (!settings->plain_ascii) {
        printf("\033[0m\033[255D");
     }
@@ -1056,7 +1059,21 @@ void read_config_file(struct linux_logo_info_type *settings) {
 		}
 	}
 }
-
+    /* Free all memory allocated to logos */
+static void free_logo_memory() {
+    struct logo_info *cur_logo;
+    struct logo_info *prev_logo;
+    cur_logo = logo_info_head;
+    while(cur_logo) {
+        free(cur_logo->description);
+        free(cur_logo->name);
+        free(cur_logo->logo);
+        free(cur_logo->ascii_logo);
+        prev_logo=cur_logo;
+        cur_logo=cur_logo->next_logo;
+        free(prev_logo);
+    }
+}
 
 	/* The main program */
 int main(int argc,char **argv) {
@@ -1186,6 +1203,8 @@ int main(int argc,char **argv) {
 	if ( (settings.preserve_xy) && (!settings.plain_ascii) ) {
 		printf(ESCAPE"8");
 	}
-
+  
+  free_logo_memory();
+  
 	return 0;
 }

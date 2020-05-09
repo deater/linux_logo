@@ -51,6 +51,14 @@ static int sanitize_print_string(char *string, FILE *fff) {
 	return 0;
 }
 
+static void free_logo_memory(struct logo_info *logo_ptr) {
+    free(logo_ptr->description);
+    free(logo_ptr->name);
+    free(logo_ptr->logo);
+    free(logo_ptr->ascii_logo);
+    free(logo_ptr);
+}
+
 int main(int argc, char **argv) {
 
 	FILE *fff,*ggg;
@@ -132,9 +140,12 @@ int main(int argc, char **argv) {
 			logo_number++;
 			printf("+ Added logo %s containing \"%s\"\n",
 				temp_st,logo_info_temp->description);
-		}
-	}
-	printf("\n");
-
-	return 0;
+      
+      /* Free memory allocated to current logo */
+      free_logo_memory(logo_info_temp);
+    }
+  } 
+  printf("\n");
+  return 0;
 }
+
