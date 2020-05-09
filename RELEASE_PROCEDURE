@@ -1,0 +1,8 @@
+
++ test, test, test
++ Update the version number in linux_logo.c and README
++ Update the CHANGES file
++ update lsm
++ tag in git
++ create .tar.gz for website.  Remember to remove .git directory
+
