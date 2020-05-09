@@ -10,6 +10,10 @@ PROGNAME = linux_logo
 #   LDFLAGS += -lintl
 #endif
 
+ifeq ($(OS),FreeBSD)
+    LDFLAGS += -lintl
+endif
+
 #
 # Installation location
 #
