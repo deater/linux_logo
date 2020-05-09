@@ -526,8 +526,11 @@ static void draw_logo(struct logo_info *logo_override,
        }
     }
 
-    if (settings->width<80) settings->width=80;  /* Right now we don't */
-                                                 /* handle width < 80  */
+	/* Adjust the width */
+	/* It doesn't always handle things well if width is less than 80 */
+
+	// if (settings->width<80) settings->width=80;
+	if (settings->width<=0) settings->width=80;
 
     if (settings->wipe_screen) clear_screen(settings->plain_ascii);
 
