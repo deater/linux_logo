@@ -316,7 +316,13 @@ static int generate_sysinfo(
 			vmw_strcat(temp_line,temp_string,BUFSIZ-strlen(temp_line));
 			break;
 	           /* #C prints OS revision */
-	        case 'C': vmw_strcat(temp_line,os_info.os_revision,
+	        case 'C': /* Note:limit to 40 if in banner mode */
+			  /* longer strings wrap on 40-column displays */
+				if ((settings->banner_mode) &&
+					(strlen(os_info.os_revision)>40)) {
+					os_info.os_revision[40]=0;
+				}
+				vmw_strcat(temp_line,os_info.os_revision,
 				     BUFSIZ-strlen(temp_line));
 		                     break;
 	           /* #E prints user text */
