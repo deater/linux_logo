@@ -1,0 +1,37 @@
+# ASCII that will display on 1930 Model 15 Teletype
+# Provided by Curious Marc
+  
+SYSINFO_POSITION bottom
+NAME Model15-tty
+
+DESCRIPTION_STRING Logo for Model 15 tty
+
+BEGIN_LOGO
+                                                            $$$$$
+                                                           $$$$$$$
+               $                                           $$O$O$$
+$$$$$$        $$$                                          $VVVVV$
+  $$           $                                         $$  VVV  $$
+  $$       $$$    $$$ $$$$   $$$    $$$  $$$$$ $$$$$    $          $$
+  $$      $  $$    $$$    $$  $$     $$    $$   $$     $            $$
+  $$     $   $$    $$     $$  $$     $$      $$$       $            $$$
+  $$        $$$    $$     $$  $$     $$      $$$      QQ$           $$Q
+  $$     $ $$$     $$     $$  $$     $$     $$ $$   QQQQQQ$       $QQQQQQ
+  $$    $$ $$$ $   $$     $$  $$$   $$$    $$   $$  QQQQQQQ$     $QQQQQQQ
+$$$$$$$$$$  $$$   $$$$   $$$$   $$$$ $$$ $$$$$ $$$$$  QQQQQ$$$$$$$QQQQQ
+END_LOGO
+
+BEGIN_ASCII_LOGO
+                                                            $$$$$
+                                                           $$$$$$$
+               $                                           $$O$O$$
+$$$$$$        $$$                                          $VVVVV$
+  $$           $                                         $$  VVV  $$
+  $$       $$$    $$$ $$$$   $$$    $$$  $$$$$ $$$$$    $          $$
+  $$      $  $$    $$$    $$  $$     $$    $$   $$     $            $$
+  $$     $   $$    $$     $$  $$     $$      $$$       $            $$$
+  $$        $$$    $$     $$  $$     $$      $$$      QQ$           $$Q
+  $$     $ $$$     $$     $$  $$     $$     $$ $$   QQQQQQ$       $QQQQQQ
+  $$    $$ $$$ $   $$     $$  $$$   $$$    $$   $$  QQQQQQQ$     $QQQQQQQ
+$$$$$$$$$$  $$$   $$$$   $$$$   $$$$ $$$ $$$$$ $$$$$  QQQQQ$$$$$$$QQQQQ
+END_ASCII_LOGO
