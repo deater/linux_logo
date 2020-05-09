@@ -42,14 +42,14 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 				!(strncmp(temp_string,"BogoMips",8)) ||
 				!(strncmp(temp_string,"BogoMIPS",8))) {
 
-				/* Cheating way to detect number of CPUs */
+				/* old way of determining processor count? */
 				bogomips+=atof(parse_line(temp_string));
 				bogomips_count++;
 			}
 		}
 	}
 
-	/* on cell, there is no bogomips count! */
+	/* on cell (and most modern cpus) , there is no bogomips count! */
 	if (bogomips_count==0) {
 		cpu_count=processor_count;
 	}
