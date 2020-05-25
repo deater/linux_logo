@@ -42,7 +42,7 @@ translations:
 	cd po && $(MAKE)
 
 logos-all:	logo_config
-	find ./logos -type f -a ! -name banner.logo -a ! -name classic.logo >> logo_config
+	find ./logos -type f -a ! -name banner.logo -a ! -name classic.logo | sort >> logo_config
 	$(MAKE) all
 
 logo_config:
