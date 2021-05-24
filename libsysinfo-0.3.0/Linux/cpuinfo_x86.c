@@ -309,14 +309,19 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 		switch(cpu_info->model) {
 			/* Zen */
 			case 1: /* Naples, Whitehaven, Summit Ridge, Snowy Owl */
-			case 17: /* Raven Ridge */
-			case 24: /* Branded Kestrel, Dali */
+			case 17: /* Raven Ridge, Great Horned Owl */
+			case 24: /* Branded Kestrel */
+			case 32: /* Dali */
 			/* Zen+ */
-			case 8:	/* Pinnacle Ridge */
-			//case 24:/* Picasso */
+			case 8:	/* Colfax, Pinnacle Ridge */
+			/*case 24:*//* Picasso, why the same as Branded Kestrel? */
 			/* Zen2 */
 			case 49:  /* Rome, Castle Peak */
+			case 71:  /* Xbox Series X */
+			case 96:  /* Renoir, Grey Hawk */
+			case 104: /* Lucienne */
 			case 113: /* Matisse */
+			case 144: /* Van Gogh */
 
 			default: break;
 		}
@@ -326,7 +331,30 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 		grab_amd_to_space(model_string,base_type,BUFSIZ);
 
 	}
+	else if (cpu_info->family==24) {
+		/* Joint partnership with China? */
+		/* Dhyana/Hygon is model 0? */
 
+		/* Grab from AMD to space */
+
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
+	}
+	else if (cpu_info->family==25) {
+		/* Family 19h -- Zen3 */
+
+		switch(cpu_info->model) {
+			case 1:  /* Milan */
+			case 33: /* Vermeer */
+			case 64: /* Rembrant */
+			case 80: /* Cezanne */
+			default: break;
+		}
+
+		/* Grab from AMD to space */
+
+		grab_amd_to_space(model_string,base_type,BUFSIZ);
+
+	}
 	else {
 		/* Unknown, try guessing */
 		grab_amd_to_space(model_string,base_type,BUFSIZ);
