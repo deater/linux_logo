@@ -844,6 +844,7 @@ static void parse_command_line(struct linux_logo_info_type *settings,
 
 	            settings->custom_format=1;
 	            strncpy(settings->format,argument,BUFSIZ);
+                    settings->format[BUFSIZ-1]=0;
 
 	            /* Decode the \n's. */
 	            /* Should I decode other \ codes? */
