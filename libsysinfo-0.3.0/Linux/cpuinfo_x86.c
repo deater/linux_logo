@@ -586,6 +586,21 @@ static void fixup_model_cyrix(struct cpu_info_type *cpu_info,
 
 
 /*******************/
+/* Hygon Chips     */
+/*******************/
+static void fixup_model_hygon(struct cpu_info_type *cpu_info,
+				char *model_string) {
+
+	strncpy(cpu_info->chip_vendor,"Hygon",6);
+
+	if ( strstr(model_string,"C86")!=NULL) {
+		strncpy(cpu_info->chip_type,"C86",8);
+	}
+}
+
+
+
+/*******************/
 /* Intel Chips     */
 /*******************/
 
@@ -1213,6 +1228,12 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 		fixup_model_cyrix(cpu_info,model_string);
 	}
 
+	/*******************/
+	/* Intel Chips     */
+	/*******************/
+	if (!strncmp(vendor_string,"HygonGenuine",12)) {
+		fixup_model_hygon(cpu_info,model_string);
+	}
 
 	/*******************/
 	/* Intel Chips     */
