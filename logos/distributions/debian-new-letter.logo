@@ -1,0 +1,38 @@
+# Debian new lettered logo 
+# Phillip Jackson and Marcel Klapwijk
+
+SYSINFO_POSITION right 
+DESCRIPTION_STRING Debian new lettered 
+NAME debian_new_letter
+
+BEGIN_LOGO 
+[1;38;5;196m       _,###._      [1;38;5;15m       DD         BB      [1;38;5;196m/\[m
+[1;38;5;196m     ,#########.    [1;38;5;15m       DD         BB      [1;38;5;196m\/[m
+[1;38;5;196m   .######^######.  [1;38;5;15m  ,DDD,DD ,EEEEE, BB,BBB, II ,AAAAA, NN,NNN,[m
+[1;38;5;196m  .####'     `####  [1;38;5;15m  DD   DD EE   EE BB   BB II      AA NN   NN[m
+[1;38;5;196m  ####' ,###. `###: [1;38;5;15m  DD   DD EEEEEEE BB   BB II ,AAA,AA NN   NN[m
+[1;38;5;196m  ###'  ##'`# ,###  [1;38;5;15m  DD   DD EE      BB   BB II AA   AA NN   NN[m
+[1;38;5;196m  ###.  ###._,###'  [1;38;5;15m  'DDD'DD 'EEEEE' BB'BBB' II 'AAA'AA NN   NN[m
+[1;38;5;196m  `###  `######'      [m
+[1;38;5;196m   `###    `"'        [m
+[1;38;5;196m    `###.             [m
+[1;38;5;196m      `###,           [m
+[1;38;5;196m        `"##:.        [m
+[1;38;5;196m                      [m
+END_LOGO 
+
+BEGIN_ASCII_LOGO    
+       _,###._             DD         BB      /\          
+     ,#########.           DD         BB      \/
+   .######^######.    ,DDD,DD ,EEEEE, BB,BBB, II ,AAAAA, NN,NNN,
+  .####'     `####    DD   DD EE   EE BB   BB II      AA NN   NN
+  ####' ,###. `###:   DD   DD EEEEEEE BB   BB II ,AAA,AA NN   NN
+  ###'  ##'`# ,###    DD   DD EE      BB   BB II AA   AA NN   NN
+  ###.  ###._,###'    'DDD'DD 'EEEEE' BB'BBB' II 'AAA'AA NN   NN
+  `###  `######'      
+   `###    `"'        
+    `###.             
+      `###,           
+        `"##:.       
+                     
+END_ASCII_LOGO 
