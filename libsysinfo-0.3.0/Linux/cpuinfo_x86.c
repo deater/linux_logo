@@ -729,180 +729,241 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 				strncpy(base_type,"Pentium M",10);
 				break;
 			/* Core Duo */
-			case 14: /* Yonah */
+			case 14: /* 0x0E Yonah */
 				strncpy(base_type,"Core Duo",9);
 				break;
 			/* Core2 */
-			case 15: /* Merom */
-			case 22: /* Merom L */
-			case 23: /* Penryn, Wolfdale, Yorkfield */
-			case 29: /* Dunnington */
+			case 15: /* 0x0F Merom */
+			case 22: /* 0x16 Merom L */
+			case 23: /* 0x17 Penryn, Wolfdale, Yorkfield */
+			case 29: /* 0x1D Dunnington */
 				strncpy(base_type,"Core2",6);
 				break;
 			/* Atom */
-			case 28: /* Bonnell: Diamondville, Pineview */
-			case 38: /* Bonnell Mid: Silverthorne, Lincroft */
-			case 54: /* Saltwell: Cedarview */
-			case 39: /* Saltwell Mid: Penwell */
-			case 53: /* Saltwell Tabled: Cloverview */
+			case 28: /* 0x1C Bonnell: Diamondville, Pineview */
+			case 38: /* 0x26 Bonnell Mid: Silverthorne, Lincroft */
+			case 54: /* 0x36 Saltwell: Cedarview */
+			case 39: /* 0x27 Saltwell Mid: Penwell */
+			case 53: /* 0x35 Saltwell Tabled: Cloverview */
 				strncpy(base_type,"Atom",5);
 				break;
-			case 55: /* Silvermont: Bay Trail, Valleyview */
-			case 77: /* Silvermont D: Avaton, Rangely */
-			case 74: /* Silvermont Mid: Merriefield, Tangier */
+			case 55: /* 0x37 Silvermont: Bay Trail, Valleyview */
+			case 77: /* 0x4D Silvermont D: Avaton, Rangely */
+			case 74: /* 0x4A Silvermont Mid: Merriefield, Tangier */
 			case 93: /* SoFIA */
 				strncpy(base_type,"Atom Silvermont",16);
 				break;
-			case 76: /* Airmont: Cherry Trail, Braswell */
-			case 90: /* Airmont Mid: Moorefield, Anniedale */
-			case 117:/* Airmont NP: Lightning Mountain */
+			case 76: /* 0x4C Airmont: Cherry Trail, Braswell */
+			case 90: /* 0x5A Airmont Mid: Moorefield, Anniedale */
+			case 117:/* 0x75 Airmont NP: Lightning Mountain */
 				strncpy(base_type,"Atom Airmont",13);
 				break;
-			case 92: /* Goldmont: Apollo Lake */
-			case 95: /* Goldmont: Denverton */
+			case 92: /* 0x5C Goldmont: Apollo Lake */
+			case 95: /* 0x5F Goldmont: Denverton */
 				strncpy(base_type,"Atom Goldmont",17);
 				break;
-			case 122: /* Goldmont Plus: Gemini Lake */
+			case 122: /* 0x7A Goldmont Plus: Gemini Lake */
 				strncpy(base_type,"Atom Goldmont+",18);
 				break;
-			case 134: /* Tremont: Elkhart Lake */
+			case 134: /* 0x86 Tremont D: Jacobsville */
+			case 150: /* 0x96 Tremont  : Elkhart Lake */
+			case 156: /* 0x9C Tremont L: Jasper Lake */
 				strncpy(base_type,"Atom Tremont",13);
 				break;
 
 			/* Knights Landing */
-			case 87:
+			case 87: /* 0x57 */
 				strncpy(base_type,"Knights Landing",16);
 				break;
 			/* Knights Mill */
-			case 133:
+			case 133:/* 0x85 */
 				strncpy(base_type,"Knights Mill",13);
 				break;
 
 			/* Nehalem */
-			case 30: /* Nehalem */
-			case 31: /* G: Auburndale / Havendale (cancelled?) */
+			case 30: /* 0x1E Nehalem */
+			case 31: /* 0x1F G: Auburndale / Havendale (cancelled?) */
 				strncpy(base_type,"Nehalem",8);
 				break;
-			case 26: /* EP: Bloomfield */
+			case 26: /* 0x1A EP: Bloomfield */
 				strncpy(base_type,"Nehalem EP",11);
 				break;
-			case 46: /* EX */
+			case 46: /* 0x2E EX */
 				strncpy(base_type,"Nehalem EX",11);
 				break;
 
 			/* Westmere */
-			case 37: /* Arrandale */
+			case 37: /* 0x25 Arrandale */
 				strncpy(base_type,"Westmere",9);
 				break;
-			case 44: /* Gulftown, EP */
+			case 44: /* 0x2C Gulftown, EP */
 				strncpy(base_type,"Westmere EP",12);
 				break;
-			case 47: /* EX */
+			case 47: /* 0x2F EX */
 				strncpy(base_type,"Westmere EX",12);
 				break;
 
 			/* Sandybridge */
-			case 42:
+			case 42: /* 0x2A Sandybridge */
 				strncpy(base_type,"Sandybridge",12);
 				break;
-			case 45: /* E, EN, EP */
+			case 45: /* 0x2D E, EN, EP */
 				strncpy(base_type,"Sandybridge EP",15);
 				break;
 
 			/* Ivybridge */
-			case 58: /* M, H, Gladden */
+			case 58: /* 0x3A M, H, Gladden */
 				strncpy(base_type,"Ivybridge",10);
 				break;
-			case 62: /* E, EN, EP, EX */
+			case 62: /* 0x3E E, EN, EP, EX */
 				strncpy(base_type,"Ivybridge EP",13);
 				break;
 
 			/* Haswell */
-			case 60: /* Haswell S */
-			case 70: /* Haswell G GT3E */
+			case 60: /* 0x3C Haswell S */
 				strncpy(base_type,"Haswell",8);
 				break;
-			case 69: /* Haswell L ULT*/
-				strncpy(base_type,"Haswell ULT",12);
-				break;
-			case 63: /* Haswell X */
+			case 63: /* 0x3F Haswell X */
 				strncpy(base_type,"Haswell EP",11);
 				break;
+			case 69: /* 0x45 Haswell L ULT*/
+				strncpy(base_type,"Haswell ULT",12);
+				break;
+			case 70: /* 0x46 Haswell G GT3E */
+				strncpy(base_type,"Haswell",8);
+				break;
+
 
 			/* Broadwell */
-			case 61: /* U,Y,S */
+			case 61: /* 0x3D U,Y,S */
 				strncpy(base_type,"Broadwell",10);
 				break;
-			case 71: /* G: H,C,W */
+			case 71: /* 0x47 G: H,C,W */
 				strncpy(base_type,"Broadwell-H",12);
 				break;
-			case 86: /* D: DE, Hewitt Lake */
-				strncpy(base_type,"Broadwell-DE",13);
-				break;
-			case 79: /* X: E, EP, EX */
+			case 79: /* 0x4F X: E, EP, EX */
 				strncpy(base_type,"Broadwell EP",13);
 				break;
 
+			case 86: /* 0x56 D: DE, Hewitt Lake */
+				strncpy(base_type,"Broadwell-DE",13);
+				break;
+
 			/* Skylake */
-			case 78: /* Skylake L (mobile?) (Y,U) */
-			case 94: /* Skylake ( DT,H,S) */
+			case 78: /* 0x4E Skylake L (mobile?) (Y,U) */
+			case 94: /* 0x5E Skylake ( DT,H,S) */
 				strncpy(base_type,"Skylake",8);
 				break;
 
 			/* Also Coffee Lake??? */
 			/* Also Whiskeylake/Amberlake?? */
 			/* Kabylake */
-			case 142: /* Kabylake L: Y,U */
-			case 158: /* Kabylake: DT, H, S, X */
-				strncpy(base_type,"Kabylake",9);
+			case 142: /* 0x8E Kabylake L: Y,U */
+				if (cpu_info->stepping == 9) {
+					/* Amberlake = Stepping 9 */
+					strncpy(base_type,"Amberlake L",12);
+				}
+				else if (cpu_info->stepping==10) {
+					/* Coffeelake = Stepping 10 */
+					strncpy(base_type,"Coffeelake L",13);
+				}
+				else if ((cpu_info->stepping==11) ||
+					 (cpu_info->stepping==12)) {
+					/* Whiskeylake = Stepping 11,12 */
+					strncpy(base_type,"Whiskeylake L",14);
+				}
+				else {
+					/* Kabylake L?  Is that possible? */
+					strncpy(base_type,"Kabylake L",11);
+				}
+				break;
+
+			case 158: /* 0x9E Kabylake: DT, H, S, X */
+				if (cpu_info->stepping > 9) {
+					/* Coffeelake = Stepping 10-13 */
+					strncpy(base_type,"Coffeelake",11);
+				}
+				else {
+					strncpy(base_type,"Kabylake",9);
+				}
 				break;
 
 			/* Skylake/Cascadelake/Cooperlake Server */
-			case 85:
+			case 85: /* 0x55 */
 				if (cpu_info->stepping < 5) {
+					/* stepping 4 */
 					strncpy(base_type,"Skylake X",10);
 				}
-				else {
+				else if (cpu_info->stepping < 8) {
+					/* stepping 7 */
 					strncpy(base_type,"Cascadelake X",14);
+				}
+				else {
+					/* stepping 11 */
+					strncpy(base_type,"Cooperlake X",13);
 				}
 				break;
 
 			/* Cannonlake */
-			case 102: /* Cannonlake U/L */
+			case 102: /* 0x66 Cannonlake U/L (Palm Cove) */
 				strncpy(base_type,"Cannonlake",11);
 				break;
 
-			/* Icelake */
-			case 106: /* Icelake X : Server */
-			case 108: /* Icelake D : Server */
-			case 125: /* Icelake : Y */
-			case 126: /* Icelake L : U */
+			/* Icelake / Sunny Cove */
+			case 106: /* 0x6A Icelake X : Server */
+			case 108: /* 0x6C Icelake D : Server */
+			case 125: /* 0x7D Icelake : Y */
+			case 126: /* 0x7E Icelake L : U */
 			case 157: /* Icelake NNPI */
 				strncpy(base_type,"Icelake",8);
 				break;
 
+			/* Lakefield */
+			case 138: /* 0x8A Sunny Cove / Tremont */
+				strncpy(base_type,"Lakefield",10);
+				break;
+
+
 			/* Tigerlake */
-			case 140: /* Tigerlake L : U */
-			case 141: /* Tigerlake */
+			case 140: /* 0x8C Tigerlake L : U */
+				strncpy(base_type,"Tigerlake L",12);
+				break;
+			case 141: /* 0x8D Tigerlake */
 				strncpy(base_type,"Tigerlake",10);
 				break;
 
-			/* Alderlake */
-			case 151: /* Alderlake S */
-			case 154: /* Alderlake P */
+			/* Sappphirerapids (Golden Cove) */
+			case 143: /* 0x8F Sapphirerapids X */
+				strncpy(base_type,"Sapphirerapids X",17);
+				break;
+
+
+			/* Alderlake (Golden Cove / Gracemont) */
+			case 151: /* 0x97 Alderlake S */
+			case 154: /* 0x9A Alderlake L */
+			case 190: /* 0xBE Alderlake L */
 				strncpy(base_type,"Alderlake",10);
 				break;
 
 			/* Cometlake */
-			case 165: /* Cometlake */
-			case 166: /* Cometlake L */
+			case 165: /* 0xA5 Cometlake */
 				strncpy(base_type,"Cometlake",10);
 				break;
+			case 166: /* 0xA6 Cometlake L */
+				strncpy(base_type,"Cometlake L",12);
+				break;
 
-			/* Rocketlake */
-			case 167: /* Rocketlake S L */
+			/* Rocketlake / Cypress Cove */
+			case 167: /* 0xA7 Rocketlake S L */
 				strncpy(base_type,"Rocketlake",11);
 				break;
+
+			/* Raptorlake */
+			case 183: /* 0xB7 Raptorlake */
+			case 186: /* 0xBA Raptorlake P */
+				strncpy(base_type,"Raptorlake",11);
+				break;
+
 
 			default: strncpy(base_type,"Unknown",8); break;
 		}
