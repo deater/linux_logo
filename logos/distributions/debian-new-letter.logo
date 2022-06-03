@@ -6,19 +6,19 @@ DESCRIPTION_STRING Debian new lettered
 NAME debian_new_letter
 
 BEGIN_LOGO 
-[1;38;5;196m       _,###._      [1;38;5;15m       DD         BB      [1;38;5;196m/\[m
-[1;38;5;196m     ,#########.    [1;38;5;15m       DD         BB      [1;38;5;196m\/[m
-[1;38;5;196m   .######^######.  [1;38;5;15m  ,DDD,DD ,EEEEE, BB,BBB, II ,AAAAA, NN,NNN,[m
-[1;38;5;196m  .####'     `####  [1;38;5;15m  DD   DD EE   EE BB   BB II      AA NN   NN[m
-[1;38;5;196m  ####' ,###. `###: [1;38;5;15m  DD   DD EEEEEEE BB   BB II ,AAA,AA NN   NN[m
-[1;38;5;196m  ###'  ##'`# ,###  [1;38;5;15m  DD   DD EE      BB   BB II AA   AA NN   NN[m
-[1;38;5;196m  ###.  ###._,###'  [1;38;5;15m  'DDD'DD 'EEEEE' BB'BBB' II 'AAA'AA NN   NN[m
-[1;38;5;196m  `###  `######'      [m
-[1;38;5;196m   `###    `"'        [m
-[1;38;5;196m    `###.             [m
-[1;38;5;196m      `###,           [m
-[1;38;5;196m        `"##:.        [m
-[1;38;5;196m                      [m
+[0;1;31;40m       _,###._      [0;1;37;40m       DD         BB      [0;1;31;40m/\[m
+[0;1;31;40m     ,#########.    [0;1;37;40m       DD         BB      [0;1;31;40m\/[m
+[0;1;31;40m   .######^######.  [0;1;37;40m  ,DDD,DD ,EEEEE, BB,BBB, II ,AAAAA, NN,NNN,[m
+[0;1;31;40m  .####'     `####  [0;1;37;40m  DD   DD EE   EE BB   BB II      AA NN   NN[m
+[0;1;31;40m  ####' ,###. `###: [0;1;37;40m  DD   DD EEEEEEE BB   BB II ,AAA,AA NN   NN[m
+[0;1;31;40m  ###'  ##'`# ,###  [0;1;37;40m  DD   DD EE      BB   BB II AA   AA NN   NN[m
+[0;1;31;40m  ###.  ###._,###'  [0;1;37;40m  'DDD'DD 'EEEEE' BB'BBB' II 'AAA'AA NN   NN[m
+[0;1;31;40m  `###  `######'      [m
+[0;1;31;40m   `###    `"'        [m
+[0;1;31;40m    `###.             [m
+[0;1;31;40m      `###,           [m
+[0;1;31;40m        `"##:.        [m
+[0;1;31;40m                      [m
 END_LOGO 
 
 BEGIN_ASCII_LOGO    
