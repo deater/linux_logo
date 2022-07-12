@@ -1,7 +1,7 @@
 Begin3
 Title: linux_logo
 Version: 6.01
-Entered-date: 22JUL2022
+Entered-date: 12JUL2022
 Description: An ANSI Color Penguin Logo that can be run at bootup,
              at login, and many other interesting times.
 	     Supports: Linux (most architectures) and Solaris, Irix, AIX, etc.
