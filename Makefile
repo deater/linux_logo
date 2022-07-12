@@ -59,6 +59,7 @@ clean:	Makefile.default
 distclean: clean
 	cd $(LIBSYSINFO) && $(MAKE) distclean
 	rm -f Makefile.default logo_config
+#	rm -f po/linux_logo.pot
 
 linux_logo:	linux_logo.o load_logo.o ./$(LIBSYSINFO)/libsysinfo.a
 	$(CROSS)$(CC) $(LDFLAGS) -o linux_logo linux_logo.o load_logo.o $(LIBSYSINFO_LIBRARY) ./$(LIBSYSINFO)/libsysinfo.a 

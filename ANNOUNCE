@@ -1,0 +1,34 @@
+ASCII-art Penguins and system info for 23 years: linux_logo hits version 6.0
+
+The linux_logo tool has been generating ANSI/ASCII art Linux logos and
+printing system information for 23 years, and has finally hit release 6.0.
+
+The tool came about out of the great Linux "should graphics drivers be in the
+kernel" GGI/KGI flamewar of 1997.  In the end Linus Torvalds made a decision
+that set back Linux graphics for years, but a side thread developed with
+a key discussion "should the boot logo be in kernelspace or userspace".
+linux_logo came out as a solution for people with low-end graphics
+who fell on the "it should be in userspace" side of things.  And while
+you are printing ASCII art, why not print some system info too?
+
+Most of the system info comes from the /proc/cpuinfo file.  In theory the
+/proc filesystem is supposed to be part of the stable ABI, but it turns
+out that's just a suggestion.  To handle that, I have accumulated a
+collection of over 1000 cpuinfo files from all architectures from a wide
+variety of machines dating back to the 386 era.  I use these for testing
+that the system info looks OK.
+
+Another issue is printing total memory in the system, which seems like it
+should be straightforward but is not.  Previously the best way was reading
+/proc/iomem but recent security changes have zeroed out all the values in
+that file, leading to misreported amounts of memory due to a poor fallback to
+checking the size of /proc/kcore (which gives crazy results on 64-bit
+systems).  The proper fallback is /proc/meminfo but that gives lower than
+expected results on systems that reserve system memory for things like
+integrated graphics.
+
+Some other features in the 6.0 release: RISCV and ARM64 support.
+Proper handling of big.LITTLE support in ARM (where one system can have
+CPUs that vary by both model or manufacturer).  Also adds support for
+the Model 15 teletype from the 1930s in case you are using one of
+those as a terminal.

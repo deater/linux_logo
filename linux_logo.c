@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*\
-  LINUX LOGO 6.0 - Creates Nifty Logo With System Info - 9 May 2020
+  LINUX LOGO 6.01 - Creates Nifty Logo With System Info - 12 July 2022
 
     by Vince Weaver (vince@deater.net, http://www.deater.net/weave )
 
@@ -10,7 +10,7 @@
 \*-------------------------------------------------------------------------*/
 
 
-#define VERSION "6.0"
+#define VERSION "6.01"
 
 #include <stdio.h>
 #include <stdlib.h>   /* calloc() */

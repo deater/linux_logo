@@ -15,8 +15,8 @@
         Four 2.7GHz Intel i5 Processors, 3.8GB RAM, 12800 Bogomips Total
                                    orvavista
 /*--------------------------------------------------------------------------*\
-    LINUX_LOGO 6.0 -- Shows a Logo With some System Info - 9 May 2020
-    by Vince Weaver ( vince _at_ deater.net, http://www.deater.net/weave )
+    LINUX_LOGO 6.01 -- Shows a Logo With some System Info - 22 July 2022
+    by Vince Weaver ( <vince@deater.net> , http://www.deater.net/weave )
     SUPPORTS Linux (most architectures) and some non-Linux OSes
 \*--------------------------------------------------------------------------*/
 
@@ -76,10 +76,10 @@ POTENTIAL USES FOR linux_logo
  ----------------------------------------------------------------------->
  
     untar and uncompress the file
-        tar -xzvf linux_logo-6.0.tar.gz
+        tar -xzvf linux_logo-6.01.tar.gz
 	
     enter the directory
-        cd linux_logo-6.0
+        cd linux_logo-6.01
 	
     run "configure"
         ./configure
@@ -408,7 +408,7 @@ WHERE TO GET LINUX_LOGO:
 Check out other programs by me at http://www.deater.net/weave/vmwprod
 
 -------------------------------------------------------------------------->
-THANKS
+THANKS FOR 25 YEARS OF LINUX_LOGO
 -------------------------------------------------------------------------->
 
    Many thanks to the people sending in patches and /proc/cpuinfo entries.
@@ -418,5 +418,5 @@ THANKS
    Prosser.
    
 -----------------
-Vince
-vince _at_ deater.net
+Vince `deater` Weaver
+vince@deater.net
