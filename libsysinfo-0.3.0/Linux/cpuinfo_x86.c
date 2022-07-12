@@ -310,11 +310,11 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 			/* Zen */
 			case 1: /* Naples, Whitehaven, Summit Ridge, Snowy Owl */
 			case 17: /* Raven Ridge, Great Horned Owl */
-			case 24: /* Branded Kestrel */
+			case 24: /* Banded Kestrel */
 			case 32: /* Dali */
 			/* Zen+ */
 			case 8:	/* Colfax, Pinnacle Ridge */
-			/*case 24:*//* Picasso, why the same as Branded Kestrel? */
+			/*case 24:*//* Picasso, why the same as Banded Kestrel? */
 			/* Zen2 */
 			case 49:  /* Rome, Castle Peak */
 			case 71:  /* Xbox Series X */
@@ -340,13 +340,19 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 		grab_amd_to_space(model_string,base_type,BUFSIZ);
 	}
 	else if (cpu_info->family==25) {
-		/* Family 19h -- Zen3 */
+		/* Family 19h -- Zen3/Zen4 */
+
+		/* Note model numbers are extended/base concatenated */
 
 		switch(cpu_info->model) {
-			case 1:  /* Milan */
-			case 33: /* Vermeer */
-			case 64: /* Rembrant */
-			case 80: /* Cezanne */
+			case 1:  /* 0x01 EPYC 7003 Milan */
+			case 8:	 /* 0x08 Threadripper 5900 */
+			case 33: /* 0x21 Ryzen 5000 Vermeer */
+			case 64: /* 0x40 Rembrant */
+				 /* 0x44? */
+			case 80: /* 0x50 Cezanne */
+				 /* 0x6x? Zen 4 Raphael? */
+				 /* 0x7x? Ryzen 7000? */
 			default: break;
 		}
 
