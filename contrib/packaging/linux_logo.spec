@@ -126,7 +126,7 @@ fi
 
 %files
 %defattr(-, root, root)
-%doc ANNOUNCE.logo BUGS CHANGES COPYING %{name}-%{version}.lsm LINUX_LOGO.FAQ
+%doc ANNOUNCE.logo BUGS CHANGES COPYING LINUX_LOGO.FAQ
 %doc README README.CUSTOM_LOGOS TODO USAGE
 %config(noreplace) /etc/linux_logo.conf
 /etc/rc.d/*/*
