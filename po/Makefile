@@ -12,12 +12,7 @@ POTFILES= ../*.c ../*.h
 all: $(PACKAGE).pot $(CATALOGS)
 
 $(PACKAGE).pot: $(POTFILES)
-	$(XGETTEXT) --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $(POTFILES); 
-	if cmp -s $(PACKAGE).po $(PACKAGE).pot; then \
-	rm -f $(PACKAGE).po; \
-	else \
-	mv $(PACKAGE).po $(PACKAGE).pot; \
-	fi 
+	$(XGETTEXT) --output=$@ --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $^
 
 clean:
 	rm -f *mo *~ *.bac
