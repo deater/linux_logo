@@ -30,7 +30,7 @@ install: $(CATALOGS)
 	done
 
 %.mo: %.po
-	msgfmt -o $@ $< 
+	msgfmt -c -o $@ $<
 
 update: $(PACKAGE).pot
 	for l in $(LINGUAS); do \
