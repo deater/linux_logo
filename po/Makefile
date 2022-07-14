@@ -36,5 +36,5 @@ update: $(PACKAGE).pot
 	for l in $(LINGUAS); do \
 	l=$$l".po"; \
 	mv -f $$l $$l".bac"; \
-	msgmerge -o $$l $$l".bac" $(PACKAGE).pot; \
+	msgmerge --previous -o $$l $$l".bac" $(PACKAGE).pot; \
 	done
