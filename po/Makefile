@@ -9,7 +9,7 @@ CATALOGS = $(addsuffix .mo,$(LINGUAS))
 
 POTFILES= ../*.c ../*.h
 
-all: $(PACKAGE).pot $(CATALOGS)
+all: $(CATALOGS)
 
 $(PACKAGE).pot: $(POTFILES)
 	$(XGETTEXT) --output=$@ --default-domain=$(PACKAGE) --add-comments --keyword=_ --keyword=S_ $^
