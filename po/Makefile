@@ -1,7 +1,7 @@
 include ../Makefile.default
 
 PACKAGE=linux_logo
-INSTALL_LOCALEPATH=$(PREFIX)/share/locale
+INSTALL_LOCALEPATH=$(DESTDIR)$(PREFIX)/share/locale
 
 PO_FILES = $(wildcard *.po)
 LINGUAS = $(basename $(PO_FILES))
