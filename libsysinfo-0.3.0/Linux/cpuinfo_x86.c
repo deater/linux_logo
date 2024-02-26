@@ -748,15 +748,15 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			/* Atom */
 			case 28: /* 0x1C Bonnell: Diamondville, Pineview */
 			case 38: /* 0x26 Bonnell Mid: Silverthorne, Lincroft */
-			case 54: /* 0x36 Saltwell: Cedarview */
 			case 39: /* 0x27 Saltwell Mid: Penwell */
 			case 53: /* 0x35 Saltwell Tabled: Cloverview */
+			case 54: /* 0x36 Saltwell: Cedarview */
 				strncpy(base_type,"Atom",5);
 				break;
 			case 55: /* 0x37 Silvermont: Bay Trail, Valleyview */
-			case 77: /* 0x4D Silvermont D: Avaton, Rangely */
 			case 74: /* 0x4A Silvermont Mid: Merriefield, Tangier */
-			case 93: /* SoFIA */
+			case 77: /* 0x4D Silvermont D: Avaton, Rangely */
+			case 93: /* 0x5d SoFIA */
 				strncpy(base_type,"Atom Silvermont",16);
 				break;
 			case 76: /* 0x4C Airmont: Cherry Trail, Braswell */
@@ -787,12 +787,12 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 				break;
 
 			/* Nehalem */
+			case 26: /* 0x1A EP: Bloomfield */
+				strncpy(base_type,"Nehalem EP",11);
+				break;
 			case 30: /* 0x1E Nehalem */
 			case 31: /* 0x1F G: Auburndale / Havendale (cancelled?) */
 				strncpy(base_type,"Nehalem",8);
-				break;
-			case 26: /* 0x1A EP: Bloomfield */
-				strncpy(base_type,"Nehalem EP",11);
 				break;
 			case 46: /* 0x2E EX */
 				strncpy(base_type,"Nehalem EX",11);
@@ -850,7 +850,6 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			case 79: /* 0x4F X: E, EP, EX */
 				strncpy(base_type,"Broadwell EP",13);
 				break;
-
 			case 86: /* 0x56 D: DE, Hewitt Lake */
 				strncpy(base_type,"Broadwell-DE",13);
 				break;
@@ -859,6 +858,22 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			case 78: /* 0x4E Skylake L (mobile?) (Y,U) */
 			case 94: /* 0x5E Skylake ( DT,H,S) */
 				strncpy(base_type,"Skylake",8);
+				break;
+
+			/* Skylake/Cascadelake/Cooperlake Server */
+			case 85: /* 0x55 */
+				if (cpu_info->stepping < 5) {
+					/* stepping 4 */
+					strncpy(base_type,"Skylake X",10);
+				}
+				else if (cpu_info->stepping < 8) {
+					/* stepping 7 */
+					strncpy(base_type,"Cascadelake X",14);
+				}
+				else {
+					/* stepping 11 */
+					strncpy(base_type,"Cooperlake X",13);
+				}
 				break;
 
 			/* Also Coffee Lake??? */
@@ -894,21 +909,15 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 				}
 				break;
 
-			/* Skylake/Cascadelake/Cooperlake Server */
-			case 85: /* 0x55 */
-				if (cpu_info->stepping < 5) {
-					/* stepping 4 */
-					strncpy(base_type,"Skylake X",10);
-				}
-				else if (cpu_info->stepping < 8) {
-					/* stepping 7 */
-					strncpy(base_type,"Cascadelake X",14);
-				}
-				else {
-					/* stepping 11 */
-					strncpy(base_type,"Cooperlake X",13);
-				}
+			/* Cometlake */
+			case 165: /* 0xA5 Cometlake */
+				strncpy(base_type,"Cometlake",10);
 				break;
+			case 166: /* 0xA6 Cometlake L */
+				strncpy(base_type,"Cometlake L",12);
+				break;
+
+
 
 			/* Cannonlake */
 			case 102: /* 0x66 Cannonlake U/L (Palm Cove) */
@@ -920,7 +929,7 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			case 108: /* 0x6C Icelake D : Server */
 			case 125: /* 0x7D Icelake : Y */
 			case 126: /* 0x7E Icelake L : U */
-			case 157: /* Icelake NNPI */
+			case 157: /* 0x9D Icelake NNPI */
 				strncpy(base_type,"Icelake",8);
 				break;
 
@@ -947,29 +956,51 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			/* Alderlake (Golden Cove / Gracemont) */
 			case 151: /* 0x97 Alderlake S */
 			case 154: /* 0x9A Alderlake L */
-			case 190: /* 0xBE Alderlake L */
+			case 190: /* 0xBE Alderlake L (AlderlakeN) */
 				strncpy(base_type,"Alderlake",10);
 				break;
 
-			/* Cometlake */
-			case 165: /* 0xA5 Cometlake */
-				strncpy(base_type,"Cometlake",10);
-				break;
-			case 166: /* 0xA6 Cometlake L */
-				strncpy(base_type,"Cometlake L",12);
+			case 183: /* 0xB7 Raptor Lake */
+			case 186: /* 0xBA Raptor Lake P */
+				strncpy(base_type,"Raptorlake",11);
 				break;
 
 			/* Rocketlake / Cypress Cove */
 			case 167: /* 0xA7 Rocketlake S L */
-				strncpy(base_type,"Rocketlake",11);
+				strncpy(base_type,"Rocketlake",12);
 				break;
 
-			/* Raptorlake */
-			case 183: /* 0xB7 Raptorlake */
-			case 186: /* 0xBA Raptorlake P */
-				strncpy(base_type,"Raptorlake",11);
+			/* Emerald Rapids */
+			case 207: /* 0xcf */
+				strncpy(base_type,"Emerald Rapids",15);
 				break;
 
+			/* Grandridge */
+			case 182: /* 0xb6 */
+				strncpy(base_type,"Grandridge",15);
+				break;
+
+			/* Lunar Lake */
+			case 189: /* 0xbd */
+				strncpy(base_type,"Lunar Lake",11);
+				break;
+
+			/* Meteor Lake */
+			case 170: /* 0xaa */
+			case 172: /* 0xac */
+				strncpy(base_type,"Meteor Lake",12);
+				break;
+
+			/* Granite Rapids */
+			case 173: /* 0xad */
+			case 174: /* 0xae */
+				strncpy(base_type,"Granite Rapids",15);
+				break;
+
+			/* Granite Rapids */
+			case 175: /* 0xaf */
+				strncpy(base_type,"Sierra Forest",14);
+				break;
 
 			default: strncpy(base_type,"Unknown",8); break;
 		}
@@ -1397,9 +1428,7 @@ int get_cpu_info(struct cpu_info_type *cpu_info) {
 			strncpy_truncate(cpu_info->chip_type,temp_string,4);
 		}
 		else {
-			if (plain_model!=NULL) {
-				strncpy_truncate(cpu_info->chip_type,plain_model,SYSINFO_CHIP_TYPE_SIZE);
-			}
+			strncpy_truncate(cpu_info->chip_type,plain_model,SYSINFO_CHIP_TYPE_SIZE);
 		}
 	}
 
