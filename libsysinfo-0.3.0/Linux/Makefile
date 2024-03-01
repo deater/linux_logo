@@ -32,6 +32,9 @@ ifneq (,$(findstring mips,$(ARCH)))
    ARCH := mips
 endif
 
+ifneq (,$(findstring loongarch,$(ARCH)))
+   ARCH := loongarch
+endif
 
 all:	cpuinfo.o sysinfo_linux.o
 
@@ -54,6 +57,9 @@ frv:	cpuinfo_frv.c
 
 ia64:	cpuinfo_ia64.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_ia64.c
+
+loongarch:    cpuinfo_loongarch.c
+	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_loongarch.c
 
 m32r:	cpuinfo_m32r.c
 	$(CROSS)$(CC) $(CFLAGS) -o cpuinfo.o -c cpuinfo_m32r.c
