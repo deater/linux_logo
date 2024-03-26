@@ -31,6 +31,10 @@
 #define _(String) gettext((String))
 #else
 #define _(String) (String)
+static const char *ngettext(const char *__msgid1, const char *__msgid2,
+		unsigned long int __n) {
+	return __n == 1 ? __msgid1:__msgid2;
+}
 #endif
 
 /* Change the values in the below file to alter default behavior */
@@ -385,17 +389,11 @@ static int generate_sysinfo(
 	        case 'O': vmw_strcat(temp_line,os_info.os_name,
 				     BUFSIZ-strlen(temp_line));
 		                     break;
-	           /* #P prints "Processor" or its plural.  Sort of a hack */
-	           /*   This probably doesn't work with all languages      */
-	        case 'P': if (cpu_info.num_cpus!=1) {
-	                     vmw_strcat(temp_line,_(PROCESSOR_PLURAL),
-					BUFSIZ-strlen(temp_line));
-	                  }
-	                  else {
-			     vmw_strcat(temp_line,_(PROCESSOR_SINGULAR),
-				    BUFSIZ-strlen(temp_line));
-			  }
-	                  break;
+	           /* #P prints "Processor" or its plural */
+	        case 'P': vmw_strcat(temp_line,
+				     ngettext("Processor","Processors",cpu_info.num_cpus),
+				     BUFSIZ-strlen(temp_line));
+		                     break;
 	           /* #R prints the amount of memory */
 	        case 'R': mem_size=get_mem_size();
 
