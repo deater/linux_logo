@@ -7,12 +7,6 @@
 \* information on how to configure this option.                            */
 char DEFAULT_BANNER_FORMAT[]= S_("#O Version #V, Compiled #C\n#N #M #X #T #P, #R RAM, #B\n#H\n");
 char DEFAULT_CLASSIC_FORMAT[]= S_("#O Version #V\nCompiled #C\n#N #M #X #T #P, #R RAM\n#B\n#H\n");
-/* Plural.  With the coming of i18n you really can't assume plurals can */
-/* be made by adding a string to the end.  Hopefully this can fix it for*/
-/* most languages.  If they require significant word-order changes then */
-/* we'll have even more problems */
-char PROCESSOR_SINGULAR[]= S_("Processor");
-char PROCESSOR_PLURAL[]= S_("Processors");
 
 /* This option picks the default mode of the linux_logo program.            *\
 \* If a 1 is picked, banner mode will be the default mode.                  */
