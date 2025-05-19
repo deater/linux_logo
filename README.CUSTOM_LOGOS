@@ -107,7 +107,7 @@ Creating custom logo files:
           A classic logo is usually a picture 22 wide by 16 high, with 
 	  the OS name printed in block letters to the right of the first
 	  6 lines.   The system information is then printed starting on
-	  line 8 and until the sysinfo runs out [typicall between 5-8 lines].
+	  line 8 and until the sysinfo runs out [typically between 5-8 lines].
 	  
       BEGIN_ASCII_LOGO
       END_ASCII_LOGO
@@ -120,7 +120,7 @@ Creating custom logo files:
     + Be sure to remember to end your directives, and not to nest logo
       directives.  I have not tested the parser to see how robust it is.
  
-    + Be sure to have both a LOGO and a ASCII_LOGO in the logo file 
+    + Be sure to have both a LOGO and an ASCII_LOGO in the logo file 
       if not, parse_logo will not be able to add them (core dump :(
       You might use the script in contrib/script/logo2ascii in order to
       convert them.
