@@ -962,6 +962,7 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 
 			case 183: /* 0xB7 Raptor Lake */
 			case 186: /* 0xBA Raptor Lake P */
+			case 191: /* 0xBF Raptor Lake S */
 				strncpy(base_type,"Raptorlake",11);
 				break;
 
@@ -991,6 +992,13 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 				strncpy(base_type,"Meteor Lake",12);
 				break;
 
+			/* Lion Cove / Skymont */
+			case 197: /* 0xc5 */
+			case 198: /* 0xc6 */
+			case 181: /* 0xb5 */
+				strncpy(base_type,"Arrow Lake",11);
+				break;
+
 			/* Granite Rapids */
 			case 173: /* 0xad */
 			case 174: /* 0xae */
@@ -1001,6 +1009,23 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 			case 175: /* 0xaf */
 				strncpy(base_type,"Sierra Forest",14);
 				break;
+
+			/* Cougar Cove (I see what they did there) */
+			/* Crestmont */
+			case 204: /* 0xcc */
+				strncpy(base_type,"Panther Lake",13);
+				break;
+
+			/* Raptor Cove */
+			case 215: /* 0xd7 */
+				strncpy(base_type,"Bartlet Lake",13);
+				break;
+
+			/* Darkmont */
+			case 221: /* 0xdd */
+				strncpy(base_type,"Clearwater Forest",18);
+				break;
+
 
 			default: strncpy(base_type,"Unknown",8); break;
 		}
@@ -1016,10 +1041,21 @@ static void fixup_model_intel(struct cpu_info_type *cpu_info,
 				strncpy(base_type,"Pentium 4",10);
 				break;
 			case 3: /* Prescott */
-			case 4: /* Prescott */
+			case 4: /* Prescott 2M */
 			case 5:
-			case 6:
+			case 6: /* Cedarmill */
 				strncpy(base_type,"Pentium D",10);
+				break;
+			default:
+				strncpy(base_type,"Unknown",8);
+				break;
+
+		}
+	}
+	else if (cpu_info->family==19) {
+		switch(cpu_info->model) {
+			case 1: /* Diamond Rapids */
+				strncpy(base_type,"Panther Cove",13);
 				break;
 			default:
 				strncpy(base_type,"Unknown",8);
