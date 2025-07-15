@@ -66,6 +66,13 @@ static void strcat_ordinal(int value,char *string, int space) {
 		case 7:  vmw_strcat(string,_("Seven"),space); break;
 		case 8:  vmw_strcat(string,_("Eight"),space); break;
 		case 9:  vmw_strcat(string,_("Nine"),space);  break;
+		case 10:  vmw_strcat(string,_("Ten"),space);  break;
+		case 11:  vmw_strcat(string,_("Eleven"),space);   break;
+		case 12:  vmw_strcat(string,_("Twelve"),space);   break;
+		case 13:  vmw_strcat(string,_("Thirteen"),space); break;
+		case 14:  vmw_strcat(string,_("Fourteen"),space); break;
+		case 15:  vmw_strcat(string,_("Fifteen"),space);  break;
+		case 16:  vmw_strcat(string,_("Sixteen"),space);  break;
 		default: vmw_strcat(string,_("Many"),space);  break;
 	}
 }
@@ -382,7 +389,7 @@ static int generate_sysinfo(
 	           /* Spelled out if it is less than 10       */
 	           /*  The actual number if less than 100,000 */
 	           /*  The word "Many" if more than 100,000   */
-	        case 'N': if (cpu_info.num_cpus<=9) {
+	        case 'N': if (cpu_info.num_cpus<=16) {
 	                     strcat_ordinal(cpu_info.num_cpus,temp_line,
 					    BUFSIZ-strlen(temp_line));
 	                  }
@@ -392,7 +399,7 @@ static int generate_sysinfo(
 					BUFSIZ-strlen(temp_line));
 		          }
 	                  else {
-			     strcat_ordinal(10,temp_line,
+			     strcat_ordinal(17,temp_line,
 					    BUFSIZ-strlen(temp_line));
 		          }
 	                  break;
