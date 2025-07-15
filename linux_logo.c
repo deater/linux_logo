@@ -315,15 +315,30 @@ static int generate_sysinfo(
 			}
 			vmw_strcat(temp_line,temp_string,BUFSIZ-strlen(temp_line));
 			break;
-	           /* #C prints OS revision */
-	        case 'C': /* Note:limit to 40 if in banner mode */
-			  /* longer strings wrap on 40-column displays */
+
+			/* #C prints OS revision */
+			/* This is the Compiled SMP... line */
+			/* This used to be useful as it contained date */
+			/* Debian has made it rediculously long these days */
+
+			/* Used to limit this to 40 chars in banner mode */
+			/* Now limit to 25 in all modes? */
+			/* FIXME: Ideally we'd parse the value and print */
+			/* Compiled: #1 SMP $date */
+			/* from the mess, but that is probably hard */
+	        case 'C':
 			/* FIXME: base this on width of screen and the */
 			/* relative widths of version and revision fields? */
-				if ((settings->banner_mode) &&
-					(strlen(os_info.os_revision)>40)) {
-					os_info.os_revision[40]=0;
+
+//				if ((settings->banner_mode) &&
+//					(strlen(os_info.os_revision)>40)) {
+//					os_info.os_revision[40]=0;
+//				}
+
+				if ((strlen(os_info.os_revision)>25)) {
+					os_info.os_revision[25]=0;
 				}
+
 				vmw_strcat(temp_line,os_info.os_revision,
 				     BUFSIZ-strlen(temp_line));
 		                     break;
