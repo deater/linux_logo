@@ -308,32 +308,44 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 
 		switch(cpu_info->model) {
 			/* Zen */
-			case 1: /* Naples, Whitehaven, Summit Ridge, Snowy Owl */
-			case 17: /* Raven Ridge, Great Horned Owl */
-			case 24: /* Banded Kestrel */
-			case 32: /* Dali */
+			/* 0x00..0x1f */
+			case 1:  /* 0x01 Naples, Whitehaven, Summit Ridge, Snowy Owl */
+			case 17: /* 0x11 Raven Ridge, Great Horned Owl */
+			case 24: /* 0x18 Banded Kestrel */
+			case 32: /* 0x20 Dali */
+				strncpy(base_type,"Zen",4);
+				break;
+
 			/* Zen+ */
-			case 8:	/* Colfax, Pinnacle Ridge */
+			case 8:	/* 0x08 Colfax, Pinnacle Ridge */
+				strncpy(base_type,"Zen+",5);
+				break;
 			/*case 24:*//* Picasso, why the same as Banded Kestrel? */
+
 			/* Zen2 */
-			case 49:  /* Rome, Castle Peak */
-			case 71:  /* Xbox Series X */
-			case 96:  /* Renoir, Grey Hawk */
-			case 104: /* Lucienne */
-			case 113: /* Matisse */
-			case 144: /* Van Gogh */
-
-			default: break;
+			/* 0x30..0xff */
+			case 49:  /* 0x31 Rome, Castle Peak */
+			case 71:  /* 0x47  Xbox Series X */
+			case 96:  /* 0x60 Renoir, Grey Hawk */
+			case 104: /* 0x68 Lucienne */
+			case 113: /* 0x71 Matisse */
+			case 144: /* 0x90 Van Gogh */
+				strncpy(base_type,"Zen2",6);
+				break;
+			default:
+				/* Grab from AMD to space */
+				grab_amd_to_space(model_string,base_type,BUFSIZ);
+				break;
 		}
-
-		/* Grab from AMD to space */
-
-		grab_amd_to_space(model_string,base_type,BUFSIZ);
-
 	}
 	else if (cpu_info->family==24) {
 		/* Joint partnership with China? */
 		/* Dhyana/Hygon is model 0? */
+
+		/* 0x04 */
+		/* 0x06 */
+		/* 0x07 */
+		/* 0x08 */
 
 		/* Grab from AMD to space */
 
@@ -345,20 +357,68 @@ static void fixup_model_amd(struct cpu_info_type *cpu_info,
 		/* Note model numbers are extended/base concatenated */
 
 		switch(cpu_info->model) {
+			/* zen3 */
+			/* 0x00..0x0f */
+			/* 0x40..? */
+			/* 0x50..? */
 			case 1:  /* 0x01 EPYC 7003 Milan */
 			case 8:	 /* 0x08 Threadripper 5900 */
 			case 33: /* 0x21 Ryzen 5000 Vermeer */
 			case 64: /* 0x40 Rembrant */
-				 /* 0x44? */
-			case 80: /* 0x50 Cezanne */
-				 /* 0x6x? Zen 4 Raphael? */
-				 /* 0x7x? Ryzen 7000? */
-			default: break;
+			case 68: /* 0x44? */
+			case 80: /* 0x50 Cezanne / Zen3 */
+			case 117: /* 0x75 */
+				strncpy(base_type,"Zen3",5);
+				break;
+
+			/* zen4 */
+			/* 0x10..0x1f */
+			/* 0x60..0x74 Zen4 Raphael? */
+			/* 0x78..0x7b Ryzen 7000? */
+			/* 0xa0..0xaf */
+			case 17:  /* 0x11 */
+			case 97:  /* 0x61 */
+			case 113: /* 0x71 */
+			case 160: /* 0xA0 */
+				strncpy(base_type,"Zen4",5);
+				break;
+
+			default:
+				/* Grab from AMD to space */
+				grab_amd_to_space(model_string,base_type,BUFSIZ);
+				break;
 		}
+	}
+	else if (cpu_info->family==26) {
+		/* Family 1Ah -- Zen5 */
 
-		/* Grab from AMD to space */
+		/* Note model numbers are extended/base concatenated */
 
-		grab_amd_to_space(model_string,base_type,BUFSIZ);
+		switch(cpu_info->model) {
+
+				/* zen5 */
+				/* 0x00..0x4f */
+				/* 0x60..0x77 */
+				/* 0xd0..0xd7 */
+			case 2:  /* 0x02 */
+			case 17: /* 0x11 */
+			case 36: /* 0x24 */
+			case 68: /* 0x44 */
+			case 96: /* 0x60 */
+			case 112: /* 0x70 */
+				strncpy(base_type,"Zen5",5);
+				break;
+
+				/* zen6 */
+				/* 0x50..0x5f */
+				/* 0x80..0xcf */
+				/* 0xd8..0xe7 */
+
+			default:
+				/* Grab from AMD to space */
+				grab_amd_to_space(model_string,base_type,BUFSIZ);
+				break;
+		}
 
 	}
 	else {
