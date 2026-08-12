@@ -61,7 +61,7 @@ CONFIG FILES
   Then when you run "linux_logo" it will automatically show an ASCII classic
   logo with the formatting command applied.
   
-  This is a bit ugly, but is was simpler and [at the time] seemed more elegant
+  This is a bit ugly, but it was simpler and [at the time] seemed more elegant
   than writing a separate dot file parser....
  
 ----------------------------------------------------------------------->
@@ -365,7 +365,7 @@ Notes:
   + The letter after the # must be capitalized.
   + Options not available are silently ignored.
   + Megahertz only available on some platforms and newer kernels.
-  + See "defaults.h" on how to have #N report in non-english numbers.
+  + See "defaults.h" on how to have #N report in non-English numbers.
   + Plural [#S] gives nothing if there is 1 cpu, gives 's' otherwise.
   + Processor [#P] gives "Processor" [or i18n equiv] when 1 cpu,
     "Processors" if more than 1.

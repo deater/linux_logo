@@ -101,7 +101,7 @@ It was a complete overhaul of the code, to sort out a lot of issues
 where my C coding had gotten better, and to also fix a lot of stupid
 decisions made earlier.
 
-linux_logo was in maintenence mode for a long time, but eventually
+linux_logo was in maintenance mode for a long time, but eventually
 made some changes to fix logo selection, and to make it easier
 to configure from the command line (that is, make it a more UNIX-like
 tool).  I initially wasn't planning on a new major number, but in the
