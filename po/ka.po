@@ -1,0 +1,131 @@
+# Georgian translation for linux_logo.
+# Copyright (C) 2026 linux_logo's authors.
+# This file is distributed under the same license as the linux_logo package.
+# Ekaterine Papava <papava.e@gtu.ge>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: linux_logo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-12 10:50-0400\n"
+"PO-Revision-Date: 2026-08-30 18:21+0200\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"Language-Team: Georgian <(nothing)>\n"
+"Language: ka\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: ../linux_logo.c:59
+msgid "Zero"
+msgstr "ნული"
+
+#: ../linux_logo.c:60
+msgid "One"
+msgstr "ერთი"
+
+#: ../linux_logo.c:61
+msgid "Two"
+msgstr "ორი"
+
+#: ../linux_logo.c:62
+msgid "Three"
+msgstr "სამი"
+
+#: ../linux_logo.c:63
+msgid "Four"
+msgstr "ოთხი"
+
+#: ../linux_logo.c:64
+msgid "Five"
+msgstr "ხუთი"
+
+#: ../linux_logo.c:65
+msgid "Six"
+msgstr "ექვსი"
+
+#: ../linux_logo.c:66
+msgid "Seven"
+msgstr "შვიდი"
+
+#: ../linux_logo.c:67
+msgid "Eight"
+msgstr "რვა"
+
+#: ../linux_logo.c:68
+msgid "Nine"
+msgstr "ცხრა"
+
+#: ../linux_logo.c:69
+msgid "Many"
+msgstr "ბევრი"
+
+#: ../linux_logo.c:178
+msgid "Uptime "
+msgstr "ჩართულობის დრო "
+
+#: ../linux_logo.c:182
+msgid "day"
+msgstr "დღე"
+
+#: ../linux_logo.c:182
+msgid "days"
+msgstr "დღე"
+
+#: ../linux_logo.c:189
+msgid "hour"
+msgstr "საათი"
+
+#: ../linux_logo.c:189
+msgid "hours"
+msgstr "საათი"
+
+#: ../linux_logo.c:196
+msgid "minute"
+msgstr "წუთი"
+
+#: ../linux_logo.c:196
+msgid "minutes"
+msgstr "წუთი"
+
+#: ../linux_logo.c:341
+msgid "Load Average"
+msgstr "საშუალო დატვირთვა"
+
+#. This is the default format of the output file.  See the README for more *\* information on how to configure this option.
+#: ../defaults.h:8
+msgid ""
+"#O Version #V, Compiled #C\n"
+"#N #M #X #T #P, #R RAM, #B\n"
+"#H\n"
+msgstr ""
+"#O ვერსია #V, აგებულია #C\n"
+"#N #M #X #T #P, #R RAM, #B\n"
+"#H\n"
+
+#: ../defaults.h:9
+msgid ""
+"#O Version #V\n"
+"Compiled #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B\n"
+"#H\n"
+msgstr ""
+"#O ვერსია #V\n"
+"აგებულია #C\n"
+"#N #M #X #T #P, #R RAM\n"
+"#B\n"
+"#H\n"
+
+#. Plural.  With the coming of i18n you really can't assume plurals can
+#. be made by adding a string to the end.  Hopefully this can fix it for
+#. most languages.  If they require significant word-order changes then
+#. we'll have even more problems
+#: ../defaults.h:14
+msgid "Processor"
+msgstr "პროცესორი"
+
+#: ../defaults.h:15
+msgid "Processors"
+msgstr "პროცესორი"
